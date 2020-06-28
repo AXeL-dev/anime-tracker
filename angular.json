@@ -27,8 +27,13 @@
               "src/.nojekyll"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.scss"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "node_modules"
+              ]
+            },
             "scripts": [
               "node_modules/webextension-polyfill/dist/browser-polyfill.min.js"
             ]
@@ -93,7 +98,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.scss"
             ],
             "scripts": []
           }
@@ -124,6 +129,12 @@
           }
         }
       }
-    }},
-  "defaultProject": "anime-tracker"
+    }
+  },
+  "defaultProject": "anime-tracker",
+  "schematics": {
+    "@schematics/angular:component": {
+      "styleext": "scss"
+    }
+  }
 }
