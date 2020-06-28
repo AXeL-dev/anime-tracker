@@ -4,6 +4,10 @@
 /dist
 /tmp
 /out-tsc
+*.zip
+*.xpi
+*.crx
+*.pem
 # Only exists if Bazel was run
 /bazel-out
 

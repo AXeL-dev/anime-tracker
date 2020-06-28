@@ -4,7 +4,10 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --aot --prod --sourceMap=false --outputHashing=none",
+    "package": "web-ext build --source-dir=dist/anime-tracker --artifacts-dir=.",
+    "build:github": "ng build --prod --base-href \"/anime-tracker/\"",
+    "deploy:github": "ngh --dir=dist/anime-tracker",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
