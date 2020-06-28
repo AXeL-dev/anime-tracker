@@ -1,3 +1,46 @@
-<p>popup main works!</p>
+<div #viewport class="blox-snippet-page">
+  <aside mdcDrawerContainer="temporary" [(open)]="open">
+    <nav mdcDrawer>
+      <div mdcDrawerToolbarSpacer></div>
+      <!-- <div mdcDrawerHeader>
+        <div mdcDrawerHeaderContent>Header Content</div>
+      </div> -->
+      <div mdcDrawerContent mdcListGroup>
+        <nav mdcList>
+          <a mdcListItem href="javascript:void(0)">
+            <i mdcListItemGraphic class="material-icons" aria-hidden="true">inbox</i>Inbox
+          </a>
+          <a mdcListItem href="javascript:void(0)">
+            <i mdcListItemGraphic class="material-icons" aria-hidden="true">send</i>Sent Mail
+          </a>
+          <a mdcListItem href="javascript:void(0)">
+            <i mdcListItemGraphic class="material-icons" aria-hidden="true">drafts</i>Drafts
+          </a>
+        </nav>
+        <hr mdcListDivider>
+        <nav mdcList>
+            <a mdcListItem href="javascript:void(0)">
+              <i mdcListItemGraphic class="material-icons" aria-hidden="true">email</i>All Mail
+            </a>
+            <a mdcListItem href="javascript:void(0)">
+              <i mdcListItemGraphic class="material-icons" aria-hidden="true">delete</i>Trash
+            </a>
+          </nav>
+        </div>
+    </nav>
+  </aside>
+  <div class="blox-demo-content">
+    <header mdcTopAppBar [viewport]="viewport" [fixedAdjust]="content">
+      <div mdcTopAppBarRow>
+        <section mdcTopAppBarSection alignStart>
+          <button mdcTopAppBarNavIcon class="material-icons" (click)="toggleDrawer()">menu</button>
+          <span mdcTopAppBarTitle>Anime Tracker</span>
+        </section>
+      </div>
+    </header>
 
-<button mdcButton raised>My First Material Button</button>
+    <main #content class="blox-demo-main">
+      
+    </main>
+  </div>
+</div>

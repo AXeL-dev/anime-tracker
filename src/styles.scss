@@ -1,10 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
 
 // customize some theme variables, e.g.:
-$mdc-theme-primary: #6200ee;
-$mdc-theme-secondary: #018786;
+$mdc-theme-primary: #212121;
+$mdc-theme-secondary: #00e871;
 $mdc-theme-background: #fff;
 
 // import theming for all mdc components:
-//@import "material-components-web/material-components-web";
-@import "@material/button/mdc-button";
+@import "material-components-web/material-components-web";
+
+body, html {
+  font-family: Roboto,sans-serif;
+  color: rgba(0,0,0,.87);
+  background-color: $mdc-theme-background;
+  margin: 0;
+  padding: 0;
+}
