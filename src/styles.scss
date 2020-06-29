@@ -1,12 +1,55 @@
 /* You can add global styles to this file, and also import other style files */
 
+// for npm roboto-fontface package (to load local files)
+$roboto-font-path: "~roboto-fontface/fonts" !default;
+@import "~roboto-fontface/css/roboto/sass/roboto-fontface";
+
+// for npm material-icons package (to load local files)
+$material-icons-font-path: '~material-icons/iconfont/';
+@import '~material-icons/iconfont/material-icons.scss';
+
 // customize some theme variables, e.g.:
 $mdc-theme-primary: #212121;
 $mdc-theme-secondary: #00e871;
 $mdc-theme-background: #fff;
 
 // import theming for all mdc components:
-@import "material-components-web/material-components-web";
+//@import "material-components-web/material-components-web";
+
+// import theming for below mdc components:
+@import "@material/button/mdc-button";
+@import "@material/card/mdc-card";
+@import "@material/checkbox/mdc-checkbox";
+//@import "@material/chips/mdc-chips";
+//@import "@material/dialog/mdc-dialog";
+@import "@material/drawer/mdc-drawer";
+//@import "@material/elevation/mdc-elevation";
+//@import "@material/fab/mdc-fab";
+//@import "@material/floating-label/mdc-floating-label";
+//@import "@material/form-field/mdc-form-field";
+//@import "@material/grid-list/mdc-grid-list";
+@import "@material/icon-button/mdc-icon-button";
+@import "@material/icon-toggle/mdc-icon-toggle";
+//@import "@material/image-list/mdc-image-list";
+//@import "@material/layout-grid/mdc-layout-grid";
+//@import "@material/line-ripple/mdc-line-ripple";
+//@import "@material/linear-progress/mdc-linear-progress";
+@import "@material/list/mdc-list";
+@import "@material/menu/mdc-menu";
+//@import "@material/notched-outline/mdc-notched-outline";
+@import "@material/radio/mdc-radio";
+//@import "@material/ripple/mdc-ripple";
+@import "@material/select/mdc-select";
+//@import "@material/shape/mdc-shape";
+//@import "@material/slider/mdc-slider";
+//@import "@material/snackbar/mdc-snackbar";
+@import "@material/switch/mdc-switch";
+//@import "@material/tabs/mdc-tabs";
+@import "@material/textfield/mdc-text-field";
+@import "@material/theme/mdc-theme";
+//@import "@material/toolbar/mdc-toolbar";
+@import "@material/top-app-bar/mdc-top-app-bar";
+@import "@material/typography/mdc-typography";
 
 body, html {
   font-family: Roboto,sans-serif;

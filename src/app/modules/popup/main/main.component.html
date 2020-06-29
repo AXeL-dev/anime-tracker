@@ -36,11 +36,33 @@
           <button mdcTopAppBarNavIcon class="material-icons" (click)="toggleDrawer()">menu</button>
           <span mdcTopAppBarTitle>Anime Tracker</span>
         </section>
+        <section mdcTopAppBarSection alignEnd>
+          <a routerLink="./settings" mdcTopAppBarAction class="material-icons" label="Settings">settings</a>
+        </section>
       </div>
     </header>
 
     <main #content class="blox-demo-main">
-      
+      <section class="custom-card-container">
+        <div mdcCard class="custom-card-photo">
+          <a mdcCardPrimaryAction href="javascript:void(0)">
+            <div mdcCardMedia size="square">
+              <div mdcCardMediaContent>
+                <h2>Anime name</h2>
+              </div>
+            </div>
+          </a>
+          <div mdcCardActions mdcCardActionIcons>
+            <button mdcIconButton class="material-icons"
+              labelOn="Remove from favorites" labelOff="Add to favorites"
+              iconOn="favorite" iconOff="favorite_border"></button>
+            <button mdcIconButton class="material-icons"
+              labelOn="Remove bookmark" labelOff="Add bookmark"
+              iconOn="bookmark" iconOff="bookmark_border"></button>
+            <button mdcIconButton class="material-icons" title="More options">more_vert</button>
+          </div>
+        </div>
+      </section>
     </main>
   </div>
 </div>

@@ -8,6 +8,7 @@
     "package": "web-ext build --source-dir=dist/anime-tracker --artifacts-dir=.",
     "build:github": "ng build --prod --base-href \"/anime-tracker/\"",
     "deploy:github": "ngh --dir=dist/anime-tracker",
+    "postinstall": "node ./postinstall.js",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -23,6 +24,8 @@
     "@angular/platform-browser-dynamic": "~9.1.11",
     "@angular/router": "~9.1.11",
     "@blox/material": "^0.18.0",
+    "material-icons": "^0.3.1",
+    "roboto-fontface": "^0.10.0",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"
