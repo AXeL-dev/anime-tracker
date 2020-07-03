@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AnimeProviderService } from 'src/app/services/anime-provider.service';
 
 @Component({
   selector: 'app-main',
@@ -8,10 +9,18 @@ import { Component, OnInit } from '@angular/core';
 export class MainComponent implements OnInit {
   open = false;
   headerType = 'header';
+  episodes: any = [];
 
-  constructor() { }
+  constructor(private animeProvider: AnimeProviderService) { }
 
   ngOnInit(): void {
+    this.getLatestEpisodes();
+  }
+
+  async getLatestEpisodes() {
+    const episodes = await this.animeProvider.getLatestEpisodes();
+    console.log(episodes);
+    this.episodes = episodes;
   }
 
   toggleDrawer() {

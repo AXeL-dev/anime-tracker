@@ -1,19 +1,24 @@
-import { Anime } from '../models/anime';
+import { Anime } from '../../models/anime';
 
 export abstract class BaseCrawler {
-  protected name: string;
-  protected retriever: any;
+  protected _name: string;
+  protected _baseUrl: string;
   protected animeList: Anime[] = [];
 
-  constructor(name: string) {
-    this.name = name;
+  constructor(name: string, baseUrl: string) {
+    this._name = name;
+    this._baseUrl = baseUrl;
   }
 
-  getName = () => {
-    return this.name
-  };
+  get name() {
+    return this._name;
+  }
 
-  getAnimeList = (forcedUpdate: boolean = false): Promise<any> => {
+  get baseUrl() {
+    return this._baseUrl;
+  }
+
+  getAnimeList(forcedUpdate: boolean = false): Promise<any> {
     return new Promise(async resolve => {
       // check if value already cached and not a forced update
       if (this.animeList.length > 0 && !forcedUpdate) {
@@ -25,7 +30,7 @@ export abstract class BaseCrawler {
     });
   };
 
-  getAnimeInfo = (link: string): Promise<any> => {
+  getAnimeInfo(link: string): Promise<any> {
     return new Promise(async resolve => {
       const info = await this._getAnimeInfo(link);
       // append link
@@ -36,21 +41,21 @@ export abstract class BaseCrawler {
     });
   };
 
-  getEpisodes = (link: string): Promise<any> => {
+  getEpisodes(link: string): Promise<any> {
     return new Promise(async resolve => {
       const episodes = await this._getEpisodes(link);
       resolve(episodes);
     });
   };
 
-  getLatestEpisodesReleases = (link: string): Promise<any> => {
+  getLatestEpisodes(): Promise<any> {
     return new Promise(async resolve => {
-      const episodes = await this._getLatestEpisodesReleases(link);
+      const episodes = await this._getLatestEpisodes();
       resolve(episodes);
     });
   };
 
-  searchAnime = (title: string): Promise<any> => {
+  searchAnime(title: string): Promise<any> {
     return new Promise(async resolve => {
       let source = this.animeList;
       if (source.length === 0) {
@@ -65,5 +70,5 @@ export abstract class BaseCrawler {
   protected abstract _getAnimeList(): Promise<any>;
   protected abstract _getAnimeInfo(link: string): Promise<any>;
   protected abstract _getEpisodes(link: string): Promise<any>;
-  protected abstract _getLatestEpisodesReleases(link: string): Promise<any>;
+  protected abstract _getLatestEpisodes(): Promise<any>;
 }
