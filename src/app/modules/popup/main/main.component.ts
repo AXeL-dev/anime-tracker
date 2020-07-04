@@ -16,9 +16,7 @@ export class MainComponent implements OnInit {
   constructor(private animeProvider: AnimeProviderService) { }
 
   ngOnInit(): void {
-    setTimeout(() => {
-      this.getLatestEpisodes();
-    }, 1000);
+    this.getLatestEpisodes();
   }
 
   async getLatestEpisodes() {

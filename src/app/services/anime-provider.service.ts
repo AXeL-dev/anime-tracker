@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { BaseCrawler } from '../crawlers/base.crawler';
-import { AnimeKoCrawler } from '../crawlers/animeko.crawler';
 import { flatten } from '../helpers/array.helper';
 import { ScraperService } from './scraper.service';
 import { Episode } from '../models/episode';
+import { AnimeKoCrawler } from '../crawlers/animeko.crawler';
+import { VostFreeCrawler } from '../crawlers/vostfree.crawler';
 
 @Injectable({
   providedIn: 'root',
@@ -14,6 +15,7 @@ export class AnimeProviderService {
 
   constructor(private scraper: ScraperService) {
     this.addCrawler(new AnimeKoCrawler(this.scraper));
+    this.addCrawler(new VostFreeCrawler(this.scraper));
   }
 
   addCrawler(crawler: BaseCrawler) {
