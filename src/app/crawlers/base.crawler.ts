@@ -1,8 +1,9 @@
-import { Anime } from '../../models/anime';
+import { Anime } from '../models/anime';
 
 export abstract class BaseCrawler {
   protected _name: string;
   protected _baseUrl: string;
+  protected filters: any = {};
   protected animeList: Anime[] = [];
 
   constructor(name: string, baseUrl: string) {

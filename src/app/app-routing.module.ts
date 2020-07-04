@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { PopupGuard } from './services/guards/popup.guard';
+import { PopupGuardService } from './services/guards/popup-guard.service';
 
 
 const routes: Routes = [
@@ -11,7 +11,7 @@ const routes: Routes = [
   {
     path: '**',
     loadChildren: () => import('./modules/popup/popup.module').then(m => m.PopupModule),
-    //canActivate: [PopupGuard]
+    //canActivate: [PopupGuardService]
   }
 ];
 

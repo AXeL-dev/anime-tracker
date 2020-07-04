@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { BaseCrawler } from './crawlers/base.crawler';
-import { AnimeKoCrawler } from './crawlers/animeko.crawler';
+import { BaseCrawler } from '../crawlers/base.crawler';
+import { AnimeKoCrawler } from '../crawlers/animeko.crawler';
 import { flatten } from '../helpers/array.helper';
-import { CorsHttpClientService } from './cors-http-client.service';
+import { ScraperService } from './scraper.service';
 
 @Injectable({
   providedIn: 'root',
@@ -11,8 +11,8 @@ export class AnimeProviderService {
 
   private crawlers: BaseCrawler[] = [];
 
-  constructor(private httpClient: CorsHttpClientService) {
-    this.addCrawler(new AnimeKoCrawler(this.httpClient));
+  constructor(private scraper: ScraperService) {
+    this.addCrawler(new AnimeKoCrawler(this.scraper));
   }
 
   addCrawler(crawler: BaseCrawler) {

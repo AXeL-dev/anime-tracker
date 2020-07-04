@@ -8,25 +8,11 @@
       <div mdcDrawerContent mdcListGroup>
         <nav mdcList>
           <a mdcListItem href="javascript:void(0)">
-            <i mdcListItemGraphic class="material-icons" aria-hidden="true">inbox</i>Inbox
-          </a>
-          <a mdcListItem href="javascript:void(0)">
-            <i mdcListItemGraphic class="material-icons" aria-hidden="true">send</i>Sent Mail
-          </a>
-          <a mdcListItem href="javascript:void(0)">
-            <i mdcListItemGraphic class="material-icons" aria-hidden="true">drafts</i>Drafts
+            <i mdcListItemGraphic class="material-icons" aria-hidden="true">inbox</i>Latest Episodes
           </a>
         </nav>
-        <hr mdcListDivider>
-        <nav mdcList>
-            <a mdcListItem href="javascript:void(0)">
-              <i mdcListItemGraphic class="material-icons" aria-hidden="true">email</i>All Mail
-            </a>
-            <a mdcListItem href="javascript:void(0)">
-              <i mdcListItemGraphic class="material-icons" aria-hidden="true">delete</i>Trash
-            </a>
-          </nav>
-        </div>
+        <!-- <hr mdcListDivider> -->
+      </div>
     </nav>
   </aside>
   <div class="blox-demo-content">
@@ -47,10 +33,10 @@
         <ng-container *ngFor="let episode of episodes">
 
           <div mdcCard class="custom-card-photo">
-            <a mdcCardPrimaryAction href="javascript:void(0)">
+            <a mdcCardPrimaryAction [href]="episode.link" target="_blank">
               <div mdcCardMedia size="square" [ngStyle]="{'background-image': 'url(' + episode.cover + ')'}">
                 <div mdcCardMediaContent>
-                  <h2>{{ episode.title }}</h2>
+                  <h2 [title]="episode.title">{{ episode.title }}</h2>
                 </div>
               </div>
             </a>
