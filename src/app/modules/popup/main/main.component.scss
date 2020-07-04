@@ -44,11 +44,11 @@
     flex-flow: row wrap;
     padding-top: 24px;
     padding-left: 16px;
+    padding-right: 16px;
 }
 
-.card-badge-number {
+.card-badge {
     position: absolute;
-    right: 0;
     top: 0;
     span {
         position: relative;
@@ -57,16 +57,35 @@
         color: #fff;
         font-weight: 500;
         font-size: 13px;
-        background: #00a651; //#0061aa;
+        text-transform: uppercase;
         &:before {
             content: "";
             width: 0;
             height: 0;
-            border-left: 8px solid transparent;
-            border-top: 24px solid #00a651;
             position: absolute;
             top: 0;
-            right: 100%;
+        }
+    }
+    &.number {
+        right: 0;
+        span {
+            background: #00a651;
+            &:before {
+                border-left: 8px solid transparent;
+                border-top: 24px solid #00a651;
+                right: 100%;
+            }
+        }
+    }
+    &.subtitles {
+        left: 0;
+        span {
+            background: #0061aa;
+            &:before {
+                border-right: 8px solid transparent;
+                border-top: 24px solid #0061aa;
+                left: 100%;
+            }
         }
     }
 }
@@ -86,7 +105,7 @@
                 padding: 8px 16px;
                 margin: 0;
                 @include mdc-typography('subtitle1');
-                background-image: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0.5) 100%);
+                background-image: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0.9) 100%);
                 color: white;
                 text-overflow: ellipsis;
                 overflow: hidden;

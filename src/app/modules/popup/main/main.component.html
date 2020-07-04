@@ -38,8 +38,11 @@
               <div mdcCardMedia size="square" [ngStyle]="{'background-image': 'url(' + episode.cover + ')'}">
                 <div mdcCardMediaContent>
                   <h2 [title]="episode.title">{{ episode.title }}</h2>
-                  <div class="card-badge-number">
+                  <div class="card-badge number">
                     <span>{{ episode.number }}</span>
+                  </div>
+                  <div *ngIf="episode.subtitlesLang" class="card-badge subtitles">
+                    <span>{{ episode.subtitlesLang }}</span>
                   </div>
                 </div>
               </div>
