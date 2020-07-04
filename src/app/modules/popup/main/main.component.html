@@ -29,6 +29,7 @@
     </header>
 
     <main #content class="blox-demo-main">
+      <div mdcLinearProgress [indeterminate]="true" [closed]="!isLoading"></div>
       <section class="custom-card-container">
         <ng-container *ngFor="let episode of episodes">
 

@@ -31,8 +31,9 @@
     box-sizing: border-box;
 }
 
-.blox-demo-main {
-    padding-left: 16px;
+// Loading bar
+.mdc-linear-progress__bar-inner {
+    background-color: #00a651;
 }
 
 /*----- Cards -----*/
@@ -42,6 +43,7 @@
     align-items: flex-start;
     flex-flow: row wrap;
     padding-top: 24px;
+    padding-left: 16px;
 }
 
 .card-badge-number {
@@ -74,7 +76,7 @@
 
     &.custom-card-photo {
         max-width: 200px;
-        min-width: 100px;
+        min-width: 160px;
 
         [mdcCardMediaContent] {
             display: flex;
@@ -90,6 +92,16 @@
                 overflow: hidden;
                 white-space: nowrap;
             }
+        }
+    }
+
+    .mdc-card__actions {
+        min-height: 42px;
+        .mdc-icon-button {
+            font-size: 1.2em;
+            padding: 0;
+            width: 30px;
+            height: 20px;
         }
     }
 }
