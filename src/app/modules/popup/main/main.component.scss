@@ -44,6 +44,31 @@
     padding-top: 24px;
 }
 
+.card-badge-number {
+    position: absolute;
+    right: 0;
+    top: 0;
+    span {
+        position: relative;
+        display: block;
+        padding: 4px 10px;
+        color: #fff;
+        font-weight: 500;
+        font-size: 13px;
+        background: #00a651; //#0061aa;
+        &:before {
+            content: "";
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-top: 24px solid #00a651;
+            position: absolute;
+            top: 0;
+            right: 100%;
+        }
+    }
+}
+
 [mdcCard] {
     min-width: 320px;
     max-width: 21.875rem;

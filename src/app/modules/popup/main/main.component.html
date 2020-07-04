@@ -33,10 +33,13 @@
         <ng-container *ngFor="let episode of episodes">
 
           <div mdcCard class="custom-card-photo">
-            <a mdcCardPrimaryAction [href]="episode.link" target="_blank">
+            <a mdcCardPrimaryAction [href]="episode.streamLink" target="_blank">
               <div mdcCardMedia size="square" [ngStyle]="{'background-image': 'url(' + episode.cover + ')'}">
                 <div mdcCardMediaContent>
                   <h2 [title]="episode.title">{{ episode.title }}</h2>
+                  <div class="card-badge-number">
+                    <span>{{ episode.number }}</span>
+                  </div>
                 </div>
               </div>
             </a>

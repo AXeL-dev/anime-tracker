@@ -3,6 +3,7 @@ import { BaseCrawler } from '../crawlers/base.crawler';
 import { AnimeKoCrawler } from '../crawlers/animeko.crawler';
 import { flatten } from '../helpers/array.helper';
 import { ScraperService } from './scraper.service';
+import { Episode } from '../models/episode';
 
 @Injectable({
   providedIn: 'root',
@@ -36,7 +37,7 @@ export class AnimeProviderService {
     });
   }
 
-  getLatestEpisodes() {
+  getLatestEpisodes(): Promise<Episode[]> {
     return new Promise(async resolve => {
       const variousResults = await Promise.all(
         this.crawlers.map(async crawler => {

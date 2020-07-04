@@ -1,5 +1,6 @@
 import { BaseCrawler } from './base.crawler';
 import { ScraperService } from '../services/scraper.service';
+import { Episode } from '../models/episode';
 
 export class AnimeKoCrawler extends BaseCrawler {
 
@@ -11,6 +12,9 @@ export class AnimeKoCrawler extends BaseCrawler {
     this.filters = {
       cover: (text: string) => {
         return text.replace('/small', '');
+      },
+      number: (text: string) => {
+        return parseInt(text);
       }
     };
   }
@@ -36,15 +40,16 @@ export class AnimeKoCrawler extends BaseCrawler {
     });
   }
 
-  _getLatestEpisodes(): Promise<any> {
+  _getLatestEpisodes(): Promise<Episode[]> {
     return new Promise(async resolve => {
-      const episodes = this.retriever.scrape(
+      const episodes: Episode[] = await this.retriever.scrape(
         `${this.baseUrl}/dernieres-sorties`,
         '.releases ul li.small-card',
         {
-          title: 'h2 a',
-          cover: 'img@data-src | cover',
-          link:  'h2 a@href'
+          title:  'h2 a',
+          cover:  'img@data-src | cover',
+          number: 'span.badge-number | number',
+          streamLink: 'h2 a@href'
         },
         this.filters
       );

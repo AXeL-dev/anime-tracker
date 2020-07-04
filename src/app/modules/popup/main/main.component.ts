@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AnimeProviderService } from 'src/app/services/anime-provider.service';
+import { Episode } from 'src/app/models/episode';
 
 @Component({
   selector: 'app-main',
@@ -18,7 +19,7 @@ export class MainComponent implements OnInit {
   }
 
   async getLatestEpisodes() {
-    const episodes = await this.animeProvider.getLatestEpisodes();
+    const episodes: Episode[] = await this.animeProvider.getLatestEpisodes();
     console.log(episodes);
     this.episodes = episodes;
   }
