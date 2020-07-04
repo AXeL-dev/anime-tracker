@@ -17,7 +17,7 @@ export class VostFreeCrawler extends BaseCrawler {
         return `${this.baseUrl}/${text.replace(/^\//, '')}`;
       },
       number: (text: string) => {
-        return text?.length ? parseInt(text) : text;
+        return +text;
       },
       boolean: (text: string) => {
         return !!text?.length;

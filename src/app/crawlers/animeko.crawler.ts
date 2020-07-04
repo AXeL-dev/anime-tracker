@@ -14,7 +14,7 @@ export class AnimeKoCrawler extends BaseCrawler {
         return text.replace('/small', '');
       },
       number: (text: string) => {
-        return text?.length ? parseInt(text) : text;
+        return +text;
       },
       boolean: (text: string) => {
         return !!text?.length;
