@@ -10,11 +10,17 @@ export class VostFreeCrawler extends BaseCrawler {
       'https://vostfree.com'
     );
     this.filters = {
+      title: (text: string) => {
+        return text.replace(/ VOSTFR$/, '');
+      },
       cover: (text: string) => {
         return `${this.baseUrl}/${text.replace(/^\//, '')}`;
       },
       number: (text: string) => {
-        return parseInt(text);
+        return text?.length ? parseInt(text) : text;
+      },
+      boolean: (text: string) => {
+        return !!text?.length;
       }
     };
   }
@@ -46,11 +52,13 @@ export class VostFreeCrawler extends BaseCrawler {
         `${this.baseUrl}/animes-vostfr`,
         '#content div.movie-poster',
         {
-          title:  '.info .title',
-          cover:  '.image img@src | cover',
+          animeTitle: '.info .title | title',
+          cover: '.image img@src | cover',
           number: '.alt .year b | number',
           streamLink: '.play a.link@href',
           subtitlesLang: '.quality',
+          isNew: '.anime-new | boolean',
+          isLast: '.anime-fin | boolean',
         },
         this.filters
       );

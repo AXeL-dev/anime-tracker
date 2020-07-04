@@ -33,10 +33,10 @@ export class HTMLParserService {
       } else {
         output = results.innerHTML;
       }
-      // filter element
-      if (filters && data.filter?.length) {
-        output = filters[data.filter](output);
-      }
+    }
+    // filter element
+    if (data.filter?.length && filters?.[data.filter]) {
+      output = filters[data.filter](output);
     }
 
     return output;
@@ -52,7 +52,14 @@ export class HTMLParserService {
       } else {
         let data = {};
         Object.keys(selector).forEach((key: string) => {
-          data[key] = this.find(item, selector[key], filters);
+          if (isString(selector[key])) {
+            data[key] = this.find(item, selector[key], filters);
+          } else {
+            data[key] = {};
+            Object.keys(selector[key]).forEach((subkey: string) => {
+              data[key][subkey] = this.find(item, selector[key][subkey], filters);
+            });
+          }
         });
         results.push(data);
       }

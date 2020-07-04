@@ -3,12 +3,15 @@
     <nav mdcDrawer>
       <div mdcDrawerToolbarSpacer></div>
       <!-- <div mdcDrawerHeader>
-        <div mdcDrawerHeaderContent>Header Content</div>
+        <div mdcDrawerHeaderContent>Anime Tracker</div>
       </div> -->
       <div mdcDrawerContent mdcListGroup>
         <nav mdcList>
           <a mdcListItem href="javascript:void(0)">
-            <i mdcListItemGraphic class="material-icons" aria-hidden="true">inbox</i>Latest Episodes
+            <i mdcListItemGraphic class="material-icons" aria-hidden="true">star</i>Latest
+          </a>
+          <a mdcListItem href="javascript:void(0)">
+            <i mdcListItemGraphic class="material-icons" aria-hidden="true">favorite</i>Favorites
           </a>
         </nav>
         <!-- <hr mdcListDivider> -->
@@ -31,18 +34,24 @@
     <main #content class="blox-demo-main">
       <div mdcLinearProgress [indeterminate]="true" [closed]="!isLoading"></div>
       <section class="custom-card-container">
-        <ng-container *ngFor="let episode of episodes">
+        <ng-container *ngFor="let release of releases">
 
           <div mdcCard class="custom-card-photo">
-            <a mdcCardPrimaryAction [href]="episode.streamLink" target="_blank">
-              <div mdcCardMedia size="square" [ngStyle]="{'background-image': 'url(' + episode.cover + ')'}">
+            <a mdcCardPrimaryAction [href]="release.streamLinks[0]" target="_blank">
+              <div mdcCardMedia size="square" [ngStyle]="{'background-image': 'url(' + release.cover + ')'}">
                 <div mdcCardMediaContent>
-                  <h2 [title]="episode.title">{{ episode.title }}</h2>
+                  <h2 [title]="release.animeTitle">{{ release.animeTitle }}</h2>
                   <div class="card-badge number">
-                    <span>{{ episode.number }}</span>
+                    <span>{{ release.number }}</span>
                   </div>
-                  <div *ngIf="episode.subtitlesLang" class="card-badge subtitles">
-                    <span>{{ episode.subtitlesLang }}</span>
+                  <!-- <div *ngIf="release.sources[0]?.subtitlesLang" class="card-badge subtitles">
+                    <span>{{ release.sources[0]?.subtitlesLang }}</span>
+                  </div> -->
+                  <div *ngIf="release.isNew" class="card-badge new">
+                    <span>New</span>
+                  </div>
+                  <div *ngIf="release.isLast" class="card-badge end">
+                    <span>End</span>
                   </div>
                 </div>
               </div>
@@ -51,9 +60,9 @@
               <button mdcIconButton class="material-icons"
                 labelOn="Remove from favorites" labelOff="Add to favorites"
                 iconOn="favorite" iconOff="favorite_border"></button>
-              <button mdcIconButton class="material-icons"
+              <!-- <button mdcIconButton class="material-icons"
                 labelOn="Remove bookmark" labelOff="Add bookmark"
-                iconOn="bookmark" iconOff="bookmark_border"></button>
+                iconOn="bookmark" iconOff="bookmark_border"></button> -->
               <button mdcIconButton class="material-icons" title="More options">more_vert</button>
             </div>
           </div>

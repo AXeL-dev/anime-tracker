@@ -14,7 +14,10 @@ export class AnimeKoCrawler extends BaseCrawler {
         return text.replace('/small', '');
       },
       number: (text: string) => {
-        return parseInt(text);
+        return text?.length ? parseInt(text) : text;
+      },
+      boolean: (text: string) => {
+        return !!text?.length;
       }
     };
   }
@@ -46,10 +49,12 @@ export class AnimeKoCrawler extends BaseCrawler {
         `${this.baseUrl}/dernieres-sorties`,
         '.releases ul li.small-card',
         {
-          title:  'h2 a',
-          cover:  'img@data-src | cover',
+          animeTitle: 'h2 a',
+          cover: 'img@data-src | cover',
           number: 'span.badge-number | number',
-          streamLink: 'h2 a@href'
+          streamLink: 'h2 a@href',
+          isNew: '.badge-status.new | boolean',
+          isLast: '.badge-status.end | boolean',
         },
         this.filters
       );

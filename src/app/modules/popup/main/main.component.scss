@@ -82,13 +82,24 @@
             }
         }
     }
-    &.subtitles {
+    &.subtitles, &.new {
         left: 0;
         span {
             background: #0061aa;
             &:before {
                 border-right: 8px solid transparent;
                 border-top: 24px solid #0061aa;
+                left: 100%;
+            }
+        }
+    }
+    &.end {
+        left: 0;
+        span {
+            background: #c53030;
+            &:before {
+                border-right: 8px solid transparent;
+                border-top: 24px solid #c53030;
                 left: 100%;
             }
         }
