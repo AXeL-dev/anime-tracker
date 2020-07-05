@@ -66,13 +66,13 @@ export class AnimeProviderService {
               releases[index].date = episode.releaseDate;
             }
             releases[index].streamLinks.push({
-              link: episode.streamLink,
+              url: episode.streamLink,
               lang: episode.subtitlesLang,
               isSubtitled: true
             });
             if (episode.downloadLink) {
               releases[index].downloadLinks.push({
-                link: episode.downloadLink,
+                url: episode.downloadLink,
                 lang: episode.subtitlesLang,
                 isSubtitled: true
               });
@@ -96,12 +96,12 @@ export class AnimeProviderService {
             date: episode.releaseDate,
             number: episode.number,
             streamLinks: [{
-              link: episode.streamLink,
+              url: episode.streamLink,
               lang: episode.subtitlesLang,
               isSubtitled: true
             }],
             downloadLinks: episode.downloadLink ? [{
-              link: episode.downloadLink,
+              url: episode.downloadLink,
               lang: episode.subtitlesLang,
               isSubtitled: true
             }] : [],

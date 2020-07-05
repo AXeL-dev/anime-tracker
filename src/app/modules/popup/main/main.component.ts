@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChildren, QueryList } from '@angular/core';
 import { AnimeProviderService } from 'src/app/services/anime-provider.service';
 import { EpisodeRelease } from 'src/app/models/episode-release';
+import { ChooseLinkDialogComponent } from '../choose-link-dialog/choose-link-dialog.component';
 
 @Component({
   selector: 'app-main',
@@ -8,8 +9,10 @@ import { EpisodeRelease } from 'src/app/models/episode-release';
   styleUrls: ['./main.component.scss']
 })
 export class MainComponent implements OnInit {
+
+  @ViewChildren('streamLinksDialog') streamLinksDialog: QueryList<ChooseLinkDialogComponent>;
+  @ViewChildren('downloadLinksDialog') downloadLinksDialog: QueryList<ChooseLinkDialogComponent>;
   open = false;
-  headerType = 'header';
   releases: any = [];
   isLoading = true;
 
@@ -31,6 +34,22 @@ export class MainComponent implements OnInit {
 
   toggleDrawer() {
     this.open = !this.open;
+  }
+
+  onReleaseClick(event: Event, release: EpisodeRelease, index: number) {
+    if (release.streamLinks.length > 1) {
+      event.preventDefault();
+      this.openStreamLinks(index);
+      return false;
+    }
+  }
+
+  openStreamLinks(index: number) {
+    this.streamLinksDialog.toArray()[index].open();
+  }
+
+  openDownloadLinks(index: number) {
+    this.downloadLinksDialog.toArray()[index].open();
   }
 
 }

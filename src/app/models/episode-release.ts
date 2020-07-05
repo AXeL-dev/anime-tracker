@@ -13,7 +13,7 @@ export interface EpisodeRelease {
 }
 
 export interface EpisodeReleaseLink {
-  link: string;
+  url: string;
   lang: string;
   isDubbed?: boolean;
   isSubtitled?: boolean;

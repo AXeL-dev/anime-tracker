@@ -1,0 +1,24 @@
+.badge {
+  padding: 2px 10px;
+  color: #fff;
+  font-weight: 500;
+  font-size: 13px;
+  text-transform: uppercase;
+  background: #0061aa;
+  margin-right: 10px;
+  border-radius: 2px;
+}
+
+.link {
+  font-size: 15px;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.empty-text {
+  display: block;
+  text-align: center;
+  padding-top: 20px;
+}

@@ -34,19 +34,16 @@
     <main #content class="blox-demo-main">
       <div mdcLinearProgress [indeterminate]="true" [closed]="!isLoading"></div>
       <section class="custom-card-container">
-        <ng-container *ngFor="let release of releases">
+        <ng-container *ngFor="let release of releases; let i = index">
 
           <div mdcCard class="custom-card-photo">
-            <a mdcCardPrimaryAction [href]="release.streamLinks[0]" target="_blank">
+            <a mdcCardPrimaryAction [href]="release.streamLinks[0].url" (click)="onReleaseClick($event, release, i)" target="_blank">
               <div mdcCardMedia size="square" [ngStyle]="{'background-image': 'url(' + release.cover + ')'}">
                 <div mdcCardMediaContent>
                   <h2 [title]="release.animeTitle">{{ release.animeTitle }}</h2>
                   <div class="card-badge number">
                     <span>{{ release.number }}</span>
                   </div>
-                  <!-- <div *ngIf="release.sources[0]?.subtitlesLang" class="card-badge subtitles">
-                    <span>{{ release.sources[0]?.subtitlesLang }}</span>
-                  </div> -->
                   <div *ngIf="release.isNew" class="card-badge new">
                     <span>New</span>
                   </div>
@@ -60,12 +57,21 @@
               <button mdcIconButton class="material-icons"
                 labelOn="Remove from favorites" labelOff="Add to favorites"
                 iconOn="favorite" iconOff="favorite_border"></button>
-              <!-- <button mdcIconButton class="material-icons"
-                labelOn="Remove bookmark" labelOff="Add bookmark"
-                iconOn="bookmark" iconOff="bookmark_border"></button> -->
+              <button mdcIconButton class="material-icons" title="Stream links" (click)="openStreamLinks(i)">play_circle_outline</button>
+              <button mdcIconButton class="material-icons" title="Download links" (click)="openDownloadLinks(i)">save_alt</button>
               <button mdcIconButton class="material-icons" title="More options">more_vert</button>
             </div>
           </div>
+
+          <app-choose-link-dialog #streamLinksDialog
+            title="Choose a stream link"
+            [links]="release.streamLinks"
+          ></app-choose-link-dialog>
+
+          <app-choose-link-dialog #downloadLinksDialog
+            title="Choose a download link"
+            [links]="release.downloadLinks"
+          ></app-choose-link-dialog>
 
         </ng-container>
       </section>
