@@ -60,3 +60,8 @@ body, html {
   width: 100%;
   height: 100%;
 }
+
+body {
+  min-width: 600px;
+  min-height: 500px;
+}
