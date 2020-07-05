@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChildren, QueryList } from '@angular/core';
 import { AnimeProviderService } from 'src/app/services/anime-provider.service';
 import { EpisodeRelease } from 'src/app/models/episode-release';
 import { ChooseLinkDialogComponent } from '../choose-link-dialog/choose-link-dialog.component';
+import { debug } from 'src/app/helpers/debug.helper';
 
 @Component({
   selector: 'app-main',
@@ -25,7 +26,7 @@ export class MainComponent implements OnInit {
   async getLatestReleases() {
     this.isLoading = true;
     const releases: EpisodeRelease[] = await this.animeProvider.getLatest();
-    console.log(releases);
+    debug(releases);
     this.releases = releases;
     setTimeout(() => {
       this.isLoading = false;

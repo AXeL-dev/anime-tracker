@@ -7,6 +7,7 @@ import { VostFreeCrawler } from '../crawlers/vostfree.crawler';
 import { Episode } from '../models/episode';
 import { EpisodeRelease } from '../models/episode-release';
 import { isSimilar } from '../helpers/string.helper';
+import { debug } from '../helpers/debug.helper';
 
 @Injectable({
   providedIn: 'root',
@@ -47,9 +48,9 @@ export class AnimeProviderService {
       const results = await Promise.all(
         this.crawlers.map(async (crawler: BaseCrawler) => {
           const result = await crawler.getLatestEpisodes();
-          console.log(`Crawling ${crawler.name} latest episodes:`);
-          console.log(result);
-          console.log('--------------------------');
+          debug(`Crawling ${crawler.name} latest episodes:`);
+          debug(result);
+          debug('--------------------------');
           return result;
         })
       );

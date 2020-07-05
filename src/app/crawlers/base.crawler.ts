@@ -70,8 +70,7 @@ export abstract class BaseCrawler {
       if (source.length === 0) {
         source = await this._getAnimeList();
       }
-      const searched =
-        source.filter(anime => anime.title.toLowerCase().indexOf(title.toLowerCase()) !== -1) || [];
+      const searched = source.filter(anime => anime.title.toLowerCase().indexOf(title.toLowerCase()) !== -1) || [];
       resolve(searched);
     });
   };
