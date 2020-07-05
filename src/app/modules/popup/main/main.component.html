@@ -1,4 +1,4 @@
-<div #viewport class="blox-snippet-page">
+<div #viewport class="snippet-page">
   <aside mdcDrawerContainer="temporary" [(open)]="open">
     <nav mdcDrawer>
       <div mdcDrawerToolbarSpacer></div>
@@ -18,7 +18,7 @@
       </div>
     </nav>
   </aside>
-  <div class="blox-demo-content">
+  <div class="content">
     <header mdcTopAppBar [viewport]="viewport" [fixedAdjust]="content">
       <div mdcTopAppBarRow>
         <section mdcTopAppBarSection alignStart>
@@ -31,7 +31,7 @@
       </div>
     </header>
 
-    <main #content class="blox-demo-main">
+    <main #content>
       <div mdcLinearProgress [indeterminate]="true" [closed]="!isLoading"></div>
       <section class="custom-card-container">
         <ng-container *ngFor="let release of releases; let i = index">

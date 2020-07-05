@@ -4,139 +4,133 @@
 @import "@material/card/mixins"; // stackblitz-skip-line: Not supported on stackblitz due to https://github.com/stackblitz/core/issues/284
 
 // Place drawer and content side by side:
-.blox-snippet-page {
-    display: flex;
-    flex-direction: row;
-    height: 400px;
-}
-
-.mdc-drawer--temporary {
-    // the default position is fixed, but in this demo we want to position the drawer
-    // inside its parent, not fixed to the viewport:
-    position: absolute;
-}
-
-[mdcDrawerHeader], [mdcDrawerToolbarSpacer] {
-    // color the header variants the same way as the toolbar:
-    @include mdc-theme-prop(background-color, primary);
-    @include mdc-theme-prop(color, on-primary);
-}
-
-// Stack toolbar and main on top of each other:
-.blox-demo-content {
-    display: inline-flex;
-    flex-direction: column;
-    flex-grow: 1;
-    height: 100%;
-    box-sizing: border-box;
+.snippet-page {
+  display: flex;
+  flex-direction: row;
+  height: 400px;
 }
 
 // Header
 .mdc-top-app-bar {
-    position: fixed !important;
+  position: fixed !important;
+}
+
+[mdcDrawerHeader], [mdcDrawerToolbarSpacer] {
+  // color the header variants the same way as the toolbar:
+  @include mdc-theme-prop(background-color, primary);
+  @include mdc-theme-prop(color, on-primary);
+}
+
+// Stack toolbar and main on top of each other:
+.content {
+  display: inline-flex;
+  flex-direction: column;
+  flex-grow: 1;
+  height: 100%;
+  box-sizing: border-box;
 }
 
 // Loading bar
 .mdc-linear-progress__bar-inner {
-    background-color: #00a651;
+  background-color: #00a651;
 }
 
 /*----- Cards -----*/
 
 .custom-card-container {
-    display: flex;
-    align-items: flex-start;
-    flex-flow: row wrap;
-    padding-top: 24px;
-    padding-left: 16px;
-    padding-right: 16px;
+  display: flex;
+  align-items: flex-start;
+  flex-flow: row wrap;
+  padding-top: 24px;
+  padding-left: 16px;
+  padding-right: 16px;
 }
 
 .card-badge {
-    position: absolute;
-    top: 0;
+  position: absolute;
+  top: 0;
+  span {
+    position: relative;
+    display: block;
+    padding: 4px 10px;
+    color: #fff;
+    font-weight: 500;
+    font-size: 13px;
+    text-transform: uppercase;
+    &:before {
+      content: "";
+      width: 0;
+      height: 0;
+      position: absolute;
+      top: 0;
+    }
+  }
+  &.number {
+    right: 0;
     span {
-        position: relative;
-        display: block;
-        padding: 4px 10px;
-        color: #fff;
-        font-weight: 500;
-        font-size: 13px;
-        text-transform: uppercase;
-        &:before {
-            content: "";
-            width: 0;
-            height: 0;
-            position: absolute;
-            top: 0;
-        }
+      background: #00a651;
+      &:before {
+        border-left: 8px solid transparent;
+        border-top: 24px solid #00a651;
+        right: 100%;
+      }
     }
-    &.number {
-        right: 0;
-        span {
-            background: #00a651;
-            &:before {
-                border-left: 8px solid transparent;
-                border-top: 24px solid #00a651;
-                right: 100%;
-            }
-        }
+  }
+  &.new {
+    left: 0;
+    span {
+      background: #0061aa;
+      &:before {
+        border-right: 8px solid transparent;
+        border-top: 24px solid #0061aa;
+        left: 100%;
+      }
     }
-    &.new {
-        left: 0;
-        span {
-            background: #0061aa;
-            &:before {
-                border-right: 8px solid transparent;
-                border-top: 24px solid #0061aa;
-                left: 100%;
-            }
-        }
+  }
+  &.end {
+    left: 0;
+    span {
+      background: #c53030;
+      &:before {
+        border-right: 8px solid transparent;
+        border-top: 24px solid #c53030;
+        left: 100%;
+      }
     }
-    &.end {
-        left: 0;
-        span {
-            background: #c53030;
-            &:before {
-                border-right: 8px solid transparent;
-                border-top: 24px solid #c53030;
-                left: 100%;
-            }
-        }
-    }
+  }
 }
 
 [mdcCard] {
-    margin: 0 13px 24px;
+  margin: 0 13px 24px;
 
-    &.custom-card-photo {
-        max-width: 200px;
-        min-width: 160px;
+  &.custom-card-photo {
+    max-width: 200px;
+    min-width: 160px;
 
-        [mdcCardMediaContent] {
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            h2 {
-                padding: 8px 16px;
-                margin: 0;
-                @include mdc-typography('subtitle1');
-                background-image: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0.9) 100%);
-                color: white;
-                text-overflow: ellipsis;
-                overflow: hidden;
-                white-space: nowrap;
-            }
-        }
+    [mdcCardMediaContent] {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      h2 {
+        padding: 8px 16px;
+        margin: 0;
+        @include mdc-typography('subtitle1');
+        background-image: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0.9) 100%);
+        color: white;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+      }
     }
+  }
 
-    .mdc-card__actions {
-        min-height: 42px;
-        .mdc-icon-button {
-            font-size: 1.2em;
-            padding: 0;
-            width: 30px;
-            height: 20px;
-        }
+  .mdc-card__actions {
+    min-height: 42px;
+    .mdc-icon-button {
+      font-size: 1.2em;
+      padding: 0;
+      width: 30px;
+      height: 20px;
     }
+  }
 }
