@@ -33,48 +33,31 @@
 
     <main #content>
       <div mdcLinearProgress [indeterminate]="true" [closed]="!isLoading"></div>
-      <section class="custom-card-container">
-        <ng-container *ngFor="let release of releases; let i = index">
 
-          <div mdcCard class="custom-card-photo">
-            <a mdcCardPrimaryAction [href]="release.streamLinks[0].url" (click)="onReleaseClick($event, release, i)" target="_blank">
-              <div mdcCardMedia size="square" [ngStyle]="{'background-image': 'url(' + release.cover + ')'}">
-                <div mdcCardMediaContent>
-                  <h2 [title]="release.animeTitle">{{ release.animeTitle }}</h2>
-                  <div class="card-badge number">
-                    <span>{{ release.number }}</span>
-                  </div>
-                  <div *ngIf="release.isNew" class="card-badge new">
-                    <span>New</span>
-                  </div>
-                  <div *ngIf="release.isLast" class="card-badge end">
-                    <span>End</span>
-                  </div>
-                </div>
-              </div>
-            </a>
-            <div mdcCardActions mdcCardActionIcons>
-              <button mdcIconButton class="material-icons"
-                labelOn="Remove from favorites" labelOff="Add to favorites"
-                iconOn="favorite" iconOff="favorite_border"></button>
-              <button mdcIconButton class="material-icons" title="Stream links" (click)="openStreamLinks(i)">play_circle_outline</button>
-              <button mdcIconButton class="material-icons" title="Download links" (click)="openDownloadLinks(i)">save_alt</button>
-              <button mdcIconButton class="material-icons" title="More options">more_vert</button>
-            </div>
-          </div>
+        <ng-container *ngIf="settings.displayEpisodesDayByDay; else showAllTemplate">
 
-          <app-choose-link-dialog #streamLinksDialog
-            title="Choose a stream link"
-            [links]="release.streamLinks"
-          ></app-choose-link-dialog>
-
-          <app-choose-link-dialog #downloadLinksDialog
-            title="Choose a download link"
-            [links]="release.downloadLinks"
-          ></app-choose-link-dialog>
+          <ng-container *ngFor="let day of days">
+            <h3 class="day-title">{{ day | shortdate }}</h3>
+            <div class="day-divider"></div>
+            <section class="custom-card-container">
+              <ng-container *ngFor="let release of releases">
+                <app-card *ngIf="isSameDay(release.date, day)" [release]="release"></app-card>
+              </ng-container>
+            </section>
+          </ng-container>
 
         </ng-container>
-      </section>
+
+        <ng-template #showAllTemplate>
+
+          <section class="custom-card-container">
+            <ng-container *ngFor="let release of releases">
+              <app-card [release]="release"></app-card>
+            </ng-container>
+          </section>
+
+        </ng-template>
+
     </main>
   </div>
 </div>

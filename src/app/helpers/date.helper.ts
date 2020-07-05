@@ -22,10 +22,16 @@ export const now = () => {
   return new Date();
 };
 
-export const today = () => {
-  return now().toISOString().slice(0, 10);
+export const dateOnly = (date: Date) => {
+  return date.setHours(0, 0, 0, 0);
 };
 
-export const yesterday = () => {
-  return new Date(now().getTime() - (1*dayMilliseconds)).toISOString().slice(0, 10);
+export const today = (asString: boolean = false): any => {
+  const today = now();
+  return asString ? today.toISOString().slice(0, 10) : dateOnly(today);
+};
+
+export const yesterday = (asString: boolean = false): any => {
+  const yesterday = new Date(now().getTime() - (1*dayMilliseconds));
+  return asString ? yesterday.toISOString().slice(0, 10) : dateOnly(yesterday);
 };

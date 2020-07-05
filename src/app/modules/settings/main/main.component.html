@@ -30,17 +30,20 @@
               <label mdcFloatingLabel></label> <!-- gives an error when removed, so better let it empty for now -->
             </div>
           </li>
+          <li mdcListDivider [inset]="true"></li>
+        </ul>
+        <h3 mdcListGroupSubHeader>Display</h3>
+        <ul mdcList>
           <li mdcListItem>
             <i mdcListItemGraphic class="material-icons">format_list_bulleted</i>
             <span mdcListItemText>
-              Display animes by days
-              <span mdcListItemSecondaryText>Changes the display layout of animes to day by day</span>
+              Display episodes day by day
+              <span mdcListItemSecondaryText>Changes the display layout to day by day</span>
             </span>
             <div mdcListItemMeta mdcSwitch>
-              <input mdcSwitchInput type="checkbox" [(ngModel)]="settings.displayAnimesByDays"/>
+              <input mdcSwitchInput type="checkbox" [(ngModel)]="settings.displayEpisodesDayByDay"/>
             </div>
           </li>
-          <!-- <li mdcListDivider [inset]="true"></li> -->
         </ul>
       </div>
 

@@ -1,7 +1,5 @@
 @import "@material/theme/mixins";
-@import "@material/typography/mixins";
-@import "@material/rtl/mixins";
-@import "@material/card/mixins"; // stackblitz-skip-line: Not supported on stackblitz due to https://github.com/stackblitz/core/issues/284
+//@import "@material/rtl/mixins";
 
 // Place drawer and content side by side:
 .snippet-page {
@@ -37,8 +35,7 @@
   }
 }
 
-/*----- Cards -----*/
-
+// Cards container
 .custom-card-container {
   display: flex;
   align-items: flex-start;
@@ -48,91 +45,18 @@
   padding-right: 16px;
 }
 
-.card-badge {
-  position: absolute;
-  top: 0;
-  span {
-    position: relative;
-    display: block;
-    padding: 4px 10px;
-    color: #fff;
-    font-weight: 500;
-    font-size: 13px;
-    text-transform: uppercase;
-    &:before {
-      content: "";
-      width: 0;
-      height: 0;
-      position: absolute;
-      top: 0;
-    }
-  }
-  &.number {
-    right: 0;
-    span {
-      background: #00a651;
-      &:before {
-        border-left: 8px solid transparent;
-        border-top: 24px solid #00a651;
-        right: 100%;
-      }
-    }
-  }
-  &.new {
-    left: 0;
-    span {
-      background: #0061aa;
-      &:before {
-        border-right: 8px solid transparent;
-        border-top: 24px solid #0061aa;
-        left: 100%;
-      }
-    }
-  }
-  &.end {
-    left: 0;
-    span {
-      background: #c53030;
-      &:before {
-        border-right: 8px solid transparent;
-        border-top: 24px solid #c53030;
-        left: 100%;
-      }
-    }
+.day-title {
+  margin: 0 0 5px 28px;
+  font-size: 18px;
+  font-weight: 400;
+  &:first-of-type {
+    margin-top: 20px;
   }
 }
 
-[mdcCard] {
-  margin: 0 13px 24px;
-
-  &.custom-card-photo {
-    max-width: 200px;
-    min-width: 160px;
-
-    [mdcCardMediaContent] {
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      h2 {
-        padding: 8px 16px;
-        margin: 0;
-        @include mdc-typography('subtitle1');
-        background-image: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0.9) 100%);
-        color: white;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        white-space: nowrap;
-      }
-    }
-  }
-
-  .mdc-card__actions {
-    min-height: 42px;
-    .mdc-icon-button {
-      font-size: 1.2em;
-      padding: 0;
-      width: 30px;
-      height: 20px;
-    }
-  }
+.day-divider {
+  margin: 0 0 0 28px;
+  width: calc(100% - 56px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  height: 0;
 }

@@ -21,9 +21,9 @@ export class AnimeKoCrawler extends BaseCrawler {
       date: (text: string) => {
         let date = text;
         if (text.indexOf('Aujourd\'hui') !== -1) {
-          date = text.replace('Aujourd\'hui', today());
+          date = text.replace('Aujourd\'hui', today(true));
         } else if (text.indexOf('Hier') !== -1) {
-          date = text.replace('Hier', yesterday());
+          date = text.replace('Hier', yesterday(true));
         } else {
           date = text.replace(new RegExp('^(' + frenchDays.join('|') + ')', 'g'), '');
           date = date.replace(new RegExp('(' + Object.keys(frenchMonths).join('|') + ')', 'g'), month => frenchMonths[month]).trim();

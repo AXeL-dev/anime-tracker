@@ -9,7 +9,7 @@ import { StorageService } from './storage.service';
 export class SettingsService {
 
   proxy: string;
-  displayAnimesByDays: boolean;
+  displayEpisodesDayByDay: boolean;
 
   static readonly CORSProxies: Proxy[] = [
     {
@@ -47,19 +47,19 @@ export class SettingsService {
   private getDefaults() {
     return {
       proxy: SettingsService.CORSProxies[0].url,
-      displayAnimesByDays: true,
+      displayEpisodesDayByDay: true,
     };
   }
 
   private set(settings: Settings) {
     this.proxy = settings.proxy;
-    this.displayAnimesByDays = settings.displayAnimesByDays;
+    this.displayEpisodesDayByDay = settings.displayEpisodesDayByDay;
   }
 
   save() {
     this.storage.save('settings', {
       proxy: this.proxy,
-      displayAnimesByDays: this.displayAnimesByDays,
+      displayEpisodesDayByDay: this.displayEpisodesDayByDay,
     });
   }
 }

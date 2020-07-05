@@ -1,8 +1,9 @@
-import { Component, OnInit, ViewChildren, QueryList } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AnimeProviderService } from 'src/app/services/anime-provider.service';
 import { EpisodeRelease } from 'src/app/models/episode-release';
-import { ChooseLinkDialogComponent } from '../choose-link-dialog/choose-link-dialog.component';
 import { debug } from 'src/app/helpers/debug.helper';
+import { SettingsService } from 'src/app/services/settings.service';
+import { dateOnly } from 'src/app/helpers/date.helper';
 
 @Component({
   selector: 'app-main',
@@ -11,13 +12,12 @@ import { debug } from 'src/app/helpers/debug.helper';
 })
 export class MainComponent implements OnInit {
 
-  @ViewChildren('streamLinksDialog') streamLinksDialog: QueryList<ChooseLinkDialogComponent>;
-  @ViewChildren('downloadLinksDialog') downloadLinksDialog: QueryList<ChooseLinkDialogComponent>;
   open = false;
   releases: any = [];
+  days: number[] = [];
   isLoading = true;
 
-  constructor(private animeProvider: AnimeProviderService) { }
+  constructor(private animeProvider: AnimeProviderService, public settings: SettingsService) { }
 
   ngOnInit(): void {
     this.getLatestReleases();
@@ -26,7 +26,18 @@ export class MainComponent implements OnInit {
   async getLatestReleases() {
     this.isLoading = true;
     const releases: EpisodeRelease[] = await this.animeProvider.getLatest();
-    debug(releases);
+    debug('Latest releases:', releases);
+    if (this.settings.displayEpisodesDayByDay) {
+      releases.forEach((release: EpisodeRelease) => {
+        if (release.date) {
+          const day = dateOnly(new Date(release.date));
+          if (this.days.indexOf(day) === -1) {
+            this.days.push(day);
+          }
+        }
+      });
+      debug('Days:', this.days);
+    }
     this.releases = releases;
     setTimeout(() => {
       this.isLoading = false;
@@ -37,20 +48,11 @@ export class MainComponent implements OnInit {
     this.open = !this.open;
   }
 
-  onReleaseClick(event: Event, release: EpisodeRelease, index: number) {
-    if (release.streamLinks.length > 1) {
-      event.preventDefault();
-      this.openStreamLinks(index);
+  isSameDay(day1: number, day2: number) {
+    if (!day1 || !day2) {
       return false;
     }
-  }
-
-  openStreamLinks(index: number) {
-    this.streamLinksDialog.toArray()[index].open();
-  }
-
-  openDownloadLinks(index: number) {
-    this.downloadLinksDialog.toArray()[index].open();
+    return dateOnly(new Date(day1)) === dateOnly(new Date(day2));
   }
 
 }
