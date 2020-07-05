@@ -24,8 +24,21 @@ export class HTMLParserService {
       attribute: secondSplit[1]?.trim(),
       filter: firstSplit[1]?.trim()
     };
-    const results = element.querySelector(data.selector);
+    let results = null;
     let output = '';
+    try {
+      if (data.selector?.length) {
+        if (data.selector.startsWith(':prev ')) {
+          results = this.getPreviousSibling(element, data.selector.replace(':prev ', ''));
+        } else if (data.selector.startsWith(':next ')) {
+          results = this.getNextSibling(element, data.selector.replace(':next ', ''));
+        } else {
+          results = element.querySelector(data.selector);
+        }
+      }
+    } catch(e) {
+      console.error(e.message);
+    }
     if (results) {
       // get element
       if (data.attribute?.length) {
@@ -40,6 +53,34 @@ export class HTMLParserService {
     }
 
     return output;
+  }
+
+  private getPreviousSibling(elem: any, selector: string) {
+    let sibling = elem.previousElementSibling;
+
+    if (!selector) return sibling;
+
+    // If the sibling matches our selector, use it
+    // If not, jump to the previous sibling and continue the loop
+    while (sibling) {
+      const matches = sibling.querySelector(selector);
+      if (matches) return matches;
+      sibling = sibling.previousElementSibling;
+    }
+  }
+
+  private getNextSibling(elem: any, selector: string) {
+    let sibling = elem.nextElementSibling;
+
+    if (!selector) return sibling;
+
+    // If the sibling matches our selector, use it
+    // If not, jump to the next sibling and continue the loop
+    while (sibling) {
+      const matches = sibling.querySelector(selector);
+      if (matches) return matches;
+      sibling = sibling.nextElementSibling
+    }
   }
 
   parse(html: string, scope: string, selector: any, filters?: any) {

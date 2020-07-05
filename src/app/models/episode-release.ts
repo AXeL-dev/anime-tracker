@@ -4,10 +4,17 @@ export interface EpisodeRelease {
   animeTitle: string;
   cover: string;
   number: number;
-  date?: string | Date;
-  streamLinks: string[];
-  downloadLinks?: string[];
+  date: string | number | Date;
+  streamLinks: EpisodeReleaseLink[];
+  downloadLinks?: EpisodeReleaseLink[];
   isNew?: boolean;
   isLast?: boolean;
-  sources: Episode[];
+  sources?: Episode[];
+}
+
+export interface EpisodeReleaseLink {
+  link: string;
+  lang: string;
+  isDubbed?: boolean;
+  isSubtitled?: boolean;
 }

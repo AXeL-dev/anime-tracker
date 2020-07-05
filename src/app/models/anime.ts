@@ -9,7 +9,7 @@ export interface Anime {
   genres?: string[];
   summary?: string;
   status?: AnimeStatus;
-  releaseDate?: string;
+  releaseDate?: string | number | Date;
   rating?: number;
   isBookmarked?: boolean;
 }

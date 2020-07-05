@@ -31,7 +31,7 @@ export class AnimeProviderService {
   search(title: string): Promise<any> {
     return new Promise(async resolve => {
       const variousResults = await Promise.all(
-        this.crawlers.map(async crawler => {
+        this.crawlers.map(async (crawler: BaseCrawler) => {
           const result = await crawler.searchAnime(title);
           return result;
         })
@@ -45,8 +45,11 @@ export class AnimeProviderService {
     return new Promise(async resolve => {
       // get latest episodes
       const results = await Promise.all(
-        this.crawlers.map(async crawler => {
+        this.crawlers.map(async (crawler: BaseCrawler) => {
           const result = await crawler.getLatestEpisodes();
+          console.log(`Crawling ${crawler.name} latest episodes:`);
+          console.log(result);
+          console.log('--------------------------');
           return result;
         })
       );
@@ -59,9 +62,20 @@ export class AnimeProviderService {
         releases.forEach((release: EpisodeRelease, index: number) => {
           // duplicated
           if (isSimilar(release.animeTitle, episode.animeTitle) && release.number === episode.number) {
-            releases[index].streamLinks.push(episode.streamLink);
+            if (!releases[index].date) {
+              releases[index].date = episode.releaseDate;
+            }
+            releases[index].streamLinks.push({
+              link: episode.streamLink,
+              lang: episode.subtitlesLang,
+              isSubtitled: true
+            });
             if (episode.downloadLink) {
-              releases[index].downloadLinks.push(episode.downloadLink);
+              releases[index].downloadLinks.push({
+                link: episode.downloadLink,
+                lang: episode.subtitlesLang,
+                isSubtitled: true
+              });
             }
             if (episode.isNew && !releases[index].isNew) {
               releases[index].isNew = episode.isNew;
@@ -79,15 +93,28 @@ export class AnimeProviderService {
           releases.push({
             animeTitle: episode.animeTitle,
             cover: episode.cover,
+            date: episode.releaseDate,
             number: episode.number,
-            streamLinks: [episode.streamLink],
-            downloadLinks: episode.downloadLink ? [episode.downloadLink] : [],
+            streamLinks: [{
+              link: episode.streamLink,
+              lang: episode.subtitlesLang,
+              isSubtitled: true
+            }],
+            downloadLinks: episode.downloadLink ? [{
+              link: episode.downloadLink,
+              lang: episode.subtitlesLang,
+              isSubtitled: true
+            }] : [],
             isNew: episode.isNew,
             isLast: episode.isLast,
             sources: [episode]
           });
         }
       });
+      // sort
+      if (releases.length) {
+        releases = releases.sort((a: EpisodeRelease, b: EpisodeRelease) => (b.date as number) - (a.date as number));
+      }
       resolve(releases);
     });
   }

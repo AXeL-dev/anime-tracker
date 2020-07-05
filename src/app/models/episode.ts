@@ -7,6 +7,7 @@ export interface Episode {
   number: number;
   streamLink: string;
   downloadLink?: string;
+  releaseDate?: string | number | Date;
   isNew?: boolean;
   isLast?: boolean;
   isWatched?: boolean;
