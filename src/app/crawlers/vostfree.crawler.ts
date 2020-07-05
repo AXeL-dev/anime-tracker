@@ -10,17 +10,12 @@ export class VostFreeCrawler extends BaseCrawler {
       'https://vostfree.com'
     );
     this.filters = {
+      ...this.filters,
       title: (text: string) => {
         return text.replace(/ VOSTFR$/, '');
       },
       cover: (text: string) => {
         return `${this.baseUrl}/${text.replace(/^\//, '')}`;
-      },
-      number: (text: string) => {
-        return +text;
-      },
-      boolean: (text: string) => {
-        return !!text?.length;
       }
     };
   }

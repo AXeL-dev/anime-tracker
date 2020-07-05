@@ -9,6 +9,14 @@ export abstract class BaseCrawler {
   constructor(name: string, baseUrl: string) {
     this._name = name;
     this._baseUrl = baseUrl;
+    this.filters = {
+      number: (text: string) => {
+        return +text;
+      },
+      boolean: (text: string) => {
+        return !!text?.length;
+      }
+    };
   }
 
   get name() {

@@ -10,14 +10,9 @@ export class AnimeKoCrawler extends BaseCrawler {
       'https://animeko.co'
     );
     this.filters = {
+      ...this.filters,
       cover: (text: string) => {
         return text.replace('/small', '');
-      },
-      number: (text: string) => {
-        return +text;
-      },
-      boolean: (text: string) => {
-        return !!text?.length;
       }
     };
   }
