@@ -31,8 +31,10 @@
 }
 
 // Loading bar
-.mdc-linear-progress__bar-inner {
-  background-color: #00a651;
+[mdcLinearProgress] {
+  .mdc-linear-progress__bar-inner {
+    @include mdc-theme-prop(background-color, secondary);
+  }
 }
 
 /*----- Cards -----*/

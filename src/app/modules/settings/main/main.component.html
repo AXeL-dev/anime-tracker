@@ -1,1 +1,49 @@
-<p>main works!</p>
+<div #viewport class="snippet-page">
+  <div class="content">
+    <header mdcTopAppBar [viewport]="viewport" [fixedAdjust]="content">
+      <div mdcTopAppBarRow>
+        <section mdcTopAppBarSection alignStart>
+          <button mdcTopAppBarNavIcon class="material-icons" routerLink="/">arrow_back</button>
+          <span mdcTopAppBarTitle>Settings</span>
+        </section>
+        <section mdcTopAppBarSection alignEnd>
+          <button mdcButton (click)="saveSettings()">Save</button>
+        </section>
+      </div>
+    </header>
+
+    <main #content>
+
+      <div mdcListGroup>
+        <h3 mdcListGroupSubHeader>General</h3>
+        <ul mdcList>
+          <li mdcListItem>
+            <i mdcListItemGraphic class="material-icons">share</i>
+            <span mdcListItemText>
+              Proxy
+              <span mdcListItemSecondaryText>Used to bypass CORS limitations on browsers</span>
+            </span>
+            <div mdcListItemMeta mdcSelect>
+              <select mdcSelectControl [(ngModel)]="settings.proxy">
+                <option *ngFor="let proxy of getProxies()" [value]="proxy.url">{{ proxy.name }}</option>
+              </select>
+              <label mdcFloatingLabel></label> <!-- gives an error when removed, so better let it empty for now -->
+            </div>
+          </li>
+          <li mdcListItem>
+            <i mdcListItemGraphic class="material-icons">format_list_bulleted</i>
+            <span mdcListItemText>
+              Display animes by days
+              <span mdcListItemSecondaryText>Changes the display layout of animes to day by day</span>
+            </span>
+            <div mdcListItemMeta mdcSwitch>
+              <input mdcSwitchInput type="checkbox" [(ngModel)]="settings.displayAnimesByDays"/>
+            </div>
+          </li>
+          <!-- <li mdcListDivider [inset]="true"></li> -->
+        </ul>
+      </div>
+
+    </main>
+  </div>
+</div>
