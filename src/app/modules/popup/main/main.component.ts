@@ -32,22 +32,15 @@ export class MainComponent implements OnInit, OnDestroy {
   private init() {
     this.isLoading = true;
     this.subscription.add(
-      this.animeProvider.getLatestEpisodes().subscribe((episodes: Episode[]) => {
-        debug('Latest episodes:', episodes);
-        // Set days
-        if (this.settings.displayEpisodesDayByDay) {
-          episodes.forEach((episode: Episode) => {
-            if (episode.releaseDate) {
-              const day = dateOnly(new Date(episode.releaseDate));
-              if (this.days.indexOf(day) === -1) {
-                this.days.push(day);
-              }
-            }
-          });
-          debug('Days:', this.days);
-        }
+      this.animeProvider.getLatestEpisodes(this.settings.displayEpisodesDayByDay).subscribe(([episodes, days, isSlice]) => {
+        // debug('Latest episodes:', episodes);
+        // debug('Days:', days);
+        // debug('isSlice:', isSlice);
+        // debug('--------------------------');
         // Set episodes
-        this.episodes = episodes;
+        this.episodes = isSlice ? [...this.episodes, ...episodes] : episodes;
+        // Set days
+        this.days = days;
       }, (error: Error) => {
         console.error(error.message);
       }, () => {
