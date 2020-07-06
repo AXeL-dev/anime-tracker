@@ -1,10 +1,19 @@
 import { Anime } from '../models/anime';
+import { EpisodeRelease } from '../models/episode-release';
+
+interface Cache {
+  animeList: Anime[],
+  latestEpisodes: EpisodeRelease[],
+}
 
 export abstract class BaseCrawler {
   protected _name: string;
   protected _baseUrl: string;
   protected filters: any = {};
-  protected animeList: Anime[] = [];
+  protected cache: Cache = {
+    animeList: [],
+    latestEpisodes: []
+  };
 
   constructor(name: string, baseUrl: string) {
     this._name = name;
@@ -30,11 +39,12 @@ export abstract class BaseCrawler {
   getAnimeList(forcedUpdate: boolean = false): Promise<any> {
     return new Promise(async resolve => {
       // check if value already cached and not a forced update
-      if (this.animeList.length > 0 && !forcedUpdate) {
-        resolve(this.animeList);
+      if (this.cache.animeList.length > 0 && !forcedUpdate) {
+        resolve(this.cache.animeList);
       }
 
       const list = await this._getAnimeList();
+      this.cache.animeList = list;
       resolve(list);
     });
   };
@@ -57,16 +67,22 @@ export abstract class BaseCrawler {
     });
   };
 
-  getLatestEpisodes(): Promise<any> {
+  getLatestEpisodes(forcedUpdate: boolean = false): Promise<any> {
     return new Promise(async resolve => {
+      // check if value already cached and not a forced update
+      if (this.cache.latestEpisodes.length > 0 && !forcedUpdate) {
+        resolve(this.cache.latestEpisodes);
+      }
+
       const episodes = await this._getLatestEpisodes();
+      this.cache.latestEpisodes = episodes;
       resolve(episodes);
     });
   };
 
   searchAnime(title: string): Promise<any> {
     return new Promise(async resolve => {
-      let source = this.animeList;
+      let source = this.cache.animeList;
       if (source.length === 0) {
         source = await this._getAnimeList();
       }
