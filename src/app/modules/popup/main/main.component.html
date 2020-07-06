@@ -29,10 +29,10 @@
           <a routerLink="./settings" mdcTopAppBarAction class="material-icons" label="Settings">settings</a>
         </section>
       </div>
+      <div *ngIf="isLoading" mdcLinearProgress [indeterminate]="true" [closed]="!isLoading"></div>
     </header>
 
     <main #content>
-      <div mdcLinearProgress [indeterminate]="true" [closed]="!isLoading"></div>
 
         <ng-container *ngIf="settings.displayEpisodesDayByDay; else showAllTemplate">
 
