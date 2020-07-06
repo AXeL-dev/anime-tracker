@@ -40,9 +40,7 @@
             <h3 class="day-title">{{ day | shortdate }}</h3>
             <div class="day-divider"></div>
             <section class="custom-card-container">
-              <ng-container *ngFor="let episode of episodes">
-                <app-card *ngIf="isSameDay(episode.releaseDate, day)" [episode]="episode"></app-card>
-              </ng-container>
+              <app-card *ngFor="let episode of getEpisodesbyDay(day)" [episode]="episode"></app-card>
             </section>
           </ng-container>
 
@@ -51,9 +49,7 @@
         <ng-template #showAllTemplate>
 
           <section class="custom-card-container">
-            <ng-container *ngFor="let episode of episodes">
-              <app-card [episode]="episode"></app-card>
-            </ng-container>
+            <app-card *ngFor="let episode of episodes" [episode]="episode"></app-card>
           </section>
 
         </ng-template>

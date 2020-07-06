@@ -22,14 +22,14 @@ export class MainComponent implements OnInit, OnDestroy {
   constructor(private animeProvider: AnimeProviderService, public settings: SettingsService) { }
 
   ngOnInit(): void {
-    this.getLatestEpisodes();
+    this.init();
   }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 
-  private getLatestEpisodes() {
+  private init() {
     this.isLoading = true;
     this.subscription.add(
       this.animeProvider.getLatestEpisodes().subscribe((episodes: Episode[]) => {
@@ -60,11 +60,13 @@ export class MainComponent implements OnInit, OnDestroy {
     this.open = !this.open;
   }
 
-  isSameDay(day1: number, day2: number) {
-    if (!day1 || !day2) {
-      return false;
-    }
-    return dateOnly(new Date(day1)) === dateOnly(new Date(day2));
+  getEpisodesbyDay(day: number) {
+    return this.episodes.filter((episode: Episode) => {
+      if (!day || !episode.releaseDate) {
+        return false;
+      }
+      return dateOnly(new Date(day)) === dateOnly(new Date(episode.releaseDate));
+    });
   }
 
 }
