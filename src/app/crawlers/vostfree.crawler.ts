@@ -1,7 +1,9 @@
 import { BaseCrawler } from './base.crawler';
 import { ScraperService } from '../services/scraper.service';
+import { Anime } from '../models/anime';
 import { Episode } from '../models/episode';
 import { today, yesterday } from '../helpers/date.helper';
+import { Observable, of } from 'rxjs';
 
 export class VostFreeCrawler extends BaseCrawler {
 
@@ -33,50 +35,41 @@ export class VostFreeCrawler extends BaseCrawler {
     };
   }
 
-  _getAnimeList(forcedUpdate: boolean = false): Promise<any> {
-    return new Promise(async resolve => {
-      // ToDo
-      resolve([]);
-    });
+  _getAnimeList(forcedUpdate: boolean = false): Observable<Anime[]> {
+    // ToDo
+    return of([]);
   }
 
-  _getAnimeInfo(link: string): Promise<any> {
-    return new Promise(async resolve => {
-      // ToDo
-      resolve([]);
-    });
+  _getAnimeInfo(link: string): Observable<Anime> {
+    // ToDo
+    return of();
   }
 
-  _getEpisodes(link: string): Promise<any> {
-    return new Promise(async resolve => {
-      // ToDo
-      resolve([]);
-    });
+  _getEpisodes(link: string): Observable<Episode[]> {
+    // ToDo
+    return of([]);
   }
 
-  _getLatestEpisodes(): Promise<Episode[]> {
-    return new Promise(async resolve => {
-      const episodes: Episode[] = await this.retriever.scrape(
-        `${this.baseUrl}/animes-vostfr`,
-        '#content div.movie-poster',
-        {
-          animeTitle: '.info .title | title',
-          cover: '.image img@src | cover',
-          number: '.alt .year b | number' as any,
-          streamLinks: [
-            {
-              url: '.play a.link@href',
-              lang: '.quality',
-            }
-          ],
-          //subtitlesLang: '.quality',
-          isNew: '.anime-new | boolean' as any,
-          isLast: '.anime-fin | boolean' as any,
-          releaseDate: '.info ul.additional li.type:first-child a | date',
-        } as Episode,
-        this.filters
-      );
-      resolve(episodes);
-    });
+  _getLatestEpisodes(): Observable<Episode[]> {
+    return this.retriever.scrape(
+      `${this.baseUrl}/animes-vostfr`,
+      '#content div.movie-poster',
+      {
+        animeTitle: '.info .title | title',
+        cover: '.image img@src | cover',
+        number: '.alt .year b | number' as any,
+        streamLinks: [
+          {
+            url: '.play a.link@href',
+            lang: '.quality',
+          }
+        ],
+        //subtitlesLang: '.quality',
+        isNew: '.anime-new | boolean' as any,
+        isLast: '.anime-fin | boolean' as any,
+        releaseDate: '.info ul.additional li.type:first-child a | date',
+      } as Episode,
+      this.filters
+    );
   }
 }

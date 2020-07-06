@@ -1,5 +1,7 @@
 import { Anime } from '../models/anime';
 import { Episode } from '../models/episode';
+import { Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 interface Cache {
   animeList: Anime[],
@@ -36,63 +38,49 @@ export abstract class BaseCrawler {
     return this._baseUrl;
   }
 
-  getAnimeList(forcedUpdate: boolean = false): Promise<any> {
-    return new Promise(async resolve => {
-      // check if value already cached and not a forced update
-      if (this.cache.animeList.length > 0 && !forcedUpdate) {
-        resolve(this.cache.animeList);
-      }
-
-      const list = await this._getAnimeList();
+  getAnimeList(forcedUpdate: boolean = false): Observable<Anime[]> {
+    if (this.cache.animeList.length > 0 && !forcedUpdate) {
+      return of(this.cache.animeList);
+    }
+    return this._getAnimeList().pipe(map((list: Anime[]) => {
       this.cache.animeList = list;
-      resolve(list);
-    });
+      return list;
+    }));
   };
 
-  getAnimeInfo(link: string): Promise<any> {
-    return new Promise(async resolve => {
-      const info = await this._getAnimeInfo(link);
+  getAnimeInfo(link: string): Observable<Anime> {
+    return this._getAnimeInfo(link).pipe(map((info: Anime) => {
       // append link
       if (info) {
         info.link = link;
       }
-      resolve(info);
-    });
+      return info;
+    }));
   };
 
-  getEpisodes(link: string): Promise<any> {
-    return new Promise(async resolve => {
-      const episodes = await this._getEpisodes(link);
-      resolve(episodes);
-    });
+  getEpisodes(link: string): Observable<Episode[]> {
+    return this._getEpisodes(link);
   };
 
-  getLatestEpisodes(forcedUpdate: boolean = false): Promise<any> {
-    return new Promise(async resolve => {
-      // check if value already cached and not a forced update
-      if (this.cache.latestEpisodes.length > 0 && !forcedUpdate) {
-        resolve(this.cache.latestEpisodes);
-      }
-
-      const episodes = await this._getLatestEpisodes();
+  getLatestEpisodes(forcedUpdate: boolean = false): Observable<Episode[]> {
+    if (this.cache.latestEpisodes.length > 0 && !forcedUpdate) {
+      return of(this.cache.latestEpisodes);
+    }
+    return this._getLatestEpisodes().pipe(map((episodes: Episode[]) => {
       this.cache.latestEpisodes = episodes;
-      resolve(episodes);
-    });
+      return episodes;
+    }));
   };
 
-  searchAnime(title: string): Promise<any> {
-    return new Promise(async resolve => {
-      let source = this.cache.animeList;
-      if (source.length === 0) {
-        source = await this._getAnimeList();
-      }
-      const searched = source.filter(anime => anime.title.toLowerCase().indexOf(title.toLowerCase()) !== -1) || [];
-      resolve(searched);
-    });
+  searchAnime(title: string): Observable<Anime[]> {
+    return this._getAnimeList().pipe(map((list: Anime[]) => {
+      const searched: Anime[] = list.filter((anime: Anime) => anime.title.toLowerCase().indexOf(title.toLowerCase()) !== -1) || [];
+      return searched;
+    }));
   };
 
-  protected abstract _getAnimeList(): Promise<any>;
-  protected abstract _getAnimeInfo(link: string): Promise<any>;
-  protected abstract _getEpisodes(link: string): Promise<any>;
-  protected abstract _getLatestEpisodes(): Promise<any>;
+  protected abstract _getAnimeList(): Observable<Anime[]>;
+  protected abstract _getAnimeInfo(link: string): Observable<Anime>;
+  protected abstract _getEpisodes(link: string): Observable<Episode[]>;
+  protected abstract _getLatestEpisodes(): Observable<Episode[]>;
 }

@@ -1,7 +1,9 @@
 import { BaseCrawler } from './base.crawler';
 import { ScraperService } from '../services/scraper.service';
+import { Anime } from '../models/anime';
 import { Episode } from '../models/episode';
 import { today, yesterday, frenchDays, frenchMonths } from '../helpers/date.helper';
+import { Observable, of } from 'rxjs';
 
 export class AnimeKoCrawler extends BaseCrawler {
 
@@ -34,50 +36,41 @@ export class AnimeKoCrawler extends BaseCrawler {
     };
   }
 
-  _getAnimeList(forcedUpdate: boolean = false): Promise<any> {
-    return new Promise(async resolve => {
-      // ToDo
-      resolve([]);
-    });
+  _getAnimeList(forcedUpdate: boolean = false): Observable<Anime[]> {
+    // ToDo
+    return of([]);
   }
 
-  _getAnimeInfo(link: string): Promise<any> {
-    return new Promise(async resolve => {
-      // ToDo
-      resolve([]);
-    });
+  _getAnimeInfo(link: string): Observable<Anime> {
+    // ToDo
+    return of();
   }
 
-  _getEpisodes(link: string): Promise<any> {
-    return new Promise(async resolve => {
-      // ToDo
-      resolve([]);
-    });
+  _getEpisodes(link: string): Observable<Episode[]> {
+    // ToDo
+    return of([]);
   }
 
-  _getLatestEpisodes(): Promise<Episode[]> {
-    return new Promise(async resolve => {
-      const episodes: Episode[] = await this.retriever.scrape(
-        `${this.baseUrl}/dernieres-sorties`,
-        '.releases ul li.small-card',
-        {
-          animeTitle: 'h2 a',
-          cover: 'img@data-src | cover',
-          number: 'span.badge-number | number' as any,
-          streamLinks: [
-            {
-              url: 'h2 a@href',
-              lang: '| subtitles',
-            }
-          ],
-          isNew: '.badge-status.new | boolean' as any,
-          isLast: '.badge-status.end | boolean' as any,
-          //subtitlesLang: '| subtitles',
-          releaseDate: ':prev div .untitle | date',
-        } as Episode,
-        this.filters
-      );
-      resolve(episodes);
-    });
+  _getLatestEpisodes(): Observable<Episode[]> {
+    return this.retriever.scrape(
+      `${this.baseUrl}/dernieres-sorties`,
+      '.releases ul li.small-card',
+      {
+        animeTitle: 'h2 a',
+        cover: 'img@data-src | cover',
+        number: 'span.badge-number | number' as any,
+        streamLinks: [
+          {
+            url: 'h2 a@href',
+            lang: '| subtitles',
+          }
+        ],
+        isNew: '.badge-status.new | boolean' as any,
+        isLast: '.badge-status.end | boolean' as any,
+        //subtitlesLang: '| subtitles',
+        releaseDate: ':prev div .untitle | date',
+      } as Episode,
+      this.filters
+    );
   }
 }
