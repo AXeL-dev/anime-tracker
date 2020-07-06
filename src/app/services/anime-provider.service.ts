@@ -11,6 +11,7 @@ import { debug } from '../helpers/debug.helper';
 import { Observable, concat, forkJoin, timer } from 'rxjs';
 import { map, delay, concatMap, takeWhile } from 'rxjs/operators';
 import { dateOnly } from '../helpers/date.helper';
+import { SettingsService } from './settings.service';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +20,7 @@ export class AnimeProviderService {
 
   private crawlers: BaseCrawler[] = [];
 
-  constructor(private scraper: ScraperService) {
+  constructor(private scraper: ScraperService, private settings: SettingsService) {
     this.addCrawler(new AnimeKoCrawler(this.scraper));
     this.addCrawler(new VostFreeCrawler(this.scraper));
   }
@@ -40,7 +41,7 @@ export class AnimeProviderService {
     );
   }
 
-  getLatestEpisodes(withDays: boolean = false): Observable<[Episode[], number[], boolean]> {
+  getLatestEpisodes(): Observable<[Episode[], number[], boolean]> {
     let latestEpisodes: Episode[] = [];
     const maxEpisodesPerSlice: number = 5;
     return concat(...this.crawlers.map((crawler: BaseCrawler) => crawler.getLatestEpisodes())).pipe(
@@ -96,7 +97,7 @@ export class AnimeProviderService {
               continueSlicing = false;
             }
             const episodesSlice = latestEpisodes.slice(from, to);
-            const days = withDays ? this.getEpisodesDays(latestEpisodes.slice(0, to)) : [];
+            const days = this.settings.displayEpisodesDayByDay ? this.getEpisodesDays(latestEpisodes.slice(0, to)) : [];
             const isSlice = i > 0;
             debug('Slice', i, ':', episodesSlice);
             debug('Days:', days);

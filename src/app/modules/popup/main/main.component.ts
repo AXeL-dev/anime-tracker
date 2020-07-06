@@ -32,7 +32,7 @@ export class MainComponent implements OnInit, OnDestroy {
   private init() {
     this.isLoading = true;
     this.subscription.add(
-      this.animeProvider.getLatestEpisodes(this.settings.displayEpisodesDayByDay).subscribe(([episodes, days, isSlice]) => {
+      this.animeProvider.getLatestEpisodes().subscribe(([episodes, days, isSlice]) => {
         // debug('Latest episodes:', episodes);
         // debug('Days:', days);
         // debug('isSlice:', isSlice);
