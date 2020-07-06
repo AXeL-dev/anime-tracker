@@ -1,16 +1,16 @@
 
 <div mdcCard class="custom-card-photo">
-  <a mdcCardPrimaryAction [href]="release.streamLinks[0].url" (click)="onClick($event)" target="_blank">
-    <div mdcCardMedia size="square" [ngStyle]="{'background-image': 'url(' + release.cover + ')'}">
+  <a mdcCardPrimaryAction [href]="episode.streamLinks[0].url" (click)="onClick($event)" target="_blank">
+    <div mdcCardMedia size="square" [ngStyle]="{'background-image': 'url(' + episode.cover + ')'}">
       <div mdcCardMediaContent>
-        <h2 [title]="release.animeTitle">{{ release.animeTitle }}</h2>
+        <h2 [title]="episode.animeTitle">{{ episode.animeTitle }}</h2>
         <div class="card-badge number">
-          <span>{{ release.number }}</span>
+          <span>{{ episode.number }}</span>
         </div>
-        <div *ngIf="release.isNew" class="card-badge new">
+        <div *ngIf="episode.isNew" class="card-badge new">
           <span>New</span>
         </div>
-        <div *ngIf="release.isLast" class="card-badge end">
+        <div *ngIf="episode.isLast" class="card-badge end">
           <span>End</span>
         </div>
       </div>
@@ -28,10 +28,10 @@
 
 <app-choose-link-dialog #streamLinksDialog
   title="Choose a stream link"
-  [links]="release.streamLinks"
+  [links]="episode.streamLinks"
 ></app-choose-link-dialog>
 
 <app-choose-link-dialog #downloadLinksDialog
   title="Choose a download link"
-  [links]="release.downloadLinks"
+  [links]="episode.downloadLinks"
 ></app-choose-link-dialog>

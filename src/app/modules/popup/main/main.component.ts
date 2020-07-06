@@ -1,47 +1,59 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AnimeProviderService } from 'src/app/services/anime-provider.service';
-import { EpisodeRelease } from 'src/app/models/episode-release';
+import { Episode } from 'src/app/models/episode';
 import { debug } from 'src/app/helpers/debug.helper';
 import { SettingsService } from 'src/app/services/settings.service';
 import { dateOnly } from 'src/app/helpers/date.helper';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss']
 })
-export class MainComponent implements OnInit {
+export class MainComponent implements OnInit, OnDestroy {
 
   open = false;
-  releases: any = [];
+  episodes: Episode[] = [];
   days: number[] = [];
   isLoading = true;
+  private subscription: Subscription = new Subscription();
 
   constructor(private animeProvider: AnimeProviderService, public settings: SettingsService) { }
 
   ngOnInit(): void {
-    this.getLatestReleases();
+    this.getLatestEpisodes();
   }
 
-  async getLatestReleases() {
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
+  private getLatestEpisodes() {
     this.isLoading = true;
-    const releases: EpisodeRelease[] = await this.animeProvider.getLatest();
-    debug('Latest releases:', releases);
-    if (this.settings.displayEpisodesDayByDay) {
-      releases.forEach((release: EpisodeRelease) => {
-        if (release.date) {
-          const day = dateOnly(new Date(release.date));
-          if (this.days.indexOf(day) === -1) {
-            this.days.push(day);
-          }
+    this.subscription.add(
+      this.animeProvider.getLatest().subscribe((episodes: Episode[]) => {
+        debug('Latest episodes:', episodes);
+        // Set days
+        if (this.settings.displayEpisodesDayByDay) {
+          episodes.forEach((episode: Episode) => {
+            if (episode.releaseDate) {
+              const day = dateOnly(new Date(episode.releaseDate));
+              if (this.days.indexOf(day) === -1) {
+                this.days.push(day);
+              }
+            }
+          });
+          debug('Days:', this.days);
         }
-      });
-      debug('Days:', this.days);
-    }
-    this.releases = releases;
-    setTimeout(() => {
-      this.isLoading = false;
-    }, 500);
+        // Set episodes
+        this.episodes = episodes;
+      }, (error: Error) => {
+        console.error(error.message);
+      }, () => {
+        this.isLoading = false;
+      })
+    );
   }
 
   toggleDrawer() {

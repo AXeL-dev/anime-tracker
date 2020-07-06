@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
-import { EpisodeReleaseLink } from 'src/app/models/episode-release';
+import { EpisodeLink } from 'src/app/models/episode';
 import { MdcDialogDirective } from '@blox/material';
 
 @Component({
@@ -10,7 +10,7 @@ import { MdcDialogDirective } from '@blox/material';
 export class ChooseLinkDialogComponent implements OnInit {
 
   @Input() title: string = 'Choose a link';
-  @Input() links: EpisodeReleaseLink[] = [];
+  @Input() links: EpisodeLink[] = [];
   @ViewChild('dialog') private dialog: MdcDialogDirective;
 
   constructor() { }

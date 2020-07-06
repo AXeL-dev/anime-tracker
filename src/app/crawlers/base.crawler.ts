@@ -1,9 +1,9 @@
 import { Anime } from '../models/anime';
-import { EpisodeRelease } from '../models/episode-release';
+import { Episode } from '../models/episode';
 
 interface Cache {
   animeList: Anime[],
-  latestEpisodes: EpisodeRelease[],
+  latestEpisodes: Episode[],
 }
 
 export abstract class BaseCrawler {

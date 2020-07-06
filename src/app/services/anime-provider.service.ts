@@ -5,9 +5,9 @@ import { ScraperService } from './scraper.service';
 import { AnimeKoCrawler } from '../crawlers/animeko.crawler';
 import { VostFreeCrawler } from '../crawlers/vostfree.crawler';
 import { Episode } from '../models/episode';
-import { EpisodeRelease } from '../models/episode-release';
 import { isSimilar } from '../helpers/string.helper';
 import { debug } from '../helpers/debug.helper';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -42,81 +42,58 @@ export class AnimeProviderService {
     });
   }
 
-  getLatest(): Promise<EpisodeRelease[]> {
-    return new Promise(async resolve => {
+  getLatest(): Observable<Episode[]> {
+    return new Observable(subscriber => {
+      let latestEpisodes: Episode[] = [];
       // get latest episodes
-      const results = await Promise.all(
+      Promise.all(
         this.crawlers.map(async (crawler: BaseCrawler) => {
-          const result = await crawler.getLatestEpisodes();
+          const episodes = await crawler.getLatestEpisodes();
           debug(`Crawling ${crawler.name} latest episodes:`);
-          debug(result);
+          debug(episodes);
           debug('--------------------------');
-          return result;
-        })
-      );
-      // merge result arrays
-      const episodes = flatten(results);
-      // filter duplicates
-      let releases: EpisodeRelease[] = [];
-      episodes.forEach((episode: Episode) => {
-        let isDuplicated = false;
-        releases.forEach((release: EpisodeRelease, index: number) => {
-          // duplicated
-          if (isSimilar(release.animeTitle, episode.animeTitle) && release.number === episode.number) {
-            if (!releases[index].date) {
-              releases[index].date = episode.releaseDate;
-            }
-            releases[index].streamLinks.push({
-              url: episode.streamLink,
-              lang: episode.subtitlesLang,
-              isSubtitled: true
+          // filter duplicates
+          episodes.forEach((episode: Episode) => {
+            let isDuplicated = false;
+            latestEpisodes.forEach((lastestEpisode: Episode, index: number) => {
+              // duplicated
+              if (isSimilar(lastestEpisode.animeTitle, episode.animeTitle) && lastestEpisode.number === episode.number) {
+                if (!latestEpisodes[index].releaseDate) {
+                  latestEpisodes[index].releaseDate = episode.releaseDate;
+                }
+                latestEpisodes[index].streamLinks = [...latestEpisodes[index].streamLinks, ...episode.streamLinks]; // array.push(...episode.streamLinks) not working well here
+                if (episode.downloadLinks?.length) {
+                  latestEpisodes[index].downloadLinks = [...latestEpisodes[index].downloadLinks, ...episode.downloadLinks];
+                }
+                if (episode.isNew && !latestEpisodes[index].isNew) {
+                  latestEpisodes[index].isNew = episode.isNew;
+                }
+                if (episode.isLast && !latestEpisodes[index].isLast) {
+                  latestEpisodes[index].isLast = episode.isLast;
+                }
+                isDuplicated = true;
+                return;
+              }
             });
-            if (episode.downloadLink) {
-              releases[index].downloadLinks.push({
-                url: episode.downloadLink,
-                lang: episode.subtitlesLang,
-                isSubtitled: true
+            // not duplicated
+            if (!isDuplicated) {
+              latestEpisodes.push({
+                ...episode,
+                downloadLinks: episode.downloadLinks?.length ? episode.downloadLinks : []
               });
             }
-            if (episode.isNew && !releases[index].isNew) {
-              releases[index].isNew = episode.isNew;
-            }
-            if (episode.isLast && !releases[index].isLast) {
-              releases[index].isLast = episode.isLast;
-            }
-            releases[index].sources.push(episode);
-            isDuplicated = true;
-            return;
-          }
-        });
-        // not duplicated
-        if (!isDuplicated) {
-          releases.push({
-            animeTitle: episode.animeTitle,
-            cover: episode.cover,
-            date: episode.releaseDate,
-            number: episode.number,
-            streamLinks: [{
-              url: episode.streamLink,
-              lang: episode.subtitlesLang,
-              isSubtitled: true
-            }],
-            downloadLinks: episode.downloadLink ? [{
-              url: episode.downloadLink,
-              lang: episode.subtitlesLang,
-              isSubtitled: true
-            }] : [],
-            isNew: episode.isNew,
-            isLast: episode.isLast,
-            sources: [episode]
           });
-        }
+          // sort
+          if (latestEpisodes.length) {
+            latestEpisodes = latestEpisodes.sort((a: Episode, b: Episode) => (b.releaseDate as number) - (a.releaseDate as number));
+          }
+          // emit
+          subscriber.next(latestEpisodes);
+          return episodes;
+        })
+      ).finally(() => {
+        subscriber.complete();
       });
-      // sort
-      if (releases.length) {
-        releases = releases.sort((a: EpisodeRelease, b: EpisodeRelease) => (b.date as number) - (a.date as number));
-      }
-      resolve(releases);
     });
   }
 

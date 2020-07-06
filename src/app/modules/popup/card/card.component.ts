@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ViewChild, QueryList } from '@angular/core';
-import { EpisodeRelease } from 'src/app/models/episode-release';
+import { Episode } from 'src/app/models/episode';
 import { ChooseLinkDialogComponent } from '../choose-link-dialog/choose-link-dialog.component';
 
 @Component({
@@ -9,7 +9,7 @@ import { ChooseLinkDialogComponent } from '../choose-link-dialog/choose-link-dia
 })
 export class CardComponent implements OnInit {
 
-  @Input() release: EpisodeRelease;
+  @Input() episode: Episode;
   @ViewChild('streamLinksDialog') streamLinksDialog: ChooseLinkDialogComponent;
   @ViewChild('downloadLinksDialog') downloadLinksDialog: ChooseLinkDialogComponent;
 
@@ -19,7 +19,7 @@ export class CardComponent implements OnInit {
   }
 
   onClick(event: Event) {
-    if (this.release.streamLinks.length > 1) {
+    if (this.episode.streamLinks.length > 1) {
       event.preventDefault();
       this.openStreamLinks();
       return false;

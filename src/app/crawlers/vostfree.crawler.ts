@@ -62,13 +62,18 @@ export class VostFreeCrawler extends BaseCrawler {
         {
           animeTitle: '.info .title | title',
           cover: '.image img@src | cover',
-          number: '.alt .year b | number',
-          streamLink: '.play a.link@href',
-          subtitlesLang: '.quality',
-          isNew: '.anime-new | boolean',
-          isLast: '.anime-fin | boolean',
+          number: '.alt .year b | number' as any,
+          streamLinks: [
+            {
+              url: '.play a.link@href',
+              lang: '.quality',
+            }
+          ],
+          //subtitlesLang: '.quality',
+          isNew: '.anime-new | boolean' as any,
+          isLast: '.anime-fin | boolean' as any,
           releaseDate: '.info ul.additional li.type:first-child a | date',
-        },
+        } as Episode,
         this.filters
       );
       resolve(episodes);

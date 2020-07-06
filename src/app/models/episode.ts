@@ -1,14 +1,21 @@
 
 export interface Episode {
-  animeTitle?: string;
+  animeTitle: string;
   title?: string;
-  cover?: string;
-  subtitlesLang?: string;
+  cover: string;
   number: number;
-  streamLink: string;
-  downloadLink?: string;
-  releaseDate?: string | number | Date;
+  releaseDate: string | number | Date;
+  streamLinks: EpisodeLink[];
+  downloadLinks?: EpisodeLink[];
+  subtitlesLang?: string;
   isNew?: boolean;
   isLast?: boolean;
   isWatched?: boolean;
+}
+
+export interface EpisodeLink {
+  url: string;
+  lang: string;
+  isDubbed?: boolean;
+  isSubtitled?: boolean;
 }

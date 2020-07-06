@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { isString } from '../helpers/string.helper';
+import { isArray } from '../helpers/array.helper';
 
 @Injectable({
   providedIn: 'root',
@@ -93,9 +94,27 @@ export class HTMLParserService {
       } else {
         let data = {};
         Object.keys(selector).forEach((key: string) => {
+          // String
           if (isString(selector[key])) {
             data[key] = this.find(item, selector[key], filters);
-          } else {
+          }
+          // Array
+          else if (isArray(selector[key])) {
+            data[key] = [];
+            selector[key].forEach((element: any) => {
+              if (isString(element)) {
+                data[key].push(this.find(item, element, filters));
+              } else {
+                let obj = {};
+                Object.keys(element).forEach((subkey: string) => {
+                  obj[subkey] = this.find(item, element[subkey], filters);
+                });
+                data[key].push(obj);
+              }
+            });
+          }
+          // Object
+          else {
             data[key] = {};
             Object.keys(selector[key]).forEach((subkey: string) => {
               data[key][subkey] = this.find(item, selector[key][subkey], filters);
