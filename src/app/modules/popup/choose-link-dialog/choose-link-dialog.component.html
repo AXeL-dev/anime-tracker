@@ -8,7 +8,7 @@
       <ul mdcList *ngIf="links?.length; else emptyTemplate">
         <li *ngFor="let link of links" mdcListItem>
           <span class="badge">{{ link.lang }}</span>
-          <a class="link" [href]="link.url" target="_blank">{{ link.url }}</a>
+          <a class="link" [href]="link.url" target="_blank" (click)="onClick($event, link.url)">{{ link.url }}</a>
         </li>
       </ul>
       <ng-template #emptyTemplate>

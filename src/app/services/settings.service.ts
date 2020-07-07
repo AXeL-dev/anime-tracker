@@ -10,6 +10,7 @@ import { debug } from '../helpers/debug.helper';
 export class SettingsService {
 
   proxy: string;
+  openLinksInInactiveTabs: boolean;
   displayEpisodesDayByDay: boolean;
 
   static readonly CORSProxies: Proxy[] = [
@@ -53,18 +54,21 @@ export class SettingsService {
   private getDefaults() {
     return {
       proxy: SettingsService.CORSProxies[0].url,
+      openLinksInInactiveTabs: true,
       displayEpisodesDayByDay: true,
     };
   }
 
   private set(settings: Settings) {
     this.proxy = settings.proxy;
+    this.openLinksInInactiveTabs = settings.openLinksInInactiveTabs;
     this.displayEpisodesDayByDay = settings.displayEpisodesDayByDay;
   }
 
   save() {
     this.storage.save('settings', {
       proxy: this.proxy,
+      openLinksInInactiveTabs: this.openLinksInInactiveTabs,
       displayEpisodesDayByDay: this.displayEpisodesDayByDay,
     });
   }

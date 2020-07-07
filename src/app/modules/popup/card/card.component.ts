@@ -1,6 +1,8 @@
 import { Component, OnInit, Input, ViewChild, QueryList } from '@angular/core';
 import { Episode } from 'src/app/models/episode';
 import { ChooseLinkDialogComponent } from '../choose-link-dialog/choose-link-dialog.component';
+import { SettingsService } from 'src/app/services/settings.service';
+import { BrowserService } from 'src/app/services/browser.service';
 
 @Component({
   selector: 'app-card',
@@ -13,7 +15,7 @@ export class CardComponent implements OnInit {
   @ViewChild('streamLinksDialog') streamLinksDialog: ChooseLinkDialogComponent;
   @ViewChild('downloadLinksDialog') downloadLinksDialog: ChooseLinkDialogComponent;
 
-  constructor() { }
+  constructor(private settings: SettingsService, private browser: BrowserService) { }
 
   ngOnInit(): void {
   }
@@ -23,6 +25,9 @@ export class CardComponent implements OnInit {
       event.preventDefault();
       this.openStreamLinks();
       return false;
+    } else if (this.browser.isWebExtension) {
+      event.preventDefault();
+      this.browser.createTab(this.episode.streamLinks[0].url, !this.settings.openLinksInInactiveTabs);
     }
   }
 
