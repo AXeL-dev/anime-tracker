@@ -4,6 +4,7 @@ import { Proxy } from '../models/proxy';
 import { StorageService } from './storage.service';
 import { debug } from '../helpers/debug.helper';
 import { BrowserService } from './browser.service';
+import { getQueryParam } from '../helpers/url.helper';
 
 @Injectable({
   providedIn: 'root',
@@ -44,15 +45,18 @@ export class SettingsService {
     return () => new Promise((resolve, reject) => {
       self.get().then(async () => {
         if (self.browser.isWebExtension) {
-          // open in new tab
-          const openInNewTabLock = await self.storage.get('openInNewTabLock');
-          if (self.openInNewTab && !openInNewTabLock) {
-            self.storage.save('openInNewTabLock', true);
-            self.browser.createTab(self.browser.getUrl('index.html'));
-            window.close(); // close popup on Firefox
-            reject('openInNewTab is enabled');
-          } else if (openInNewTabLock) {
-            self.storage.save('openInNewTabLock', false);
+          const page = getQueryParam('page');
+          if (!page || page === 'popup') {
+            // open in new tab
+            const openInNewTabLock = await self.storage.get('openInNewTabLock');
+            if (self.openInNewTab && !openInNewTabLock) {
+              self.storage.save('openInNewTabLock', true);
+              self.browser.createTab(self.browser.getUrl('index.html'));
+              window.close(); // close popup on Firefox
+              reject('openInNewTab is enabled');
+            } else if (openInNewTabLock) {
+              self.storage.save('openInNewTabLock', false);
+            }
           }
         }
         resolve();
