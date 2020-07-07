@@ -26,7 +26,7 @@
           <span mdcTopAppBarTitle>Anime Tracker</span>
         </section>
         <section mdcTopAppBarSection alignEnd>
-          <a routerLink="./settings" mdcTopAppBarAction class="material-icons" label="Settings">settings</a>
+          <a [routerLink]="['/settings']" mdcTopAppBarAction class="material-icons" label="Settings">settings</a>
         </section>
       </div>
       <div *ngIf="isLoading" mdcLinearProgress [indeterminate]="true"></div>

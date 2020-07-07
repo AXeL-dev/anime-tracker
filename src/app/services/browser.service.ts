@@ -23,4 +23,8 @@ export class BrowserService {
       active: isActive
     });
   }
+
+  getUrl(path: string) {
+    return browser.extension.getURL(path);
+  }
 }

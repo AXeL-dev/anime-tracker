@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SettingsService } from 'src/app/services/settings.service';
 import { Router } from '@angular/router';
 import { debug } from 'src/app/helpers/debug.helper';
+import { BrowserService } from 'src/app/services/browser.service';
 
 @Component({
   selector: 'app-main',
@@ -10,7 +11,7 @@ import { debug } from 'src/app/helpers/debug.helper';
 })
 export class MainComponent implements OnInit {
 
-  constructor(public settings: SettingsService, private router: Router) { }
+  constructor(public settings: SettingsService, private router: Router, public browser: BrowserService) { }
 
   ngOnInit(): void {
     debug('Settings', this.settings);
@@ -18,7 +19,7 @@ export class MainComponent implements OnInit {
 
   saveSettings() {
     this.settings.save();
-    this.router.navigate(['/']);
+    this.router.navigate(['/'], { queryParams: { isRedirection: true } });
   }
 
   getProxies() {

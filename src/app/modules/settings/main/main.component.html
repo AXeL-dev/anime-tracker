@@ -3,7 +3,7 @@
     <header mdcTopAppBar [viewport]="viewport" [fixedAdjust]="content">
       <div mdcTopAppBarRow>
         <section mdcTopAppBarSection alignStart>
-          <button mdcTopAppBarNavIcon class="material-icons" routerLink="/">arrow_back</button>
+          <button mdcTopAppBarNavIcon class="material-icons" [routerLink]="['/']" [queryParams]="{ isRedirection: true }">arrow_back</button>
           <span mdcTopAppBarTitle>Settings</span>
         </section>
         <section mdcTopAppBarSection alignEnd>
@@ -30,8 +30,18 @@
               <label mdcFloatingLabel></label> <!-- gives an error when removed, so better let it empty for now -->
             </div>
           </li>
-          <li mdcListItem>
+          <li *ngIf="browser.isWebExtension" mdcListItem>
             <i mdcListItemGraphic class="material-icons">open_in_new</i>
+            <span mdcListItemText>
+              Open in a new tab
+              <span mdcListItemSecondaryText>Instead of a popup</span>
+            </span>
+            <div mdcListItemMeta mdcSwitch>
+              <input mdcSwitchInput type="checkbox" [(ngModel)]="settings.openInNewTab"/>
+            </div>
+          </li>
+          <li *ngIf="browser.isWebExtension" mdcListItem>
+            <i mdcListItemGraphic class="material-icons">link</i>
             <span mdcListItemText>
               Open links in inactive tabs
               <span mdcListItemSecondaryText>Avoid losing focus of the current tab</span>

@@ -10,6 +10,7 @@ import { debug } from '../helpers/debug.helper';
 export class SettingsService {
 
   proxy: string;
+  openInNewTab: boolean;
   openLinksInInactiveTabs: boolean;
   displayEpisodesDayByDay: boolean;
 
@@ -54,6 +55,7 @@ export class SettingsService {
   private getDefaults() {
     return {
       proxy: SettingsService.CORSProxies[0].url,
+      openInNewTab: false,
       openLinksInInactiveTabs: true,
       displayEpisodesDayByDay: true,
     };
@@ -61,6 +63,7 @@ export class SettingsService {
 
   private set(settings: Settings) {
     this.proxy = settings.proxy;
+    this.openInNewTab = settings.openInNewTab;
     this.openLinksInInactiveTabs = settings.openLinksInInactiveTabs;
     this.displayEpisodesDayByDay = settings.displayEpisodesDayByDay;
   }
@@ -68,6 +71,7 @@ export class SettingsService {
   save() {
     this.storage.save('settings', {
       proxy: this.proxy,
+      openInNewTab: this.openInNewTab,
       openLinksInInactiveTabs: this.openLinksInInactiveTabs,
       displayEpisodesDayByDay: this.displayEpisodesDayByDay,
     });
