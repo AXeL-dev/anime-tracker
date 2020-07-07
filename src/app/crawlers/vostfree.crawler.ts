@@ -55,8 +55,12 @@ export class VostFreeCrawler extends BaseCrawler {
       `${this.baseUrl}/animes-vostfr`,
       '#content div.movie-poster',
       {
-        animeTitle: '.info .title | title',
-        cover: '.image img@src | cover',
+        anime: {
+          title: '.info .title | title',
+          cover: '.image img@src | cover',
+          isNew: '.anime-new | boolean',
+          isFinished: '.anime-fin | boolean',
+        },
         number: '.alt .year b | number',
         streamLinks: [
           {
@@ -65,8 +69,6 @@ export class VostFreeCrawler extends BaseCrawler {
           }
         ],
         //subtitlesLang: '.quality',
-        isNew: '.anime-new | boolean',
-        isLast: '.anime-fin | boolean',
         releaseDate: '.info ul.additional li.type:first-child a | date',
       },
       this.filters

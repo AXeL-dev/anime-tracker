@@ -56,8 +56,12 @@ export class AnimeKoCrawler extends BaseCrawler {
       `${this.baseUrl}/dernieres-sorties`,
       '.releases ul li.small-card',
       {
-        animeTitle: 'h2 a',
-        cover: 'img@data-src | cover',
+        anime: {
+          title: 'h2 a',
+          cover: 'img@data-src | cover',
+          isNew: '.badge-status.new | boolean',
+          isFinished: '.badge-status.end | boolean',
+        },
         number: 'span.badge-number | number',
         streamLinks: [
           {
@@ -65,8 +69,6 @@ export class AnimeKoCrawler extends BaseCrawler {
             lang: '| subtitles',
           }
         ],
-        isNew: '.badge-status.new | boolean',
-        isLast: '.badge-status.end | boolean',
         //subtitlesLang: '| subtitles',
         releaseDate: ':prev div .untitle | date',
       },

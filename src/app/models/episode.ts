@@ -1,15 +1,14 @@
+import { Anime } from './anime';
 
 export interface Episode {
-  animeTitle: string;
+  anime: Anime;
   title?: string;
-  cover: string;
+  cover?: string;
   number: number;
   releaseDate: string | number | Date;
   streamLinks: EpisodeLink[];
   downloadLinks?: EpisodeLink[];
   subtitlesLang?: string;
-  isNew?: boolean;
-  isLast?: boolean;
   isWatched?: boolean;
 }
 
