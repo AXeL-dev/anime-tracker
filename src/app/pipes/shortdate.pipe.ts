@@ -13,12 +13,13 @@ export class ShortDatePipe extends DatePipe implements PipeTransform {
 
   transform(value: any, format?: string, timezone?: string, locale?: string): string {
     const date = dateOnly(new Date(value));
-    if (date === today()) {
-      return 'Today';
-    } else if (date === yesterday()) {
-      return 'Yesterday';
-    } else {
-      return super.transform(value, format || 'EEEE, dd MMMM yyyy', timezone, locale);
+    switch (date) {
+      case today():
+        return 'Today';
+      case yesterday():
+        return 'Yesterday';
+      default:
+        return super.transform(value, format || 'EEEE, dd MMMM yyyy', timezone, locale);
     }
   }
 
