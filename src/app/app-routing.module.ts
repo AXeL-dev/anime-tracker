@@ -11,7 +11,7 @@ const routes: Routes = [
   {
     path: '**',
     loadChildren: () => import('./modules/popup/popup.module').then(m => m.PopupModule),
-    canActivate: [PopupGuardService]
+    //canActivate: [PopupGuardService]
   }
 ];
 

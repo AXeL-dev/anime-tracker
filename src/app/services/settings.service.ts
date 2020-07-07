@@ -3,6 +3,7 @@ import { Settings } from '../models/settings';
 import { Proxy } from '../models/proxy';
 import { StorageService } from './storage.service';
 import { debug } from '../helpers/debug.helper';
+import { BrowserService } from './browser.service';
 
 @Injectable({
   providedIn: 'root',
@@ -37,11 +38,24 @@ export class SettingsService {
     // },
   ];
 
-  constructor(private storage: StorageService) { }
+  constructor(private storage: StorageService, private browser: BrowserService) { }
 
   static init(self: SettingsService) {
-    return () => new Promise(resolve => {
-      self.get().then(() => resolve());
+    return () => new Promise((resolve, reject) => {
+      self.get().then(async () => {
+        if (self.browser.isWebExtension) {
+          // open in new tab
+          const openInNewTabLock = await self.storage.get('openInNewTabLock');
+          if (self.openInNewTab && !openInNewTabLock) {
+            self.storage.save('openInNewTabLock', true);
+            self.browser.createTab(self.browser.getUrl('index.html'));
+            reject('openInNewTab is enabled');
+          } else if (openInNewTabLock) {
+            self.storage.save('openInNewTabLock', false);
+          }
+        }
+        resolve();
+      });
     });
   }
 

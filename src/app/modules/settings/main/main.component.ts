@@ -19,7 +19,7 @@ export class MainComponent implements OnInit {
 
   saveSettings() {
     this.settings.save();
-    this.router.navigate(['/'], { queryParams: { isRedirection: true } });
+    this.router.navigate(['/']);
   }
 
   getProxies() {
