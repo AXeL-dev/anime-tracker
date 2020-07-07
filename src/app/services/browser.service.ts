@@ -8,6 +8,8 @@ declare var browser: any; // Fixes "Cannot find name 'browser'." error on build
 export class BrowserService {
 
   isWebExtension: boolean;
+  isFirefox: boolean;
+  isChrome: boolean;
 
   constructor() {
     try {
@@ -15,6 +17,8 @@ export class BrowserService {
     } catch(error) {
       this.isWebExtension = false;
     }
+    this.isFirefox = navigator.userAgent.indexOf('Firefox') !== -1;
+    this.isChrome = navigator.userAgent.indexOf('Chrome') !== -1;
   }
 
   createTab(url: string, isActive: boolean = true): Promise<any> {
