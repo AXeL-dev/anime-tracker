@@ -41,8 +41,9 @@ export class AnimeProviderService {
     );
   }
 
-  getLatestEpisodes(): Observable<[Episode[], number[], boolean]> {
+  getLatestEpisodes(): Observable<[Episode[], number[]]> {
     let latestEpisodes: Episode[] = [];
+    let slicedEpisodesCount: number = 0;
     const maxEpisodesPerSlice: number = 5;
     return concat(...this.crawlers.map((crawler: BaseCrawler) => crawler.getLatestEpisodes())).pipe(
       //delay(700), // delay used to wait for UI renders
@@ -91,22 +92,22 @@ export class AnimeProviderService {
           takeWhile(() => continueSlicing),
           map((i: number) => {
             let from = i * maxEpisodesPerSlice;
-            let to = from + maxEpisodesPerSlice;
+            let to = from + slicedEpisodesCount + maxEpisodesPerSlice;
             if (to >= latestEpisodes.length) {
               to = latestEpisodes.length;
+              slicedEpisodesCount = to;
               continueSlicing = false;
             }
-            const episodesSlice = latestEpisodes.slice(from, to);
+            const episodesSlice = latestEpisodes.slice(/*from*/0, to);
             const days = this.settings.displayEpisodesDayByDay ? this.getEpisodesDays(latestEpisodes.slice(0, to)) : [];
-            const isSlice = i > 0;
             debug('Slice', i, ':', episodesSlice);
             debug('Days:', days);
             debug('----------------------------');
-            return [episodesSlice, days, isSlice];
+            return [episodesSlice, days];
           })
         );
       }
-    )) as Observable<[Episode[], number[], boolean]>;
+    )) as Observable<[Episode[], number[]]>;
   }
 
   private getEpisodesDays(episodes: Episode[]): number[] {
