@@ -58,18 +58,18 @@ export class AnimeKoCrawler extends BaseCrawler {
       {
         animeTitle: 'h2 a',
         cover: 'img@data-src | cover',
-        number: 'span.badge-number | number' as any,
+        number: 'span.badge-number | number',
         streamLinks: [
           {
             url: 'h2 a@href',
             lang: '| subtitles',
           }
         ],
-        isNew: '.badge-status.new | boolean' as any,
-        isLast: '.badge-status.end | boolean' as any,
+        isNew: '.badge-status.new | boolean',
+        isLast: '.badge-status.end | boolean',
         //subtitlesLang: '| subtitles',
         releaseDate: ':prev div .untitle | date',
-      } as Episode,
+      },
       this.filters
     );
   }
