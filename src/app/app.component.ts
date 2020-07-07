@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { SettingsService } from './services/settings.service';
 import { BrowserService } from './services/browser.service';
 
 @Component({
@@ -9,11 +8,11 @@ import { BrowserService } from './services/browser.service';
 })
 export class AppComponent implements OnInit {
 
-  constructor(private settings: SettingsService, private browser: BrowserService) {}
+  constructor(private browser: BrowserService) {}
 
   ngOnInit(): void {
-    // Fix webExtension width on Firefox
-    if (this.browser.isWebExtension && this.browser.isFirefox && !this.settings.openInNewTab) {
+    // Fix webExtension width on Firefox popup
+    if (this.browser.isWebExtension && this.browser.isFirefox && window.innerWidth < 1000) {
       document.body.style.maxWidth = '600px';
     }
   }

@@ -70,7 +70,7 @@ export class SettingsService {
   private getDefaults() {
     return {
       proxy: SettingsService.CORSProxies[0].url,
-      openInNewTab: false,
+      openInNewTab: this.browser.isFirefox ? true : false,
       openLinksInInactiveTabs: true,
       displayEpisodesDayByDay: true,
     };
