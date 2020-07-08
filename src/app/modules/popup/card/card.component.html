@@ -19,10 +19,12 @@
   <div mdcCardActions mdcCardActionIcons>
     <button mdcIconButton class="material-icons"
       labelOn="Remove from favorites" labelOff="Add to favorites"
-      iconOn="favorite" iconOff="favorite_border"></button>
+      iconOn="favorite" iconOff="favorite_border"
+      [on]="isFavorite()"
+      (onChange)="toggleFavorite($event)"></button>
     <button mdcIconButton class="material-icons" title="Stream links" (click)="openStreamLinks()">play_circle_outline</button>
     <button mdcIconButton class="material-icons" title="Download links" (click)="openDownloadLinks()">save_alt</button>
-    <button mdcIconButton class="material-icons" title="More options">more_vert</button>
+    <!-- <button mdcIconButton class="material-icons" title="More options">more_vert</button> -->
   </div>
 </div>
 

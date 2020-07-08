@@ -79,7 +79,7 @@ export class AnimeProviderService {
             latestEpisodes.push({
               ...episode,
               downloadLinks: episode.downloadLinks?.length ? episode.downloadLinks : []
-            });
+            } as Episode);
           }
         });
         // sort

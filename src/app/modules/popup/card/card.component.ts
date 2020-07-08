@@ -3,6 +3,7 @@ import { Episode } from 'src/app/models/episode';
 import { ChooseLinkDialogComponent } from '../choose-link-dialog/choose-link-dialog.component';
 import { SettingsService } from 'src/app/services/settings.service';
 import { BrowserService } from 'src/app/services/browser.service';
+import { FavoritesService } from 'src/app/services/favorites.service';
 
 @Component({
   selector: 'app-card',
@@ -15,7 +16,7 @@ export class CardComponent implements OnInit {
   @ViewChild('streamLinksDialog') streamLinksDialog: ChooseLinkDialogComponent;
   @ViewChild('downloadLinksDialog') downloadLinksDialog: ChooseLinkDialogComponent;
 
-  constructor(private settings: SettingsService, private browser: BrowserService) { }
+  constructor(private settings: SettingsService, private browser: BrowserService, private favorites: FavoritesService) { }
 
   ngOnInit(): void {
   }
@@ -37,6 +38,18 @@ export class CardComponent implements OnInit {
 
   openDownloadLinks() {
     this.downloadLinksDialog.open();
+  }
+
+  toggleFavorite(isFavorite: boolean) {
+    if (isFavorite) {
+      this.favorites.add(this.episode.anime.title);
+    } else {
+      this.favorites.remove(this.episode.anime.title);
+    }
+  }
+
+  isFavorite() {
+    return this.favorites.isFavorite(this.episode.anime.title);
   }
 
 }
