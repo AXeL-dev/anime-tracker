@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Settings } from '../models/settings';
+import { Settings, View } from '../models/settings';
 import { Proxy } from '../models/proxy';
 import { StorageService } from './storage.service';
 import { debug } from '../helpers/debug.helper';
@@ -11,9 +11,12 @@ import { getQueryParam } from '../helpers/url.helper';
 })
 export class SettingsService {
 
+  // General
   proxy: string;
   openInNewTab: boolean;
   openLinksInInactiveTabs: boolean;
+  // Display
+  defaultView: View;
   displayEpisodesDayByDay: boolean;
 
   static readonly CORSProxies: Proxy[] = [
@@ -76,6 +79,7 @@ export class SettingsService {
       proxy: SettingsService.CORSProxies[0].url,
       openInNewTab: this.browser.isFirefox ? true : false,
       openLinksInInactiveTabs: true,
+      defaultView: View.Latest,
       displayEpisodesDayByDay: true,
     };
   }
@@ -84,6 +88,7 @@ export class SettingsService {
     this.proxy = settings.proxy;
     this.openInNewTab = settings.openInNewTab;
     this.openLinksInInactiveTabs = settings.openLinksInInactiveTabs;
+    this.defaultView = settings.defaultView;
     this.displayEpisodesDayByDay = settings.displayEpisodesDayByDay;
   }
 
@@ -92,6 +97,7 @@ export class SettingsService {
       proxy: this.proxy,
       openInNewTab: this.openInNewTab,
       openLinksInInactiveTabs: this.openLinksInInactiveTabs,
+      defaultView: this.defaultView,
       displayEpisodesDayByDay: this.displayEpisodesDayByDay,
     });
   }

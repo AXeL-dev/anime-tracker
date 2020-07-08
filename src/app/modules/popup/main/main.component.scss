@@ -45,6 +45,10 @@
   padding-right: 16px;
 }
 
+.custom-card-container:empty {
+  display: none;
+}
+
 .day-title {
   margin: 0 0 5px 28px;
   font-size: 18px;

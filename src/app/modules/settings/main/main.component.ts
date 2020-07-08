@@ -3,6 +3,7 @@ import { SettingsService } from 'src/app/services/settings.service';
 import { Router } from '@angular/router';
 import { debug } from 'src/app/helpers/debug.helper';
 import { BrowserService } from 'src/app/services/browser.service';
+import { View } from 'src/app/models/settings';
 
 @Component({
   selector: 'app-main',
@@ -14,7 +15,7 @@ export class MainComponent implements OnInit {
   constructor(public settings: SettingsService, private router: Router, public browser: BrowserService) { }
 
   ngOnInit(): void {
-    debug('Settings', this.settings);
+    debug('Current settings', this.settings);
   }
 
   saveSettings() {
@@ -24,6 +25,12 @@ export class MainComponent implements OnInit {
 
   getProxies() {
     return SettingsService.CORSProxies;
+  }
+
+  getViews() {
+    return Object.keys(View).map((key: string) => {
+      return { label: key, value: View[key] };
+    });
   }
 
 }

@@ -5,6 +5,8 @@ import { debug } from 'src/app/helpers/debug.helper';
 import { SettingsService } from 'src/app/services/settings.service';
 import { dateOnly } from 'src/app/helpers/date.helper';
 import { Subscription } from 'rxjs';
+import { View } from 'src/app/models/settings';
+import { FavoritesService } from 'src/app/services/favorites.service';
 
 @Component({
   selector: 'app-main',
@@ -13,15 +15,19 @@ import { Subscription } from 'rxjs';
 })
 export class MainComponent implements OnInit, OnDestroy {
 
-  open = false;
+  open: boolean = false;
+  view: View;
   episodes: Episode[] = [];
   days: number[] = [];
-  isLoading = true;
+  episodesByDays: Episode[][] = [];
+  private allEpisodes: Episode[] = [];
+  isLoading: boolean = true;
   private subscription: Subscription = new Subscription();
 
-  constructor(private animeProvider: AnimeProviderService, public settings: SettingsService) { }
+  constructor(private animeProvider: AnimeProviderService, public settings: SettingsService, private favorites: FavoritesService) { }
 
   ngOnInit(): void {
+    this.view = this.settings.defaultView;
     this.init();
   }
 
@@ -37,7 +43,8 @@ export class MainComponent implements OnInit, OnDestroy {
         // debug('Days:', days);
         // debug('--------------------------');
         // Set episodes
-        this.episodes = episodes;
+        this.allEpisodes = episodes;
+        this.filterEpisodes(episodes, days);
         // Set days
         this.days = days;
       }, (error: Error) => {
@@ -48,17 +55,45 @@ export class MainComponent implements OnInit, OnDestroy {
     );
   }
 
+  private filterEpisodes(episodes: Episode[], days: number[]) {
+    this.episodes = this.isFavoritesView() ? episodes.filter((episode: Episode) => this.favorites.isFavorite(episode.anime.title)) : episodes;
+    if (this.settings.displayEpisodesDayByDay) {
+      days.forEach((day: number) => {
+        if (day) {
+          const dayDate = dateOnly(new Date(day));
+          this.episodesByDays[day] = this.episodes.filter((episode: Episode) => {
+            if (!episode.releaseDate) {
+              return false;
+            }
+            return dayDate === dateOnly(new Date(episode.releaseDate));
+          });
+        }
+      });
+    }
+  }
+
   toggleDrawer() {
     this.open = !this.open;
   }
 
-  getEpisodesbyDay(day: number) {
-    return this.episodes.filter((episode: Episode) => {
-      if (!day || !episode.releaseDate) {
-        return false;
-      }
-      return dateOnly(new Date(day)) === dateOnly(new Date(episode.releaseDate));
-    });
+  showLatest() {
+    this.view = View.Latest;
+    this.open = false;
+    this.filterEpisodes(this.allEpisodes, this.days);
+  }
+
+  showFavorites() {
+    this.view = View.Favorites;
+    this.open = false;
+    this.filterEpisodes(this.allEpisodes, this.days);
+  }
+
+  isLatestView() {
+    return this.view === View.Latest;
+  }
+
+  isFavoritesView() {
+    return this.view === View.Favorites;
   }
 
 }
