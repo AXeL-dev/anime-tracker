@@ -15,7 +15,7 @@ export class MainComponent implements OnInit {
   constructor(public settings: SettingsService, private router: Router, public browser: BrowserService) { }
 
   ngOnInit(): void {
-    debug('Current settings', this.settings);
+    debug('Settings', this.settings);
   }
 
   saveSettings() {

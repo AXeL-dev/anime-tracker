@@ -69,7 +69,7 @@ export class SettingsService {
 
   private async get() {
     const settings = await this.storage.get('settings');
-    debug('Settings:', settings);
+    debug('Storage settings:', settings);
     const defaults = this.getDefaults();
     this.set({...defaults, ...settings}); // any existing settings value will override defaults
   }
