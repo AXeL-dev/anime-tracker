@@ -21,6 +21,7 @@
       labelOn="Remove from favorites" labelOff="Add to favorites"
       iconOn="favorite" iconOff="favorite_border"
       [on]="isFavorite()"
+      [class.red-heart]="isFavorite()"
       (onChange)="toggleFavorite($event)"></button>
     <button mdcIconButton class="material-icons" title="Stream links" (click)="openStreamLinks()">play_circle_outline</button>
     <button mdcIconButton class="material-icons" title="Download links" (click)="openDownloadLinks()">save_alt</button>
