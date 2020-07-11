@@ -1,12 +1,12 @@
 # <img src="src/assets/icons/128.png" alt="icon" width="38"/> Anime Tracker
 
-A better way to watch & download your favorite animes.
+A web extension to keep tracking your favorite animes & get notified about new released episodes.
 
 ![screenshot](screenshots/popup.png)
 
 ## Motivation
 
-I watch animes almost daily or at least once or twice a week, so i wanted something like [youtube-viewer](https://github.com/AXeL-dev/youtube-viewer) to easily get notified about new released episodes, instead of checking anime websites one by one & trying to remember which was the last episode i've watched, i thought that scraping those websites would be a great idea and would save me a significant time & effort (maybe i'm just super lazy :grin:).
+I watch animes almost daily or at least once or twice a week, & i wanted something like [youtube-viewer](https://github.com/AXeL-dev/youtube-viewer) to notify me of new released episodes, so instead of checking anime websites one by one & trying to remember which was the last episode i've watched, i thought that scraping those websites would be a great idea and would save me a significant time & effort (maybe i'm just super lazy :grin:).
 
 <details>
   <summary>Expand to continue reading</summary>
@@ -21,7 +21,23 @@ I watch animes almost daily or at least once or twice a week, so i wanted someth
 
 ## Installation
 
-:warning: Due to [DCMA](https://en.wikipedia.org/wiki/Digital_Millennium_Copyright_Act) law, this extension will be available as a zip file on github releases, use it on your own risk.
+:warning: Due to [DCMA](https://en.wikipedia.org/wiki/Digital_Millennium_Copyright_Act) law, this web extension will be available as a zip file on github [releases](https://github.com/AXeL-dev/anime-tracker/releases), use it on your own risk.
+
+<details>
+  <summary>How to install?</summary>
+
+  ### Chrome
+  1. Unzip the downloaded file.
+  2. Activate the developer mode under your extensions settings to be able to load the extension.
+  ![load-in-chrome](screenshots/load-in-chrome.gif)
+
+  ### Firefox
+  1. Go to `about:config` (enter it into address bar).
+  2. Set `xpinstall.signatures.required` to `false`.
+  3. Go to `about:addons`.
+  4. Drag & drop the zip file or click on the ![cog](screenshots/cog.png) & choose install add-on from file.
+
+</details>
 
 ## ToDo
 
@@ -29,6 +45,7 @@ I watch animes almost daily or at least once or twice a week, so i wanted someth
 - [x] Replace promises with observables for better performance?
 - [ ] Replace blox UI with [ng-zorro](https://ng.ant.design/) (keep the dark theme?).
 - [ ] Auto-check & notify for new posted anime episodes.
+- [ ] Memorize last watched/clicked episodes.
 - [ ] Implement missing/empty crawlers functions.
 - [ ] Translations.
 
