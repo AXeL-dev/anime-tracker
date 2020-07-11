@@ -4,6 +4,9 @@ import { flatten } from '../helpers/array.helper';
 import { ScraperService } from './scraper.service';
 import { AnimeKoCrawler } from '../crawlers/animeko.crawler';
 import { VostFreeCrawler } from '../crawlers/vostfree.crawler';
+import { VoirAnimeCrawler } from '../crawlers/voiranime.crawler';
+import { GogoAnimeCrawler } from '../crawlers/gogoanime.crawler';
+import { FourAnimeCrawler } from '../crawlers/4anime.crawler';
 import { Anime } from '../models/anime';
 import { Episode } from '../models/episode';
 import { isSimilar } from '../helpers/string.helper';
@@ -23,6 +26,9 @@ export class AnimeProviderService {
   constructor(private scraper: ScraperService, private settings: SettingsService) {
     this.addCrawler(new AnimeKoCrawler(this.scraper));
     this.addCrawler(new VostFreeCrawler(this.scraper));
+    this.addCrawler(new VoirAnimeCrawler(this.scraper));
+    this.addCrawler(new GogoAnimeCrawler(this.scraper));
+    this.addCrawler(new FourAnimeCrawler(this.scraper));
   }
 
   addCrawler(crawler: BaseCrawler) {
