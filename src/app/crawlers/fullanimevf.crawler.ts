@@ -3,30 +3,31 @@ import { ScraperService } from '../services/scraper.service';
 import { Anime } from '../models/anime';
 import { Episode } from '../models/episode';
 import { Observable, of } from 'rxjs';
-import { today } from '../helpers/date.helper';
 
-export class ZimabdkoCrawler extends BaseCrawler {
+export class FullAnimeVFCrawler extends BaseCrawler {
 
   constructor(private retriever: ScraperService) {
     super(
-      'Zimabdko',
-      'https://www.zimabdko.com'
+      'FullAnimeVF',
+      'https://www.fullanimefr.com'
     );
     this.filters = {
       ...this.filters,
-      title: (text: string) => {
-        return text.replace('أوفا ', '').replace(' والأخيرة', '').replace(/(أنمي )?(.*) الحلقة (\d+)/, '$2');
-      },
       number: (text: string) => {
-        const num = text.replace('أوفا ', '').replace(' والأخيرة', '').match(/(أنمي )?(.*) الحلقة (\d+)/);
-        return num?.length ? +num[3] : +text.match(/\d+/g)?.[0] || 1;
+        const num = text.replace('[NEW]', '').replace('[HD]', '').replace('VOSTFR', '').match(/(.*) Episode (\d+)/);
+        return num?.length ? +num[2] : 1;
+      },
+      isNew: (text: string) => {
+        return text.indexOf('[NEW]') !== -1;
+      },
+      title: (text: string) => {
+        return text.replace('[NEW]', '').replace('[HD]', '').replace('VOSTFR', '').replace(/(.*) Episode (\d+)/, '$1');
       },
       subtitles: (text: string) => {
-        return 'vostar';
+        return 'vostfr';
       },
       date: (text: string) => {
-        // since we don't have the release date info. let's just return today's date
-        return today();
+        return new Date(text)?.getTime();
       }
     };
   }
@@ -48,22 +49,23 @@ export class ZimabdkoCrawler extends BaseCrawler {
 
   _getLatestEpisodes(): Observable<Episode[]> {
     return this.retriever.scrape(
-      `${this.baseUrl}/episodes/`,
-      '.wrap-latest-episodes > div.one-poster',
+      `${this.baseUrl}`,
+      'div.td-block-span4',
       {
         anime: {
-          title: 'h2 | title',
-          cover: 'img@src',
+          title: 'h3.entry-title a | title',
+          cover: 'img.entry-thumb@src',
+          isNew: 'h3.entry-title a | isNew',
         },
-        number: 'h2 | number',
+        number: 'h3.entry-title a | number',
         streamLinks: [
           {
-            url: 'a@href',
+            url: 'h3.entry-title a@href',
             lang: '| subtitles',
           }
         ],
         //subtitlesLang: '| subtitles',
-        releaseDate: '| date',
+        releaseDate: 'time.entry-date@datetime | date',
       },
       this.filters
     );
