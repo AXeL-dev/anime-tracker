@@ -20,6 +20,9 @@ export class FullAnimeVFCrawler extends BaseCrawler {
       isNew: (text: string) => {
         return text.indexOf('[NEW]') !== -1;
       },
+      isFinished: (text: string) => {
+        return text.indexOf('[FIN]') !== -1;
+      },
       title: (text: string) => {
         return text.replace('[NEW]', '').replace('[HD]', '').replace('VOSTFR', '').replace(/(.*) Episode (\d+)/, '$1');
       },
@@ -56,6 +59,7 @@ export class FullAnimeVFCrawler extends BaseCrawler {
           title: 'h3.entry-title a | title',
           cover: 'img.entry-thumb@src',
           isNew: 'h3.entry-title a | isNew',
+          isFinished: 'h3.entry-title a | isFinished',
         },
         number: 'h3.entry-title a | number',
         streamLinks: [
