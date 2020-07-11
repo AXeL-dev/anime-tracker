@@ -40,8 +40,8 @@ export class CardComponent implements OnInit {
     this.downloadLinksDialog.open();
   }
 
-  toggleFavorite(isFavorite: boolean) {
-    if (isFavorite) {
+  toggleFavorite(value: boolean) {
+    if (value) {
       this.favorites.add(this.episode.anime.title);
     } else {
       this.favorites.remove(this.episode.anime.title);

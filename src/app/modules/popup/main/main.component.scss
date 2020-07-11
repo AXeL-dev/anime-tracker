@@ -43,10 +43,9 @@
   padding-top: 24px;
   padding-left: 16px;
   padding-right: 16px;
-}
-
-.custom-card-container:empty {
-  display: none;
+  &:empty {
+    display: none;
+  }
 }
 
 .day-title {
