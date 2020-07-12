@@ -107,7 +107,7 @@ export class AnimeProviderService {
               continueSlicing = false;
             }
             const episodesSlice = latestEpisodes.slice(/*from*/0, to);
-            const days = this.settings.displayEpisodesDayByDay ? this.getEpisodesDays(latestEpisodes.slice(0, to)) : [];
+            const days = this.settings.displayEpisodesDayByDay ? this.getEpisodesDays(episodesSlice) : [];
             debug('Slice', i, ':', episodesSlice);
             debug('Days:', days);
             debug('----------------------------');

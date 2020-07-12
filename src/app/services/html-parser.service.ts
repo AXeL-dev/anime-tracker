@@ -17,6 +17,50 @@ export class HTMLParserService {
     return this.parser.parseFromString(html, 'text/html');
   }
 
+  parse(html: string, scope: string, selector: any, filters?: any) {
+    const dom = this.fromString(html);
+    const isStringSelector = isString(selector);
+    let results = [];
+    dom.querySelectorAll(scope).forEach((item) => {
+      if (isStringSelector) {
+        results.push(this.find(item, selector, filters));
+      } else {
+        let data = {};
+        Object.keys(selector).forEach((key: string) => {
+          // String
+          if (isString(selector[key])) {
+            data[key] = this.find(item, selector[key], filters);
+          }
+          // Array
+          else if (isArray(selector[key])) {
+            data[key] = [];
+            selector[key].forEach((element: any) => {
+              if (isString(element)) {
+                data[key].push(this.find(item, element, filters));
+              } else {
+                let obj = {};
+                Object.keys(element).forEach((subkey: string) => {
+                  obj[subkey] = this.find(item, element[subkey], filters);
+                });
+                data[key].push(obj);
+              }
+            });
+          }
+          // Object
+          else {
+            data[key] = {};
+            Object.keys(selector[key]).forEach((subkey: string) => {
+              data[key][subkey] = this.find(item, selector[key][subkey], filters);
+            });
+          }
+        });
+        results.push(data);
+      }
+    });
+
+    return results;
+  }
+
   private find(element: any, selector: string, filters?: any) {
     const firstSplit = selector.split('|');
     const secondSplit = firstSplit[0].split('@');
@@ -82,50 +126,6 @@ export class HTMLParserService {
       if (matches) return matches;
       sibling = sibling.nextElementSibling
     }
-  }
-
-  parse(html: string, scope: string, selector: any, filters?: any) {
-    const dom = this.fromString(html);
-    const isStringSelector = isString(selector);
-    let results = [];
-    dom.querySelectorAll(scope).forEach((item) => {
-      if (isStringSelector) {
-        results.push(this.find(item, selector, filters));
-      } else {
-        let data = {};
-        Object.keys(selector).forEach((key: string) => {
-          // String
-          if (isString(selector[key])) {
-            data[key] = this.find(item, selector[key], filters);
-          }
-          // Array
-          else if (isArray(selector[key])) {
-            data[key] = [];
-            selector[key].forEach((element: any) => {
-              if (isString(element)) {
-                data[key].push(this.find(item, element, filters));
-              } else {
-                let obj = {};
-                Object.keys(element).forEach((subkey: string) => {
-                  obj[subkey] = this.find(item, element[subkey], filters);
-                });
-                data[key].push(obj);
-              }
-            });
-          }
-          // Object
-          else {
-            data[key] = {};
-            Object.keys(selector[key]).forEach((subkey: string) => {
-              data[key][subkey] = this.find(item, selector[key][subkey], filters);
-            });
-          }
-        });
-        results.push(data);
-      }
-    });
-
-    return results;
   }
 
 }
