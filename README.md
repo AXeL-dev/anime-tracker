@@ -35,7 +35,7 @@ I watch animes almost daily or at least once or twice a week, & i wanted somethi
   1. Go to `about:config` (enter it into address bar).
   2. Set `xpinstall.signatures.required` to `false`.
   3. Go to `about:addons`.
-  4. Drag & drop the zip file or click on the ![cog](screenshots/cog.png) & choose install add-on from file.
+  4. Drag & drop the extension zip file or click on the ![cog](screenshots/cog.png) & choose install add-on from file.
 
 </details>
 
