@@ -10,16 +10,17 @@ export class GogoAnimeCrawler extends BaseCrawler {
   constructor(private retriever: ScraperService) {
     super(
       'GogoAnime',
-      'https://www19.gogoanime.io'
+      'https://www11.gogoanimehub.com'
     );
     this.filters = {
       ...this.filters,
       number: (text: string) => {
-        const num = text.match(/Episode (\d+)/);
+        const num = text.match(/Eps (\d+) \| (\w+)/);
         return num?.length ? +num[1] : +text;
       },
       subtitles: (text: string) => {
-        return text?.indexOf('ic-DUB') !== -1 ? 'dub' : 'vosten';
+        const sub = text.match(/Eps (\d+) \| (\w+)/);
+        return sub[2]?.toLowerCase() !== 'sub' ? 'English ' + sub[2] : 'vosten';
       },
       url: (text: string) => {
         return `${this.baseUrl}/${text.replace(/^\//, '')}`;
@@ -49,20 +50,20 @@ export class GogoAnimeCrawler extends BaseCrawler {
   _getLatestEpisodes(): Observable<Episode[]> {
     return this.retriever.scrape(
       `${this.baseUrl}`,
-      '.last_episodes ul li',
+      'ul#ongoing-animes li',
       {
         anime: {
-          title: 'p.name a',
-          cover: 'div.img img@src',
+          title: 'h3',
+          cover: 'img.cover@src',
         },
-        number: 'p.episode | number',
+        number: '.type | number',
         streamLinks: [
           {
-            url: 'p.name a@href | url',
-            lang: '.type@class | subtitles',
+            url: 'a@href | url',
+            lang: '.type | subtitles',
           }
         ],
-        //subtitlesLang: '.type@class | subtitles',
+        //subtitlesLang: '.type | subtitles',
         releaseDate: '| date',
       },
       this.filters
