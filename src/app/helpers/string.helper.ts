@@ -7,7 +7,7 @@ export function isString(val: any) {
 export function isSimilar(s1: string, s2: string) {
   const cleanedS1 = s1.toLowerCase().replace(/[-_~:]/g, '');
   const cleanedS2 = s2.toLowerCase().replace(/[-_~:]/g, '');
-  return cleanedS1 === cleanedS2 || similarity(cleanedS1, cleanedS2) >= 0.7;
+  return cleanedS1 === cleanedS2 || cleanedS1.indexOf(cleanedS2) !== -1 || cleanedS2.indexOf(cleanedS1) !== -1 || similarity(cleanedS1, cleanedS2) >= 0.5;
 }
 
 // Stolen from: https://stackoverflow.com/a/36566052
