@@ -3,7 +3,6 @@ import { ScraperService } from '../services/scraper.service';
 import { Anime } from '../models/anime';
 import { Episode } from '../models/episode';
 import { Observable, of } from 'rxjs';
-import { today } from '../helpers/date.helper';
 
 export class GogoAnimeCrawler extends BaseCrawler {
 
@@ -21,13 +20,6 @@ export class GogoAnimeCrawler extends BaseCrawler {
       subtitles: (text: string) => {
         const sub = text.match(/Eps (\d+) \| (\w+)/);
         return sub[2]?.toLowerCase() !== 'sub' ? 'English ' + sub[2] : 'vosten';
-      },
-      url: (text: string) => {
-        return `${this.baseUrl}/${text.replace(/^\//, '')}`;
-      },
-      date: (text: string) => {
-        // since we don't have the release date info. let's just return today's date
-        return today();
       }
     };
   }
@@ -59,12 +51,12 @@ export class GogoAnimeCrawler extends BaseCrawler {
         number: '.type | number',
         streamLinks: [
           {
-            url: 'a@href | url',
+            url: 'a@href | concatUrl',
             lang: '.type | subtitles',
           }
         ],
         //subtitlesLang: '.type | subtitles',
-        releaseDate: '| date',
+        releaseDate: '| today', // since we don't have the release date info. let's just return today's date
       },
       this.filters
     );

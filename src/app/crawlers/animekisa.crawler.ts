@@ -20,9 +20,6 @@ export class AnimeKisaCrawler extends BaseCrawler {
       subtitles: (text: string) => {
         return 'vosten';
       },
-      url: (text: string) => {
-        return `${this.baseUrl}/${text.replace(/^\//, '')}`;
-      },
       date: (text: string) => {
         return +text * 1000; // convert to unix timestamp
       }
@@ -51,12 +48,12 @@ export class AnimeKisaCrawler extends BaseCrawler {
       {
         anime: {
           title: '.title-box > div',
-          cover: '.image-box img@src | url',
+          cover: '.image-box img@src | concatUrl',
         },
         number: '.info-box > div | number',
         streamLinks: [
           {
-            url: '.episode-box-2 a.an:first-child@href | url',
+            url: '.episode-box-2 a.an:first-child@href | concatUrl',
             lang: '| subtitles',
           }
         ],

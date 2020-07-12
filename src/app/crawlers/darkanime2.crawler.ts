@@ -3,7 +3,6 @@ import { ScraperService } from '../services/scraper.service';
 import { Anime } from '../models/anime';
 import { Episode } from '../models/episode';
 import { Observable, of } from 'rxjs';
-import { today } from '../helpers/date.helper';
 
 export class DarkAnimeCrawler extends BaseCrawler {
 
@@ -22,11 +21,7 @@ export class DarkAnimeCrawler extends BaseCrawler {
       },
       url: (text: string, element: any) => {
         const number = this.retriever.htmlParser.find(element, 'span.series-content-episode-count | number', this.filters);
-        return `${this.baseUrl}/${text.replace(/^\//, '')}/episodes/${number}`;
-      },
-      date: (text: string) => {
-        // since we don't have the release date info. let's just return today's date
-        return today();
+        return `${this.filters.concatUrl(text)}/episodes/${number}`;
       }
     };
   }
@@ -63,7 +58,7 @@ export class DarkAnimeCrawler extends BaseCrawler {
           }
         ],
         //subtitlesLang: '| subtitles',
-        releaseDate: '| date',
+        releaseDate: '| today', // since we don't have the release date info. let's just return today's date
       },
       this.filters
     );

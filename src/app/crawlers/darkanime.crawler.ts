@@ -3,7 +3,6 @@ import { ScraperService } from '../services/scraper.service';
 import { Anime } from '../models/anime';
 import { Episode } from '../models/episode';
 import { Observable, of } from 'rxjs';
-import { today } from '../helpers/date.helper';
 import { isNumber } from '../helpers/number.helper';
 
 export class DarkAnimeCrawler extends BaseCrawler {
@@ -21,13 +20,6 @@ export class DarkAnimeCrawler extends BaseCrawler {
       },
       subtitles: (text: string) => {
         return text?.indexOf('DUB') !== -1 ? 'dub' : 'vosten';
-      },
-      url: (text: string) => {
-        return `${this.baseUrl}/${text.replace(/^\//, '')}`;
-      },
-      date: (text: string) => {
-        // since we don't have the release date info. let's just return today's date
-        return today();
       }
     };
   }
@@ -60,12 +52,12 @@ export class DarkAnimeCrawler extends BaseCrawler {
         streamLinks: [
           {
             // it's sad that we cannot get a direct link to the episode..
-            url: 'a.anime-hyperlink@href | url',
+            url: 'a.anime-hyperlink@href | concatUrl',
             lang: '.anime-list-filter-top > div > span | subtitles',
           }
         ],
         //subtitlesLang: '.anime-list-filter-top > div > span | subtitles',
-        releaseDate: '| date',
+        releaseDate: '| today', // since we don't have the release date info. let's just return today's date
       },
       this.filters
     );

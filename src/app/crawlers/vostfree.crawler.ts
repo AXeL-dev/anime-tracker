@@ -18,7 +18,7 @@ export class VostFreeCrawler extends BaseCrawler {
         return text.replace(/ VOSTFR$/, '');
       },
       cover: (text: string) => {
-        return `${this.baseUrl}/${text.replace(/^\//, '')}`;
+        return this.filters.concatUrl(text);
       },
       date: (text: string) => {
         let date = text;
