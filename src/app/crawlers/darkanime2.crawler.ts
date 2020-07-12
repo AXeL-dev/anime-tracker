@@ -4,26 +4,25 @@ import { Anime } from '../models/anime';
 import { Episode } from '../models/episode';
 import { Observable, of } from 'rxjs';
 import { today } from '../helpers/date.helper';
-import { isNumber } from '../helpers/number.helper';
 
 export class DarkAnimeCrawler extends BaseCrawler {
 
   constructor(private retriever: ScraperService) {
     super(
       'DarkAnime',
-      'https://app.darkanime.stream'
+      'https://darkanime.stream'
     );
     this.filters = {
       ...this.filters,
       number: (text: string) => {
-        const num = text.replace('E', '');
-        return isNumber(num) ? +num : '?';
+        return +text.replace('E', '');
       },
       subtitles: (text: string) => {
-        return text?.indexOf('DUB') !== -1 ? 'dub' : 'vosten';
+        return 'vosten';
       },
-      url: (text: string) => {
-        return `${this.baseUrl}/${text.replace(/^\//, '')}`;
+      url: (text: string, element: any) => {
+        const number = this.retriever.htmlParser.find(element, 'span.series-content-episode-count | number', this.filters);
+        return `${this.baseUrl}/${text.replace(/^\//, '')}/episodes/${number}`;
       },
       date: (text: string) => {
         // since we don't have the release date info. let's just return today's date
@@ -49,21 +48,21 @@ export class DarkAnimeCrawler extends BaseCrawler {
 
   _getLatestEpisodes(): Observable<Episode[]> {
     return this.retriever.scrape(
-      `${this.baseUrl}/updated-animes`,
-      '.flex.flex-wrap.-mx-2 > div',
+      `${this.baseUrl}/animes/recently-updated`,
+      '.series-section .row > div.col-6',
       {
         anime: {
-          title: '.anime-list-filter-bottom h3',
-          cover: 'img@src',
+          title: 'h3.series-content-title',
+          cover: 'img.series-poster@src',
         },
-        number: '.anime-list-filter-top > span | number',
+        number: 'span.series-content-episode-count | number',
         streamLinks: [
           {
-            url: 'a.anime-hyperlink@href | url',
-            lang: '.anime-list-filter-top > div > span | subtitles',
+            url: 'a.series-card-hyperlink@href | url',
+            lang: '| subtitles',
           }
         ],
-        //subtitlesLang: '.anime-list-filter-top > div > span | subtitles',
+        //subtitlesLang: '| subtitles',
         releaseDate: '| date',
       },
       this.filters
