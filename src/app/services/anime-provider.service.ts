@@ -8,7 +8,7 @@ import { FullAnimeVFCrawler } from '../crawlers/fullanimevf.crawler';
 import { VoirAnimeCrawler } from '../crawlers/voiranime.crawler';
 import { GogoAnimeCrawler } from '../crawlers/gogoanime.crawler';
 import { FourAnimeCrawler } from '../crawlers/4anime.crawler';
-import { DarkAnimeCrawler } from '../crawlers/darkanime.crawler';
+import { AnimeKisaCrawler } from '../crawlers/animekisa.crawler';
 import { Anime } from '../models/anime';
 import { Episode } from '../models/episode';
 import { isSimilar } from '../helpers/string.helper';
@@ -32,7 +32,7 @@ export class AnimeProviderService {
     this.addCrawler(new VoirAnimeCrawler(this.scraper));
     this.addCrawler(new GogoAnimeCrawler(this.scraper));
     this.addCrawler(new FourAnimeCrawler(this.scraper));
-    this.addCrawler(new DarkAnimeCrawler(this.scraper));
+    this.addCrawler(new AnimeKisaCrawler(this.scraper));
   }
 
   addCrawler(crawler: BaseCrawler) {
