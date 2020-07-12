@@ -61,7 +61,7 @@ export class HTMLParserService {
     return results;
   }
 
-  private find(element: any, selector: string, filters?: any) {
+  find(element: any, selector: string, filters?: any) {
     const firstSplit = selector.split('|');
     const secondSplit = firstSplit[0].split('@');
     const data = {
@@ -94,7 +94,7 @@ export class HTMLParserService {
     }
     // filter element
     if (data.filter?.length && filters?.[data.filter]) {
-      output = filters[data.filter](output);
+      output = filters[data.filter](output, element);
     }
 
     return output;

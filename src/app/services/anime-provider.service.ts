@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BaseCrawler } from '../crawlers/base.crawler';
+import { BaseCrawler } from '../crawlers/abstract/base.crawler';
 import { flatten } from '../helpers/array.helper';
 import { ScraperService } from './scraper.service';
 import { AnimeKoCrawler } from '../crawlers/animeko.crawler';
@@ -8,6 +8,7 @@ import { FullAnimeVFCrawler } from '../crawlers/fullanimevf.crawler';
 import { VoirAnimeCrawler } from '../crawlers/voiranime.crawler';
 import { GogoAnimeCrawler } from '../crawlers/gogoanime.crawler';
 import { FourAnimeCrawler } from '../crawlers/4anime.crawler';
+import { DarkAnimeCrawler } from '../crawlers/darkanime.crawler';
 import { Anime } from '../models/anime';
 import { Episode } from '../models/episode';
 import { isSimilar } from '../helpers/string.helper';
@@ -31,6 +32,7 @@ export class AnimeProviderService {
     this.addCrawler(new VoirAnimeCrawler(this.scraper));
     this.addCrawler(new GogoAnimeCrawler(this.scraper));
     this.addCrawler(new FourAnimeCrawler(this.scraper));
+    this.addCrawler(new DarkAnimeCrawler(this.scraper));
   }
 
   addCrawler(crawler: BaseCrawler) {

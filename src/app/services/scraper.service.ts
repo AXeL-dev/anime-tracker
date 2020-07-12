@@ -11,7 +11,7 @@ import { Episode } from '../models/episode';
 })
 export class ScraperService {
 
-  constructor(private httpClient: HttpClient, private htmlParser: HTMLParserService, private settings: SettingsService) {}
+  constructor(private httpClient: HttpClient, public htmlParser: HTMLParserService, private settings: SettingsService) {}
 
   scrape(url: string, scope: string, selector: any, filters?: any): Observable<Episode[]> {
     return this.httpClient.get(`${this.settings.proxy}${url}`, { responseType: 'text' }).pipe(map((html: string) => {
