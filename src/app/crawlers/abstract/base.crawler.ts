@@ -1,5 +1,5 @@
-import { Anime } from '../models/anime';
-import { Episode } from '../models/episode';
+import { Anime } from '../../models/anime';
+import { Episode } from '../../models/episode';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 

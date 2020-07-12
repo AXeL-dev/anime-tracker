@@ -1,4 +1,4 @@
-import { BaseCrawler } from './base.crawler';
+import { BaseCrawler } from './abstract/base.crawler';
 import { ScraperService } from '../services/scraper.service';
 import { Anime } from '../models/anime';
 import { Episode } from '../models/episode';
