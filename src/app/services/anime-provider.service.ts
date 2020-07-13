@@ -6,6 +6,7 @@ import { AnimeKoCrawler } from '../crawlers/animeko.crawler';
 import { VostFreeCrawler } from '../crawlers/vostfree.crawler';
 import { FullAnimeVFCrawler } from '../crawlers/fullanimevf.crawler';
 import { VoirAnimeCrawler } from '../crawlers/voiranime.crawler';
+import { NekoSamaCrawler } from '../crawlers/neko-sama.crawler';
 import { GogoAnimeCrawler } from '../crawlers/gogoanime.crawler';
 import { FourAnimeCrawler } from '../crawlers/4anime.crawler';
 import { AnimeKisaCrawler } from '../crawlers/animekisa.crawler';
@@ -30,6 +31,7 @@ export class AnimeProviderService {
     this.addCrawler(new VostFreeCrawler(this.scraper));
     this.addCrawler(new FullAnimeVFCrawler(this.scraper));
     this.addCrawler(new VoirAnimeCrawler(this.scraper));
+    this.addCrawler(new NekoSamaCrawler(this.scraper));
     this.addCrawler(new GogoAnimeCrawler(this.scraper));
     this.addCrawler(new FourAnimeCrawler(this.scraper));
     this.addCrawler(new AnimeKisaCrawler(this.scraper));

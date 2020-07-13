@@ -29,7 +29,7 @@ export abstract class BaseCrawler {
         return !!text?.length;
       },
       concatUrl: (text: string) => {
-        return `${this.baseUrl}/${text.replace(/^\//, '')}`;
+        return `${this.baseUrl.replace(/\/$/, '')}/${text.replace(/^\//, '')}`;
       },
       today: (text: string) => {
         return today();
