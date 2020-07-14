@@ -15,6 +15,7 @@ export class SettingsService {
   proxy: string;
   openInNewTab: boolean;
   openLinksInInactiveTabs: boolean;
+  maxEpisodesToRetrieve: number;
   // Display
   defaultView: View;
   displayEpisodesDayByDay: boolean;
@@ -74,11 +75,12 @@ export class SettingsService {
     this.set({...defaults, ...settings}); // any existing settings value will override defaults
   }
 
-  private getDefaults() {
+  getDefaults() {
     return {
       proxy: SettingsService.CORSProxies[0].url,
       openInNewTab: this.browser.isFirefox ? true : false,
       openLinksInInactiveTabs: true,
+      maxEpisodesToRetrieve: 50,
       defaultView: View.Latest,
       displayEpisodesDayByDay: true,
     };
@@ -88,6 +90,7 @@ export class SettingsService {
     this.proxy = settings.proxy;
     this.openInNewTab = settings.openInNewTab;
     this.openLinksInInactiveTabs = settings.openLinksInInactiveTabs;
+    this.maxEpisodesToRetrieve = settings.maxEpisodesToRetrieve;
     this.defaultView = settings.defaultView;
     this.displayEpisodesDayByDay = settings.displayEpisodesDayByDay;
   }
@@ -97,6 +100,7 @@ export class SettingsService {
       proxy: this.proxy,
       openInNewTab: this.openInNewTab,
       openLinksInInactiveTabs: this.openLinksInInactiveTabs,
+      maxEpisodesToRetrieve: this.maxEpisodesToRetrieve,
       defaultView: this.defaultView,
       displayEpisodesDayByDay: this.displayEpisodesDayByDay,
     });

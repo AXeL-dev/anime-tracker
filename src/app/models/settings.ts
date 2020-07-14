@@ -4,6 +4,7 @@ export interface Settings {
   proxy: string;
   openInNewTab: boolean;
   openLinksInInactiveTabs: boolean;
+  maxEpisodesToRetrieve: number;
   // Display
   defaultView: View;
   displayEpisodesDayByDay: boolean;

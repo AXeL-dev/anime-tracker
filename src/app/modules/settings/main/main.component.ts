@@ -19,6 +19,9 @@ export class MainComponent implements OnInit {
   }
 
   saveSettings() {
+    if (!this.settings.maxEpisodesToRetrieve) {
+      this.settings.maxEpisodesToRetrieve = this.settings.getDefaults().maxEpisodesToRetrieve;
+    }
     this.settings.save();
     this.router.navigate(['/']);
   }

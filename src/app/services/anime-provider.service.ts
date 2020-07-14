@@ -59,7 +59,8 @@ export class AnimeProviderService {
     const maxEpisodesPerSlice: number = 5;
     return concat(...this.crawlers.map((crawler: BaseCrawler) => crawler.getLatestEpisodes())).pipe(
       //delay(700), // delay used to wait for UI renders
-      concatMap((episodes: Episode[], index: number) => {
+      concatMap((allEpisodes: Episode[], index: number) => {
+        const episodes = allEpisodes.slice(0, Math.min(allEpisodes.length, this.settings.maxEpisodesToRetrieve));
         debug(`${this.crawlers[index].name} latest episodes:`);
         debug(episodes);
         debug('--------------------------');
