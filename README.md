@@ -12,7 +12,7 @@ I watch animes almost daily or at least once or twice a week, & i wanted somethi
   <summary>Expand to continue reading</summary>
 
   <br>
-  Unfortunately, i didn't find a browser/client side web scraper available out there, so i just created a simplified one by my own composed of Angular's Http client service & a crafted HTML parser. I also, used some proxies to bypass [CORS](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing) limitations on browsers. In other words, this project is just a bunch of workarounds with some :sparkles: but it's surprisingly working well.
+  Unfortunately, i didn't find a browser/client side web scraper available out there, so i just created a simplified one by my own composed of Angular's Http client service & a crafted HTML parser. I also, used some proxies to bypass <a href="https://en.wikipedia.org/wiki/Cross-origin_resource_sharing">CORS</a> limitations on browsers. In other words, this project is just a bunch of workarounds with some :sparkles: but it's surprisingly working well.
   <br><br>
   Okay, so why Angular? why not React or Vue?
   I mainly choosed Angular for its robust structure & advanced features, like: Pipes, directives, lazy loading, dependency injection & many others. Otherwise, any other library or framework with typescript support would do the job for me.
@@ -43,7 +43,7 @@ I watch animes almost daily or at least once or twice a week, & i wanted somethi
 
 - [x] Scrape anime data from several websites.
 - [x] Replace promises with observables for better performance?
-- [ ] Replace blox UI with [ng-zorro](https://ng.ant.design/) (keep the dark theme?).
+- [ ] Replace blox/material UI with [ng-zorro](https://ng.ant.design/) (keep the dark theme?).
 - [ ] Auto-check & notify for new posted anime episodes.
 - [ ] Memorize last watched/clicked episodes.
 - [ ] Implement missing/empty crawlers functions.
