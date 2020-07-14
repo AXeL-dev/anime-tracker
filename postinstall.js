@@ -21,9 +21,3 @@ let replaceFileWithString = 'align-items: flex-start;';
 for (let file of files) {
   changeFile(file, searchFileForString, replaceFileWithString);
 }
-
-// Fix blox mdcList nonInteractive console error: this._items is undefined
-let file = './node_modules/@blox/material/__ivy_ngcc__/dist/material.es5.js';
-searchFileForString = 'this._items.forEach(function (item) {';
-replaceFileWithString = 'this._items && this._items.forEach(function (item) {';
-changeFile(file, searchFileForString, replaceFileWithString);
