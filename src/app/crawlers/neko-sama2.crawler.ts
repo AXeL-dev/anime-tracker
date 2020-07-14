@@ -4,7 +4,6 @@ import { Anime } from '../models/anime';
 import { Episode } from '../models/episode';
 import { today, yesterday, dateBefore } from '../helpers/date.helper';
 import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 export class NekoSamaCrawler extends BaseCrawler {
 
@@ -18,6 +17,9 @@ export class NekoSamaCrawler extends BaseCrawler {
       number: (text: string) => {
         const num = text.match(/Ep. (\d+)/);
         return num?.length ? +num[1] : +text;
+      },
+      subtitles: (text: string) => {
+        return 'vostfr';
       },
       date: (text: string) => {
         if (text.indexOf('minutes') !== -1 || text.indexOf('heures') !== -1) {
@@ -51,35 +53,26 @@ export class NekoSamaCrawler extends BaseCrawler {
   }
 
   _getLatestEpisodes(): Observable<Episode[]> {
-    return this.retriever.getRawHTML(this.baseUrl).pipe(map((html: string) => {
-      const results = html.match(/lastEpisodes = \[(.*)\]/);
-      const latestEpisodes: Episode[] = [];
-      if (results?.length) {
-        try {
-          const episodes = JSON.parse(`[${results[1]}]`);
-          episodes.forEach((episode: any) => {
-            latestEpisodes.push({
-              anime: {
-                title: episode.title,
-                cover: episode.url_image,
-              },
-              number: this.filters.number(episode.episode),
-              streamLinks: [
-                {
-                  url: this.filters.concatUrl(episode.url),
-                  lang: 'vostfr',
-                }
-              ],
-              //subtitlesLang: 'vostfr',
-              releaseDate: this.filters.date(episode.time),
-            });
-          });
-        } catch (error) {
-          console.error(error.message);
-        }
-      }
-
-      return latestEpisodes;
-    }));
+    return this.retriever.scrape(
+      `${this.baseUrl}`,
+      '.js-last-episode-container > div',
+      {
+        anime: {
+          title: 'a.title .limit',
+          cover: '.holder img@src',
+        },
+        number: 'a.title .episode | number',
+        streamLinks: [
+          {
+            url: 'a.play@href | concatUrl',
+            lang: '| subtitles',
+          }
+        ],
+        //subtitlesLang: '| subtitles',
+        //releaseDate: 'span.time | date',
+        releaseDate: '| today',
+      },
+      this.filters
+    );
   }
 }

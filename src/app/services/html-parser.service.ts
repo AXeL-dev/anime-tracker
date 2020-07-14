@@ -13,7 +13,7 @@ export class HTMLParserService {
     this.parser = new DOMParser();
   }
 
-  private fromString(html: string) {
+  fromString(html: string) {
     return this.parser.parseFromString(html, 'text/html');
   }
 
