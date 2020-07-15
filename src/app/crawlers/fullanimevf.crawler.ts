@@ -13,6 +13,9 @@ export class FullAnimeVFCrawler extends BaseCrawler {
     );
     this.filters = {
       ...this.filters,
+      cover: (text: string) => {
+        return text.replace('-218x150', '');
+      },
       number: (text: string) => {
         const num = text.replace('[NEW]', '').replace('[HD]', '').replace('VOSTFR', '').match(/(.*) Episode (\d+)/);
         return num?.length ? +num[2] : 1;
@@ -57,7 +60,7 @@ export class FullAnimeVFCrawler extends BaseCrawler {
       {
         anime: {
           title: 'h3.entry-title a | title',
-          cover: 'img.entry-thumb@src',
+          cover: 'img.entry-thumb@data-cfsrc | cover',
           isNew: 'h3.entry-title a | isNew',
           isFinished: 'h3.entry-title a | isFinished',
         },
