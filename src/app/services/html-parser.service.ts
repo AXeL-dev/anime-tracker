@@ -66,7 +66,7 @@ export class HTMLParserService {
     const secondSplit = firstSplit[0].split('@');
     const data = {
       selector: secondSplit[0]?.trim(),
-      attribute: secondSplit[1]?.trim(),
+      attributes: secondSplit[1]?.trim().split(','),
       filter: firstSplit[1]?.trim()
     };
     let results = null;
@@ -86,8 +86,11 @@ export class HTMLParserService {
     }
     if (results) {
       // get element
-      if (data.attribute?.length) {
-        output = results.getAttribute(data.attribute);
+      if (data.attributes?.length) {
+        data.attributes.forEach((attribute: string) => {
+          if (output?.length) return;
+          output = results.getAttribute(attribute);
+        });
       } else {
         output = results.innerHTML;
       }

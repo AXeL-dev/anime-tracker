@@ -60,7 +60,7 @@ export class FullAnimeVFCrawler extends BaseCrawler {
       {
         anime: {
           title: 'h3.entry-title a | title',
-          cover: 'img.entry-thumb@data-cfsrc | cover',
+          cover: 'img.entry-thumb@src,data-cfsrc | cover',
           isNew: 'h3.entry-title a | isNew',
           isFinished: 'h3.entry-title a | isFinished',
         },
