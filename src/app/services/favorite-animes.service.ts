@@ -4,7 +4,7 @@ import { StorageService } from './storage.service';
 @Injectable({
   providedIn: 'root'
 })
-export class FavoritesService {
+export class FavoriteAnimesService {
 
   private favorites: string[];
 
@@ -22,7 +22,7 @@ export class FavoritesService {
   }
 
   add(title: string) {
-    if (this.favorites?.indexOf(title) === -1) {
+    if (!this.isFavorite(title)) {
       this.favorites.push(title);
       this.save();
     }

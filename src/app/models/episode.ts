@@ -9,7 +9,7 @@ export interface Episode {
   streamLinks: EpisodeLink[];
   downloadLinks?: EpisodeLink[];
   subtitlesLang?: string;
-  isWatched?: boolean;
+  isViewed?: boolean;
 }
 
 export interface EpisodeLink {

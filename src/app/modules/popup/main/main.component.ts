@@ -6,7 +6,7 @@ import { SettingsService } from 'src/app/services/settings.service';
 import { dateOnly } from 'src/app/helpers/date.helper';
 import { Subscription } from 'rxjs';
 import { View } from 'src/app/models/settings';
-import { FavoritesService } from 'src/app/services/favorites.service';
+import { FavoriteAnimesService } from 'src/app/services/favorite-animes.service';
 
 @Component({
   selector: 'app-main',
@@ -24,7 +24,7 @@ export class MainComponent implements OnInit, OnDestroy {
   isLoading: boolean = true;
   private subscription: Subscription = new Subscription();
 
-  constructor(private animeProvider: AnimeProviderService, public settings: SettingsService, private favorites: FavoritesService) { }
+  constructor(private animeProvider: AnimeProviderService, public settings: SettingsService, private favoriteAnimes: FavoriteAnimesService) { }
 
   ngOnInit(): void {
     this.view = this.settings.defaultView;
@@ -56,7 +56,7 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   private filterEpisodes(episodes: Episode[], days: number[]) {
-    this.episodes = this.isFavoritesView() ? episodes.filter((episode: Episode) => this.favorites.isFavorite(episode.anime.title)) : episodes;
+    this.episodes = this.isFavoritesView() ? episodes.filter((episode: Episode) => this.favoriteAnimes.isFavorite(episode.anime.title)) : episodes;
     if (this.settings.displayEpisodesDayByDay) {
       days.forEach((day: number) => {
         if (day) {

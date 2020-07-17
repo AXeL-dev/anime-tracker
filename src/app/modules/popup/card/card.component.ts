@@ -3,7 +3,8 @@ import { Episode } from 'src/app/models/episode';
 import { ChooseLinkDialogComponent } from '../choose-link-dialog/choose-link-dialog.component';
 import { SettingsService } from 'src/app/services/settings.service';
 import { BrowserService } from 'src/app/services/browser.service';
-import { FavoritesService } from 'src/app/services/favorites.service';
+import { FavoriteAnimesService } from 'src/app/services/favorite-animes.service';
+import { ViewedEpisodesService } from 'src/app/services/viewed-episodes.service';
 
 @Component({
   selector: 'app-card',
@@ -16,12 +17,18 @@ export class CardComponent implements OnInit {
   @ViewChild('streamLinksDialog') streamLinksDialog: ChooseLinkDialogComponent;
   @ViewChild('downloadLinksDialog') downloadLinksDialog: ChooseLinkDialogComponent;
 
-  constructor(private settings: SettingsService, private browser: BrowserService, private favorites: FavoritesService) { }
+  constructor(
+    private settings: SettingsService,
+    private browser: BrowserService,
+    private favoriteAnimes: FavoriteAnimesService,
+    private viewedEpisodes: ViewedEpisodesService
+  ) { }
 
   ngOnInit(): void {
   }
 
   onClick(event: Event) {
+    this.markAsViewed();
     if (this.episode.streamLinks.length > 1) {
       event.preventDefault();
       this.openStreamLinks();
@@ -33,23 +40,33 @@ export class CardComponent implements OnInit {
   }
 
   openStreamLinks() {
+    this.markAsViewed();
     this.streamLinksDialog.open();
   }
 
   openDownloadLinks() {
+    this.markAsViewed();
     this.downloadLinksDialog.open();
   }
 
   toggleFavorite(value: boolean) {
     if (value) {
-      this.favorites.add(this.episode.anime.title);
+      this.favoriteAnimes.add(this.episode.anime.title);
     } else {
-      this.favorites.remove(this.episode.anime.title);
+      this.favoriteAnimes.remove(this.episode.anime.title);
     }
   }
 
   isFavorite() {
-    return this.favorites.isFavorite(this.episode.anime.title);
+    return this.favoriteAnimes.isFavorite(this.episode.anime.title);
+  }
+
+  isViewed() {
+    return this.viewedEpisodes.isViewed(this.episode);
+  }
+
+  private markAsViewed() {
+    this.viewedEpisodes.add(this.episode);
   }
 
 }

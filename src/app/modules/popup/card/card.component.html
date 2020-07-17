@@ -17,6 +17,7 @@
     </div>
   </a>
   <div mdcCardActions mdcCardActionIcons>
+    <button *ngIf="isViewed()" mdcIconButton class="material-icons blue-eye" title="Viewed">visibility</button>
     <button mdcIconButton class="material-icons"
       labelOn="Remove from favorites" labelOff="Add to favorites"
       iconOn="favorite" iconOff="favorite_border"
