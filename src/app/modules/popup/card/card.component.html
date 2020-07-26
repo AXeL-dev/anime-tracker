@@ -16,8 +16,19 @@
       </div>
     </div>
   </a>
-  <div mdcCardActions mdcCardActionIcons>
-    <button *ngIf="isViewed()" mdcIconButton class="material-icons blue-eye" title="Viewed">visibility</button>
+  <div mdcCardActions mdcCardActionIcons #viewport>
+    <div *ngIf="isViewed()" mdcMenuAnchor #anchor="mdcMenuAnchor" [style.display]="'flex'">
+      <button mdcIconButton class="material-icons blue-eye" title="Viewed" [style.margin]="0" (click)="isViewedMenu.open = true">visibility</button>
+      <div mdcMenu
+          [(open)]="isViewedMenu.open"
+          [menuAnchor]="anchor"
+          [viewport]="viewport"
+          #isViewedMenu>
+        <ul mdcList>
+          <li mdcListItem (click)="markAsUnviewed()">Mark as unviewed</li>
+        </ul>
+      </div>
+    </div>
     <button mdcIconButton class="material-icons"
       labelOn="Remove from favorites" labelOff="Add to favorites"
       iconOn="favorite" iconOff="favorite_border"

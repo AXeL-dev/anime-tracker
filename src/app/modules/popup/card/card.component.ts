@@ -69,4 +69,8 @@ export class CardComponent implements OnInit {
     this.viewedEpisodes.add(this.episode);
   }
 
+  markAsUnviewed() {
+    this.viewedEpisodes.remove(this.episode);
+  }
+
 }
