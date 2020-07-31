@@ -38,7 +38,7 @@ export class ViewedEpisodesService {
   }
 
   remove(episode: Episode) {
-    const viewed = this.viewed?.filter((e: viewedEpisode) => e.animeTitle !== episode.anime.title && e.number !== episode.number);
+    const viewed = this.viewed?.filter((e: viewedEpisode) => !(e.animeTitle === episode.anime.title && e.number === episode.number));
     if (viewed?.length < this.viewed?.length) {
       this.viewed = viewed;
       this.save();
