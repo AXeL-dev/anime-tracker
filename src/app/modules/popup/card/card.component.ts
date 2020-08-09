@@ -14,8 +14,8 @@ import { ViewedEpisodesService } from 'src/app/services/viewed-episodes.service'
 export class CardComponent implements OnInit {
 
   @Input() episode: Episode;
-  @ViewChild('streamLinksDialog') streamLinksDialog: ChooseLinkDialogComponent;
-  @ViewChild('downloadLinksDialog') downloadLinksDialog: ChooseLinkDialogComponent;
+  @ViewChild('streamLinksDialog') private streamLinksDialog: ChooseLinkDialogComponent;
+  @ViewChild('downloadLinksDialog') private downloadLinksDialog: ChooseLinkDialogComponent;
 
   constructor(
     private settings: SettingsService,
