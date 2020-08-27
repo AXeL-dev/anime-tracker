@@ -14,7 +14,11 @@ export class FourAnimeCrawler extends BaseCrawler {
     this.filters = {
       ...this.filters,
       cover: (text: string) => {
-        return `${text.replace(/^https?:\/\/4anime.to/g, 'http://49.12.133.151')}`;
+        if (text?.[0] === '/') {
+          return this.filters.concatUrl(text);
+        } else {
+          return `${text?.replace(/^https?:\/\/49.12.133.151/g, 'https://4anime.to')}`;
+        }
       },
       number: (text: string) => {
         const num = text.match(/\d+/g);
