@@ -1,7 +1,7 @@
 
 <div mdcCard class="custom-card-photo">
   <a mdcCardPrimaryAction [href]="episode.streamLinks[0].url" (click)="onClick($event)" target="_blank">
-    <div mdcCardMedia size="square" [ngStyle]="{'background-image': 'url(' + episode.anime.cover + ')'}">
+    <div mdcCardMedia size="square" [style.background-image]="'url(' + (episode.anime.cover | url:'encode') + ')'">
       <div mdcCardMediaContent>
         <h2 [title]="episode.anime.title">{{ episode.anime.title }}</h2>
         <div class="card-badge number">
