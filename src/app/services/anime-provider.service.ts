@@ -10,6 +10,7 @@ import { NekoSamaCrawler } from '../crawlers/neko-sama.crawler';
 import { GogoAnimeCrawler } from '../crawlers/gogoanime.crawler';
 import { FourAnimeCrawler } from '../crawlers/4anime.crawler';
 import { AnimeKisaCrawler } from '../crawlers/animekisa.crawler';
+import { OkanimeCrawler } from '../crawlers/okanime.crawler';
 import { Anime } from '../models/anime';
 import { Episode } from '../models/episode';
 import { isSimilar } from '../helpers/string.helper';
@@ -35,6 +36,7 @@ export class AnimeProviderService {
     this.addCrawler(new GogoAnimeCrawler(this.scraper));
     this.addCrawler(new FourAnimeCrawler(this.scraper));
     this.addCrawler(new AnimeKisaCrawler(this.scraper));
+    this.addCrawler(new OkanimeCrawler(this.scraper));
   }
 
   addCrawler(crawler: BaseCrawler) {
