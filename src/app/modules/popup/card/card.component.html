@@ -18,7 +18,7 @@
   </a>
   <div mdcCardActions mdcCardActionIcons #viewport>
     <div *ngIf="isViewed()" mdcMenuAnchor #anchor="mdcMenuAnchor" [style.display]="'flex'">
-      <button mdcIconButton class="material-icons blue-eye" title="Viewed" [style.margin]="0" (click)="isViewedMenu.open = true">visibility</button>
+      <button class="material-icons mdc-icon-button blue-eye" title="Viewed" [style.margin]="0" (click)="isViewedMenu.open = true">visibility</button>
       <div mdcMenu
           [(open)]="isViewedMenu.open"
           [menuAnchor]="anchor"
@@ -29,15 +29,13 @@
         </ul>
       </div>
     </div>
-    <button mdcIconButton class="material-icons"
-      labelOn="Remove from favorites" labelOff="Add to favorites"
+    <button iconToggle class="material-icons mdc-icon-button" classOn="red-heart"
+      titleOn="Remove from favorites" titleOff="Add to favorites"
       iconOn="favorite" iconOff="favorite_border"
-      [on]="isFavorite()"
-      [class.red-heart]="isFavorite()"
-      (onChange)="toggleFavorite($event)"></button>
-    <button mdcIconButton class="material-icons" title="Stream links" (click)="openStreamLinks()">play_circle_outline</button>
-    <button mdcIconButton class="material-icons" title="Download links" (click)="openDownloadLinks()">save_alt</button>
-    <!-- <button mdcIconButton class="material-icons" title="More options">more_vert</button> -->
+      [on]="isFavorite()" (onChange)="toggleFavorite($event)"></button>
+    <button class="material-icons mdc-icon-button" title="Stream links" (click)="openStreamLinks()">play_circle_outline</button>
+    <button class="material-icons mdc-icon-button" title="Download links" (click)="openDownloadLinks()">save_alt</button>
+    <!-- <button class="material-icons mdc-icon-button" title="More options">more_vert</button> -->
   </div>
 </div>
 

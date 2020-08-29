@@ -2,11 +2,14 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MaterialModule } from '@blox/material';
+import { IconToggleDirective } from './directives/icon-toggle.directive';
 
 
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    IconToggleDirective
+  ],
   imports: [
     CommonModule,
     FormsModule,
@@ -14,7 +17,8 @@ import { MaterialModule } from '@blox/material';
   ],
   exports: [
     FormsModule,
-    MaterialModule
+    MaterialModule,
+    IconToggleDirective
   ]
 })
 export class SharedModule { }

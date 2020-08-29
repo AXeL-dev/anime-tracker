@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, QueryList } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { Episode } from 'src/app/models/episode';
 import { ChooseLinkDialogComponent } from '../choose-link-dialog/choose-link-dialog.component';
 import { SettingsService } from 'src/app/services/settings.service';
