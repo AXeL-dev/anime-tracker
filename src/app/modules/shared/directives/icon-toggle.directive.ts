@@ -1,4 +1,4 @@
-import { Directive, Input, Output, EventEmitter, HostListener, ElementRef } from '@angular/core';
+import { Directive, Input, Output, EventEmitter, HostListener, ElementRef, SimpleChanges } from '@angular/core';
 
 @Directive({
   selector: '[iconToggle]'
@@ -18,6 +18,12 @@ export class IconToggleDirective {
 
   ngOnInit(): void {
     this.update();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (!changes.on.isFirstChange()) {
+      this.update();
+    }
   }
 
   private update() {
@@ -52,7 +58,6 @@ export class IconToggleDirective {
 
   @HostListener('click', ['$event']) private onClick(event: Event) {
     this.on = !this.on;
-    this.update();
     this.onChange.emit(this.on);
   }
 
