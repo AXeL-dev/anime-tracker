@@ -44,7 +44,7 @@ I watch animes almost daily or at least once or twice a week, & i wanted somethi
 - [x] Scrape anime data from several websites.
 - [x] Replace promises with observables for better performance?
 - [x] Memorize last viewed/clicked episodes.
-- [ ] Replace blox/material UI with [ng-zorro](https://ng.ant.design/) (keep the dark theme?).
+<!-- - [ ] Replace blox/material UI with [ng-zorro](https://ng.ant.design/) (keep the dark theme?). -->
 - [ ] Auto-check & notify for new posted anime episodes.
 - [ ] Implement missing/empty crawlers functions.
 - [ ] Translations.
