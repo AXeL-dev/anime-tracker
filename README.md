@@ -12,7 +12,7 @@ I watch animes almost daily or at least once or twice a week, & i wanted somethi
   <summary>Expand to continue reading</summary>
 
   <br>
-  Unfortunately, i didn't find a browser/client side web scraper available out there, so i just created a simplified one by my own composed of Angular's Http client service & a crafted HTML parser. I also, used some proxies to bypass <a href="https://en.wikipedia.org/wiki/Cross-origin_resource_sharing">CORS</a> limitations on browsers. In other words, this project is just a bunch of workarounds with some :sparkles: but it's surprisingly working well.
+  Unfortunately, i didn't find a browser/client side web scraper available out there, so i just created a simple one composed of Angular's Http client service & a crafted HTML parser. I also, used some proxies to bypass <a href="https://en.wikipedia.org/wiki/Cross-origin_resource_sharing">CORS</a> limitations on browsers. In other words, this project is just a bunch of workarounds with some :sparkles: but it's surprisingly working well.
   <br><br>
   Okay, so why Angular? why not React or Vue?
   I mainly choosed Angular for its robust structure & advanced features, like: Pipes, directives, lazy loading, dependency injection & many others. Otherwise, any other library or framework with typescript support would do the job for me.
@@ -21,7 +21,7 @@ I watch animes almost daily or at least once or twice a week, & i wanted somethi
 
 ## Installation
 
-:warning: Due to [DCMA](https://en.wikipedia.org/wiki/Digital_Millennium_Copyright_Act) law, this web extension will be available as a zip file on github [releases](https://github.com/AXeL-dev/anime-tracker/releases), use it on your own risk.
+:warning: Due to [DMCA](https://en.wikipedia.org/wiki/Digital_Millennium_Copyright_Act) law, this web extension will be available as a zip file on github [releases](https://github.com/AXeL-dev/anime-tracker/releases), use it on your own risk.
 
 <details>
   <summary>How to install?</summary>
