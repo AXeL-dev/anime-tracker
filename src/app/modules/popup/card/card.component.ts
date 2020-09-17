@@ -28,24 +28,24 @@ export class CardComponent implements OnInit {
   }
 
   onClick(event: Event) {
-    this.markAsViewed();
     if (this.episode.streamLinks.length > 1) {
       event.preventDefault();
       this.openStreamLinks();
       return false;
-    } else if (this.browser.isWebExtension) {
-      event.preventDefault();
-      this.browser.createTab(this.episode.streamLinks[0].url, !this.settings.openLinksInInactiveTabs);
+    } else {
+      this.markAsViewed();
+      if (this.browser.isWebExtension) {
+        event.preventDefault();
+        this.browser.createTab(this.episode.streamLinks[0].url, !this.settings.openLinksInInactiveTabs);
+      }
     }
   }
 
   openStreamLinks() {
-    this.markAsViewed();
     this.streamLinksDialog.open();
   }
 
   openDownloadLinks() {
-    this.markAsViewed();
     this.downloadLinksDialog.open();
   }
 
@@ -65,7 +65,7 @@ export class CardComponent implements OnInit {
     return this.viewedEpisodes.isViewed(this.episode);
   }
 
-  private markAsViewed() {
+  markAsViewed() {
     this.viewedEpisodes.add(this.episode);
   }
 

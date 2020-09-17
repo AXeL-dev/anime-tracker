@@ -42,9 +42,11 @@
 <app-choose-link-dialog #streamLinksDialog
   title="Choose a stream link"
   [links]="episode.streamLinks"
+  (onLinkClick)="markAsViewed()"
 ></app-choose-link-dialog>
 
 <app-choose-link-dialog #downloadLinksDialog
   title="Choose a download link"
   [links]="episode.downloadLinks"
+  (onLinkClick)="markAsViewed()"
 ></app-choose-link-dialog>
