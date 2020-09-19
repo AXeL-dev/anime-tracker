@@ -14,8 +14,8 @@ export class AnimeFourUpCrawler extends BaseCrawler {
     this.filters = {
       ...this.filters,
       number: (text: string) => {
-        const num = text.match(/الحلقة (\d+)/);
-        return num?.length ? +num[1] : 1;
+        const num = text.match(/(.*) (\d+)/);
+        return num?.length ? +num[2] : 1;
       },
       subtitles: (text: string) => {
         return 'vostar';
