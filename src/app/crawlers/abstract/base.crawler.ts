@@ -28,6 +28,12 @@ export abstract class BaseCrawler {
       boolean: (text: string) => {
         return !!text?.length;
       },
+      decodeUrl: (text: string) => {
+        return decodeURI(text);
+      },
+      encodeUrl: (text: string) => {
+        return encodeURI(text);
+      },
       concatUrl: (text: string) => {
         return `${this.baseUrl.replace(/\/$/, '')}/${text?.replace(/^\//, '')}`;
       },

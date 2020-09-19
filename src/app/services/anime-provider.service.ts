@@ -11,7 +11,8 @@ import { JapMangaCrawler } from '../crawlers/japmanga.crawler';
 import { GogoAnimeCrawler } from '../crawlers/gogoanime.crawler';
 import { FourAnimeCrawler } from '../crawlers/4anime.crawler';
 import { AnimeKisaCrawler } from '../crawlers/animekisa.crawler';
-import { OkanimeCrawler } from '../crawlers/okanime.crawler';
+import { WitAnimeCrawler } from '../crawlers/witanime.crawler';
+import { AnimeFourUpCrawler } from '../crawlers/anime4up.crawler';
 import { Anime } from '../models/anime';
 import { Episode } from '../models/episode';
 import { isSimilar } from '../helpers/string.helper';
@@ -41,7 +42,8 @@ export class AnimeProviderService {
     this.addCrawler(new FourAnimeCrawler(this.scraper));
     this.addCrawler(new AnimeKisaCrawler(this.scraper));
     // Vostar crawlers
-    this.addCrawler(new OkanimeCrawler(this.scraper));
+    this.addCrawler(new WitAnimeCrawler(this.scraper));
+    this.addCrawler(new AnimeFourUpCrawler(this.scraper));
   }
 
   addCrawler(crawler: BaseCrawler) {
