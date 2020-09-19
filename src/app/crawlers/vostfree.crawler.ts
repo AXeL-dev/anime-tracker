@@ -57,7 +57,7 @@ export class VostFreeCrawler extends BaseCrawler {
       {
         anime: {
           title: '.info .title | title',
-          cover: '.image img@src | cover',
+          cover: '.image img@src,data-cfsrc | cover',
           isNew: '.anime-new | boolean',
           isFinished: '.anime-fin | boolean',
         },
