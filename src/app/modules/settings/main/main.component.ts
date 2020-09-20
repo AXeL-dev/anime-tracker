@@ -14,7 +14,11 @@ import { BaseCrawler } from 'src/app/crawlers/abstract/base.crawler';
 })
 export class MainComponent implements OnInit {
 
-  constructor(public settings: SettingsService, public crawlers: CrawlersService, private router: Router, public browser: BrowserService) { }
+  allCrawlers: BaseCrawler[] = [];
+
+  constructor(public settings: SettingsService, private crawlers: CrawlersService, private router: Router, public browser: BrowserService) {
+    this.allCrawlers = this.crawlers.getAll();
+  }
 
   ngOnInit(): void {
     debug('Settings', this.settings);
@@ -44,6 +48,12 @@ export class MainComponent implements OnInit {
     } else {
       this.settings.inactiveCrawlers.push(crawler.name);
     }
+  }
+
+  onSelectAllCrawlersChange(value: boolean) {
+    this.allCrawlers.forEach((crawler: BaseCrawler) => {
+      crawler.isActive = value;
+    });
   }
 
 }

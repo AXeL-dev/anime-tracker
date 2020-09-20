@@ -21,6 +21,11 @@
   @include mdc-theme-prop(color, on-primary);
 }
 
+[mdcFormFieldLabel] {
+  font-size: 1rem;
+  padding-left: 0;
+}
+
 // Stack toolbar and main on top of each other:
 .content {
   display: inline-flex;
