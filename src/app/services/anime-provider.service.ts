@@ -1,18 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BaseCrawler } from '../crawlers/abstract/base.crawler';
 import { flatten } from '../helpers/array.helper';
-import { ScraperService } from './scraper.service';
-import { AnimeKoCrawler } from '../crawlers/animeko.crawler';
-import { VostFreeCrawler } from '../crawlers/vostfree.crawler';
-import { FullAnimeVFCrawler } from '../crawlers/fullanimevf.crawler';
-import { VoirAnimeCrawler } from '../crawlers/voiranime.crawler';
-import { NekoSamaCrawler } from '../crawlers/neko-sama.crawler';
-import { JapMangaCrawler } from '../crawlers/japmanga.crawler';
-import { GogoAnimeCrawler } from '../crawlers/gogoanime.crawler';
-import { FourAnimeCrawler } from '../crawlers/4anime.crawler';
-import { AnimeKisaCrawler } from '../crawlers/animekisa.crawler';
-import { WitAnimeCrawler } from '../crawlers/witanime.crawler';
-import { AnimeFourUpCrawler } from '../crawlers/anime4up.crawler';
+import { CrawlersService } from './crawlers.service';
 import { Anime } from '../models/anime';
 import { Episode } from '../models/episode';
 import { isSimilar } from '../helpers/string.helper';
@@ -27,35 +16,10 @@ import { SettingsService } from './settings.service';
 })
 export class AnimeProviderService {
 
-  private crawlers: BaseCrawler[] = [];
-
-  constructor(private scraper: ScraperService, private settings: SettingsService) {
-    // Vostfr crawlers
-    this.addCrawler(new AnimeKoCrawler(this.scraper));
-    this.addCrawler(new VostFreeCrawler(this.scraper));
-    this.addCrawler(new FullAnimeVFCrawler(this.scraper));
-    this.addCrawler(new VoirAnimeCrawler(this.scraper));
-    this.addCrawler(new NekoSamaCrawler(this.scraper));
-    this.addCrawler(new JapMangaCrawler(this.scraper));
-    // Vosten crawlers
-    this.addCrawler(new GogoAnimeCrawler(this.scraper));
-    this.addCrawler(new FourAnimeCrawler(this.scraper));
-    this.addCrawler(new AnimeKisaCrawler(this.scraper));
-    // Vostar crawlers
-    this.addCrawler(new WitAnimeCrawler(this.scraper));
-    this.addCrawler(new AnimeFourUpCrawler(this.scraper));
-  }
-
-  addCrawler(crawler: BaseCrawler) {
-    this.crawlers.push(crawler);
-  }
-
-  removeCrawler(crawler: BaseCrawler) {
-    this.crawlers = this.crawlers.filter((c: BaseCrawler) => c.name !== crawler.name);
-  }
+  constructor(private crawlers: CrawlersService, private settings: SettingsService) { }
 
   search(title: string): Observable<Anime[]> {
-    return forkJoin(...this.crawlers.map((crawler: BaseCrawler) => crawler.searchAnime(title))).pipe(
+    return forkJoin(...this.crawlers.getActive().map((crawler: BaseCrawler) => crawler.searchAnime(title))).pipe(
       map((animes: Anime[]) => {
         return flatten(animes);
       })
@@ -66,11 +30,12 @@ export class AnimeProviderService {
     let latestEpisodes: Episode[] = [];
     let slicedEpisodesCount: number = 0;
     const maxEpisodesPerSlice: number = 5;
-    return concat(...this.crawlers.map((crawler: BaseCrawler) => crawler.getLatestEpisodes())).pipe(
+    const crawlers = this.crawlers.getActive();
+    return concat(...crawlers.map((crawler: BaseCrawler) => crawler.getLatestEpisodes())).pipe(
       //delay(700), // delay used to wait for UI renders
       concatMap((allEpisodes: Episode[], index: number) => {
         const episodes = allEpisodes.slice(0, Math.min(allEpisodes.length, this.settings.maxEpisodesToRetrieve));
-        debug(`${this.crawlers[index].name} latest episodes:`);
+        debug(`${crawlers[index].name} latest episodes:`);
         debug(episodes);
         debug('--------------------------');
         // filter duplicates

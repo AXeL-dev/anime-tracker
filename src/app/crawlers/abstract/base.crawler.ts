@@ -12,6 +12,7 @@ interface Cache {
 export abstract class BaseCrawler {
   protected _name: string;
   protected _baseUrl: string;
+  protected _isActive: boolean;
   protected filters: any = {};
   protected cache: Cache = {
     animeList: [],
@@ -21,6 +22,7 @@ export abstract class BaseCrawler {
   constructor(name: string, baseUrl: string) {
     this._name = name;
     this._baseUrl = baseUrl;
+    this._isActive = true;
     this.filters = {
       number: (text: string) => {
         return +text;
@@ -49,6 +51,14 @@ export abstract class BaseCrawler {
 
   get baseUrl() {
     return this._baseUrl;
+  }
+
+  get isActive() {
+    return this._isActive;
+  }
+
+  set isActive(value: boolean) {
+    this._isActive = value;
   }
 
   getAnimeList(forcedUpdate: boolean = false): Observable<Anime[]> {

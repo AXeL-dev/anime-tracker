@@ -91,6 +91,27 @@
               <input mdcSwitchInput type="checkbox" [(ngModel)]="settings.displayEpisodesDayByDay"/>
             </div>
           </li>
+          <li mdcListDivider [inset]="true"></li>
+        </ul>
+
+        <h3 mdcListGroupSubHeader>Crawlers</h3>
+
+        <ul mdcList [nonInteractive]="true">
+          <li mdcListItem *ngFor="let crawler of crawlers.getAll()">
+            <span mdcListItemGraphic>
+              <div mdcCheckbox>
+                <input mdcCheckboxInput type="checkbox" [(ngModel)]="crawler.isActive" (change)="onCrawlerChange(crawler)" />
+              </div>
+            </span>
+            <span mdcListItemText>
+              {{ crawler.name }}
+              <span mdcListItemSecondaryText>
+                <a [href]="crawler.baseUrl" target="_blank">
+                  {{ crawler.baseUrl }}
+                </a>
+              </span>
+            </span>
+          </li>
         </ul>
 
       </div>

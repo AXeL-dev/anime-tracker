@@ -8,6 +8,8 @@ export interface Settings {
   // Display
   defaultView: View;
   displayEpisodesDayByDay: boolean;
+  // Crawlers
+  inactiveCrawlers: string[];
 }
 
 export enum View {

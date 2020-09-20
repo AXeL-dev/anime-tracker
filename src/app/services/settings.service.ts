@@ -19,6 +19,8 @@ export class SettingsService {
   // Display
   defaultView: View;
   displayEpisodesDayByDay: boolean;
+  // Crawlers
+  inactiveCrawlers: string[];
 
   static readonly CORSProxies: Proxy[] = [
     {
@@ -83,6 +85,7 @@ export class SettingsService {
       maxEpisodesToRetrieve: 50,
       defaultView: View.Latest,
       displayEpisodesDayByDay: true,
+      inactiveCrawlers: [],
     };
   }
 
@@ -93,6 +96,7 @@ export class SettingsService {
     this.maxEpisodesToRetrieve = settings.maxEpisodesToRetrieve;
     this.defaultView = settings.defaultView;
     this.displayEpisodesDayByDay = settings.displayEpisodesDayByDay;
+    this.inactiveCrawlers = settings.inactiveCrawlers;
   }
 
   save() {
@@ -103,6 +107,7 @@ export class SettingsService {
       maxEpisodesToRetrieve: this.maxEpisodesToRetrieve,
       defaultView: this.defaultView,
       displayEpisodesDayByDay: this.displayEpisodesDayByDay,
+      inactiveCrawlers: this.inactiveCrawlers,
     });
   }
 }
