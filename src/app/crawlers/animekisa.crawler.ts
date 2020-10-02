@@ -48,7 +48,7 @@ export class AnimeKisaCrawler extends BaseCrawler {
       {
         anime: {
           title: '.title-box > div',
-          cover: '.image-box img@src | concatUrl',
+          cover: '.image-box img@src,data-cfsrc | concatUrl',
         },
         number: '.info-box > div | number',
         streamLinks: [
