@@ -4,9 +4,10 @@ import { Episode } from 'src/app/models/episode';
 import { debug } from 'src/app/helpers/debug.helper';
 import { SettingsService } from 'src/app/services/settings.service';
 import { dateOnly } from 'src/app/helpers/date.helper';
-import { Subscription } from 'rxjs';
+import { Subject } from 'rxjs';
 import { View } from 'src/app/models/settings';
 import { FavoriteAnimesService } from 'src/app/services/favorite-animes.service';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-main',
@@ -22,7 +23,7 @@ export class MainComponent implements OnInit, OnDestroy {
   episodesByDays: Episode[][] = [];
   private allEpisodes: Episode[] = [];
   isLoading: boolean = true;
-  private subscription: Subscription = new Subscription();
+  private componentDestroy: Subject<void> = new Subject();
 
   constructor(private animeProvider: AnimeProviderService, public settings: SettingsService, private favoriteAnimes: FavoriteAnimesService) { }
 
@@ -32,27 +33,28 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.componentDestroy.next();
+    this.componentDestroy.complete();
   }
 
   private init() {
     this.isLoading = true;
-    this.subscription.add(
-      this.animeProvider.getLatestEpisodes().subscribe(([episodes, days]) => {
-        // debug('Latest episodes:', episodes);
-        // debug('Days:', days);
-        // debug('--------------------------');
-        // Set episodes
-        this.allEpisodes = episodes;
-        this.filterEpisodes(episodes, days);
-        // Set days
-        this.days = days;
-      }, (error: Error) => {
-        console.error(error.message);
-      }, () => {
-        this.isLoading = false;
-      })
-    );
+    this.animeProvider.getLatestEpisodes().pipe(
+      takeUntil(this.componentDestroy)
+    ).subscribe(([episodes, days]) => {
+      // debug('Latest episodes:', episodes);
+      // debug('Days:', days);
+      // debug('--------------------------');
+      // Set episodes
+      this.allEpisodes = episodes;
+      this.filterEpisodes(episodes, days);
+      // Set days
+      this.days = days;
+    }, (error: Error) => {
+      console.error(error.message);
+    }, () => {
+      this.isLoading = false;
+    });
   }
 
   private filterEpisodes(episodes: Episode[], days: number[]) {
