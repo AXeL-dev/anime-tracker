@@ -23,7 +23,7 @@ I watch animes almost daily or at least once or twice a week, & i wanted somethi
 
 :warning: Due to [DMCA](https://en.wikipedia.org/wiki/Digital_Millennium_Copyright_Act) law, this web extension will be available as a zip file on github [releases](https://github.com/AXeL-dev/anime-tracker/releases), use it on your own risk.
 
-<details>
+<details open>
   <summary>How to install?</summary>
 
   ### Chrome
