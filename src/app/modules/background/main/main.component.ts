@@ -7,6 +7,7 @@ import { FavoriteAnimesService } from 'src/app/services/favorite-animes.service'
 import { Episode } from 'src/app/models/episode';
 import { Settings } from 'src/app/models/settings';
 import { DebugService } from 'src/app/services/debug.service';
+import { isInToday } from 'src/app/helpers/date.helper';
 
 @Component({
   selector: 'app-main',
@@ -19,6 +20,7 @@ export class MainComponent implements OnInit {
     autoCheckRate: 30, // minute(s)
   };
   private checkedEpisodes: Episode[] = [];
+  private badgeCount: number = 0;
 
   constructor(
     private browser: BrowserService,
@@ -26,7 +28,9 @@ export class MainComponent implements OnInit {
     private debug: DebugService,
     private animeProvider: AnimeProviderService,
     private favoriteAnimes: FavoriteAnimesService
-  ) { }
+  ) {
+    // this.debug.forceEnable();
+  }
 
   ngOnInit(): void {
     if (this.browser.isWebExtension) {
@@ -41,15 +45,22 @@ export class MainComponent implements OnInit {
     this.autoCheckLoop(rate);
   }
 
-  autoCheckLoop(rate: number) {
+  private autoCheckLoop(rate: number) {
     setTimeout(async () => {
       // Check for latest episodes
       const [count, notificationMessages] = await this.getLatestEpisodesCount();
-      const totalCount = this.checkedEpisodes.length += count;
-      this.debug.log('Latest episodes count:', count, 'Total count:', totalCount);
-      this.browser.setBadgeText(totalCount);
-      // Notify
+      this.debug.log('Latest episodes count:', count);
       if (count > 0) {
+        // Set badge count
+        const badgeText: string = await this.browser.getBadgeText();
+        if (badgeText.length) {
+          this.badgeCount += count;
+        } else {
+          this.badgeCount = count;
+        }
+        this.debug.log('Total count:', this.badgeCount);
+        this.browser.setBadgeText(this.badgeCount);
+        // Notify
         notificationMessages.forEach((message: string) => {
           this.browser.sendNotification(message);
         });
@@ -60,14 +71,14 @@ export class MainComponent implements OnInit {
     }, rate * 60 * 1000); // convert minutes to milliseconds
   }
 
-  getAutoCheckRate(): Promise<number> {
+  private getAutoCheckRate(): Promise<number> {
     return new Promise(async (resolve, reject) => {
       const settings: Settings = await this.storage.get('settings');
       resolve(settings?.autoCheckRate || this.defaults.autoCheckRate);
     });
   }
 
-  getLatestEpisodesCount(): Promise<[number, string[]]> {
+  private getLatestEpisodesCount(): Promise<[number, string[]]> {
     return new Promise(async (resolve, reject) => {
 
       let count: number = 0;
@@ -75,24 +86,30 @@ export class MainComponent implements OnInit {
 
       const [episodes, days] = await this.animeProvider.getLatestEpisodes(false).pipe(take(1)).toPromise();
 
+      this.debug.log('Latest episodes:', episodes);
       this.debug.log('Checked episodes:', this.checkedEpisodes);
 
-      episodes
-        // Remove already checked episodes
-        .filter((episode: Episode) => !this.checkedEpisodes.find((e: Episode) => e.anime.title === episode.anime.title && e.number === episode.number))
-        // Generate notifications for favorite animes episodes only
-        .forEach((episode: Episode) => {
-          if (this.favoriteAnimes.isFavorite(episode.anime.title)) {
-            notificationMessages.push(`${episode.anime.title} ${episode.number} released!`);
-            // update count
-            count++;
-            // remember as checked
-            this.checkedEpisodes.push({...episode}); // assign a copy
-          }
-        });
+      episodes.forEach((episode: Episode) => {
+        // Generate notification messages for favorite animes episodes only
+        if (
+          !this.isAlreadyChecked(episode) &&
+          isInToday(new Date(episode.releaseDate)) &&
+          this.favoriteAnimes.isFavorite(episode.anime.title)
+        ) {
+          notificationMessages.push(`${episode.anime.title} ${episode.number} released!`);
+          // update count
+          count++;
+          // remember as checked
+          this.checkedEpisodes.push(episode);
+        }
+      });
 
       resolve([count, notificationMessages]);
 
     });
+  }
+
+  private isAlreadyChecked(episode: Episode) {
+    return !!this.checkedEpisodes.find((e: Episode) => e.anime.title === episode.anime.title && e.number === episode.number);
   }
 }

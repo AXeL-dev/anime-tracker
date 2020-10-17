@@ -39,3 +39,8 @@ export const dateBefore = (numberOfDays: number, asString: boolean = false): any
   const date = new Date(now().getTime() - (numberOfDays * dayMilliseconds));
   return asString ? date.toISOString().slice(0, 10) : dateOnly(date);
 };
+
+export const isInToday = (inputDate: Date) => {
+  const today = now();
+  return today.setHours(0, 0, 0, 0) === inputDate.setHours(0, 0, 0, 0);
+};

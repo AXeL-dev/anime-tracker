@@ -8,6 +8,7 @@ import { View } from 'src/app/models/settings';
 import { FavoriteAnimesService } from 'src/app/services/favorite-animes.service';
 import { takeUntil } from 'rxjs/operators';
 import { DebugService } from 'src/app/services/debug.service';
+import { BrowserService } from 'src/app/services/browser.service';
 
 @Component({
   selector: 'app-main',
@@ -29,10 +30,14 @@ export class MainComponent implements OnInit, OnDestroy {
     private animeProvider: AnimeProviderService,
     private favoriteAnimes: FavoriteAnimesService,
     public settings: SettingsService,
+    private browser: BrowserService,
     private debug: DebugService
   ) { }
 
   ngOnInit(): void {
+    if (this.browser.isWebExtension) {
+      this.browser.setBadgeText(''); // Reset badge count
+    }
     this.view = this.settings.defaultView;
     this.init();
   }

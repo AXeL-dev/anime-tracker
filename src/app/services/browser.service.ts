@@ -43,7 +43,7 @@ export class BrowserService {
   sendNotification(message: string, type: string = 'basic'): void {
     browser.notifications.create({
       type: type,
-      title: 'Anime tracker',
+      title: 'Anime Tracker',
       iconUrl: 'assets/icons/128.png',
       message: message
     });

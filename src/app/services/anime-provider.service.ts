@@ -30,75 +30,84 @@ export class AnimeProviderService {
     );
   }
 
-  getLatestEpisodes(asSlices: boolean = true): Observable<[Episode[], number[]]> {
+  getLatestEpisodes(asSlices: boolean = true, maxEpisodesPerSlice: number = 5): Observable<[Episode[], number[]]> {
     let latestEpisodes: Episode[] = [];
     let slicedEpisodesCount: number = 0;
-    const maxEpisodesPerSlice: number = 5;
     const crawlers = this.crawlers.getActive();
-    return concat(...crawlers.map((crawler: BaseCrawler) => crawler.getLatestEpisodes())).pipe(
-      //delay(700), // delay used to wait for UI renders
-      concatMap((allEpisodes: Episode[], index: number) => {
-        const episodes = allEpisodes.slice(0, Math.min(allEpisodes.length, this.settings.maxEpisodesToRetrieve));
-        this.debug.log(`${crawlers[index].name} latest episodes:`);
-        this.debug.log(episodes);
-        this.debug.log('--------------------------');
-        // filter duplicates
-        episodes.forEach((episode: Episode) => {
-          let isDuplicated = false;
-          latestEpisodes.forEach((lastestEpisode: Episode, index: number) => {
-            // duplicated
-            if (isSimilar(lastestEpisode.anime.title, episode.anime.title) && lastestEpisode.number === episode.number) {
-              if (!latestEpisodes[index].releaseDate) {
-                latestEpisodes[index].releaseDate = episode.releaseDate;
-              }
-              latestEpisodes[index].streamLinks = [...latestEpisodes[index].streamLinks, ...episode.streamLinks]; // array.push(...episode.streamLinks) not working well here
-              if (episode.downloadLinks?.length) {
-                latestEpisodes[index].downloadLinks = [...latestEpisodes[index].downloadLinks, ...episode.downloadLinks];
-              }
-              if (episode.anime.isNew && !latestEpisodes[index].anime.isNew) {
-                latestEpisodes[index].anime.isNew = episode.anime.isNew;
-              }
-              if (episode.anime.isFinished && !latestEpisodes[index].anime.isFinished) {
-                latestEpisodes[index].anime.isFinished = episode.anime.isFinished;
-              }
-              isDuplicated = true;
-              return;
+    const filterEpisodes = (allEpisodes: Episode[], index: number) => {
+      let episodes: Episode[] = [];
+      if (asSlices) {
+        episodes = allEpisodes.slice(0, Math.min(allEpisodes.length, this.settings.maxEpisodesToRetrieve));
+      } else {
+        episodes = flatten(
+          allEpisodes.map((episodesArray: any) => episodesArray.slice(0, Math.min(episodesArray.length, this.settings.maxEpisodesToRetrieve)))
+        );
+      }
+      this.debug.log(asSlices ? `${crawlers[index].name} latest episodes:` : 'Latest episodes:');
+      this.debug.log(episodes);
+      this.debug.log('--------------------------');
+      // filter duplicates
+      episodes.forEach((episode: Episode) => {
+        let isDuplicated = false;
+        latestEpisodes.forEach((lastestEpisode: Episode, index: number) => {
+          // duplicated
+          if (isSimilar(lastestEpisode.anime.title, episode.anime.title) && lastestEpisode.number === episode.number) {
+            if (!latestEpisodes[index].releaseDate) {
+              latestEpisodes[index].releaseDate = episode.releaseDate;
             }
-          });
-          // not duplicated
-          if (!isDuplicated) {
-            latestEpisodes.push({
-              ...episode,
-              downloadLinks: episode.downloadLinks?.length ? episode.downloadLinks : []
-            } as Episode);
+            latestEpisodes[index].streamLinks = [...latestEpisodes[index].streamLinks, ...episode.streamLinks]; // array.push(...episode.streamLinks) not working well here
+            if (episode.downloadLinks?.length) {
+              latestEpisodes[index].downloadLinks = [...latestEpisodes[index].downloadLinks, ...episode.downloadLinks];
+            }
+            if (episode.anime.isNew && !latestEpisodes[index].anime.isNew) {
+              latestEpisodes[index].anime.isNew = episode.anime.isNew;
+            }
+            if (episode.anime.isFinished && !latestEpisodes[index].anime.isFinished) {
+              latestEpisodes[index].anime.isFinished = episode.anime.isFinished;
+            }
+            isDuplicated = true;
+            return;
           }
         });
-        // sort
-        if (latestEpisodes.length) {
-          latestEpisodes = latestEpisodes.sort((a: Episode, b: Episode) => (b.releaseDate as number) - (a.releaseDate as number));
+        // not duplicated
+        if (!isDuplicated) {
+          latestEpisodes.push({
+            ...episode,
+            downloadLinks: episode.downloadLinks?.length ? episode.downloadLinks : []
+          } as Episode);
         }
-        // return as slices (to avoid freezing the UI)
-        let continueSlicing: boolean = true;
-        return asSlices ? timer(700, 1000).pipe( // starts after 700 ms & reloop each 1000 ms
-          takeWhile(() => continueSlicing),
-          map((i: number) => {
-            let from = i * maxEpisodesPerSlice;
-            let to = from + slicedEpisodesCount + maxEpisodesPerSlice;
-            if (to >= latestEpisodes.length) {
-              to = latestEpisodes.length;
-              slicedEpisodesCount = to;
-              continueSlicing = false;
-            }
-            const episodesSlice = latestEpisodes.slice(/*from*/0, to);
-            const days = this.settings.displayEpisodesDayByDay ? this.getEpisodesDays(episodesSlice) : [];
-            this.debug.log('Slice', i, ':', episodesSlice);
-            this.debug.log('Days:', days);
-            this.debug.log('----------------------------');
-            return [episodesSlice, days];
-          })
-        ) : of([latestEpisodes, this.getEpisodesDays(latestEpisodes)]);
+      });
+      // sort
+      if (latestEpisodes.length) {
+        latestEpisodes = latestEpisodes.sort((a: Episode, b: Episode) => (b.releaseDate as number) - (a.releaseDate as number));
       }
-    )) as Observable<[Episode[], number[]]>;
+      // return as slices (to avoid freezing the UI)
+      let continueSlicing: boolean = true;
+      return asSlices ? timer(700, 1000).pipe( // starts after 700 ms & reloop each 1000 ms
+        takeWhile(() => continueSlicing),
+        map((i: number) => {
+          let from = i * maxEpisodesPerSlice;
+          let to = from + slicedEpisodesCount + maxEpisodesPerSlice;
+          if (to >= latestEpisodes.length) {
+            to = latestEpisodes.length;
+            slicedEpisodesCount = to;
+            continueSlicing = false;
+          }
+          const episodesSlice = latestEpisodes.slice(/*from*/0, to);
+          const days = this.settings.displayEpisodesDayByDay ? this.getEpisodesDays(episodesSlice) : [];
+          this.debug.log('Slice', i, ':', episodesSlice);
+          this.debug.log('Days:', days);
+          this.debug.log('----------------------------');
+          return [episodesSlice, days];
+        })
+      ) : of([latestEpisodes, this.getEpisodesDays(latestEpisodes)]);
+    };
+    const observable = asSlices ? concat : forkJoin;
+
+    return observable(...crawlers.map((crawler: BaseCrawler) => crawler.getLatestEpisodes())).pipe(
+      //delay(700), // delay used to wait for UI renders
+      concatMap(filterEpisodes)
+    ) as Observable<[Episode[], number[]]>;
   }
 
   private getEpisodesDays(episodes: Episode[]): number[] {
