@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { BrowserService } from 'src/app/services/browser.service';
-import { debug } from 'src/app/helpers/debug.helper';
 import { StorageService } from 'src/app/services/storage.service';
 import { AnimeProviderService } from 'src/app/services/anime-provider.service';
 import { take } from 'rxjs/operators';
 import { FavoriteAnimesService } from 'src/app/services/favorite-animes.service';
 import { Episode } from 'src/app/models/episode';
 import { Settings } from 'src/app/models/settings';
+import { DebugService } from 'src/app/services/debug.service';
 
 @Component({
   selector: 'app-main',
@@ -23,6 +23,7 @@ export class MainComponent implements OnInit {
   constructor(
     private browser: BrowserService,
     private storage: StorageService,
+    private debug: DebugService,
     private animeProvider: AnimeProviderService,
     private favoriteAnimes: FavoriteAnimesService
   ) { }
@@ -36,7 +37,7 @@ export class MainComponent implements OnInit {
   async init() {
     this.browser.setBadgeColors('#666', '#fff');
     const rate = await this.getAutoCheckRate();
-    debug('Rate:', rate);
+    this.debug.log('Rate:', rate);
     this.autoCheckLoop(rate);
   }
 
@@ -45,7 +46,7 @@ export class MainComponent implements OnInit {
       // Check for latest episodes
       const [count, notificationMessages] = await this.getLatestEpisodesCount();
       const totalCount = this.checkedEpisodes.length += count;
-      debug('Latest episodes count:', count, 'Total count:', totalCount);
+      this.debug.log('Latest episodes count:', count, 'Total count:', totalCount);
       this.browser.setBadgeText(totalCount);
       // Notify
       if (count > 0) {
@@ -74,17 +75,19 @@ export class MainComponent implements OnInit {
 
       const [episodes, days] = await this.animeProvider.getLatestEpisodes(false).pipe(take(1)).toPromise();
 
+      this.debug.log('Checked episodes:', this.checkedEpisodes);
+
       episodes
         // Remove already checked episodes
         .filter((episode: Episode) => !this.checkedEpisodes.find((e: Episode) => e.anime.title === episode.anime.title && e.number === episode.number))
         // Generate notifications for favorite animes episodes only
         .forEach((episode: Episode) => {
           if (this.favoriteAnimes.isFavorite(episode.anime.title)) {
-            notificationMessages.push(`${episode.anime.title} ${episode.number} has been released!`);
+            notificationMessages.push(`${episode.anime.title} ${episode.number} released!`);
             // update count
             count++;
             // remember as checked
-            this.checkedEpisodes.push(episode);
+            this.checkedEpisodes.push({...episode}); // assign a copy
           }
         });
 

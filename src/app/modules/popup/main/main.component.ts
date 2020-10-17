@@ -1,13 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AnimeProviderService } from 'src/app/services/anime-provider.service';
 import { Episode } from 'src/app/models/episode';
-import { debug } from 'src/app/helpers/debug.helper';
 import { SettingsService } from 'src/app/services/settings.service';
 import { dateOnly } from 'src/app/helpers/date.helper';
 import { Subject } from 'rxjs';
 import { View } from 'src/app/models/settings';
 import { FavoriteAnimesService } from 'src/app/services/favorite-animes.service';
 import { takeUntil } from 'rxjs/operators';
+import { DebugService } from 'src/app/services/debug.service';
 
 @Component({
   selector: 'app-main',
@@ -25,7 +25,12 @@ export class MainComponent implements OnInit, OnDestroy {
   isLoading: boolean = true;
   private componentDestroy: Subject<void> = new Subject();
 
-  constructor(private animeProvider: AnimeProviderService, public settings: SettingsService, private favoriteAnimes: FavoriteAnimesService) { }
+  constructor(
+    private animeProvider: AnimeProviderService,
+    private favoriteAnimes: FavoriteAnimesService,
+    public settings: SettingsService,
+    private debug: DebugService
+  ) { }
 
   ngOnInit(): void {
     this.view = this.settings.defaultView;
@@ -42,9 +47,9 @@ export class MainComponent implements OnInit, OnDestroy {
     this.animeProvider.getLatestEpisodes().pipe(
       takeUntil(this.componentDestroy)
     ).subscribe(([episodes, days]) => {
-      // debug('Latest episodes:', episodes);
-      // debug('Days:', days);
-      // debug('--------------------------');
+      // this.debug.log('Latest episodes:', episodes);
+      // this.debug.log('Days:', days);
+      // this.debug.log('--------------------------');
       // Set episodes
       this.allEpisodes = episodes;
       this.filterEpisodes(episodes, days);

@@ -5,18 +5,22 @@ import { CrawlersService } from './crawlers.service';
 import { Anime } from '../models/anime';
 import { Episode } from '../models/episode';
 import { isSimilar } from '../helpers/string.helper';
-import { debug } from '../helpers/debug.helper';
 import { Observable, concat, forkJoin, timer, of } from 'rxjs';
 import { map, delay, concatMap, takeWhile } from 'rxjs/operators';
 import { dateOnly } from '../helpers/date.helper';
 import { SettingsService } from './settings.service';
+import { DebugService } from './debug.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AnimeProviderService {
 
-  constructor(private crawlers: CrawlersService, private settings: SettingsService) { }
+  constructor(
+    private crawlers: CrawlersService,
+    private settings: SettingsService,
+    private debug: DebugService
+  ) { }
 
   search(title: string): Observable<Anime[]> {
     return forkJoin(...this.crawlers.getActive().map((crawler: BaseCrawler) => crawler.searchAnime(title))).pipe(
@@ -35,9 +39,9 @@ export class AnimeProviderService {
       //delay(700), // delay used to wait for UI renders
       concatMap((allEpisodes: Episode[], index: number) => {
         const episodes = allEpisodes.slice(0, Math.min(allEpisodes.length, this.settings.maxEpisodesToRetrieve));
-        debug(`${crawlers[index].name} latest episodes:`);
-        debug(episodes);
-        debug('--------------------------');
+        this.debug.log(`${crawlers[index].name} latest episodes:`);
+        this.debug.log(episodes);
+        this.debug.log('--------------------------');
         // filter duplicates
         episodes.forEach((episode: Episode) => {
           let isDuplicated = false;
@@ -87,9 +91,9 @@ export class AnimeProviderService {
             }
             const episodesSlice = latestEpisodes.slice(/*from*/0, to);
             const days = this.settings.displayEpisodesDayByDay ? this.getEpisodesDays(episodesSlice) : [];
-            debug('Slice', i, ':', episodesSlice);
-            debug('Days:', days);
-            debug('----------------------------');
+            this.debug.log('Slice', i, ':', episodesSlice);
+            this.debug.log('Days:', days);
+            this.debug.log('----------------------------');
             return [episodesSlice, days];
           })
         ) : of([latestEpisodes, this.getEpisodesDays(latestEpisodes)]);

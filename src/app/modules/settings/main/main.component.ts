@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { SettingsService } from 'src/app/services/settings.service';
 import { Router } from '@angular/router';
-import { debug } from 'src/app/helpers/debug.helper';
 import { BrowserService } from 'src/app/services/browser.service';
 import { View } from 'src/app/models/settings';
 import { CrawlersService } from 'src/app/services/crawlers.service';
 import { BaseCrawler } from 'src/app/crawlers/abstract/base.crawler';
+import { DebugService } from 'src/app/services/debug.service';
 
 @Component({
   selector: 'app-main',
@@ -16,12 +16,18 @@ export class MainComponent implements OnInit {
 
   allCrawlers: BaseCrawler[] = [];
 
-  constructor(public settings: SettingsService, private crawlers: CrawlersService, private router: Router, public browser: BrowserService) {
+  constructor(
+    public settings: SettingsService,
+    private crawlers: CrawlersService,
+    private router: Router,
+    private debug: DebugService,
+    public browser: BrowserService
+  ) {
     this.allCrawlers = this.crawlers.getAll();
   }
 
   ngOnInit(): void {
-    debug('Settings', this.settings);
+    this.debug.log('Settings', this.settings);
   }
 
   saveSettings() {

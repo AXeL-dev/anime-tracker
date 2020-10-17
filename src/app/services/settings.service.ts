@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { Settings, View } from '../models/settings';
 import { Proxy } from '../models/proxy';
 import { StorageService } from './storage.service';
-import { debug } from '../helpers/debug.helper';
 import { BrowserService } from './browser.service';
 import { getQueryParam } from '../helpers/url.helper';
+import { DebugService } from './debug.service';
 
 @Injectable({
   providedIn: 'root',
@@ -45,7 +45,11 @@ export class SettingsService {
     // },
   ];
 
-  constructor(private storage: StorageService, private browser: BrowserService) { }
+  constructor(
+    private storage: StorageService,
+    private browser: BrowserService,
+    private debug: DebugService
+  ) { }
 
   static init(self: SettingsService) {
     return () => new Promise((resolve, reject) => {
@@ -72,7 +76,7 @@ export class SettingsService {
 
   private async get() {
     const settings = await this.storage.get('settings');
-    debug('Storage settings:', settings);
+    this.debug.log('Storage settings:', settings);
     const defaults = this.getDefaults();
     this.set({...defaults, ...settings}); // any existing settings value will override defaults
   }
