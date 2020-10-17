@@ -6,7 +6,7 @@ import { Anime } from '../models/anime';
 import { Episode } from '../models/episode';
 import { isSimilar } from '../helpers/string.helper';
 import { debug } from '../helpers/debug.helper';
-import { Observable, concat, forkJoin, timer } from 'rxjs';
+import { Observable, concat, forkJoin, timer, of } from 'rxjs';
 import { map, delay, concatMap, takeWhile } from 'rxjs/operators';
 import { dateOnly } from '../helpers/date.helper';
 import { SettingsService } from './settings.service';
@@ -26,7 +26,7 @@ export class AnimeProviderService {
     );
   }
 
-  getLatestEpisodes(): Observable<[Episode[], number[]]> {
+  getLatestEpisodes(asSlices: boolean = true): Observable<[Episode[], number[]]> {
     let latestEpisodes: Episode[] = [];
     let slicedEpisodesCount: number = 0;
     const maxEpisodesPerSlice: number = 5;
@@ -75,7 +75,7 @@ export class AnimeProviderService {
         }
         // return as slices (to avoid freezing the UI)
         let continueSlicing: boolean = true;
-        return timer(700, 1000).pipe( // starts after 700 ms & reloop each 1000 ms
+        return asSlices ? timer(700, 1000).pipe( // starts after 700 ms & reloop each 1000 ms
           takeWhile(() => continueSlicing),
           map((i: number) => {
             let from = i * maxEpisodesPerSlice;
@@ -92,7 +92,7 @@ export class AnimeProviderService {
             debug('----------------------------');
             return [episodesSlice, days];
           })
-        );
+        ) : of([latestEpisodes, this.getEpisodesDays(latestEpisodes)]);
       }
     )) as Observable<[Episode[], number[]]>;
   }

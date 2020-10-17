@@ -5,6 +5,7 @@ export interface Settings {
   openInNewTab: boolean;
   openLinksInInactiveTabs: boolean;
   maxEpisodesToRetrieve: number;
+  autoCheckRate: number;
   // Display
   defaultView: View;
   displayEpisodesDayByDay: boolean;

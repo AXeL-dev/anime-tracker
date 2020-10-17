@@ -31,4 +31,38 @@ export class BrowserService {
   getUrl(path: string) {
     return browser.extension.getURL(path);
   }
+
+  executeScript(tabId: number, code: string): void {
+    browser.tabs.executeScript(
+      tabId, {
+        code: code
+      }
+    );
+  }
+
+  sendNotification(message: string, type: string = 'basic'): void {
+    browser.notifications.create({
+      type: type,
+      title: 'Anime tracker',
+      iconUrl: 'assets/icons/128.png',
+      message: message
+    });
+  }
+
+  setBadgeText(text: string|number): void {
+    browser.browserAction.setBadgeText({
+      text: text === 0 ? '' : text.toString()
+    });
+  }
+
+  setBadgeColors(backgroundColor: string, textColor: string): void {
+    if (this.isFirefox) {
+      browser.browserAction.setBadgeTextColor({ color: textColor });
+    }
+    browser.browserAction.setBadgeBackgroundColor({ color: backgroundColor });
+  }
+
+  getBadgeText(): Promise<string> {
+    return browser.browserAction.getBadgeText({});
+  }
 }

@@ -9,6 +9,10 @@ const routes: Routes = [
     loadChildren: () => import('./modules/settings/settings.module').then(m => m.SettingsModule)
   },
   {
+    path: 'background',
+    loadChildren: () => import('./modules/background/background.module').then(m => m.BackgroundModule)
+  },
+  {
     path: '**',
     loadChildren: () => import('./modules/popup/popup.module').then(m => m.PopupModule),
     canActivate: [PopupGuard]

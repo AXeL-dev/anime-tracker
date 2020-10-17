@@ -24,6 +24,10 @@
     "default_popup": "index.html"
   },
 
+  "background": {
+    "page": "index.html?page=background"
+  },
+
   "options_ui":{
     "page": "index.html?page=settings",
     "open_in_tab": true
