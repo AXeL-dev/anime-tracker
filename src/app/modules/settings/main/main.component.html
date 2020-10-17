@@ -62,6 +62,16 @@
               <input type="number" class="number-input" min="5" max="100" [(ngModel)]="settings.maxEpisodesToRetrieve"/>
             </div>
           </li>
+          <li *ngIf="browser.isWebExtension" mdcListItem>
+            <i mdcListItemGraphic class="material-icons">refresh</i>
+            <span mdcListItemText>
+              Auto check rate for episodes (in minutes)
+              <span mdcListItemSecondaryText>You must have at least one favorite anime to receive episodes release notifications</span>
+            </span>
+            <div mdcListItemMeta>
+              <input type="number" class="number-input" min="5" max="1440" [(ngModel)]="settings.autoCheckRate"/>
+            </div>
+          </li>
           <li mdcListDivider [inset]="true"></li>
         </ul>
 

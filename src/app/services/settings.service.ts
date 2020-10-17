@@ -16,6 +16,7 @@ export class SettingsService {
   openInNewTab: boolean;
   openLinksInInactiveTabs: boolean;
   maxEpisodesToRetrieve: number;
+  autoCheckRate: number;
   // Display
   defaultView: View;
   displayEpisodesDayByDay: boolean;
@@ -87,6 +88,7 @@ export class SettingsService {
       openInNewTab: this.browser.isFirefox ? true : false,
       openLinksInInactiveTabs: true,
       maxEpisodesToRetrieve: 50,
+      autoCheckRate: 30,
       defaultView: View.Latest,
       displayEpisodesDayByDay: true,
       inactiveCrawlers: [],
@@ -98,6 +100,7 @@ export class SettingsService {
     this.openInNewTab = settings.openInNewTab;
     this.openLinksInInactiveTabs = settings.openLinksInInactiveTabs;
     this.maxEpisodesToRetrieve = settings.maxEpisodesToRetrieve;
+    this.autoCheckRate = settings.autoCheckRate;
     this.defaultView = settings.defaultView;
     this.displayEpisodesDayByDay = settings.displayEpisodesDayByDay;
     this.inactiveCrawlers = settings.inactiveCrawlers;
@@ -109,6 +112,7 @@ export class SettingsService {
       openInNewTab: this.openInNewTab,
       openLinksInInactiveTabs: this.openLinksInInactiveTabs,
       maxEpisodesToRetrieve: this.maxEpisodesToRetrieve,
+      autoCheckRate: this.autoCheckRate,
       defaultView: this.defaultView,
       displayEpisodesDayByDay: this.displayEpisodesDayByDay,
       inactiveCrawlers: this.inactiveCrawlers,
