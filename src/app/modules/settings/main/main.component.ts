@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SettingsService } from 'src/app/services/settings.service';
 import { Router } from '@angular/router';
 import { BrowserService } from 'src/app/services/browser.service';
-import { View } from 'src/app/models/settings';
+import { View, Settings } from 'src/app/models/settings';
 import { CrawlersService } from 'src/app/services/crawlers.service';
 import { BaseCrawler } from 'src/app/crawlers/abstract/base.crawler';
 import { DebugService } from 'src/app/services/debug.service';
@@ -15,6 +15,7 @@ import { DebugService } from 'src/app/services/debug.service';
 export class MainComponent implements OnInit {
 
   allCrawlers: BaseCrawler[] = [];
+  private readonly defaults: Settings;
 
   constructor(
     public settings: SettingsService,
@@ -24,6 +25,7 @@ export class MainComponent implements OnInit {
     public browser: BrowserService
   ) {
     this.allCrawlers = this.crawlers.getAll();
+    this.defaults = this.settings.getDefaults();
   }
 
   ngOnInit(): void {
@@ -32,7 +34,10 @@ export class MainComponent implements OnInit {
 
   saveSettings() {
     if (!this.settings.maxEpisodesToRetrieve) {
-      this.settings.maxEpisodesToRetrieve = this.settings.getDefaults().maxEpisodesToRetrieve;
+      this.settings.maxEpisodesToRetrieve = this.defaults.maxEpisodesToRetrieve;
+    }
+    if (!this.settings.autoCheckRate) {
+      this.settings.autoCheckRate = this.defaults.autoCheckRate;
     }
     this.settings.save();
     this.router.navigate(['/']);
