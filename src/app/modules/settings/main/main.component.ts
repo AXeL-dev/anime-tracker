@@ -6,6 +6,7 @@ import { View, Settings } from 'src/app/models/settings';
 import { CrawlersService } from 'src/app/services/crawlers.service';
 import { BaseCrawler } from 'src/app/crawlers/abstract/base.crawler';
 import { DebugService } from 'src/app/services/debug.service';
+import { MdcSnackbarService } from '@blox/material';
 
 @Component({
   selector: 'app-main',
@@ -22,7 +23,8 @@ export class MainComponent implements OnInit {
     private crawlers: CrawlersService,
     private router: Router,
     private debug: DebugService,
-    public browser: BrowserService
+    public browser: BrowserService,
+    private snackbar: MdcSnackbarService
   ) {
     this.allCrawlers = this.crawlers.getAll();
     this.defaults = this.settings.getDefaults();
@@ -40,6 +42,10 @@ export class MainComponent implements OnInit {
       this.settings.autoCheckRate = this.defaults.autoCheckRate;
     }
     this.settings.save();
+    this.snackbar.show({
+      message: 'Settings saved successfully!',
+      timeout: 3000
+    });
     this.router.navigate(['/']);
   }
 
