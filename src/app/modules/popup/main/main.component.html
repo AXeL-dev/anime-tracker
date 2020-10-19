@@ -24,6 +24,11 @@
         <section mdcTopAppBarSection alignStart>
           <button mdcTopAppBarNavIcon class="material-icons" (click)="toggleDrawer()">menu</button>
           <span mdcTopAppBarTitle>Anime Tracker</span>
+          <div mdcTextField box="true" class="search-input">
+            <i mdcTextFieldIcon class="material-icons">search</i>
+            <input mdcTextFieldInput type="text" placeholder="Search..." [(ngModel)]="searchInputValue" (input)="search()" />
+            <i *ngIf="searchInputValue?.length" mdcTextFieldIcon class="material-icons close" (mousedown)="$event.preventDefault()" (click)="clearSearchInput()">close</i>
+          </div>
         </section>
         <section mdcTopAppBarSection alignEnd>
           <a [routerLink]="['/settings']" mdcTopAppBarAction class="material-icons" label="Settings">settings</a>

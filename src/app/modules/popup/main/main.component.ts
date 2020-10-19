@@ -6,7 +6,7 @@ import { dateOnly } from 'src/app/helpers/date.helper';
 import { Subject } from 'rxjs';
 import { View } from 'src/app/models/settings';
 import { FavoriteAnimesService } from 'src/app/services/favorite-animes.service';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { DebugService } from 'src/app/services/debug.service';
 import { BrowserService } from 'src/app/services/browser.service';
 
@@ -25,6 +25,8 @@ export class MainComponent implements OnInit, OnDestroy {
   private allEpisodes: Episode[] = [];
   isLoading: boolean = true;
   private componentDestroy: Subject<void> = new Subject();
+  searchInputValue: string = null;
+  private searchInputValueChanged: Subject<string> = new Subject();
 
   constructor(
     private animeProvider: AnimeProviderService,
@@ -39,6 +41,14 @@ export class MainComponent implements OnInit, OnDestroy {
       this.browser.setBadgeText(''); // Reset badge count
     }
     this.view = this.settings.defaultView;
+    this.searchInputValueChanged.pipe(
+      takeUntil(this.componentDestroy),
+      debounceTime(1000),
+      distinctUntilChanged()
+    ).subscribe((value) => {
+      this.debug.log('Searching for:', value);
+      this.filterEpisodes(this.allEpisodes, this.days);
+    });
     this.init();
   }
 
@@ -69,6 +79,9 @@ export class MainComponent implements OnInit, OnDestroy {
 
   private filterEpisodes(episodes: Episode[], days: number[]) {
     this.episodes = this.isFavoritesView() ? episodes.filter((episode: Episode) => this.favoriteAnimes.isFavorite(episode.anime.title)) : episodes;
+    if (this.searchInputValue?.length) {
+      this.episodes = this.episodes.filter((episode: Episode) => episode.anime.title.toLowerCase().indexOf(this.searchInputValue.toLowerCase()) !== -1);
+    }
     if (this.settings.displayEpisodesDayByDay) {
       days.forEach((day: number) => {
         if (day) {
@@ -106,6 +119,15 @@ export class MainComponent implements OnInit, OnDestroy {
 
   isFavoritesView() {
     return this.view === View.Favorites;
+  }
+
+  search() {
+    this.searchInputValueChanged.next(this.searchInputValue);
+  }
+
+  clearSearchInput() {
+    this.searchInputValue = null;
+    this.searchInputValueChanged.next(this.searchInputValue);
   }
 
 }
