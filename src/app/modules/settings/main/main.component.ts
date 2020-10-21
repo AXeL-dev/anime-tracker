@@ -43,7 +43,7 @@ export class MainComponent implements OnInit {
     }
     this.settings.save();
     this.snackbar.show({
-      message: 'Settings saved successfully!',
+      message: 'Settings successfully saved!',
       timeout: 3000
     });
     this.router.navigate(['/']);
