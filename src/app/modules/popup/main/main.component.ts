@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { AnimeProviderService } from 'src/app/services/anime-provider.service';
 import { Episode } from 'src/app/models/episode';
 import { SettingsService } from 'src/app/services/settings.service';
@@ -9,6 +9,8 @@ import { FavoriteAnimesService } from 'src/app/services/favorite-animes.service'
 import { takeUntil, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { DebugService } from 'src/app/services/debug.service';
 import { BrowserService } from 'src/app/services/browser.service';
+import { ViewedEpisodesService } from 'src/app/services/viewed-episodes.service';
+import { ChooseLinkDialogComponent } from '../choose-link-dialog/choose-link-dialog.component';
 
 @Component({
   selector: 'app-main',
@@ -23,14 +25,18 @@ export class MainComponent implements OnInit, OnDestroy {
   days: number[] = [];
   episodesByDays: Episode[][] = [];
   private allEpisodes: Episode[] = [];
+  selectedEpisode: Episode = null;
   isLoading: boolean = true;
   private componentDestroy: Subject<void> = new Subject();
   searchInputValue: string = null;
   private searchInputValueChanged: Subject<string> = new Subject();
+  @ViewChild('streamLinksDialog') private streamLinksDialog: ChooseLinkDialogComponent;
+  @ViewChild('downloadLinksDialog') private downloadLinksDialog: ChooseLinkDialogComponent;
 
   constructor(
     private animeProvider: AnimeProviderService,
     private favoriteAnimes: FavoriteAnimesService,
+    public viewedEpisodes: ViewedEpisodesService,
     public settings: SettingsService,
     private browser: BrowserService,
     private debug: DebugService
@@ -128,6 +134,16 @@ export class MainComponent implements OnInit, OnDestroy {
   clearSearchInput() {
     this.searchInputValue = null;
     this.searchInputValueChanged.next(this.searchInputValue);
+  }
+
+  openStreamLinksDialog(episode: Episode) {
+    this.selectedEpisode = episode;
+    this.streamLinksDialog.open();
+  }
+
+  openDownloadLinksDialog(episode: Episode) {
+    this.selectedEpisode = episode;
+    this.downloadLinksDialog.open();
   }
 
 }

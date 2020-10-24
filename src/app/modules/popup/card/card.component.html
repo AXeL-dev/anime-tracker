@@ -33,20 +33,8 @@
       titleOn="Remove from favorites" titleOff="Add to favorites"
       iconOn="favorite" iconOff="favorite_border"
       [on]="isFavorite()" (onChange)="toggleFavorite($event)"></button>
-    <button class="material-icons mdc-icon-button" title="Stream links" (click)="openStreamLinks()">play_circle_outline</button>
-    <button class="material-icons mdc-icon-button" title="Download links" (click)="openDownloadLinks()">save_alt</button>
+    <button class="material-icons mdc-icon-button" title="Stream links" (click)="showStreamLinks()">play_circle_outline</button>
+    <button class="material-icons mdc-icon-button" title="Download links" (click)="showDownloadLinks()">save_alt</button>
     <!-- <button class="material-icons mdc-icon-button" title="More options">more_vert</button> -->
   </div>
 </div>
-
-<app-choose-link-dialog #streamLinksDialog
-  title="Choose a stream link"
-  [links]="episode.streamLinks"
-  (onLinkClick)="markAsViewed()"
-></app-choose-link-dialog>
-
-<app-choose-link-dialog #downloadLinksDialog
-  title="Choose a download link"
-  [links]="episode.downloadLinks"
-  (onLinkClick)="markAsViewed()"
-></app-choose-link-dialog>

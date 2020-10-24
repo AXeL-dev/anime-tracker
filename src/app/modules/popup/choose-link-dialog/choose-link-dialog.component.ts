@@ -13,7 +13,8 @@ export class ChooseLinkDialogComponent implements OnInit {
 
   @Input() title: string = 'Choose a link';
   @Input() links: EpisodeLink[] = [];
-  @Output() onLinkClick: EventEmitter<void> = new EventEmitter<void>();
+  @Output() linkClick: EventEmitter<void> = new EventEmitter();
+  @Output() close: EventEmitter<void> = new EventEmitter();
   @ViewChild('dialog') private dialog: MdcDialogDirective;
 
   constructor(private settings: SettingsService, private browser: BrowserService) { }
@@ -26,11 +27,15 @@ export class ChooseLinkDialogComponent implements OnInit {
   }
 
   onClick(event: Event, url: string) {
-    this.onLinkClick.emit();
+    this.linkClick.emit();
     if (this.browser.isWebExtension) {
       event.preventDefault();
       this.browser.createTab(url, !this.settings.openLinksInInactiveTabs);
     }
+  }
+
+  onClose() {
+    this.close.emit();
   }
 
 }

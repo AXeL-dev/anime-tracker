@@ -46,7 +46,12 @@
               <h3 class="day-title">{{ day | shortdate }}</h3>
               <div class="day-divider"></div>
               <section class="custom-card-container">
-                <app-card *ngFor="let episode of episodesByDays[day]" [episode]="episode"></app-card>
+                <app-card
+                  *ngFor="let episode of episodesByDays[day]"
+                  [episode]="episode"
+                  (streamLinksClick)="openStreamLinksDialog($event)"
+                  (downloadLinksClick)="openDownloadLinksDialog($event)"
+                ></app-card>
               </section>
             </ng-container>
           </ng-container>
@@ -56,10 +61,29 @@
         <ng-template #showAllTemplate>
 
           <section class="custom-card-container">
-            <app-card *ngFor="let episode of episodes" [episode]="episode"></app-card>
+            <app-card
+              *ngFor="let episode of episodes"
+              [episode]="episode"
+              (streamLinksClick)="openStreamLinksDialog($event)"
+              (downloadLinksClick)="openDownloadLinksDialog($event)"
+            ></app-card>
           </section>
 
         </ng-template>
+
+        <app-choose-link-dialog #streamLinksDialog
+          title="Choose a stream link"
+          [links]="selectedEpisode?.streamLinks || []"
+          (linkClick)="viewedEpisodes.add(selectedEpisode)"
+          (close)="selectedEpisode = null"
+        ></app-choose-link-dialog>
+
+        <app-choose-link-dialog #downloadLinksDialog
+          title="Choose a download link"
+          [links]="selectedEpisode?.downloadLinks || []"
+          (linkClick)="viewedEpisodes.add(selectedEpisode)"
+          (close)="selectedEpisode = null"
+        ></app-choose-link-dialog>
 
     </main>
   </div>

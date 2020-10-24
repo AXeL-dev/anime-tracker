@@ -1,6 +1,5 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Episode } from 'src/app/models/episode';
-import { ChooseLinkDialogComponent } from '../choose-link-dialog/choose-link-dialog.component';
 import { SettingsService } from 'src/app/services/settings.service';
 import { BrowserService } from 'src/app/services/browser.service';
 import { FavoriteAnimesService } from 'src/app/services/favorite-animes.service';
@@ -14,8 +13,8 @@ import { ViewedEpisodesService } from 'src/app/services/viewed-episodes.service'
 export class CardComponent implements OnInit {
 
   @Input() episode: Episode;
-  @ViewChild('streamLinksDialog') private streamLinksDialog: ChooseLinkDialogComponent;
-  @ViewChild('downloadLinksDialog') private downloadLinksDialog: ChooseLinkDialogComponent;
+  @Output() streamLinksClick: EventEmitter<Episode> = new EventEmitter();
+  @Output() downloadLinksClick: EventEmitter<Episode> = new EventEmitter();
 
   constructor(
     private settings: SettingsService,
@@ -30,7 +29,7 @@ export class CardComponent implements OnInit {
   onClick(event: Event) {
     if (this.episode.streamLinks.length > 1) {
       event.preventDefault();
-      this.openStreamLinks();
+      this.showStreamLinks();
       return false;
     } else {
       this.markAsViewed();
@@ -41,12 +40,12 @@ export class CardComponent implements OnInit {
     }
   }
 
-  openStreamLinks() {
-    this.streamLinksDialog.open();
+  showStreamLinks() {
+    this.streamLinksClick.emit(this.episode);
   }
 
-  openDownloadLinks() {
-    this.downloadLinksDialog.open();
+  showDownloadLinks() {
+    this.downloadLinksClick.emit(this.episode);
   }
 
   toggleFavorite(value: boolean) {
