@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { StorageService } from './storage.service';
 import { Episode } from '../models/episode';
+import { isSimilar } from '../helpers/string.helper';
 
 interface viewedEpisode {
   animeTitle: string,
@@ -38,7 +39,7 @@ export class ViewedEpisodesService {
   }
 
   remove(episode: Episode) {
-    const viewed = this.viewed?.filter((e: viewedEpisode) => !(e.animeTitle === episode.anime.title && e.number === episode.number));
+    const viewed = this.viewed?.filter((e: viewedEpisode) => !(isSimilar(e.animeTitle, episode.anime.title) && e.number === episode.number));
     if (viewed?.length < this.viewed?.length) {
       this.viewed = viewed;
       this.save();
@@ -46,7 +47,7 @@ export class ViewedEpisodesService {
   }
 
   isViewed(episode: Episode) {
-    return !!this.viewed?.find((e: viewedEpisode) => e.animeTitle === episode.anime.title && e.number === episode.number);
+    return !!this.viewed?.find((e: viewedEpisode) => isSimilar(e.animeTitle, episode.anime.title) && e.number === episode.number);
   }
 
 }
