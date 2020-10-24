@@ -6,7 +6,7 @@ import { dateOnly } from 'src/app/helpers/date.helper';
 import { Subject } from 'rxjs';
 import { View } from 'src/app/models/settings';
 import { FavoriteAnimesService } from 'src/app/services/favorite-animes.service';
-import { takeUntil, debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { DebugService } from 'src/app/services/debug.service';
 import { BrowserService } from 'src/app/services/browser.service';
 import { ViewedEpisodesService } from 'src/app/services/viewed-episodes.service';
@@ -30,7 +30,7 @@ export class MainComponent implements OnInit, OnDestroy {
   isSearching: boolean = false;
   private componentDestroy: Subject<void> = new Subject();
   searchInputValue: string = null;
-  private searchInputValueChanged: Subject<string> = new Subject();
+
   @ViewChild('streamLinksDialog') private streamLinksDialog: ChooseLinkDialogComponent;
   @ViewChild('downloadLinksDialog') private downloadLinksDialog: ChooseLinkDialogComponent;
 
@@ -48,16 +48,6 @@ export class MainComponent implements OnInit, OnDestroy {
       this.browser.setBadgeText(''); // Reset badge count
     }
     this.view = this.settings.defaultView;
-    this.searchInputValueChanged.pipe(
-      takeUntil(this.componentDestroy),
-      tap(() => this.isSearching = true),
-      debounceTime(700),
-      distinctUntilChanged()
-    ).subscribe((value) => {
-      this.debug.log('Searching for:', value);
-      this.filterEpisodes(this.allEpisodes, this.days);
-      this.isSearching = false;
-    });
     this.init();
   }
 
@@ -130,15 +120,6 @@ export class MainComponent implements OnInit, OnDestroy {
     return this.view === View.Favorites;
   }
 
-  search() {
-    this.searchInputValueChanged.next(this.searchInputValue);
-  }
-
-  clearSearchInput() {
-    this.searchInputValue = null;
-    this.searchInputValueChanged.next(this.searchInputValue);
-  }
-
   openStreamLinksDialog(episode: Episode) {
     this.selectedEpisode = episode;
     this.streamLinksDialog.open();
@@ -152,6 +133,12 @@ export class MainComponent implements OnInit, OnDestroy {
   markEpisodeAsViewed(episode: Episode) {
     episode.isViewed = true;
     this.viewedEpisodes.add(episode);
+  }
+
+  search(value: string) {
+    this.debug.log('Searching for:', value);
+    this.filterEpisodes(this.allEpisodes, this.days);
+    this.isSearching = false;
   }
 
 }

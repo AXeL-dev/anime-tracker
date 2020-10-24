@@ -1,0 +1,6 @@
+
+<div mdcTextField box="true" class="search-input">
+  <i mdcTextFieldIcon class="material-icons">search</i>
+  <input mdcTextFieldInput type="text" [placeholder]="placeholder" [(ngModel)]="value" (input)="onInput()" />
+  <i *ngIf="value?.length" mdcTextFieldIcon class="material-icons close" (mousedown)="$event.preventDefault()" (click)="clear()">close</i>
+</div>
