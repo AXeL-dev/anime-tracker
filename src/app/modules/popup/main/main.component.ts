@@ -6,7 +6,7 @@ import { dateOnly } from 'src/app/helpers/date.helper';
 import { Subject } from 'rxjs';
 import { View } from 'src/app/models/settings';
 import { FavoriteAnimesService } from 'src/app/services/favorite-animes.service';
-import { takeUntil, debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { takeUntil, debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
 import { DebugService } from 'src/app/services/debug.service';
 import { BrowserService } from 'src/app/services/browser.service';
 import { ViewedEpisodesService } from 'src/app/services/viewed-episodes.service';
@@ -27,6 +27,7 @@ export class MainComponent implements OnInit, OnDestroy {
   private allEpisodes: Episode[] = [];
   selectedEpisode: Episode = null;
   isLoading: boolean = true;
+  isSearching: boolean = false;
   private componentDestroy: Subject<void> = new Subject();
   searchInputValue: string = null;
   private searchInputValueChanged: Subject<string> = new Subject();
@@ -49,11 +50,13 @@ export class MainComponent implements OnInit, OnDestroy {
     this.view = this.settings.defaultView;
     this.searchInputValueChanged.pipe(
       takeUntil(this.componentDestroy),
-      debounceTime(1000),
+      tap(() => this.isSearching = true),
+      debounceTime(700),
       distinctUntilChanged()
     ).subscribe((value) => {
       this.debug.log('Searching for:', value);
       this.filterEpisodes(this.allEpisodes, this.days);
+      this.isSearching = false;
     });
     this.init();
   }

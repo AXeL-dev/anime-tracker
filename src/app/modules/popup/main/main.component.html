@@ -34,7 +34,7 @@
           <a [routerLink]="['/settings']" mdcTopAppBarAction class="material-icons" label="Settings">settings</a>
         </section>
       </div>
-      <div *ngIf="isLoading" mdcLinearProgress [indeterminate]="true"></div>
+      <div mdcLinearProgress [indeterminate]="true" [closed]="!isLoading && !isSearching"></div>
     </header>
 
     <main #content>
