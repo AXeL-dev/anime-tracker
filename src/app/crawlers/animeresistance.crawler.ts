@@ -4,20 +4,22 @@ import { Anime } from '../models/anime';
 import { Episode } from '../models/episode';
 import { today, yesterday, dateBefore } from '../helpers/date.helper';
 import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
 
-export class NekoSamaCrawler extends BaseCrawler {
+export class AnimeResistanceCrawler extends BaseCrawler {
 
   constructor(private retriever: ScraperService) {
     super(
-      'Neko-sama',
-      'https://www.neko-sama.fr'
+      'AnimeResistance',
+      'https://animeresistance.co'
     );
     this.filters = {
       ...this.filters,
       number: (text: string) => {
-        const num = text.match(/Ep. (\d+)/);
+        const num = text.match(/EP. (\d+)/);
         return num?.length ? +num[1] : +text;
+      },
+      subtitles: (text: string) => {
+        return 'vostfr';
       },
       date: (text: string) => {
         if (text.indexOf('minute') !== -1 || text.indexOf('heure') !== -1) {
@@ -51,35 +53,25 @@ export class NekoSamaCrawler extends BaseCrawler {
   }
 
   _getLatestEpisodes(): Observable<Episode[]> {
-    return this.retriever.getRawHTML(this.baseUrl).pipe(map((html: string) => {
-      const results = html.match(/lastEpisodes = \[(.*)\]/);
-      const latestEpisodes: Episode[] = [];
-      if (results?.length) {
-        try {
-          const episodes = JSON.parse(`[${results[1]}]`);
-          episodes.forEach((episode: any) => {
-            latestEpisodes.push({
-              anime: {
-                title: episode.title,
-                cover: episode.url_image,
-              },
-              number: this.filters.number(episode.episode),
-              streamLinks: [
-                {
-                  url: this.filters.concatUrl(episode.url),
-                  lang: 'vostfr',
-                }
-              ],
-              //subtitlesLang: 'vostfr',
-              releaseDate: this.filters.date(episode.time),
-            });
-          });
-        } catch (error) {
-          console.error(error.message);
-        }
-      }
-
-      return latestEpisodes;
-    }));
+    return this.retriever.scrape(
+      `${this.baseUrl}`,
+      '.container .row .card',
+      {
+        anime: {
+          title: 'a.title',
+          cover: 'a.thumbnail-link img@src | concatUrl',
+        },
+        number: '.number | number',
+        streamLinks: [
+          {
+            url: 'a.thumbnail-link@href | concatUrl',
+            lang: '| subtitles',
+          }
+        ],
+        //subtitlesLang: '| subtitles',
+        releaseDate: '.published | date',
+      },
+      this.filters
+    );
   }
 }

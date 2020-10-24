@@ -9,7 +9,7 @@ export class JapMangaCrawler extends BaseCrawler {
   constructor(private retriever: ScraperService) {
     super(
       'JapManga',
-      'https://www.japmanga.com/'
+      'https://www.japmanga.com'
     );
     this.filters = {
       ...this.filters,

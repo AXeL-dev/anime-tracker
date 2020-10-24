@@ -2,37 +2,33 @@ import { BaseCrawler } from './abstract/base.crawler';
 import { ScraperService } from '../services/scraper.service';
 import { Anime } from '../models/anime';
 import { Episode } from '../models/episode';
-import { today, yesterday, dateBefore } from '../helpers/date.helper';
 import { Observable, of } from 'rxjs';
+import { frenchMonths } from '../helpers/date.helper';
 
-export class NekoSamaCrawler extends BaseCrawler {
+export class MangasVostfrCrawler extends BaseCrawler {
 
   constructor(private retriever: ScraperService) {
     super(
-      'Neko-sama',
-      'https://www.neko-sama.fr'
+      'MangasVostfr',
+      'https://www.mangas-vostfr.pro'
     );
     this.filters = {
       ...this.filters,
       number: (text: string) => {
-        const num = text.match(/Ep. (\d+)/);
-        return num?.length ? +num[1] : +text;
+        const num = text.replace('Vostfr', '').match(/(.*) (\d+)/);
+        return num?.length ? +num[2] : 1;
+      },
+      title: (text: string) => {
+        return text.replace('Vostfr', '').replace(/(.*) (\d+)/, '$1').trim();
       },
       subtitles: (text: string) => {
         return 'vostfr';
       },
       date: (text: string) => {
-        if (text.indexOf('minute') !== -1 || text.indexOf('heure') !== -1) {
-          return today();
-        } else if (text.indexOf('il y a 1 jour') !== -1) {
-          return yesterday();
-        } else {
-          const matches = text.match(/il y a (\d+) jours/);
-          if (matches?.length) {
-            return dateBefore(+matches[1]);
-          }
-          return new Date(text)?.getTime();
-        }
+        let date = text.toLowerCase();
+        date = date.replace(new RegExp('(' + Object.keys(frenchMonths).join('|') + ')', 'g'), month => frenchMonths[month]).trim();
+        date = date.split(' ').reverse().join('-'); // reverse date format from dd-mm-yyyy to yyyy-mm-dd
+        return new Date(date)?.getTime();
       }
     };
   }
@@ -55,22 +51,21 @@ export class NekoSamaCrawler extends BaseCrawler {
   _getLatestEpisodes(): Observable<Episode[]> {
     return this.retriever.scrape(
       `${this.baseUrl}`,
-      '.js-last-episode-container > div',
+      '#content_box > article',
       {
         anime: {
-          title: 'a.title .limit',
-          cover: '.holder img@src',
+          title: 'h2.title a | title',
+          cover: '.featured-thumbnail img@src',
         },
-        number: 'a.title .episode | number',
+        number: 'h2.title a | number',
         streamLinks: [
           {
-            url: 'a.play@href | concatUrl',
+            url: 'h2.title a@href',
             lang: '| subtitles',
           }
         ],
         //subtitlesLang: '| subtitles',
-        //releaseDate: 'span.time | date',
-        releaseDate: '| today',
+        releaseDate: '.post-info .date span | date',
       },
       this.filters
     );

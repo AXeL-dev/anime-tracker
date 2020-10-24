@@ -21,16 +21,16 @@ export class VostFreeCrawler extends BaseCrawler {
         return this.filters.concatUrl(text);
       },
       date: (text: string) => {
-        let date = text;
-        if (text.indexOf('Aujourd\'hui') !== -1) {
-          date = text.replace('Aujourd\'hui', today(true));
-        } else if (text.indexOf('Hier') !== -1) {
-          date = text.replace('Hier', yesterday(true));
+        let date = text.toLowerCase();
+        if (date.indexOf('aujourd\'hui') !== -1) {
+          return today();
+        } else if (date.indexOf('hier') !== -1) {
+          return yesterday();
         } else {
-          const splittedDate = text.split(',');
+          const splittedDate = date.split(',');
           date = splittedDate[0].split('-').reverse().join('-') + splittedDate[1]; // reverse date format from dd-mm-yyyy to yyyy-mm-dd
+          return new Date(date.replace(',', ''))?.getTime();
         }
-        return new Date(date.replace(',', '')).getTime();
       }
     };
   }

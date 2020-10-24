@@ -21,17 +21,17 @@ export class AnimeKoCrawler extends BaseCrawler {
         return 'vostfr';
       },
       date: (text: string) => {
-        let date = text;
-        if (text.indexOf('Aujourd\'hui') !== -1) {
-          date = text.replace('Aujourd\'hui', today(true));
-        } else if (text.indexOf('Hier') !== -1) {
-          date = text.replace('Hier', yesterday(true));
+        let date = text.toLowerCase();
+        if (date.indexOf('aujourd\'hui') !== -1) {
+          return today();
+        } else if (date.indexOf('hier') !== -1) {
+          return yesterday();
         } else {
-          date = text.replace(new RegExp('^(' + frenchDays.join('|') + ')', 'g'), '');
+          date = date.replace(new RegExp('^(' + frenchDays.join('|') + ')', 'g'), '');
           date = date.replace(new RegExp('(' + Object.keys(frenchMonths).join('|') + ')', 'g'), month => frenchMonths[month]).trim();
           date = date.split(' ').reverse().join('-');
+          return new Date(date)?.getTime();
         }
-        return new Date(date).getTime();
       }
     };
   }
