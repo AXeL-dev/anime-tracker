@@ -8,6 +8,7 @@ import { Episode } from 'src/app/models/episode';
 import { Settings } from 'src/app/models/settings';
 import { DebugService } from 'src/app/services/debug.service';
 import { isInToday } from 'src/app/helpers/date.helper';
+import { isSimilar } from 'src/app/helpers/string.helper';
 
 @Component({
   selector: 'app-main',
@@ -110,6 +111,6 @@ export class MainComponent implements OnInit {
   }
 
   private isAlreadyChecked(episode: Episode) {
-    return !!this.checkedEpisodes.find((e: Episode) => e.anime.title === episode.anime.title && e.number === episode.number);
+    return !!this.checkedEpisodes.find((e: Episode) => isSimilar(e.anime.title, episode.anime.title) && e.number === episode.number);
   }
 }
