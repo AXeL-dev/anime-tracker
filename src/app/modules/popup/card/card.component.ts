@@ -24,6 +24,7 @@ export class CardComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.episode.isViewed = this.viewedEpisodes.isViewed(this.episode);
   }
 
   onClick(event: Event) {
@@ -60,15 +61,13 @@ export class CardComponent implements OnInit {
     return this.favoriteAnimes.isFavorite(this.episode.anime.title);
   }
 
-  isViewed() {
-    return this.viewedEpisodes.isViewed(this.episode);
-  }
-
   markAsViewed() {
+    this.episode.isViewed = true;
     this.viewedEpisodes.add(this.episode);
   }
 
   markAsUnviewed() {
+    this.episode.isViewed = false;
     this.viewedEpisodes.remove(this.episode);
   }
 

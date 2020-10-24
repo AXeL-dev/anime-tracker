@@ -16,8 +16,8 @@
       </div>
     </div>
   </a>
-  <div mdcCardActions mdcCardActionIcons #viewport>
-    <div *ngIf="isViewed()" mdcMenuAnchor #anchor="mdcMenuAnchor" [style.display]="'flex'">
+  <div class="mdc-card__actions mdc-card__action-icons" #viewport>
+    <div *ngIf="episode.isViewed" mdcMenuAnchor #anchor="mdcMenuAnchor" [style.display]="'flex'">
       <button class="material-icons mdc-icon-button blue-eye" title="Viewed" [style.margin]="0" (click)="isViewedMenu.open = true">visibility</button>
       <div mdcMenu
           [(open)]="isViewedMenu.open"

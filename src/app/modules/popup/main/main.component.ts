@@ -36,7 +36,7 @@ export class MainComponent implements OnInit, OnDestroy {
   constructor(
     private animeProvider: AnimeProviderService,
     private favoriteAnimes: FavoriteAnimesService,
-    public viewedEpisodes: ViewedEpisodesService,
+    private viewedEpisodes: ViewedEpisodesService,
     public settings: SettingsService,
     private browser: BrowserService,
     private debug: DebugService
@@ -144,6 +144,11 @@ export class MainComponent implements OnInit, OnDestroy {
   openDownloadLinksDialog(episode: Episode) {
     this.selectedEpisode = episode;
     this.downloadLinksDialog.open();
+  }
+
+  markEpisodeAsViewed(episode: Episode) {
+    episode.isViewed = true;
+    this.viewedEpisodes.add(episode);
   }
 
 }
