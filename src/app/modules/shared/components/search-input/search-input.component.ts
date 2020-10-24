@@ -13,14 +13,14 @@ export class SearchInputComponent implements OnInit, OnDestroy {
   @Input() value: string = null;
   @Output() valueChange: EventEmitter<string> = new EventEmitter();
   private inputChange: Subject<string> = new Subject();
-  private componentDestroy: Subject<void> = new Subject();
+  // private componentDestroy: Subject<void> = new Subject();
   @Output() tap: EventEmitter<void> = new EventEmitter();
 
   constructor() { }
 
   ngOnInit(): void {
     this.inputChange.pipe(
-      takeUntil(this.componentDestroy),
+      // takeUntil(this.componentDestroy),
       tap(() => this.tap.emit()),
       debounceTime(700),
       distinctUntilChanged()
@@ -30,8 +30,9 @@ export class SearchInputComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.componentDestroy.next();
-    this.componentDestroy.complete();
+    // this.componentDestroy.next();
+    // this.componentDestroy.complete();
+    this.inputChange.complete();
   }
 
   onInput() {
