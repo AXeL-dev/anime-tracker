@@ -104,12 +104,12 @@
           <li mdcListDivider [inset]="true"></li>
         </ul>
 
-        <h3 mdcListGroupSubHeader>
-          <div mdcFormField alignEnd="true">
+        <h3 mdcListGroupSubHeader style="margin-left: 8px">
+          <div mdcFormField>
             <div mdcCheckbox>
               <input mdcCheckboxInput type="checkbox" (change)="onSelectAllCrawlersChange($event.target.checked) "/>
             </div>
-            <label mdcFormFieldLabel>Crawlers</label>
+            <label mdcFormFieldLabel class="checkbox-label">Crawlers</label>
           </div>
         </h3>
 
