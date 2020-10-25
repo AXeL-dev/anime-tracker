@@ -9,6 +9,7 @@ import { Settings } from 'src/app/models/settings';
 import { DebugService } from 'src/app/services/debug.service';
 import { isInToday } from 'src/app/helpers/date.helper';
 import { isSimilar } from 'src/app/helpers/string.helper';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-main',
@@ -26,6 +27,7 @@ export class MainComponent implements OnInit {
   constructor(
     private browser: BrowserService,
     private storage: StorageService,
+    private router: Router,
     private debug: DebugService,
     private animeProvider: AnimeProviderService,
     private favoriteAnimes: FavoriteAnimesService
@@ -36,6 +38,8 @@ export class MainComponent implements OnInit {
   ngOnInit(): void {
     if (this.browser.isWebExtension) {
       this.init();
+    } else {
+      this.router.navigate(['/']);
     }
   }
 
