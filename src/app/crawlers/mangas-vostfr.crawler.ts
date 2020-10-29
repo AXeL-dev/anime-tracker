@@ -9,7 +9,7 @@ export class MangasVostfrCrawler extends BaseCrawler {
 
   constructor(private retriever: ScraperService) {
     super(
-      'MangasVostfr',
+      'Mangas-vostfr',
       'https://www.mangas-vostfr.pro'
     );
     this.filters = {
