@@ -30,7 +30,7 @@ export class AnimeProviderService {
     );
   }
 
-  getLatestEpisodes(asSlices: boolean = true, maxEpisodesPerSlice: number = 5): Observable<[Episode[], number[]]> {
+  getLatestEpisodes(forcedUpdate: boolean = false, asSlices: boolean = true, maxEpisodesPerSlice: number = 5): Observable<[Episode[], number[]]> {
     let latestEpisodes: Episode[] = [];
     let slicedEpisodesCount: number = 0;
     const crawlers = this.crawlers.getActive();
@@ -104,7 +104,7 @@ export class AnimeProviderService {
     };
     const observable = asSlices ? concat : forkJoin;
 
-    return observable(...crawlers.map((crawler: BaseCrawler) => crawler.getLatestEpisodes())).pipe(
+    return observable(...crawlers.map((crawler: BaseCrawler) => crawler.getLatestEpisodes(forcedUpdate))).pipe(
       //delay(700), // delay used to wait for UI renders
       concatMap(filterEpisodes)
     ) as Observable<[Episode[], number[]]>;
