@@ -30,7 +30,7 @@ export class AnimeProviderService {
     );
   }
 
-  getLatestEpisodes(forcedUpdate: boolean = false, asSlices: boolean = true, maxEpisodesPerSlice: number = 5): Observable<[Episode[], number[]]> {
+  getLatestEpisodes(forcedUpdate: boolean = false, asSlices: boolean = true, maxEpisodesPerSlice: number = 10): Observable<[Episode[], number[]]> {
     let latestEpisodes: Episode[] = [];
     let slicedEpisodesCount: number = 0;
     const crawlers = this.crawlers.getActive();
