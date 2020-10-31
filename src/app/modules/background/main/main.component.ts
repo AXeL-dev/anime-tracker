@@ -3,13 +3,14 @@ import { BrowserService } from 'src/app/services/browser.service';
 import { StorageService } from 'src/app/services/storage.service';
 import { AnimeProviderService } from 'src/app/services/anime-provider.service';
 import { take } from 'rxjs/operators';
-import { FavoriteAnimesService } from 'src/app/services/favorite-animes.service';
 import { Episode } from 'src/app/models/episode';
 import { Settings } from 'src/app/models/settings';
 import { DebugService } from 'src/app/services/debug.service';
 import { isInToday } from 'src/app/helpers/date.helper';
 import { isSimilar } from 'src/app/helpers/string.helper';
 import { Router } from '@angular/router';
+import { FavoriteAnimesService } from 'src/app/services/favorite-animes.service';
+import { ViewedEpisodesService } from 'src/app/services/viewed-episodes.service';
 
 @Component({
   selector: 'app-main',
@@ -30,7 +31,8 @@ export class MainComponent implements OnInit {
     private router: Router,
     private debug: DebugService,
     private animeProvider: AnimeProviderService,
-    private favoriteAnimes: FavoriteAnimesService
+    private favoriteAnimes: FavoriteAnimesService,
+    private viewedEpisodes: ViewedEpisodesService
   ) {
     // this.debug.forceEnable();
   }
@@ -95,10 +97,11 @@ export class MainComponent implements OnInit {
       this.debug.log('Checked episodes:', this.checkedEpisodes);
 
       episodes.forEach((episode: Episode) => {
-        // Generate notification messages for favorite animes episodes only
+        // Generate notification messages (for favorite animes episodes only)
         if (
           !this.isAlreadyChecked(episode) &&
           isInToday(new Date(episode.releaseDate)) &&
+          !this.viewedEpisodes.isViewed(episode) &&
           this.favoriteAnimes.isFavorite(episode.anime.title)
         ) {
           notificationMessages.push(`${episode.anime.title} ${episode.number} released!`);
