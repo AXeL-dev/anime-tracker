@@ -1,4 +1,4 @@
-# <img src="src/assets/icons/128.png" alt="icon" width="38"/> Anime Tracker
+# <img src="src/assets/icons/128.png" alt="icon" width="38" align="top" /> Anime Tracker
 
 A web extension to keep tracking your favorite animes & get notified about new released episodes.
 
