@@ -8,6 +8,7 @@ declare var browser: any; // Fixes "Cannot find name 'browser'." error on build
 export class BrowserService {
 
   isWebExtension: boolean;
+  isPopup: boolean;
   isFirefox: boolean;
   isChrome: boolean;
 
@@ -17,6 +18,7 @@ export class BrowserService {
     } catch(error) {
       this.isWebExtension = false;
     }
+    this.isPopup = window.innerWidth < 1000;
     this.isFirefox = navigator.userAgent.indexOf('Firefox') !== -1;
     this.isChrome = navigator.userAgent.indexOf('Chrome') !== -1;
   }

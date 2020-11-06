@@ -12,7 +12,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     // Fix webExtension popup width
-    if (this.browser.isWebExtension && window.innerWidth < 1000) {
+    if (this.browser.isWebExtension && this.browser.isPopup) {
       document.body.style.maxWidth = '600px';
     }
   }
