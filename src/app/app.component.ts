@@ -11,8 +11,8 @@ export class AppComponent implements OnInit {
   constructor(private browser: BrowserService) {}
 
   ngOnInit(): void {
-    // Fix webExtension width on Firefox popup
-    if (this.browser.isWebExtension && this.browser.isFirefox && window.innerWidth < 1000) {
+    // Fix webExtension popup width
+    if (this.browser.isWebExtension && window.innerWidth < 1000) {
       document.body.style.maxWidth = '600px';
     }
   }
