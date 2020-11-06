@@ -17,6 +17,7 @@ export class SettingsService {
   openLinksInInactiveTabs: boolean;
   maxEpisodesToRetrieve: number;
   autoCheckRate: number;
+  enableNotifications: boolean;
   // Display
   defaultView: View;
   displayEpisodesDayByDay: boolean;
@@ -52,7 +53,7 @@ export class SettingsService {
     private debug: DebugService
   ) { }
 
-  static init(self: SettingsService) {
+  static init(self: SettingsService) { // always executed on app init @see app.module.ts
     return () => new Promise((resolve, reject) => {
       self.get().then(async () => {
         if (self.browser.isWebExtension) {
@@ -89,6 +90,7 @@ export class SettingsService {
       openLinksInInactiveTabs: true,
       maxEpisodesToRetrieve: 50,
       autoCheckRate: 30,
+      enableNotifications: true,
       defaultView: View.Latest,
       displayEpisodesDayByDay: true,
       inactiveCrawlers: [],
@@ -101,6 +103,7 @@ export class SettingsService {
     this.openLinksInInactiveTabs = settings.openLinksInInactiveTabs;
     this.maxEpisodesToRetrieve = settings.maxEpisodesToRetrieve;
     this.autoCheckRate = settings.autoCheckRate;
+    this.enableNotifications = settings.enableNotifications;
     this.defaultView = settings.defaultView;
     this.displayEpisodesDayByDay = settings.displayEpisodesDayByDay;
     this.inactiveCrawlers = settings.inactiveCrawlers;
@@ -113,9 +116,14 @@ export class SettingsService {
       openLinksInInactiveTabs: this.openLinksInInactiveTabs,
       maxEpisodesToRetrieve: this.maxEpisodesToRetrieve,
       autoCheckRate: this.autoCheckRate,
+      enableNotifications: this.enableNotifications,
       defaultView: this.defaultView,
       displayEpisodesDayByDay: this.displayEpisodesDayByDay,
       inactiveCrawlers: this.inactiveCrawlers,
     });
+  }
+
+  async refresh() {
+    await this.get();
   }
 }

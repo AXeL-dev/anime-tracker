@@ -1,16 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { BrowserService } from 'src/app/services/browser.service';
-import { StorageService } from 'src/app/services/storage.service';
 import { AnimeProviderService } from 'src/app/services/anime-provider.service';
 import { take } from 'rxjs/operators';
 import { Episode } from 'src/app/models/episode';
-import { Settings } from 'src/app/models/settings';
 import { DebugService } from 'src/app/services/debug.service';
 import { isInToday } from 'src/app/helpers/date.helper';
 import { isSimilar } from 'src/app/helpers/string.helper';
 import { Router } from '@angular/router';
 import { FavoriteAnimesService } from 'src/app/services/favorite-animes.service';
 import { ViewedEpisodesService } from 'src/app/services/viewed-episodes.service';
+import { SettingsService } from 'src/app/services/settings.service';
 
 @Component({
   selector: 'app-main',
@@ -27,7 +26,7 @@ export class MainComponent implements OnInit {
 
   constructor(
     private browser: BrowserService,
-    private storage: StorageService,
+    private settings: SettingsService,
     private router: Router,
     private debug: DebugService,
     private animeProvider: AnimeProviderService,
@@ -45,14 +44,16 @@ export class MainComponent implements OnInit {
     }
   }
 
-  async init() {
+  private init() {
     this.browser.setBadgeColors('#666', '#fff');
-    const rate = await this.getAutoCheckRate();
-    this.debug.log('Rate:', rate);
-    this.autoCheckLoop(rate);
+    this.debug.log({
+      rate: this.settings.autoCheckRate,
+      notifications: this.settings.enableNotifications ? 'on' : 'off'
+    });
+    this.autoCheckLoop();
   }
 
-  private autoCheckLoop(rate: number) {
+  private autoCheckLoop() {
     setTimeout(async () => {
       // Check for latest episodes
       const [count, notificationMessages] = await this.getLatestEpisodesCount();
@@ -68,21 +69,16 @@ export class MainComponent implements OnInit {
         this.debug.log('Total count:', this.badgeCount);
         this.browser.setBadgeText(this.badgeCount);
         // Notify
-        notificationMessages.forEach((message: string) => {
-          this.browser.sendNotification(message);
-        });
+        if (this.settings.enableNotifications) {
+          notificationMessages.forEach((message: string) => {
+            this.browser.sendNotification(message);
+          });
+        }
       }
       // Re-loop
-      const rate = await this.getAutoCheckRate();
-      this.autoCheckLoop(rate);
-    }, rate * 60 * 1000); // convert minutes to milliseconds
-  }
-
-  private getAutoCheckRate(): Promise<number> {
-    return new Promise(async (resolve, reject) => {
-      const settings: Settings = await this.storage.get('settings');
-      resolve(settings?.autoCheckRate || this.defaults.autoCheckRate);
-    });
+      await this.settings.refresh();
+      this.autoCheckLoop();
+    }, this.settings.autoCheckRate * 60 * 1000); // convert minutes to milliseconds
   }
 
   private getLatestEpisodesCount(): Promise<[number, string[]]> {
