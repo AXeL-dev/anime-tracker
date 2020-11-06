@@ -31,6 +31,7 @@ export class MainComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.settings.enableDebugging = this.debug.isEnabled(); // ensure that we get the right debugging state even on dev env.
     this.debug.log('Settings', this.settings);
   }
 
@@ -73,6 +74,14 @@ export class MainComponent implements OnInit {
       crawler.isActive = value;
       this.onCrawlerChange(crawler);
     });
+  }
+
+  onEnableDebuggingSwitchChange(value: boolean) {
+    if (value) {
+      this.debug.enable();
+    } else {
+      this.debug.disable();
+    }
   }
 
 }

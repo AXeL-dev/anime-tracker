@@ -89,7 +89,7 @@
               <span mdcListItemSecondaryText>Print debug logs on browser console</span>
             </span>
             <div mdcListItemMeta mdcSwitch>
-              <input mdcSwitchInput type="checkbox" [(ngModel)]="settings.enableDebugging"/>
+              <input mdcSwitchInput type="checkbox" [(ngModel)]="settings.enableDebugging" (change)="onEnableDebuggingSwitchChange($event.target.checked)"/>
             </div>
           </li>
           <li mdcListDivider [inset]="true"></li>
@@ -127,7 +127,7 @@
         <h3 mdcListGroupSubHeader style="margin-left: 8px">
           <div mdcFormField>
             <div mdcCheckbox>
-              <input mdcCheckboxInput type="checkbox" (change)="onSelectAllCrawlersChange($event.target.checked) "/>
+              <input mdcCheckboxInput type="checkbox" (change)="onSelectAllCrawlersChange($event.target.checked)"/>
             </div>
             <label mdcFormFieldLabel class="checkbox-label">Crawlers</label>
           </div>
@@ -137,7 +137,7 @@
           <li mdcListItem *ngFor="let crawler of allCrawlers">
             <span mdcListItemGraphic>
               <div mdcCheckbox>
-                <input mdcCheckboxInput type="checkbox" [(ngModel)]="crawler.isActive" (change)="onCrawlerChange(crawler)" />
+                <input mdcCheckboxInput type="checkbox" [(ngModel)]="crawler.isActive" (change)="onCrawlerChange(crawler)"/>
               </div>
             </span>
             <span mdcListItemText>

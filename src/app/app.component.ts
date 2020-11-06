@@ -19,7 +19,7 @@ export class AppComponent implements OnInit {
     }
     // Enable debugging
     if (this.settings.enableDebugging) {
-      this.debug.forceEnable();
+      this.debug.enable();
     }
   }
 }

@@ -6,18 +6,22 @@ import { environment } from '../../environments/environment';
 })
 export class DebugService {
 
-  private isEnabled = !environment.production;
+  private enabled = !environment.production;
 
-  forceEnable() {
-    this.isEnabled = true;
+  enable() {
+    this.enabled = true;
   }
 
   disable() {
-    this.isEnabled = false;
+    this.enabled = false;
+  }
+
+  isEnabled() {
+    return this.enabled;
   }
 
   log(message: any, ...params: any) {
-    if (this.isEnabled) {
+    if (this.enabled) {
       console.log(message, ...params);
     }
   }
