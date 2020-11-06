@@ -7,6 +7,7 @@ export interface Settings {
   maxEpisodesToRetrieve: number;
   autoCheckRate: number;
   enableNotifications: boolean;
+  enableDebugging: boolean;
   // Display
   defaultView: View;
   displayEpisodesDayByDay: boolean;

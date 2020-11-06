@@ -18,6 +18,7 @@ export class SettingsService {
   maxEpisodesToRetrieve: number;
   autoCheckRate: number;
   enableNotifications: boolean;
+  enableDebugging: boolean;
   // Display
   defaultView: View;
   displayEpisodesDayByDay: boolean;
@@ -91,6 +92,7 @@ export class SettingsService {
       maxEpisodesToRetrieve: 50,
       autoCheckRate: 30,
       enableNotifications: true,
+      enableDebugging: false,
       defaultView: View.Latest,
       displayEpisodesDayByDay: true,
       inactiveCrawlers: [],
@@ -104,6 +106,7 @@ export class SettingsService {
     this.maxEpisodesToRetrieve = settings.maxEpisodesToRetrieve;
     this.autoCheckRate = settings.autoCheckRate;
     this.enableNotifications = settings.enableNotifications;
+    this.enableDebugging = settings.enableDebugging;
     this.defaultView = settings.defaultView;
     this.displayEpisodesDayByDay = settings.displayEpisodesDayByDay;
     this.inactiveCrawlers = settings.inactiveCrawlers;
@@ -117,6 +120,7 @@ export class SettingsService {
       maxEpisodesToRetrieve: this.maxEpisodesToRetrieve,
       autoCheckRate: this.autoCheckRate,
       enableNotifications: this.enableNotifications,
+      enableDebugging: this.enableDebugging,
       defaultView: this.defaultView,
       displayEpisodesDayByDay: this.displayEpisodesDayByDay,
       inactiveCrawlers: this.inactiveCrawlers,

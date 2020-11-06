@@ -18,9 +18,6 @@ import { SettingsService } from 'src/app/services/settings.service';
 })
 export class MainComponent implements OnInit {
 
-  private readonly defaults: any = {
-    autoCheckRate: 30, // minute(s)
-  };
   private checkedEpisodes: Episode[] = [];
   private badgeCount: number = 0;
 
@@ -32,9 +29,7 @@ export class MainComponent implements OnInit {
     private animeProvider: AnimeProviderService,
     private favoriteAnimes: FavoriteAnimesService,
     private viewedEpisodes: ViewedEpisodesService
-  ) {
-    // this.debug.forceEnable();
-  }
+  ) { }
 
   ngOnInit(): void {
     if (this.browser.isWebExtension) {
