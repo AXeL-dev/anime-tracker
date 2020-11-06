@@ -40,4 +40,8 @@ export class FavoriteAnimesService {
     return this.favorites?.indexOf(title) !== -1;
   }
 
+  async refresh() {
+    await this.get();
+  }
+
 }

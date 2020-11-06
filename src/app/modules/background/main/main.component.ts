@@ -87,6 +87,10 @@ export class MainComponent implements OnInit {
       this.debug.log('Latest episodes:', episodes);
       this.debug.log('Checked episodes:', this.checkedEpisodes);
 
+      // Refresh viewed episodes & favorite animes (refetch from local storage)
+      this.viewedEpisodes.refresh();
+      this.favoriteAnimes.refresh();
+
       episodes.forEach((episode: Episode) => {
         // Generate notification messages (for favorite animes episodes only)
         if (

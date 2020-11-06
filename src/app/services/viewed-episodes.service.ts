@@ -50,4 +50,8 @@ export class ViewedEpisodesService {
     return !!this.viewed?.find((e: viewedEpisode) => isSimilar(e.animeTitle, episode.anime.title) && e.number === episode.number);
   }
 
+  async refresh() {
+    await this.get();
+  }
+
 }

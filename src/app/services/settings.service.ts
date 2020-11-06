@@ -130,4 +130,5 @@ export class SettingsService {
   async refresh() {
     await this.get();
   }
+
 }
