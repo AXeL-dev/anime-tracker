@@ -71,6 +71,7 @@ export class MainComponent implements OnInit {
   onSelectAllCrawlersChange(value: boolean) {
     this.allCrawlers.forEach((crawler: BaseCrawler) => {
       crawler.isActive = value;
+      this.onCrawlerChange(crawler);
     });
   }
 
