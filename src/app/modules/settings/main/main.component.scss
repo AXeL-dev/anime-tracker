@@ -13,6 +13,9 @@
 // Header
 [mdcTopAppBar] {
   position: fixed !important;
+  [mdcTopAppBarRow] {
+    height: 60px;
+  }
 }
 
 [mdcDrawerHeader], [mdcDrawerToolbarSpacer], [mdcButton] {

@@ -11,13 +11,16 @@
 // Header
 [mdcTopAppBar] {
   position: fixed !important;
+  [mdcTopAppBarRow] {
+    height: 60px;
+  }
 }
 
 [mdcDrawerHeader], [mdcDrawerToolbarSpacer] {
   // color the header variants the same way as the toolbar:
   @include mdc-theme-prop(background-color, primary);
   @include mdc-theme-prop(color, on-primary);
-  height: 68px;
+  height: 60px;
 }
 
 // Stack toolbar and main on top of each other:
@@ -31,6 +34,9 @@
 
 // Loading bar
 [mdcLinearProgress] {
+  &.mdc-linear-progress--closed {
+    display: none;
+  }
   .mdc-linear-progress__bar-inner {
     @include mdc-theme-prop(background-color, secondary);
   }
