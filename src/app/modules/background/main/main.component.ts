@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 import { FavoriteAnimesService } from 'src/app/services/favorite-animes.service';
 import { ViewedEpisodesService } from 'src/app/services/viewed-episodes.service';
 import { SettingsService } from 'src/app/services/settings.service';
+import { Notification } from 'src/app/models/notification';
 
 @Component({
   selector: 'app-main',
@@ -51,7 +52,7 @@ export class MainComponent implements OnInit {
   private autoCheckLoop() {
     setTimeout(async () => {
       // Check for latest episodes
-      const [count, notificationMessages] = await this.getLatestEpisodesCount();
+      const [count, notifications] = await this.getLatestEpisodesCount();
       this.debug.log('Latest episodes count:', count);
       if (count > 0) {
         // Set badge count
@@ -65,8 +66,8 @@ export class MainComponent implements OnInit {
         this.browser.setBadgeText(this.badgeCount);
         // Notify
         if (this.settings.enableNotifications) {
-          notificationMessages.forEach((message: string) => {
-            this.browser.sendNotification(message);
+          notifications.forEach((notification: Notification) => {
+            this.browser.sendNotification(notification.message, notification.url);
           });
         }
       }
@@ -76,11 +77,11 @@ export class MainComponent implements OnInit {
     }, this.settings.autoCheckRate * 60 * 1000); // convert minutes to milliseconds
   }
 
-  private getLatestEpisodesCount(): Promise<[number, string[]]> {
+  private getLatestEpisodesCount(): Promise<[number, Notification[]]> {
     return new Promise(async (resolve, reject) => {
 
       let count: number = 0;
-      let notificationMessages: string[] = [];
+      let notifications: Notification[] = [];
 
       const [episodes, days] = await this.animeProvider.getLatestEpisodes(true, false).pipe(take(1)).toPromise();
 
@@ -99,7 +100,10 @@ export class MainComponent implements OnInit {
           !this.viewedEpisodes.isViewed(episode) &&
           this.favoriteAnimes.isFavorite(episode.anime.title)
         ) {
-          notificationMessages.push(`${episode.anime.title} ${episode.number} released!`);
+          notifications.push({
+            message: `${episode.anime.title} ${episode.number} released!`,
+            url: episode.streamLinks[0].url
+          });
           // update count
           count++;
           // remember as checked
@@ -107,7 +111,7 @@ export class MainComponent implements OnInit {
         }
       });
 
-      resolve([count, notificationMessages]);
+      resolve([count, notifications]);
 
     });
   }

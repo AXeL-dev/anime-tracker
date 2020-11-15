@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { now } from '../helpers/date.helper';
+import { DebugService } from './debug.service';
 
 declare var browser: any; // Fixes "Cannot find name 'browser'." error on build
 
@@ -12,7 +14,7 @@ export class BrowserService {
   isFirefox: boolean;
   isChrome: boolean;
 
-  constructor() {
+  constructor(private debug: DebugService) {
     try {
       this.isWebExtension = !!browser;
     } catch(error) {
@@ -21,6 +23,16 @@ export class BrowserService {
     this.isPopup = window.innerWidth < 1000;
     this.isFirefox = navigator.userAgent.indexOf('Firefox') !== -1;
     this.isChrome = navigator.userAgent.indexOf('Chrome') !== -1;
+    // Handle click on notifications
+    if (this.isWebExtension) {
+      browser.notifications.onClicked.addListener((notificationId: string) => {
+        this.debug.log('Notification clicked:', notificationId);
+        const [ id, url ] = notificationId.split('::');
+        if (url) {
+          this.createTab(url);
+        }
+      });
+    }
   }
 
   createTab(url: string, isActive: boolean = true): Promise<any> {
@@ -42,8 +54,9 @@ export class BrowserService {
     );
   }
 
-  sendNotification(message: string, type: string = 'basic'): void {
-    browser.notifications.create({
+  sendNotification(message: string, url?: string, type: string = 'basic'): void {
+    const id = url?.length ? now().getTime() + '::' + url : ''; // id will be auto-generated if empty
+    browser.notifications.create(id, {
       type: type,
       title: 'Anime Tracker',
       iconUrl: 'assets/icons/128.png',
