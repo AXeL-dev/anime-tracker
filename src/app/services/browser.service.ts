@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { now } from '../helpers/date.helper';
-import { DebugService } from './debug.service';
 
 declare var browser: any; // Fixes "Cannot find name 'browser'." error on build
 
@@ -9,30 +8,22 @@ declare var browser: any; // Fixes "Cannot find name 'browser'." error on build
 })
 export class BrowserService {
 
+  instance: any;
   isWebExtension: boolean;
   isPopup: boolean;
   isFirefox: boolean;
   isChrome: boolean;
 
-  constructor(private debug: DebugService) {
+  constructor() {
     try {
-      this.isWebExtension = !!browser;
+      this.instance = browser;
+      this.isWebExtension = !!this.instance;
     } catch(error) {
       this.isWebExtension = false;
     }
     this.isPopup = window.innerWidth < 1000;
     this.isFirefox = navigator.userAgent.indexOf('Firefox') !== -1;
     this.isChrome = navigator.userAgent.indexOf('Chrome') !== -1;
-    // Handle click on notifications
-    if (this.isWebExtension) {
-      browser.notifications.onClicked.addListener((notificationId: string) => {
-        this.debug.log('Notification clicked:', notificationId);
-        const [ id, url ] = notificationId.split('::');
-        if (url) {
-          this.createTab(url);
-        }
-      });
-    }
   }
 
   createTab(url: string, isActive: boolean = true): Promise<any> {

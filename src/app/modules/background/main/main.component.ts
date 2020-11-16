@@ -47,6 +47,14 @@ export class MainComponent implements OnInit {
       notifications: this.settings.enableNotifications ? 'on' : 'off'
     });
     this.autoCheckLoop();
+    // Handle click on notifications
+    this.browser.instance.notifications.onClicked.addListener((notificationId: string) => {
+      this.debug.log('Notification clicked:', notificationId);
+      const [ id, url ] = notificationId.split('::');
+      if (url) {
+        this.browser.createTab(url);
+      }
+    });
   }
 
   private autoCheckLoop() {
