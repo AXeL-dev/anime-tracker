@@ -1,5 +1,10 @@
 
 export interface Notification {
   message: string,
-  url?: string
+  episode?: NotificationEpisodeData
+}
+
+export interface NotificationEpisodeData {
+  index: number,
+  url: string
 }

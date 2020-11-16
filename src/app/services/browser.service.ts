@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { now } from '../helpers/date.helper';
 
 declare var browser: any; // Fixes "Cannot find name 'browser'." error on build
 
@@ -45,8 +44,7 @@ export class BrowserService {
     );
   }
 
-  sendNotification(message: string, url?: string, type: string = 'basic'): void {
-    const id = url?.length ? now().getTime() + '::' + url : ''; // id will be auto-generated if empty
+  sendNotification(message: string, id: string = '', type: string = 'basic'): void { // id will be auto-generated if empty
     browser.notifications.create(id, {
       type: type,
       title: 'Anime Tracker',

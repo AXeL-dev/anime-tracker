@@ -50,9 +50,10 @@ export class MainComponent implements OnInit {
     // Handle click on notifications
     this.browser.instance.notifications.onClicked.addListener((notificationId: string) => {
       this.debug.log('Notification clicked:', notificationId);
-      const [ id, url ] = notificationId.split('::');
+      const [ index, url ] = notificationId.split('::');
       if (url) {
         this.browser.createTab(url);
+        this.viewedEpisodes.add(this.checkedEpisodes[index]);
       }
     });
   }
@@ -75,7 +76,8 @@ export class MainComponent implements OnInit {
         // Notify
         if (this.settings.enableNotifications) {
           notifications.forEach((notification: Notification) => {
-            this.browser.sendNotification(notification.message, notification.url);
+            const id = notification.episode?.url?.length ? notification.episode.index + '::' + notification.episode.url : '';
+            this.browser.sendNotification(notification.message, id);
           });
         }
       }
@@ -110,7 +112,10 @@ export class MainComponent implements OnInit {
         ) {
           notifications.push({
             message: `${episode.anime.title} ${episode.number} released!`,
-            url: episode.streamLinks[0].url
+            episode: {
+              index: count,
+              url: episode.streamLinks[0].url
+            }
           });
           // update count
           count++;
