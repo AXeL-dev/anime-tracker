@@ -4,7 +4,7 @@ import { AnimeProviderService } from 'src/app/services/anime-provider.service';
 import { take } from 'rxjs/operators';
 import { Episode } from 'src/app/models/episode';
 import { DebugService } from 'src/app/services/debug.service';
-import { isInToday } from 'src/app/helpers/date.helper';
+import { isInToday, now } from 'src/app/helpers/date.helper';
 import { isSimilar } from 'src/app/helpers/string.helper';
 import { Router } from '@angular/router';
 import { FavoriteAnimesService } from 'src/app/services/favorite-animes.service';
@@ -50,10 +50,14 @@ export class MainComponent implements OnInit {
     // Handle click on notifications
     this.browser.instance.notifications.onClicked.addListener((notificationId: string) => {
       this.debug.log('Notification clicked:', notificationId);
-      const [ index, url ] = notificationId.split('::');
-      if (url) {
-        this.browser.createTab(url);
-        this.viewedEpisodes.add(this.checkedEpisodes[index]);
+      const [ id, index ] = notificationId.split('::').map(str => +str);
+      if (index >= 0) {
+        const episode: Episode = this.checkedEpisodes[index];
+        const url: string = episode.streamLinks[0]?.url;
+        if (url?.length) {
+          this.browser.createTab(url);
+          this.viewedEpisodes.add(episode);
+        }
       }
     });
   }
@@ -76,7 +80,7 @@ export class MainComponent implements OnInit {
         // Notify
         if (this.settings.enableNotifications) {
           notifications.forEach((notification: Notification) => {
-            const id = notification.episode?.url?.length ? notification.episode.index + '::' + notification.episode.url : '';
+            const id = now().getTime() + '::' + notification.episode.index;
             this.browser.sendNotification(notification.message, id);
           });
         }
@@ -114,7 +118,7 @@ export class MainComponent implements OnInit {
             message: `${episode.anime.title} ${episode.number} released!`,
             episode: {
               index: count,
-              url: episode.streamLinks[0].url
+              //url: episode.streamLinks[0].url // not useful anymore
             }
           });
           // update count

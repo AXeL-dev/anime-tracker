@@ -6,5 +6,5 @@ export interface Notification {
 
 export interface NotificationEpisodeData {
   index: number,
-  url: string
+  url?: string
 }
