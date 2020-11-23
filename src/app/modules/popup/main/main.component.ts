@@ -30,7 +30,6 @@ export class MainComponent implements OnInit, OnDestroy {
   isSearching: boolean = false;
   private componentDestroy: Subject<void> = new Subject();
   searchInputValue: string = null;
-
   @ViewChild('streamLinksDialog') private streamLinksDialog: ChooseLinkDialogComponent;
   @ViewChild('downloadLinksDialog') private downloadLinksDialog: ChooseLinkDialogComponent;
 

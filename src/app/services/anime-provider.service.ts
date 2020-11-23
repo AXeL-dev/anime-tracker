@@ -34,7 +34,7 @@ export class AnimeProviderService {
     let latestEpisodes: Episode[] = [];
     let slicedEpisodesCount: number = 0;
     const crawlers = this.crawlers.getActive();
-    const filterEpisodes = (allEpisodes: Episode[], index: number) => {
+    const mergeEpisodes = (allEpisodes: Episode[], index: number) => {
       let episodes: Episode[] = [];
       if (asSlices) {
         episodes = allEpisodes.slice(0, Math.min(allEpisodes.length, this.settings.maxEpisodesToRetrieve));
@@ -55,9 +55,11 @@ export class AnimeProviderService {
             if (!latestEpisodes[index].releaseDate) {
               latestEpisodes[index].releaseDate = episode.releaseDate;
             }
-            latestEpisodes[index].streamLinks = [...latestEpisodes[index].streamLinks, ...episode.streamLinks]; // array.push(...episode.streamLinks) not working well here
+            if (episode.streamLinks?.length) {
+              latestEpisodes[index].streamLinks.push(...episode.streamLinks);
+            }
             if (episode.downloadLinks?.length) {
-              latestEpisodes[index].downloadLinks = [...latestEpisodes[index].downloadLinks, ...episode.downloadLinks];
+              latestEpisodes[index].downloadLinks.push(...episode.downloadLinks);
             }
             if (episode.anime.isNew && !latestEpisodes[index].anime.isNew) {
               latestEpisodes[index].anime.isNew = episode.anime.isNew;
@@ -73,7 +75,8 @@ export class AnimeProviderService {
         if (!isDuplicated) {
           latestEpisodes.push({
             ...episode,
-            downloadLinks: episode.downloadLinks?.length ? episode.downloadLinks : []
+            streamLinks: episode.streamLinks || [],
+            downloadLinks: episode.downloadLinks || []
           } as Episode);
         }
       });
@@ -106,7 +109,7 @@ export class AnimeProviderService {
 
     return observable(...crawlers.map((crawler: BaseCrawler) => crawler.getLatestEpisodes(forcedUpdate))).pipe(
       //delay(700), // delay used to wait for UI renders
-      concatMap(filterEpisodes)
+      concatMap(mergeEpisodes)
     ) as Observable<[Episode[], number[]]>;
   }
 
