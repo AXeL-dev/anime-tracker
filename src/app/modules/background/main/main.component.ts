@@ -33,6 +33,7 @@ export class MainComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.debug.enable();
     if (this.browser.isWebExtension) {
       this.init();
     } else {
