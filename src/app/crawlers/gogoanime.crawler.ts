@@ -6,7 +6,7 @@ import { Observable, of } from 'rxjs';
 
 export class GogoAnimeCrawler extends BaseCrawler {
 
-  constructor(private retriever: ScraperService) {
+  constructor(private scraper: ScraperService) {
     super(
       'GogoAnime',
       'https://www19.gogoanime.io'
@@ -39,7 +39,7 @@ export class GogoAnimeCrawler extends BaseCrawler {
   }
 
   _getLatestEpisodes(): Observable<Episode[]> {
-    return this.retriever.scrape(
+    return this.scraper.scrape(
       `${this.baseUrl}`,
       '.last_episodes ul li',
       {

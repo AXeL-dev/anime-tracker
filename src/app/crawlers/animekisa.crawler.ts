@@ -6,7 +6,7 @@ import { Observable, of } from 'rxjs';
 
 export class AnimeKisaCrawler extends BaseCrawler {
 
-  constructor(private retriever: ScraperService) {
+  constructor(private scraper: ScraperService) {
     super(
       'AnimeKisa',
       'https://animekisa.tv'
@@ -42,7 +42,7 @@ export class AnimeKisaCrawler extends BaseCrawler {
   }
 
   _getLatestEpisodes(): Observable<Episode[]> {
-    return this.retriever.scrape(
+    return this.scraper.scrape(
       `${this.baseUrl}`,
       '.listAnimes > div.episode-box',
       {

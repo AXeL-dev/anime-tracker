@@ -6,7 +6,7 @@ import { Observable, of } from 'rxjs';
 
 export class DarkAnimeCrawler extends BaseCrawler {
 
-  constructor(private retriever: ScraperService) {
+  constructor(private scraper: ScraperService) {
     super(
       'DarkAnime',
       'https://darkanime.stream'
@@ -20,7 +20,7 @@ export class DarkAnimeCrawler extends BaseCrawler {
         return 'vosten';
       },
       url: (text: string, element: any) => {
-        const number = this.retriever.htmlParser.find(element, 'span.series-content-episode-count | number', this.filters);
+        const number = this.scraper.htmlParser.find(element, 'span.series-content-episode-count | number', this.filters);
         return `${this.filters.concatUrl(text)}/episodes/${number}`;
       }
     };
@@ -42,7 +42,7 @@ export class DarkAnimeCrawler extends BaseCrawler {
   }
 
   _getLatestEpisodes(): Observable<Episode[]> {
-    return this.retriever.scrape(
+    return this.scraper.scrape(
       `${this.baseUrl}/animes/recently-updated`,
       '.series-section .row > div.col-6',
       {

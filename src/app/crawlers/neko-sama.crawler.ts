@@ -8,7 +8,7 @@ import { map } from 'rxjs/operators';
 
 export class NekoSamaCrawler extends BaseCrawler {
 
-  constructor(private retriever: ScraperService) {
+  constructor(private scraper: ScraperService) {
     super(
       'Neko-sama',
       'https://www.neko-sama.fr'
@@ -51,7 +51,7 @@ export class NekoSamaCrawler extends BaseCrawler {
   }
 
   _getLatestEpisodes(): Observable<Episode[]> {
-    return this.retriever.getRawHTML(this.baseUrl).pipe(map((html: string) => {
+    return this.scraper.getRawHTML(this.baseUrl).pipe(map((html: string) => {
       const results = html.match(/lastEpisodes = \[(.*)\]/);
       const latestEpisodes: Episode[] = [];
       if (results?.length) {

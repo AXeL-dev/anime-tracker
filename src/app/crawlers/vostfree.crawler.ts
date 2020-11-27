@@ -7,7 +7,7 @@ import { Observable, of } from 'rxjs';
 
 export class VostFreeCrawler extends BaseCrawler {
 
-  constructor(private retriever: ScraperService) {
+  constructor(private scraper: ScraperService) {
     super(
       'VostFree',
       'https://vostfree.com'
@@ -51,7 +51,7 @@ export class VostFreeCrawler extends BaseCrawler {
   }
 
   _getLatestEpisodes(): Observable<Episode[]> {
-    return this.retriever.scrape(
+    return this.scraper.scrape(
       `${this.baseUrl}/animes-vostfr`,
       '#content div.movie-poster',
       {

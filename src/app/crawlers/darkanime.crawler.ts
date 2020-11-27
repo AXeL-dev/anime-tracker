@@ -7,7 +7,7 @@ import { isNumber } from '../helpers/number.helper';
 
 export class DarkAnimeCrawler extends BaseCrawler {
 
-  constructor(private retriever: ScraperService) {
+  constructor(private scraper: ScraperService) {
     super(
       'DarkAnime',
       'https://app.darkanime.stream'
@@ -40,7 +40,7 @@ export class DarkAnimeCrawler extends BaseCrawler {
   }
 
   _getLatestEpisodes(): Observable<Episode[]> {
-    return this.retriever.scrape(
+    return this.scraper.scrape(
       `${this.baseUrl}/updated-animes`,
       '.flex.flex-wrap.-mx-2 > div',
       {

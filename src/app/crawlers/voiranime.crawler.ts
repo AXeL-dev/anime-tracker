@@ -7,7 +7,7 @@ import { Observable, of } from 'rxjs';
 
 export class VoirAnimeCrawler extends BaseCrawler {
 
-  constructor(private retriever: ScraperService) {
+  constructor(private scraper: ScraperService) {
     super(
       'Voiranime',
       'https://voiranime.to'
@@ -52,7 +52,7 @@ export class VoirAnimeCrawler extends BaseCrawler {
   }
 
   _getLatestEpisodes(): Observable<Episode[]> {
-    return this.retriever.scrape(
+    return this.scraper.scrape(
       `${this.baseUrl}/?filter=subbed`,
       '#loop-content .page-item-detail',
       {

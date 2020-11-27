@@ -6,7 +6,7 @@ import { Observable, of } from 'rxjs';
 
 export class FourAnimeCrawler extends BaseCrawler {
 
-  constructor(private retriever: ScraperService) {
+  constructor(private scraper: ScraperService) {
     super(
       '4Anime',
       'https://4anime.to'
@@ -46,7 +46,7 @@ export class FourAnimeCrawler extends BaseCrawler {
   }
 
   _getLatestEpisodes(): Observable<Episode[]> {
-    return this.retriever.scrape(
+    return this.scraper.scrape(
       `${this.baseUrl}/recently-added`,
       '#recently-added #headerDIV_2 > div',
       {

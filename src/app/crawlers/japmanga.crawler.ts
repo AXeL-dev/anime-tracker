@@ -6,7 +6,7 @@ import { Observable, of } from 'rxjs';
 
 export class JapMangaCrawler extends BaseCrawler {
 
-  constructor(private retriever: ScraperService) {
+  constructor(private scraper: ScraperService) {
     super(
       'JapManga',
       'https://www.japmanga.com'
@@ -45,7 +45,7 @@ export class JapMangaCrawler extends BaseCrawler {
   }
 
   _getLatestEpisodes(): Observable<Episode[]> {
-    return this.retriever.scrape(
+    return this.scraper.scrape(
       `${this.baseUrl}`,
       'div#anime-pos > .grd-grid > .grd-ceil',
       {

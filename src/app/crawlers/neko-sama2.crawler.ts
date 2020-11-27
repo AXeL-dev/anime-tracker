@@ -7,7 +7,7 @@ import { Observable, of } from 'rxjs';
 
 export class NekoSamaCrawler extends BaseCrawler {
 
-  constructor(private retriever: ScraperService) {
+  constructor(private scraper: ScraperService) {
     super(
       'Neko-sama',
       'https://www.neko-sama.fr'
@@ -53,7 +53,7 @@ export class NekoSamaCrawler extends BaseCrawler {
   }
 
   _getLatestEpisodes(): Observable<Episode[]> {
-    return this.retriever.scrape(
+    return this.scraper.scrape(
       `${this.baseUrl}`,
       '.js-last-episode-container > div',
       {

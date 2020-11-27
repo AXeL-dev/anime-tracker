@@ -7,7 +7,7 @@ import { frenchMonths } from '../helpers/date.helper';
 
 export class MangasVostfrCrawler extends BaseCrawler {
 
-  constructor(private retriever: ScraperService) {
+  constructor(private scraper: ScraperService) {
     super(
       'Mangas-vostfr',
       'https://www.mangas-vostfr.pro'
@@ -49,7 +49,7 @@ export class MangasVostfrCrawler extends BaseCrawler {
   }
 
   _getLatestEpisodes(): Observable<Episode[]> {
-    return this.retriever.scrape(
+    return this.scraper.scrape(
       `${this.baseUrl}`,
       '#content_box > article',
       {

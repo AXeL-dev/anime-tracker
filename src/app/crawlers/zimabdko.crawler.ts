@@ -6,7 +6,7 @@ import { Observable, of } from 'rxjs';
 
 export class ZimabdkoCrawler extends BaseCrawler {
 
-  constructor(private retriever: ScraperService) {
+  constructor(private scraper: ScraperService) {
     super(
       'Zimabdko',
       'https://www.zimabdko.com'
@@ -42,7 +42,7 @@ export class ZimabdkoCrawler extends BaseCrawler {
   }
 
   _getLatestEpisodes(): Observable<Episode[]> {
-    return this.retriever.scrape(
+    return this.scraper.scrape(
       `${this.baseUrl}/episodes/`,
       '.wrap-latest-episodes > div.one-poster',
       {
