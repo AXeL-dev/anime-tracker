@@ -49,7 +49,7 @@ export class MainComponent implements OnInit {
     });
     this.autoCheckLoop();
     // Handle click on notifications
-    this.browser.instance.notifications.onClicked.addListener((notificationId: string) => {
+    this.browser.api.notifications.onClicked.addListener((notificationId: string) => {
       this.debug.log('Notification clicked:', notificationId);
       const [ id, index ] = notificationId.split('::').map(str => +str);
       if (index >= 0) {

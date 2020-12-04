@@ -7,7 +7,7 @@ declare var browser: any; // Fixes "Cannot find name 'browser'." error on build
 })
 export class BrowserService {
 
-  instance: any;
+  api: any;
   isWebExtension: boolean;
   isPopup: boolean;
   isFirefox: boolean;
@@ -15,8 +15,8 @@ export class BrowserService {
 
   constructor() {
     try {
-      this.instance = browser;
-      this.isWebExtension = !!this.instance;
+      this.api = browser;
+      this.isWebExtension = !!this.api;
     } catch(error) {
       this.isWebExtension = false;
     }
