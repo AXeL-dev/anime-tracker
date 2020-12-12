@@ -6,7 +6,7 @@ import { environment } from '../../environments/environment';
 })
 export class DebugService {
 
-  private enabled = !environment.production;
+  private enabled: boolean = !environment.production;
 
   enable() {
     this.enabled = true;
