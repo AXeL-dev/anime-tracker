@@ -23,21 +23,7 @@ I watch animes almost daily or at least once or twice a week, & i wanted somethi
 
 :warning: Due to [DMCA](https://en.wikipedia.org/wiki/Digital_Millennium_Copyright_Act) law, this web extension will be available as a zip file on github [releases](https://github.com/AXeL-dev/anime-tracker/releases), use it on your own risk.
 
-<details open>
-  <summary>How to install?</summary>
-
-  ### Chrome
-  1. Unzip the downloaded file.
-  2. Activate the developer mode under your extensions settings to be able to load the extension.
-  ![load-in-chrome](screenshots/load-in-chrome.gif)
-
-  ### Firefox
-  1. Go to `about:config` (enter it into address bar).
-  2. Set `xpinstall.signatures.required` to `false`.
-  3. Go to `about:addons`.
-  4. Drag & drop the extension zip file or click on the ![cog](screenshots/cog.png) & choose install add-on from file.
-
-</details>
+[How to install?](https://github.com/AXeL-dev/install-webextension)
 
 ## ToDo
 
