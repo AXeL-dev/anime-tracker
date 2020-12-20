@@ -7,9 +7,11 @@ import { environment } from '../../environments/environment';
 export class DebugService {
 
   private enabled: boolean = !environment.production;
+  private displayTime: boolean = false;
 
-  enable() {
+  enable(displayTime?: boolean) {
     this.enabled = true;
+    this.displayTime = displayTime || false;
   }
 
   disable() {
@@ -22,7 +24,18 @@ export class DebugService {
 
   log(message: any, ...params: any) {
     if (this.enabled) {
-      console.log(message, ...params);
+      let data = this.displayTime ? [this.getCurrentTime()] : [];
+      data = [
+        ...data,
+        message,
+        ...params
+      ];
+      console.log(...data);
     }
+  }
+
+  private getCurrentTime() {
+    const now = new Date();
+    return `[${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}]`;
   }
 }

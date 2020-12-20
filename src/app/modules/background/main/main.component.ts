@@ -33,7 +33,7 @@ export class MainComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.debug.enable();
+    this.debug.enable(true); // force enable debug messages for background page
     if (this.browser.isWebExtension) {
       this.init();
     } else {
