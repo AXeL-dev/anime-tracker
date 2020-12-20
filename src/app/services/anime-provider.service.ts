@@ -56,10 +56,10 @@ export class AnimeProviderService {
               latestEpisodes[index].releaseDate = episode.releaseDate;
             }
             if (episode.streamLinks?.length) {
-              latestEpisodes[index].streamLinks.push(...episode.streamLinks);
+              latestEpisodes[index].streamLinks = [...latestEpisodes[index].streamLinks, ...episode.streamLinks]; // do not use array.push(...), it duplicates existing links
             }
             if (episode.downloadLinks?.length) {
-              latestEpisodes[index].downloadLinks.push(...episode.downloadLinks);
+              latestEpisodes[index].downloadLinks = [...latestEpisodes[index].downloadLinks, ...episode.downloadLinks];
             }
             if (episode.anime.isNew && !latestEpisodes[index].anime.isNew) {
               latestEpisodes[index].anime.isNew = episode.anime.isNew;
