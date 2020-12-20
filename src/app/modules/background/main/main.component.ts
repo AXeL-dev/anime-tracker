@@ -11,6 +11,7 @@ import { FavoriteAnimesService } from 'src/app/services/favorite-animes.service'
 import { ViewedEpisodesService } from 'src/app/services/viewed-episodes.service';
 import { SettingsService } from 'src/app/services/settings.service';
 import { Notification } from 'src/app/models/notification';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-main',
@@ -34,7 +35,7 @@ export class MainComponent implements OnInit {
 
   ngOnInit(): void {
     this.debug.enable(true); // force enable debug messages for background page
-    if (this.browser.isWebExtension) {
+    if (this.browser.isWebExtension || !environment.production) {
       this.init();
     } else {
       this.router.navigate(['/']);
@@ -49,7 +50,7 @@ export class MainComponent implements OnInit {
     });
     this.autoCheckLoop();
     // Handle click on notifications
-    this.browser.api.notifications.onClicked.addListener((notificationId: string) => {
+    this.browser.api?.notifications.onClicked.addListener((notificationId: string) => {
       this.debug.log('Notification clicked:', notificationId);
       const [ id, index ] = notificationId.split('::').map(str => +str);
       if (index >= 0) {

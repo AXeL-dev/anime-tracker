@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { HTMLParserService } from './html-parser.service';
 import { SettingsService } from './settings.service';
-import { Observable, EMPTY } from 'rxjs';
+import { Observable, EMPTY, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { Episode } from '../models/episode';
 
@@ -24,7 +24,8 @@ export class ScraperService {
     return this.httpClient.get(`${this.settings.proxy}${url}`, { responseType: 'text' }).pipe(
       catchError((error: Error) => {
         console.error(error.message);
-        return EMPTY;
+        //return EMPTY; // emits only complete & causes "TypeError: undefined has no properties" when converting the observable to promise with async/await
+        return of(''); // emits both next and complete
       })
     );
   }
