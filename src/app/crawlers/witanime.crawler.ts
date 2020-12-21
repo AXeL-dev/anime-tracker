@@ -41,7 +41,7 @@ export class WitAnimeCrawler extends BaseCrawler {
   _getLatestEpisodes(): Observable<Episode[]> {
     return this.scraper.scrape(
       `${this.baseUrl}`,
-      'body > div:nth-child(4).page-content-container .episodes-list-content .episodes-card-container',
+      'body > div.page-content-container:not(.content) .episodes-list-content .episodes-card-container',
       {
         anime: {
           title: '.ep-card-anime-title > h3 > a',
