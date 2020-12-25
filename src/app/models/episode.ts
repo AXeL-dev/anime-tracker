@@ -18,3 +18,7 @@ export interface EpisodeLink {
   isDubbed?: boolean;
   isSubtitled?: boolean;
 }
+
+export interface EpisodeRange {
+  range: Episode[]
+}
