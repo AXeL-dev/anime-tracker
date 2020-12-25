@@ -19,6 +19,15 @@ export interface EpisodeLink {
   isSubtitled?: boolean;
 }
 
+export type EpisodeLangColor = {[key: string]: string};
+
+export const EpisodeLangColors: EpisodeLangColor = {
+  'vostfr': 'blue',
+  'vostar': 'yellow',
+  'vosten': 'dark',
+  'vf': 'green',
+};
+
 export interface EpisodeRange {
   range: Episode[]
 }

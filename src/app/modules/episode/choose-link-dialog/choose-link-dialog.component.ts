@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ViewChild, Output, EventEmitter } from '@angular/core';
-import { EpisodeLink } from 'src/app/models/episode';
+import { EpisodeLink, EpisodeLangColor, EpisodeLangColors } from 'src/app/models/episode';
 import { MdcDialogDirective } from '@blox/material';
 import { SettingsService } from 'src/app/services/settings.service';
 import { BrowserService } from 'src/app/services/browser.service';
@@ -17,12 +17,7 @@ export class ChooseLinkDialogComponent implements OnInit, Dialog {
   @Output() linkClick: EventEmitter<void> = new EventEmitter();
   @Output() close: EventEmitter<void> = new EventEmitter();
   @ViewChild('dialog') private dialog: MdcDialogDirective;
-  badgeColors: {[key: string]: string} = {
-    'vostfr': 'blue',
-    'vostar': 'yellow',
-    'vosten': 'dark',
-    'vf': 'green',
-  };
+  langColors: EpisodeLangColor = EpisodeLangColors;
 
   constructor(private settings: SettingsService, private browser: BrowserService) { }
 
