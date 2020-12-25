@@ -3,13 +3,14 @@ import { EpisodeLink } from 'src/app/models/episode';
 import { MdcDialogDirective } from '@blox/material';
 import { SettingsService } from 'src/app/services/settings.service';
 import { BrowserService } from 'src/app/services/browser.service';
+import { Dialog } from 'src/app/models/dialog';
 
 @Component({
-  selector: 'app-choose-link-dialog',
+  selector: 'episode-choose-link-dialog',
   templateUrl: './choose-link-dialog.component.html',
   styleUrls: ['./choose-link-dialog.component.scss']
 })
-export class ChooseLinkDialogComponent implements OnInit {
+export class ChooseLinkDialogComponent implements OnInit, Dialog {
 
   @Input() title: string = 'Choose a link';
   @Input() links: EpisodeLink[] = [];

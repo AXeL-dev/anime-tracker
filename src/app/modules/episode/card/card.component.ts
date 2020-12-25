@@ -6,7 +6,7 @@ import { FavoriteAnimesService } from 'src/app/services/favorite-animes.service'
 import { ViewedEpisodesService } from 'src/app/services/viewed-episodes.service';
 
 @Component({
-  selector: 'app-card',
+  selector: 'episode-card',
   templateUrl: './card.component.html',
   styleUrls: ['./card.component.scss']
 })

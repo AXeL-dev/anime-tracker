@@ -10,7 +10,7 @@ import { takeUntil } from 'rxjs/operators';
 import { DebugService } from 'src/app/services/debug.service';
 import { BrowserService } from 'src/app/services/browser.service';
 import { ViewedEpisodesService } from 'src/app/services/viewed-episodes.service';
-import { ChooseLinkDialogComponent } from '../choose-link-dialog/choose-link-dialog.component';
+import { Dialog } from 'src/app/models/dialog';
 
 @Component({
   selector: 'app-main',
@@ -30,8 +30,8 @@ export class MainComponent implements OnInit, OnDestroy {
   isSearching: boolean = false;
   private componentDestroy: Subject<void> = new Subject();
   searchInputValue: string = null;
-  @ViewChild('streamLinksDialog') private streamLinksDialog: ChooseLinkDialogComponent;
-  @ViewChild('downloadLinksDialog') private downloadLinksDialog: ChooseLinkDialogComponent;
+  @ViewChild('streamLinksDialog') private streamLinksDialog: Dialog;
+  @ViewChild('downloadLinksDialog') private downloadLinksDialog: Dialog;
 
   constructor(
     private animeProvider: AnimeProviderService,
