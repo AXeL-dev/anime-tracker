@@ -48,8 +48,9 @@ export class AnimeProviderService {
       this.debug.log('--------------------------');
       // filter duplicates
       episodes.forEach((episode: Episode) => {
-        let isDuplicated = false;
-        latestEpisodes.forEach((lastestEpisode: Episode, index: number) => {
+        let lastestEpisode: Episode,
+            index: number = 0;
+        for (lastestEpisode of latestEpisodes) {
           // duplicated
           if (isSimilar(lastestEpisode.anime.title, episode.anime.title) && lastestEpisode.number === episode.number) {
             if (!latestEpisodes[index].releaseDate) {
@@ -67,18 +68,16 @@ export class AnimeProviderService {
             if (episode.anime.isFinished && !latestEpisodes[index].anime.isFinished) {
               latestEpisodes[index].anime.isFinished = episode.anime.isFinished;
             }
-            isDuplicated = true;
-            return;
+            return; // ends the current foreach iteration function, so the code below will not be executed
           }
-        });
-        // not duplicated
-        if (!isDuplicated) {
-          latestEpisodes.push({
-            ...episode,
-            streamLinks: episode.streamLinks || [],
-            downloadLinks: episode.downloadLinks || []
-          } as Episode);
+          index++;
         }
+        // not duplicated
+        latestEpisodes.push({
+          ...episode,
+          streamLinks: episode.streamLinks || [],
+          downloadLinks: episode.downloadLinks || []
+        } as Episode);
       });
       // sort
       if (latestEpisodes.length) {
