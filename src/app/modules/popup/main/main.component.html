@@ -68,14 +68,14 @@
         </ng-template>
 
         <episode-choose-link-dialog #streamLinksDialog
-          title="Choose a stream link"
+          [title]="'Choose a stream link'"
           [links]="selectedEpisode?.streamLinks || []"
           (linkClick)="markEpisodeAsViewed(selectedEpisode)"
           (close)="selectedEpisode = null"
         ></episode-choose-link-dialog>
 
         <episode-choose-link-dialog #downloadLinksDialog
-          title="Choose a download link"
+          [title]="'Choose a download link'"
           [links]="selectedEpisode?.downloadLinks || []"
           (linkClick)="markEpisodeAsViewed(selectedEpisode)"
           (close)="selectedEpisode = null"
