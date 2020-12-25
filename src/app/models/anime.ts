@@ -15,6 +15,7 @@ export interface Anime {
   isFavorite?: boolean;
   isNew?: boolean; // ToDo: can be replaced with status
   isFinished?: boolean; // the same
+  isMovie?: boolean;
 }
 
 export enum AnimeStatus {

@@ -3,7 +3,12 @@
   <a mdcCardPrimaryAction [href]="episode.streamLinks[0].url" (click)="onClick($event)" target="_blank">
     <div mdcCardMedia size="square" [style.background-image]="'url(' + (episode.anime.cover | url:'encode') + ')'">
       <div mdcCardMediaContent>
-        <h2 [title]="episode.anime.title">{{ episode.anime.title }}</h2>
+        <h2 [title]="episode.anime.title">
+          <ng-container *ngIf="episode.anime.isMovie">
+            <i class="material-icons" title="Movie">movie</i>
+          </ng-container>
+          {{ episode.anime.title }}
+        </h2>
         <div class="card-badge number">
           <span>{{ episode.number }}</span>
         </div>

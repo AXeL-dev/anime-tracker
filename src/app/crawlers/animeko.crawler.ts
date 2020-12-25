@@ -61,6 +61,7 @@ export class AnimeKoCrawler extends BaseCrawler {
           cover: 'img@data-src | cover',
           isNew: '.badge-status.new | boolean',
           isFinished: '.badge-status.end | boolean',
+          isMovie: '.badge-type.movie | boolean',
         },
         number: 'span.badge-number | number',
         streamLinks: [
