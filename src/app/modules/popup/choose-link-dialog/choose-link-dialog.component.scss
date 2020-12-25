@@ -4,11 +4,36 @@
   font-weight: 500;
   font-size: 13px;
   text-transform: uppercase;
-  background: #0061aa;
+  background: #6c757d;
   margin-right: 10px;
   border-radius: 2px;
   min-width: 90px;
   text-align: center;
+  &.blue {
+    background: #0061aa;
+  }
+  &.dark {
+    background: #34393F;
+  }
+  &.pink {
+    background: #B83280;
+  }
+  &.green {
+    background:#38A169;
+  }
+  &.red {
+    background: #C53030;
+  }
+  &.purple {
+    background: #6B46C1;
+  }
+  &.orange {
+    background: #C05621;
+  }
+  &.yellow {
+    background: #FEC107;
+    color: #1B0E00;
+  }
 }
 
 .link {

@@ -16,6 +16,12 @@ export class ChooseLinkDialogComponent implements OnInit {
   @Output() linkClick: EventEmitter<void> = new EventEmitter();
   @Output() close: EventEmitter<void> = new EventEmitter();
   @ViewChild('dialog') private dialog: MdcDialogDirective;
+  private badgeColors: {[key: string]: string} = {
+    'vostfr': 'blue',
+    'vostar': 'yellow',
+    'vosten': 'dark',
+    'vf': 'green'
+  };
 
   constructor(private settings: SettingsService, private browser: BrowserService) { }
 
