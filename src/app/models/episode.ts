@@ -38,7 +38,7 @@ export class EpisodeRange {
 
   constructor(range?: Episode[], releaseDate?: EpisodeReleaseDate) {
     if (range?.length) {
-      this.setRange(range);
+      this.range = range;
     }
     if (releaseDate) {
       this.releaseDate = releaseDate;
@@ -49,8 +49,8 @@ export class EpisodeRange {
     return this._range;
   }
 
-  setRange(range: Episode[]): void {
-    this._range = range;
+  set range(value: Episode[]) {
+    this._range = value;
     this.first = this.getFirst();
     this.last = this.getLast();
   }
