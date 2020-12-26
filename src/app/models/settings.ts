@@ -11,6 +11,7 @@ export interface Settings {
   // Display
   defaultView: View;
   displayEpisodesDayByDay: boolean;
+  mergeCommonEpisodes: boolean;
   // Crawlers
   inactiveCrawlers: string[];
 }
