@@ -5,6 +5,7 @@ import { PopupRoutingModule } from './popup-routing.module';
 import { MainComponent } from './main/main.component';
 import { SharedModule } from '../shared/shared.module';
 import { EpisodeModule } from '../episode/episode.module';
+import { EpisodeRangeModule } from '../episode-range/episode-range.module';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { EpisodeModule } from '../episode/episode.module';
     CommonModule,
     PopupRoutingModule,
     SharedModule,
-    EpisodeModule
+    EpisodeModule,
+    EpisodeRangeModule
   ]
 })
 export class PopupModule { }
