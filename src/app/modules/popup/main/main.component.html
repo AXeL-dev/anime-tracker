@@ -42,12 +42,11 @@
               <h3 class="day-title">{{ day | shortdate }}</h3>
               <div class="day-divider"></div>
               <section class="custom-card-container">
-                <app-card
+                <ng-container
                   *ngFor="let episode of episodesByDays[day]"
-                  [episode]="episode"
-                  (streamLinksClick)="openStreamLinksDialog($event)"
-                  (downloadLinksClick)="openDownloadLinksDialog($event)"
-                ></app-card>
+                  [ngTemplateOutlet]="episode.range ? episodeRangeCard : episodeCard"
+                  [ngTemplateOutletContext]="{ $implicit: episode }"
+                ></ng-container>
               </section>
             </ng-container>
           </ng-container>
@@ -57,29 +56,60 @@
         <ng-template #showAllTemplate>
 
           <section class="custom-card-container">
-            <app-card
+            <ng-container
               *ngFor="let episode of episodes"
-              [episode]="episode"
-              (streamLinksClick)="openStreamLinksDialog($event)"
-              (downloadLinksClick)="openDownloadLinksDialog($event)"
-            ></app-card>
+              [ngTemplateOutlet]="episode.range ? episodeRangeCard : episodeCard"
+              [ngTemplateOutletContext]="{ $implicit: episode }"
+            ></ng-container>
           </section>
 
         </ng-template>
 
-        <app-choose-link-dialog #streamLinksDialog
-          title="Choose a stream link"
+        <ng-template #episodeCard let-episode>
+          <episode-card
+            [episode]="episode"
+            (streamLinksClick)="openStreamLinksDialog($event)"
+            (downloadLinksClick)="openDownloadLinksDialog($event)"
+          ></episode-card>
+        </ng-template>
+
+        <ng-template #episodeRangeCard let-episodeRange>
+          <episode-range-card
+            [episodeRange]="episodeRange"
+            (streamLinksClick)="openStreamLinksDialog($event)"
+            (downloadLinksClick)="openDownloadLinksDialog($event)"
+          ></episode-range-card>
+        </ng-template>
+
+        <episode-choose-link-dialog #episodeStreamLinksDialog
+          [title]="'Choose a stream link'"
           [links]="selectedEpisode?.streamLinks || []"
           (linkClick)="markEpisodeAsViewed(selectedEpisode)"
           (close)="selectedEpisode = null"
-        ></app-choose-link-dialog>
+        ></episode-choose-link-dialog>
 
-        <app-choose-link-dialog #downloadLinksDialog
-          title="Choose a download link"
+        <episode-choose-link-dialog #episodeDownloadLinksDialog
+          [title]="'Choose a download link'"
           [links]="selectedEpisode?.downloadLinks || []"
           (linkClick)="markEpisodeAsViewed(selectedEpisode)"
           (close)="selectedEpisode = null"
-        ></app-choose-link-dialog>
+        ></episode-choose-link-dialog>
+
+        <episode-range-choose-link-dialog #episodeRangeStreamLinksDialog
+          [title]="'Choose a stream link'"
+          [episodes]="selectedEpisodeRange?.range || []"
+          linksKey="streamLinks"
+          (linkClick)="markEpisodeAsViewed($event)"
+          (close)="selectedEpisodeRange = null"
+        ></episode-range-choose-link-dialog>
+
+        <episode-range-choose-link-dialog #episodeRangeDownloadLinksDialog
+          [title]="'Choose a download link'"
+          [episodes]="selectedEpisodeRange?.range || []"
+          linksKey="downloadLinks"
+          (linkClick)="markEpisodeAsViewed($event)"
+          (close)="selectedEpisodeRange = null"
+        ></episode-range-choose-link-dialog>
 
     </main>
   </div>

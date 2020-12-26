@@ -22,6 +22,7 @@ export class SettingsService {
   // Display
   defaultView: View;
   displayEpisodesDayByDay: boolean;
+  mergeCommonEpisodes: boolean;
   // Crawlers
   inactiveCrawlers: string[];
 
@@ -95,6 +96,7 @@ export class SettingsService {
       enableDebugging: false,
       defaultView: View.Latest,
       displayEpisodesDayByDay: true,
+      mergeCommonEpisodes: false,
       inactiveCrawlers: [],
     };
   }
@@ -109,6 +111,7 @@ export class SettingsService {
     this.enableDebugging = settings.enableDebugging;
     this.defaultView = settings.defaultView;
     this.displayEpisodesDayByDay = settings.displayEpisodesDayByDay;
+    this.mergeCommonEpisodes = settings.mergeCommonEpisodes;
     this.inactiveCrawlers = settings.inactiveCrawlers;
   }
 
@@ -123,6 +126,7 @@ export class SettingsService {
       enableDebugging: this.enableDebugging,
       defaultView: this.defaultView,
       displayEpisodesDayByDay: this.displayEpisodesDayByDay,
+      mergeCommonEpisodes: this.mergeCommonEpisodes,
       inactiveCrawlers: this.inactiveCrawlers,
     });
   }

@@ -48,9 +48,8 @@ export class AnimeProviderService {
       this.debug.log('--------------------------');
       // filter duplicates
       episodes.forEach((episode: Episode) => {
-        let lastestEpisode: Episode,
-            index: number = 0;
-        for (lastestEpisode of latestEpisodes) {
+        let index: number = 0;
+        for (let lastestEpisode of latestEpisodes) {
           // duplicated
           if (isSimilar(lastestEpisode.anime.title, episode.anime.title) && lastestEpisode.number === episode.number) {
             if (!latestEpisodes[index].releaseDate) {

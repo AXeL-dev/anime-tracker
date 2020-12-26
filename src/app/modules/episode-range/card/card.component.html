@@ -1,0 +1,30 @@
+
+<div mdcCard class="custom-card-photo">
+  <a mdcCardPrimaryAction href="javascript:void(0)" (click)="onClick($event)">
+    <div mdcCardMedia size="square" [style.background-image]="'url(' + (episodeRange.first.anime.cover | url:'encode') + ')'">
+      <div mdcCardMediaContent>
+        <h2 [title]="episodeRange.first.anime.title">
+          <ng-container *ngIf="episodeRange.first.anime.isMovie">
+            <i class="material-icons" title="Movie">movie</i>
+          </ng-container>
+          {{ episodeRange.first.anime.title }}
+        </h2>
+        <div class="card-badge number">
+          <span>{{ episodeRange.first.number }} - {{ episodeRange.last.number }}</span>
+        </div>
+        <div *ngIf="episodeRange.first.anime.isNew" class="card-badge new">
+          <span>New</span>
+        </div>
+      </div>
+    </div>
+  </a>
+  <div class="mdc-card__actions mdc-card__action-icons" #viewport>
+    <button iconToggle class="material-icons mdc-icon-button" classOn="red-heart"
+      titleOn="Remove from favorites" titleOff="Add to favorites"
+      iconOn="favorite" iconOff="favorite_border"
+      [on]="isFavorite()" (onChange)="toggleFavorite($event)"></button>
+    <button class="material-icons mdc-icon-button" title="Stream links" (click)="showStreamLinks()">play_circle_outline</button>
+    <button class="material-icons mdc-icon-button" title="Download links" (click)="showDownloadLinks()">save_alt</button>
+    <!-- <button class="material-icons mdc-icon-button" title="More options">more_vert</button> -->
+  </div>
+</div>

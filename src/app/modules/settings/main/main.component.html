@@ -121,6 +121,16 @@
               <input mdcSwitchInput type="checkbox" [(ngModel)]="settings.displayEpisodesDayByDay"/>
             </div>
           </li>
+          <li mdcListItem>
+            <i mdcListItemGraphic class="material-icons">view_carousel</i>
+            <span mdcListItemText>
+              Merge common episodes
+              <span mdcListItemSecondaryText>Displays common episodes on the same card</span>
+            </span>
+            <div mdcListItemMeta mdcSwitch>
+              <input mdcSwitchInput type="checkbox" [(ngModel)]="settings.mergeCommonEpisodes"/>
+            </div>
+          </li>
           <li mdcListDivider [inset]="true"></li>
         </ul>
 
