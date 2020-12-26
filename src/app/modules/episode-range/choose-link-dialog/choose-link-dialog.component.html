@@ -30,7 +30,7 @@
         <div class="blox-tab-sample-content">
           <ul mdcList *ngIf="episodes[activeIndex][linksKey]?.length; else emptyTemplate">
             <li *ngFor="let link of episodes[activeIndex][linksKey]" mdcListItem>
-              <span class="badge" [ngClass]="langColors[link.lang.toLowerCase()]">{{ link.lang }}</span>
+              <span class="badge" [ngClass]="langColors[link.lang.toLowerCase()] || ''">{{ link.lang }}</span>
               <a class="link" [href]="link.url" target="_blank" (click)="onClick($event, link.url, episodes[activeIndex])">{{ link.url }}</a>
             </li>
           </ul>
