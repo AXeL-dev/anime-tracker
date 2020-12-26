@@ -27,7 +27,6 @@ export class ChooseLinkDialogComponent implements OnInit, Dialog {
   }
 
   open() {
-    this.activeIndex = 0;
     this.dialog.open();
   }
 
@@ -40,6 +39,7 @@ export class ChooseLinkDialogComponent implements OnInit, Dialog {
   }
 
   onClose() {
+    this.activeIndex = 0;
     this.close.emit();
   }
 
