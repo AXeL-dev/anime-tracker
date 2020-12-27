@@ -12,9 +12,16 @@
         <div class="card-badge number">
           <span>{{ episodeRange.first.number }} - {{ episodeRange.last.number }}</span>
         </div>
-        <div *ngIf="episodeRange.first.anime.isNew" class="card-badge new">
-          <span>New</span>
-        </div>
+        <ng-container *ngIf="episodeRange.first.anime.isNew; else endBadge">
+          <div class="card-badge new">
+            <span>New</span>
+          </div>
+        </ng-container>
+        <ng-template #endBadge>
+          <div *ngIf="episodeRange.last.anime.isFinished" class="card-badge end">
+            <span>End</span>
+          </div>
+        </ng-template>
       </div>
     </div>
   </a>
