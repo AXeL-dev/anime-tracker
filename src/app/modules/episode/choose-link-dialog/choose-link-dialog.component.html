@@ -5,15 +5,7 @@
       <h2 mdcDialogHeaderTitle>{{ title }} {{ links?.length > 1 ? '(' + links.length + ')' : '' }}</h2>
     </header>
     <section mdcDialogBody scrollable>
-      <ul mdcList *ngIf="links?.length; else emptyTemplate">
-        <li *ngFor="let link of links" mdcListItem>
-          <span class="badge" [ngClass]="langColors[link.lang.toLowerCase()] || ''">{{ link.lang }}</span>
-          <a class="link" [href]="link.url" target="_blank" (click)="onClick($event, link.url)">{{ link.url }}</a>
-        </li>
-      </ul>
-      <ng-template #emptyTemplate>
-        <div class="empty-text">No available links.</div>
-      </ng-template>
+      <episode-link-list [links]="links" (linkClick)="linkClick.emit()"></episode-link-list>
     </section>
     <footer mdcDialogFooter>
       <button mdcButton mdcDialogCancel>Close</button>

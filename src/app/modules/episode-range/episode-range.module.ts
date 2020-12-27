@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ChooseLinkDialogComponent } from './choose-link-dialog/choose-link-dialog.component';
 import { CardComponent } from './card/card.component';
 import { SharedModule } from '../shared/shared.module';
+import { EpisodeModule } from '../episode/episode.module';
 
 
 @NgModule({
@@ -12,7 +13,8 @@ import { SharedModule } from '../shared/shared.module';
   ],
   imports: [
     CommonModule,
-    SharedModule
+    SharedModule,
+    EpisodeModule
   ],
   exports: [
     ChooseLinkDialogComponent,
