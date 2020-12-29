@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { EpisodeLink, EpisodeLangColor, EpisodeLangColors } from 'src/app/models/episode';
+import { EpisodeLink } from 'src/app/models/episode';
 import { SettingsService } from 'src/app/services/settings.service';
 import { BrowserService } from 'src/app/services/browser.service';
 
@@ -12,7 +12,12 @@ export class LinkListComponent implements OnInit {
 
   @Input() links: EpisodeLink[] = [];
   @Output() linkClick: EventEmitter<void> = new EventEmitter();
-  langColors: EpisodeLangColor = EpisodeLangColors;
+  langColors: {[key: string]: string} = {
+    'vostfr': 'blue',
+    'vostar': 'yellow',
+    'vosten': 'dark',
+    'vf': 'green',
+  };
 
   constructor(private settings: SettingsService, private browser: BrowserService) { }
 

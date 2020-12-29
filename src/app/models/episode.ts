@@ -21,15 +21,6 @@ export interface EpisodeLink {
 
 export type EpisodeReleaseDate = string | number | Date;
 
-export type EpisodeLangColor = {[key: string]: string};
-
-export const EpisodeLangColors: EpisodeLangColor = {
-  'vostfr': 'blue',
-  'vostar': 'yellow',
-  'vosten': 'dark',
-  'vf': 'green',
-};
-
 export class EpisodeRange {
   private _range: Episode[] = [];
   first: Episode;
