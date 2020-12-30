@@ -96,7 +96,7 @@ export class SettingsService {
       enableDebugging: false,
       defaultView: View.Latest,
       displayEpisodesDayByDay: true,
-      mergeCommonEpisodes: false,
+      mergeCommonEpisodes: true,
       inactiveCrawlers: [],
     };
   }
