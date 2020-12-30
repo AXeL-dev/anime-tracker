@@ -30,7 +30,10 @@ export class AnimeProviderService {
     );
   }
 
-  getLatestEpisodes(forcedUpdate: boolean = false, asSlices: boolean = true, maxEpisodesPerSlice: number = 10): Observable<[Episode[], number[]]> {
+  getLatestEpisodes(forcedUpdate: boolean = false, asSlices: boolean = true, maxEpisodesPerSlice: number = 50): Observable<[Episode[], number[]]> {
+    if (!maxEpisodesPerSlice) {
+      maxEpisodesPerSlice = this.settings.maxEpisodesToRetrieve;
+    }
     let latestEpisodes: Episode[] = [];
     let slicedEpisodesCount: number = 0;
     const crawlers = this.crawlers.getActive();
@@ -84,7 +87,7 @@ export class AnimeProviderService {
       }
       // return as slices (to avoid freezing the UI)
       let continueSlicing: boolean = true;
-      return asSlices ? timer(700, 1000).pipe( // starts after 700 ms & reloop each 1000 ms
+      return asSlices ? timer(100, 500).pipe( // starts after 100 ms & reloop each 500 ms
         takeWhile(() => continueSlicing),
         map((i: number) => {
           let from = i * maxEpisodesPerSlice;
