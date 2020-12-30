@@ -12,7 +12,7 @@ export class LinkListComponent implements OnInit {
 
   @Input() links: EpisodeLink[] = [];
   @Output() linkClick: EventEmitter<void> = new EventEmitter();
-  langColors: {[key: string]: string} = {
+  readonly langColors: {[key: string]: string} = {
     'vostfr': 'blue',
     'vostar': 'yellow',
     'vosten': 'dark',
