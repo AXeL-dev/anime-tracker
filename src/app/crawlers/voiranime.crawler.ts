@@ -15,7 +15,7 @@ export class VoirAnimeCrawler extends BaseCrawler {
     this.filters = {
       ...this.filters,
       cover: (text: string) => {
-        return text.replace('-110x150', '-175x238');
+        return text.replace('-110x150', '');
       },
       subtitles: (text: string) => {
         return 'vostfr';
