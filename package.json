@@ -5,6 +5,8 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build --aot --prod --sourceMap=false --outputHashing=none",
+    "build:firefox": "npm run build && cd dist/anime-tracker && mv -f manifest.firefox.json manifest.json",
+    "build:chrome": "npm run build && cd dist/anime-tracker && rm -f manifest.firefox.json",
     "package": "web-ext build --source-dir=dist/anime-tracker --artifacts-dir=. --overwrite-dest",
     "build:github": "ng build --prod --base-href \"/anime-tracker/\"",
     "deploy:github": "ngh --dir=dist/anime-tracker",
