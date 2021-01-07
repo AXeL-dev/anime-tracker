@@ -28,6 +28,7 @@
               "src/assets",
               "src/_locales",
               "src/manifest.json",
+              "src/manifest.firefox.json",
               "src/.nojekyll"
             ],
             "styles": [
