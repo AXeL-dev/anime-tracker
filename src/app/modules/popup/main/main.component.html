@@ -23,7 +23,9 @@
       <div mdcTopAppBarRow>
         <section mdcTopAppBarSection alignStart>
           <button mdcTopAppBarNavIcon class="material-icons" (click)="toggleDrawer()">menu</button>
-          <span mdcTopAppBarTitle>Anime Tracker</span>
+          <span mdcTopAppBarTitle title="Anime Tracker">
+            <img alt="logo" src="assets/icons/128.png" />
+          </span>
           <app-search-input [(value)]="searchInputValue" (tap)="isSearching = true" (valueChange)="search($event)"></app-search-input>
         </section>
         <section mdcTopAppBarSection alignEnd>
