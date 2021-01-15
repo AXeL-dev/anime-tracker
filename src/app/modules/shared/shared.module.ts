@@ -6,6 +6,7 @@ import { IconToggleDirective } from './directives/icon-toggle/icon-toggle.direct
 import { SearchInputComponent } from './components/search-input/search-input.component';
 import { ShortDatePipe } from './pipes/shortdate.pipe';
 import { UrlPipe } from './pipes/url.pipe';
+import { SafePipe } from './pipes/safe.pipe';
 
 
 
@@ -15,6 +16,7 @@ import { UrlPipe } from './pipes/url.pipe';
     SearchInputComponent,
     ShortDatePipe,
     UrlPipe,
+    SafePipe
   ],
   imports: [
     CommonModule,
@@ -28,6 +30,7 @@ import { UrlPipe } from './pipes/url.pipe';
     SearchInputComponent,
     ShortDatePipe,
     UrlPipe,
+    SafePipe
   ]
 })
 export class SharedModule { }

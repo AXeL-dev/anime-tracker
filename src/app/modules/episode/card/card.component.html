@@ -1,7 +1,10 @@
 
 <div mdcCard class="custom-card-photo">
   <a mdcCardPrimaryAction [href]="episode.streamLinks[0].url" (click)="onClick($event)" target="_blank">
-    <div mdcCardMedia size="square" [style.background-image]="'url(' + (episode.anime.cover | url:'encode') + ')'">
+    <div mdcCardMedia size="square"
+      [style.background-image]="episode.anime.cover | url:'encodeAndFormat' | safe:'style'"
+      [attr.data-cover]="episode.anime.cover"
+    >
       <div mdcCardMediaContent>
         <h2 [title]="episode.anime.title">
           <ng-container *ngIf="episode.anime.isMovie">
