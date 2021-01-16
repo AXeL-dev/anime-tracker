@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Settings, View } from '../models/settings';
-import { Proxy } from '../models/proxy';
 import { StorageService } from './storage.service';
 import { BrowserService } from './browser.service';
 import { getQueryParam } from '../helpers/url.helper';
 import { DebugService } from './debug.service';
+import { CORSProxies } from '../helpers/proxy.helper';
 
 @Injectable({
   providedIn: 'root',
@@ -25,29 +25,6 @@ export class SettingsService {
   mergeCommonEpisodes: boolean;
   // Crawlers
   inactiveCrawlers: string[];
-
-  static readonly CORSProxies: Proxy[] = [
-    {
-      name: 'allOrigins',
-      url: 'https://api.allorigins.win/raw?url='
-    },
-    {
-      name: 'cors-anywhere',
-      url: 'https://cors-anywhere.herokuapp.com/'
-    },
-    {
-      name: 'JSONProxy',
-      url: 'https://jsonp.afeld.me/?url='
-    },
-    // {
-    //   name: 'YaCDN',
-    //   url: 'https://yacdn.org/proxy/'
-    // },
-    // {
-    //   name: 'WhateverOrigin',
-    //   url: 'http://www.whateverorigin.org/get?url='
-    // },
-  ];
 
   constructor(
     private storage: StorageService,
@@ -87,7 +64,7 @@ export class SettingsService {
 
   getDefaults() {
     return {
-      proxy: SettingsService.CORSProxies[0].url,
+      proxy: CORSProxies[0].url,
       openInNewTab: this.browser.isFirefox ? true : false,
       openLinksInInactiveTabs: true,
       maxEpisodesToRetrieve: 50,

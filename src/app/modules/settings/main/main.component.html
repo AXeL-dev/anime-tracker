@@ -19,7 +19,7 @@
         <h3 mdcListGroupSubHeader>General</h3>
 
         <ul mdcList [nonInteractive]="true">
-          <li mdcListItem>
+          <li *ngIf="!browser.isWebExtension" mdcListItem>
             <i mdcListItemGraphic class="material-icons">share</i>
             <span mdcListItemText>
               Proxy
@@ -27,7 +27,7 @@
             </span>
             <div mdcListItemMeta mdcSelect>
               <select mdcSelectControl [(ngModel)]="settings.proxy">
-                <option *ngFor="let proxy of getProxies()" [value]="proxy.url">{{ proxy.name }}</option>
+                <option *ngFor="let proxy of proxies" [value]="proxy.url">{{ proxy.name }}</option>
               </select>
               <label mdcFloatingLabel></label> <!-- gives an error when removed, so better let it empty for now -->
             </div>

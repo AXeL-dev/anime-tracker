@@ -7,6 +7,8 @@ import { CrawlersService } from 'src/app/services/crawlers.service';
 import { BaseCrawler } from 'src/app/crawlers/abstract/base.crawler';
 import { DebugService } from 'src/app/services/debug.service';
 import { MdcSnackbarService } from '@blox/material';
+import { CORSProxies } from 'src/app/helpers/proxy.helper';
+import { Proxy } from 'src/app/models/proxy';
 
 @Component({
   selector: 'app-main',
@@ -16,6 +18,7 @@ import { MdcSnackbarService } from '@blox/material';
 export class MainComponent implements OnInit {
 
   allCrawlers: BaseCrawler[] = [];
+  readonly proxies: Proxy[] = CORSProxies;
   private readonly defaults: Settings;
 
   constructor(
@@ -49,10 +52,6 @@ export class MainComponent implements OnInit {
       multiline: this.browser.isPopup
     });
     this.router.navigate(['/']);
-  }
-
-  getProxies() {
-    return SettingsService.CORSProxies;
   }
 
   getViews() {

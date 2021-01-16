@@ -38,6 +38,7 @@
 
   "permissions": [
     "storage",
-    "notifications"
+    "notifications",
+    "<all_urls>"
   ]
 }
