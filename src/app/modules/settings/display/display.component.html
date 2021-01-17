@@ -1,0 +1,41 @@
+
+<div mdcListGroup>
+
+  <ul mdcList [nonInteractive]="true">
+    <li mdcListItem>
+      <i mdcListItemGraphic class="material-icons">visibility</i>
+      <span mdcListItemText>
+        Default view
+        <span mdcListItemSecondaryText>Set default view</span>
+      </span>
+      <div mdcListItemMeta mdcSelect>
+        <select mdcSelectControl [(ngModel)]="settings.defaultView">
+          <option *ngFor="let view of views" [value]="view.value">{{ view.label }}</option>
+        </select>
+        <label mdcFloatingLabel></label> <!-- gives an error when removed, so better let it empty for now -->
+      </div>
+    </li>
+    <li mdcListItem>
+      <i mdcListItemGraphic class="material-icons">view_day</i>
+      <span mdcListItemText>
+        Display episodes day by day
+        <span mdcListItemSecondaryText>Changes the display layout to day by day</span>
+      </span>
+      <div mdcListItemMeta mdcSwitch>
+        <input mdcSwitchInput type="checkbox" [(ngModel)]="settings.displayEpisodesDayByDay"/>
+      </div>
+    </li>
+    <li mdcListItem>
+      <i mdcListItemGraphic class="material-icons">view_carousel</i>
+      <span mdcListItemText>
+        Merge common episodes
+        <span mdcListItemSecondaryText>Displays common episodes on the same card</span>
+      </span>
+      <div mdcListItemMeta mdcSwitch>
+        <input mdcSwitchInput type="checkbox" [(ngModel)]="settings.mergeCommonEpisodes"/>
+      </div>
+    </li>
+    <!-- <li mdcListDivider [inset]="true"></li> -->
+  </ul>
+
+</div>

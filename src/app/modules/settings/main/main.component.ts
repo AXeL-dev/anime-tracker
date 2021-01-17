@@ -2,13 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { SettingsService } from 'src/app/services/settings.service';
 import { Router } from '@angular/router';
 import { BrowserService } from 'src/app/services/browser.service';
-import { View, Settings } from 'src/app/models/settings';
-import { CrawlersService } from 'src/app/services/crawlers.service';
-import { BaseCrawler } from 'src/app/crawlers/abstract/base.crawler';
+import { Settings } from 'src/app/models/settings';
 import { DebugService } from 'src/app/services/debug.service';
 import { MdcSnackbarService } from '@blox/material';
-import { CORSProxies } from 'src/app/helpers/proxy.helper';
-import { Proxy } from 'src/app/models/proxy';
 
 @Component({
   selector: 'app-main',
@@ -17,24 +13,20 @@ import { Proxy } from 'src/app/models/proxy';
 })
 export class MainComponent implements OnInit {
 
-  allCrawlers: BaseCrawler[] = [];
-  readonly proxies: Proxy[] = CORSProxies;
+  activeTabKey: string = 'general';
   private readonly defaults: Settings;
 
   constructor(
-    public settings: SettingsService,
-    private crawlers: CrawlersService,
+    private settings: SettingsService,
     private router: Router,
     private debug: DebugService,
-    public browser: BrowserService,
+    private browser: BrowserService,
     private snackbar: MdcSnackbarService
   ) {
-    this.allCrawlers = this.crawlers.getAll();
     this.defaults = this.settings.getDefaults();
   }
 
   ngOnInit(): void {
-    this.settings.enableDebugging = this.debug.isEnabled(); // ensure that we get the right debugging state even on dev env.
     this.debug.log('Settings', this.settings);
   }
 
@@ -52,35 +44,6 @@ export class MainComponent implements OnInit {
       multiline: this.browser.isPopup
     });
     this.router.navigate(['/']);
-  }
-
-  getViews() {
-    return Object.keys(View).map((key: string) => {
-      return { label: key, value: View[key] };
-    });
-  }
-
-  onCrawlerChange(crawler: BaseCrawler) {
-    if (crawler.isActive) {
-      this.settings.inactiveCrawlers = this.settings.inactiveCrawlers.filter((name: string) => name !== crawler.name);
-    } else {
-      this.settings.inactiveCrawlers.push(crawler.name);
-    }
-  }
-
-  onSelectAllCrawlersChange(value: boolean) {
-    this.allCrawlers.forEach((crawler: BaseCrawler) => {
-      crawler.isActive = value;
-      this.onCrawlerChange(crawler);
-    });
-  }
-
-  onEnableDebuggingSwitchChange(value: boolean) {
-    if (value) {
-      this.debug.enable();
-    } else {
-      this.debug.disable();
-    }
   }
 
 }

@@ -37,14 +37,11 @@
   width: 100%;
   height: 100%;
   box-sizing: border-box;
+  main {
+    padding-top: 60px;
+  }
 }
 
-.number-input {
-  width: 120px;
-  padding: 5px 0;
-}
-
-.checkbox-label {
-  margin-left: 22px;
-  cursor: pointer;
+.tab-content {
+  margin-top: 20px;
 }

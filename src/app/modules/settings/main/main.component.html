@@ -14,155 +14,53 @@
 
     <main #content>
 
-      <div mdcListGroup>
+      <section mdcDialogBody>
 
-        <h3 mdcListGroupSubHeader>General</h3>
-
-        <ul mdcList [nonInteractive]="true">
-          <li mdcListItem>
-            <i mdcListItemGraphic class="material-icons">share</i>
-            <span mdcListItemText>
-              Proxy
-              <span mdcListItemSecondaryText>Used to bypass CORS limitations on browsers</span>
-            </span>
-            <div mdcListItemMeta mdcSelect>
-              <select mdcSelectControl [(ngModel)]="settings.proxy">
-                <option value="">None</option>
-                <option *ngFor="let proxy of proxies" [value]="proxy.url">{{ proxy.name }}</option>
-              </select>
-              <label mdcFloatingLabel></label> <!-- gives an error when removed, so better let it empty for now -->
-            </div>
-          </li>
-          <li *ngIf="browser.isWebExtension" mdcListItem>
-            <i mdcListItemGraphic class="material-icons">open_in_new</i>
-            <span mdcListItemText>
-              Open in a new tab
-              <span mdcListItemSecondaryText>Instead of a popup</span>
-            </span>
-            <div mdcListItemMeta mdcSwitch>
-              <input mdcSwitchInput type="checkbox" [(ngModel)]="settings.openInNewTab"/>
-            </div>
-          </li>
-          <li *ngIf="browser.isWebExtension" mdcListItem>
-            <i mdcListItemGraphic class="material-icons">link</i>
-            <span mdcListItemText>
-              Open links in inactive tabs
-              <span mdcListItemSecondaryText>Avoid losing focus of the current tab</span>
-            </span>
-            <div mdcListItemMeta mdcSwitch>
-              <input mdcSwitchInput type="checkbox" [(ngModel)]="settings.openLinksInInactiveTabs"/>
-            </div>
-          </li>
-          <li mdcListItem>
-            <i mdcListItemGraphic class="material-icons">casino</i>
-            <span mdcListItemText>
-              Maximum number of episodes to retrieve from each website
-              <span mdcListItemSecondaryText>Excluding some episodes may reduce loading time</span>
-            </span>
-            <div mdcListItemMeta>
-              <input type="number" class="number-input" min="5" max="100" [(ngModel)]="settings.maxEpisodesToRetrieve"/>
-            </div>
-          </li>
-          <li *ngIf="browser.isWebExtension" mdcListItem>
-            <i mdcListItemGraphic class="material-icons">refresh</i>
-            <span mdcListItemText>
-              Auto check rate for episodes (in minutes)
-              <span mdcListItemSecondaryText>You must have at least one favorite anime to receive episodes release notifications</span>
-            </span>
-            <div mdcListItemMeta>
-              <input type="number" class="number-input" min="5" max="1440" [(ngModel)]="settings.autoCheckRate"/>
-            </div>
-          </li>
-          <li *ngIf="browser.isWebExtension" mdcListItem>
-            <i mdcListItemGraphic class="material-icons">notifications_active</i>
-            <span mdcListItemText>
-              Enable notifications
-              <span mdcListItemSecondaryText>Display notifications when favorite animes episodes get released</span>
-            </span>
-            <div mdcListItemMeta mdcSwitch>
-              <input mdcSwitchInput type="checkbox" [(ngModel)]="settings.enableNotifications"/>
-            </div>
-          </li>
-          <li mdcListItem>
-            <i mdcListItemGraphic class="material-icons">bug_report</i>
-            <span mdcListItemText>
-              Enable debugging
-              <span mdcListItemSecondaryText>Print debug logs on browser console</span>
-            </span>
-            <div mdcListItemMeta mdcSwitch>
-              <input mdcSwitchInput type="checkbox" [(ngModel)]="settings.enableDebugging" (change)="onEnableDebuggingSwitchChange($event.target.checked)"/>
-            </div>
-          </li>
-          <li mdcListDivider [inset]="true"></li>
-        </ul>
-
-        <h3 mdcListGroupSubHeader>Display</h3>
-
-        <ul mdcList [nonInteractive]="true">
-          <li mdcListItem>
-            <i mdcListItemGraphic class="material-icons">visibility</i>
-            <span mdcListItemText>
-              Default view
-              <span mdcListItemSecondaryText>Set default view</span>
-            </span>
-            <div mdcListItemMeta mdcSelect>
-              <select mdcSelectControl [(ngModel)]="settings.defaultView">
-                <option *ngFor="let view of getViews()" [value]="view.value">{{ view.label }}</option>
-              </select>
-              <label mdcFloatingLabel></label> <!-- gives an error when removed, so better let it empty for now -->
-            </div>
-          </li>
-          <li mdcListItem>
-            <i mdcListItemGraphic class="material-icons">view_day</i>
-            <span mdcListItemText>
-              Display episodes day by day
-              <span mdcListItemSecondaryText>Changes the display layout to day by day</span>
-            </span>
-            <div mdcListItemMeta mdcSwitch>
-              <input mdcSwitchInput type="checkbox" [(ngModel)]="settings.displayEpisodesDayByDay"/>
-            </div>
-          </li>
-          <li mdcListItem>
-            <i mdcListItemGraphic class="material-icons">view_carousel</i>
-            <span mdcListItemText>
-              Merge common episodes
-              <span mdcListItemSecondaryText>Displays common episodes on the same card</span>
-            </span>
-            <div mdcListItemMeta mdcSwitch>
-              <input mdcSwitchInput type="checkbox" [(ngModel)]="settings.mergeCommonEpisodes"/>
-            </div>
-          </li>
-          <li mdcListDivider [inset]="true"></li>
-        </ul>
-
-        <h3 mdcListGroupSubHeader style="margin-left: 8px">
-          <div mdcFormField>
-            <div mdcCheckbox>
-              <input mdcCheckboxInput type="checkbox" (change)="onSelectAllCrawlersChange($event.target.checked)"/>
-            </div>
-            <label mdcFormFieldLabel class="checkbox-label">Crawlers</label>
+        <div mdcTabBarScroller>
+          <div mdcTabBarScrollerBack>
+            <a mdcTabBarScrollerInner class="material-icons" href="javascript:void(0)" aria-label="scroll back button">
+              navigate_before
+            </a>
           </div>
-        </h3>
+          <div mdcTabBarScrollerFrame>
+            <nav mdcTabBar>
+              <a mdcTab (activate)="activeTabKey = 'general'" tabindex="0">General</a>
+              <a mdcTab (activate)="activeTabKey = 'display'" tabindex="0">Display</a>
+              <a mdcTab (activate)="activeTabKey = 'crawlers'" tabindex="0">Crawlers</a>
+            </nav>
+          </div>
+          <div mdcTabBarScrollerForward>
+            <a mdcTabBarScrollerInner class="material-icons" href="javascript:void(0)" aria-label="scroll forward button">
+              navigate_next
+            </a>
+          </div>
+        </div>
 
-        <ul mdcList [nonInteractive]="true">
-          <li mdcListItem *ngFor="let crawler of allCrawlers">
-            <span mdcListItemGraphic>
-              <div mdcCheckbox>
-                <input mdcCheckboxInput type="checkbox" [(ngModel)]="crawler.isActive" (change)="onCrawlerChange(crawler)"/>
-              </div>
-            </span>
-            <span mdcListItemText>
-              {{ crawler.name }}
-              <span mdcListItemSecondaryText>
-                <a [href]="crawler.baseUrl" target="_blank">
-                  {{ crawler.baseUrl }}
-                </a>
-              </span>
-            </span>
-          </li>
-        </ul>
+        <div class="tab-content" [ngSwitch]="activeTabKey">
 
-      </div>
+          <!-- General -->
+          <ng-container *ngSwitchCase="'general'">
+            <ng-container *ngTemplateOutlet="generalSettingsTemplate"></ng-container>
+          </ng-container>
+
+          <!-- Display -->
+          <app-display-settings *ngSwitchCase="'display'"></app-display-settings>
+
+          <!-- Crawlers -->
+          <app-crawlers-settings *ngSwitchCase="'crawlers'"></app-crawlers-settings>
+
+          <!-- Default -->
+          <ng-container *ngSwitchDefault>
+            <ng-container *ngTemplateOutlet="generalSettingsTemplate"></ng-container>
+          </ng-container>
+
+          <ng-template #generalSettingsTemplate>
+            <app-general-settings></app-general-settings>
+          </ng-template>
+
+        </div>
+
+      </section>
 
     </main>
   </div>
