@@ -1,6 +1,5 @@
 import { Proxy } from '../models/proxy';
 
-// @deprecated (keeping only for web app & dev env.)
 export const CORSProxies: Proxy[] = [
   {
     name: 'allOrigins',

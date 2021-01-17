@@ -5,7 +5,6 @@ import { SettingsService } from './settings.service';
 import { Observable, EMPTY, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { Episode } from '../models/episode';
-import { BrowserService } from './browser.service';
 
 @Injectable({
   providedIn: 'root',
@@ -15,8 +14,7 @@ export class ScraperService {
   constructor(
     private httpClient: HttpClient,
     public htmlParser: HTMLParserService,
-    private settings: SettingsService,
-    private browser: BrowserService
+    private settings: SettingsService
   ) {}
 
   scrape(url: string, scope: string, selector: any, filters?: any): Observable<Episode[]> {
@@ -37,7 +35,7 @@ export class ScraperService {
   }
 
   private resolveUrl(url: string): string {
-    return this.browser.isWebExtension ? url : `${this.settings.proxy}${url}`;
+    return this.settings.proxy?.length ? `${this.settings.proxy}${url}` : url;
   }
 
 }
