@@ -1,0 +1,25 @@
+
+<app-layout [(isLoading)]="isLoading" [(searchValue)]="searchValue" (searchValueChange)="search($event)">
+
+  <div mdcListGroup>
+
+    <ul mdcList [nonInteractive]="true">
+      <li mdcListItem *ngFor="let anime of viewedAnimes">
+        <span mdcListItemGraphic>
+          <button iconToggle class="material-icons mdc-icon-button" classOn="red-heart"
+            titleOn="Remove from favorites" titleOff="Add to favorites"
+            iconOn="favorite" iconOff="favorite_border"
+            [on]="anime.isFavorite" (onChange)="toggleFavorite(anime, $event)"></button>
+        </span>
+        <span mdcListItemText>
+          {{ anime.title }}
+        </span>
+        <span mdcListItemMeta>
+          <span *ngFor="let episode of anime.episodes" class="episode-number-badge">{{ episode.number }}</span>
+        </span>
+      </li>
+    </ul>
+
+  </div>
+
+</app-layout>

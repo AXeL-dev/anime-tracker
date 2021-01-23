@@ -5,6 +5,12 @@ import { PopupGuard } from './guards/popup.guard';
 
 const routes: Routes = [
   {
+    path: '',
+    //pathMatch: 'full', // since popup module have sub routes we should not use full path matching
+    loadChildren: () => import('./modules/popup/popup.module').then(m => m.PopupModule),
+    canActivate: [PopupGuard]
+  },
+  {
     path: 'settings',
     loadChildren: () => import('./modules/settings/settings.module').then(m => m.SettingsModule)
   },
@@ -14,8 +20,7 @@ const routes: Routes = [
   },
   {
     path: '**',
-    loadChildren: () => import('./modules/popup/popup.module').then(m => m.PopupModule),
-    canActivate: [PopupGuard]
+    redirectTo: ''
   }
 ];
 

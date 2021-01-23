@@ -1,0 +1,68 @@
+import { Component, OnInit } from '@angular/core';
+import { DebugService } from 'src/app/services/debug.service';
+import { ViewedEpisodesService } from 'src/app/services/viewed-episodes.service';
+import { FavoriteAnimesService } from 'src/app/services/favorite-animes.service';
+import { ViewedEpisode } from 'src/app/models/episode';
+import { isSimilar } from 'src/app/helpers/string.helper';
+
+interface ViewedAnime {
+  title: string,
+  episodes: ViewedEpisode[],
+  isFavorite?: boolean
+}
+
+@Component({
+  selector: 'app-viewed',
+  templateUrl: './viewed.component.html',
+  styleUrls: ['./viewed.component.scss']
+})
+export class ViewedComponent implements OnInit {
+
+  isLoading: boolean = false;
+  searchValue: string = null;
+  viewedAnimes: ViewedAnime[] = [];
+  private allViewedAnimes: ViewedAnime[] = [];
+
+  constructor(
+    private viewedEpisodes: ViewedEpisodesService,
+    private favoriteAnimes: FavoriteAnimesService,
+    private debug: DebugService
+  ) { }
+
+  ngOnInit(): void {
+    this.viewedEpisodes.get().forEach((episode: ViewedEpisode) => {
+      const index = this.allViewedAnimes.findIndex((anime: ViewedAnime) => isSimilar(anime.title, episode.animeTitle));
+      if (index > -1) {
+        this.allViewedAnimes[index].episodes.push(episode);
+      } else {
+        this.allViewedAnimes.push({
+          title: episode.animeTitle,
+          episodes: [episode],
+          isFavorite: this.favoriteAnimes.isFavorite(episode.animeTitle)
+        });
+      }
+    });
+    this.viewedAnimes = this.allViewedAnimes;
+  }
+
+  search(value: string) {
+    this.debug.log('Searching for:', value);
+    if (this.searchValue?.length) {
+      this.viewedAnimes = this.allViewedAnimes.filter((anime: ViewedAnime) => anime.title.toLowerCase().indexOf(this.searchValue.toLowerCase()) !== -1);
+    } else {
+      this.viewedAnimes = this.allViewedAnimes;
+    }
+    this.isLoading = false;
+  }
+
+  toggleFavorite(anime: ViewedAnime, value: boolean) {
+    if (value) {
+      this.favoriteAnimes.add(anime.title);
+      anime.isFavorite = true;
+    } else {
+      this.favoriteAnimes.remove(anime.title);
+      anime.isFavorite = false;
+    }
+  }
+
+}

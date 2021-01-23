@@ -16,6 +16,12 @@
             <i mdcListItemGraphic class="material-icons" aria-hidden="true">favorite</i>Favorites
           </a>
         </nav>
+        <hr mdcListDivider>
+        <nav mdcList>
+          <a mdcListItem [routerLink]="['/viewed']" [selected]="router.url === '/viewed'" (click)="closeDrawer()">
+            <i mdcListItemGraphic class="material-icons" aria-hidden="true">visibility</i>Viewed
+          </a>
+        </nav>
       </div>
     </nav>
   </aside>

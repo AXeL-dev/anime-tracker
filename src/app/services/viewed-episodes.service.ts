@@ -1,31 +1,30 @@
 import { Injectable } from '@angular/core';
 import { StorageService } from './storage.service';
-import { Episode } from '../models/episode';
+import { Episode, ViewedEpisode } from '../models/episode';
 import { isSimilar } from '../helpers/string.helper';
-
-interface viewedEpisode {
-  animeTitle: string,
-  number: number
-}
 
 @Injectable({
   providedIn: 'root'
 })
 export class ViewedEpisodesService {
 
-  private viewed: viewedEpisode[];
+  private viewed: ViewedEpisode[];
 
   constructor(private storage: StorageService) {
-    this.get();
+    this.init();
   }
 
-  private async get() {
+  private async init() {
     const viewed = await this.storage.get('viewed');
     this.viewed = viewed?.length ? viewed : [];
   }
 
   private save() {
     this.storage.save('viewed', this.viewed);
+  }
+
+  get() {
+    return this.viewed;
   }
 
   add(episode: Episode) {
@@ -39,7 +38,7 @@ export class ViewedEpisodesService {
   }
 
   remove(episode: Episode) {
-    const viewed = this.viewed?.filter((e: viewedEpisode) => !(isSimilar(e.animeTitle, episode.anime.title) && e.number === episode.number));
+    const viewed = this.viewed?.filter((e: ViewedEpisode) => !(isSimilar(e.animeTitle, episode.anime.title) && e.number === episode.number));
     if (viewed?.length < this.viewed?.length) {
       this.viewed = viewed;
       this.save();
@@ -47,11 +46,11 @@ export class ViewedEpisodesService {
   }
 
   isViewed(episode: Episode) {
-    return !!this.viewed?.find((e: viewedEpisode) => isSimilar(e.animeTitle, episode.anime.title) && e.number === episode.number);
+    return !!this.viewed?.find((e: ViewedEpisode) => isSimilar(e.animeTitle, episode.anime.title) && e.number === episode.number);
   }
 
-  async refresh() {
-    await this.get();
+  refresh() {
+    return this.init();
   }
 
 }
