@@ -12,6 +12,11 @@ export interface Episode {
   isViewed?: boolean;
 }
 
+export interface ViewedEpisode {
+  animeTitle: string,
+  number: number
+}
+
 export interface EpisodeLink {
   url: string;
   lang: string;

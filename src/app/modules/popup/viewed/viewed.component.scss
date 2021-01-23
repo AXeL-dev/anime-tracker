@@ -1,0 +1,22 @@
+
+[mdcDialogBody] {
+  padding: 0;
+}
+
+[mdcListItem] {
+  margin: 0 10px;
+}
+
+.red-heart {
+  color: #e25555;
+}
+
+[mdcSelect] {
+  min-width: 200px;
+  select {
+    text-align: center;
+  }
+  label, .mdc-notched-outline, .mdc-notched-outline__idle {
+    transition: none;
+  }
+}

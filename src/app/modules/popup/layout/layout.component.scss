@@ -1,0 +1,51 @@
+@import "@material/theme/mixins";
+//@import "@material/rtl/mixins";
+
+// Place drawer and content side by side:
+.snippet-page {
+  display: flex;
+  flex-direction: row;
+  height: 400px;
+}
+
+// Header
+[mdcTopAppBar] {
+  position: fixed !important;
+  [mdcTopAppBarRow] {
+    height: 60px;
+    [mdcTopAppBarTitle] {
+      display: flex;
+      padding: 0 12px;
+      img {
+        width: 40px;
+        height: 40px;
+      }
+    }
+  }
+}
+
+[mdcDrawerHeader], [mdcDrawerToolbarSpacer] {
+  // color the header variants the same way as the toolbar:
+  @include mdc-theme-prop(background-color, primary);
+  @include mdc-theme-prop(color, on-primary);
+  height: 60px;
+}
+
+// Stack toolbar and main on top of each other:
+.content {
+  display: inline-flex;
+  flex-direction: column;
+  flex-grow: 1;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+// Loading bar
+[mdcLinearProgress] {
+  &.mdc-linear-progress--closed {
+    display: none;
+  }
+  .mdc-linear-progress__bar-inner {
+    @include mdc-theme-prop(background-color, secondary);
+  }
+}

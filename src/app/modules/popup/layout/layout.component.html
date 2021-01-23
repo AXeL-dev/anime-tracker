@@ -1,0 +1,51 @@
+
+<div #viewport class="snippet-page">
+
+  <aside mdcDrawerContainer="temporary" [(open)]="open">
+    <nav mdcDrawer>
+      <div mdcDrawerToolbarSpacer></div>
+      <!-- <div mdcDrawerHeader>
+        <div mdcDrawerHeaderContent>Anime Tracker</div>
+      </div> -->
+      <div mdcDrawerContent mdcListGroup>
+        <nav mdcList>
+          <a mdcListItem [routerLink]="['/']" [queryParams]="{ view: views.Latest }" [selected]="view === views.Latest" (click)="closeDrawer()">
+            <i mdcListItemGraphic class="material-icons" aria-hidden="true">star</i>Latest
+          </a>
+          <a mdcListItem [routerLink]="['/']" [queryParams]="{ view: views.Favorites }" [selected]="view === views.Favorites" (click)="closeDrawer()">
+            <i mdcListItemGraphic class="material-icons" aria-hidden="true">favorite</i>Favorites
+          </a>
+        </nav>
+        <hr mdcListDivider>
+        <nav mdcList>
+          <a mdcListItem [routerLink]="['/viewed']" [selected]="router.url === '/viewed'" (click)="closeDrawer()">
+            <i mdcListItemGraphic class="material-icons" aria-hidden="true">visibility</i>Viewed
+          </a>
+        </nav>
+      </div>
+    </nav>
+  </aside>
+
+  <div class="content">
+    <header mdcTopAppBar [viewport]="viewport" [fixedAdjust]="content">
+      <div mdcTopAppBarRow>
+        <section mdcTopAppBarSection alignStart>
+          <button mdcTopAppBarNavIcon class="material-icons" (click)="toggleDrawer()">menu</button>
+          <span mdcTopAppBarTitle title="Anime Tracker">
+            <img alt="logo" src="assets/icons/128.png" />
+          </span>
+          <app-search-input [(value)]="searchValue" (tap)="onSearchTap()" (valueChange)="onSearchValueChange($event)"></app-search-input>
+        </section>
+        <section mdcTopAppBarSection alignEnd>
+          <a [routerLink]="['/settings']" mdcTopAppBarAction class="material-icons" label="Settings">settings</a>
+        </section>
+      </div>
+      <div mdcLinearProgress [indeterminate]="true" [closed]="!isLoading"></div>
+    </header>
+
+    <main #content>
+      <ng-content></ng-content>
+    </main>
+  </div>
+
+</div>

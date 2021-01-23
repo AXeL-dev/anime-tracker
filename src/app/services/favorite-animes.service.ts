@@ -9,16 +9,20 @@ export class FavoriteAnimesService {
   private favorites: string[];
 
   constructor(private storage: StorageService) {
-    this.get();
+    this.init();
   }
 
-  private async get() {
+  private async init() {
     const favorites = await this.storage.get('favorites');
     this.favorites = favorites?.length ? favorites : [];
   }
 
   private save() {
     this.storage.save('favorites', this.favorites);
+  }
+
+  get() {
+    return this.favorites;
   }
 
   add(title: string) {
@@ -40,8 +44,8 @@ export class FavoriteAnimesService {
     return this.favorites?.indexOf(title) !== -1;
   }
 
-  async refresh() {
-    await this.get();
+  refresh() {
+    return this.init();
   }
 
 }

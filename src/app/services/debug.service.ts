@@ -23,6 +23,14 @@ export class DebugService {
   }
 
   log(message: any, ...params: any) {
+    this.writeToConsole(console.log, message, ...params);
+  }
+
+  warn(message: any, ...params: any) {
+    this.writeToConsole(console.warn, message, ...params);
+  }
+
+  private writeToConsole(logFunction: Function, message: any, ...params: any) {
     if (this.enabled) {
       let data = this.displayTime ? [this.getCurrentTime()] : [];
       data = [
@@ -30,7 +38,7 @@ export class DebugService {
         message,
         ...params
       ];
-      console.log(...data);
+      logFunction(...data);
     }
   }
 

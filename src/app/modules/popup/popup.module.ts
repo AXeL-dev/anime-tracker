@@ -6,11 +6,15 @@ import { MainComponent } from './main/main.component';
 import { SharedModule } from '../shared/shared.module';
 import { EpisodeModule } from '../episode/episode.module';
 import { EpisodeRangeModule } from '../episode-range/episode-range.module';
+import { LayoutComponent } from './layout/layout.component';
+import { ViewedComponent } from './viewed/viewed.component';
 
 
 @NgModule({
   declarations: [
     MainComponent,
+    LayoutComponent,
+    ViewedComponent,
   ],
   imports: [
     CommonModule,
