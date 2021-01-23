@@ -41,7 +41,7 @@
               <span mdcListItemMeta>
                 <div mdcSelect outlined>
                   <select mdcSelectControl [ngModel]="anime.episodes[0].number">
-                    <option *ngFor="let episode of anime.episodes" [value]="episode.number">
+                    <option *ngFor="let episode of anime.episodes" [value]="episode.number" disabled>
                       {{ episode.number }}
                     </option>
                   </select>
