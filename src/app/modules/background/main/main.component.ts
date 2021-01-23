@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BrowserService } from 'src/app/services/browser.service';
 import { AnimeProviderService } from 'src/app/services/anime-provider.service';
 import { take } from 'rxjs/operators';
-import { Episode } from 'src/app/models/episode';
+import { Episode, EpisodeLink } from 'src/app/models/episode';
 import { DebugService } from 'src/app/services/debug.service';
 import { isInToday, now } from 'src/app/helpers/date.helper';
 import { isSimilar } from 'src/app/helpers/string.helper';
@@ -12,6 +12,7 @@ import { ViewedEpisodesService } from 'src/app/services/viewed-episodes.service'
 import { SettingsService } from 'src/app/services/settings.service';
 import { Notification } from 'src/app/models/notification';
 import { environment } from 'src/environments/environment';
+import { Subtitles } from 'src/app/models/settings';
 
 @Component({
   selector: 'app-main',
@@ -114,7 +115,8 @@ export class MainComponent implements OnInit {
           !this.isAlreadyChecked(episode) &&
           isInToday(new Date(episode.releaseDate)) &&
           !this.viewedEpisodes.isViewed(episode) &&
-          this.favoriteAnimes.isFavorite(episode.anime.title)
+          this.favoriteAnimes.isFavorite(episode.anime.title) &&
+          this.hasMatchingSubtitles(episode)
         ) {
           notifications.push({
             message: `${episode.anime.title} ${episode.number} released!`,
@@ -133,6 +135,14 @@ export class MainComponent implements OnInit {
       resolve([count, notifications]);
 
     });
+  }
+
+  private hasMatchingSubtitles(episode: Episode) {
+    if (this.settings.preferredSubtitles === Subtitles.Any) {
+      return true;
+    } else {
+      return !!episode.streamLinks.find((link: EpisodeLink) => link.lang.toLowerCase() === this.settings.preferredSubtitles.toLowerCase());
+    }
   }
 
   private isAlreadyChecked(episode: Episode) {

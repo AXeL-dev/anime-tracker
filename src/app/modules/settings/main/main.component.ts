@@ -20,7 +20,7 @@ export class MainComponent implements OnInit {
     private settings: SettingsService,
     private router: Router,
     private debug: DebugService,
-    private browser: BrowserService,
+    public browser: BrowserService,
     private snackbar: MdcSnackbarService
   ) {
     this.defaults = this.settings.getDefaults();

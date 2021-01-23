@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Settings, View } from '../models/settings';
+import { Settings, View, Subtitles } from '../models/settings';
 import { StorageService } from './storage.service';
 import { BrowserService } from './browser.service';
 import { getQueryParam } from '../helpers/url.helper';
@@ -16,13 +16,15 @@ export class SettingsService {
   openInNewTab: boolean;
   openLinksInInactiveTabs: boolean;
   maxEpisodesToRetrieve: number;
-  autoCheckRate: number;
-  enableNotifications: boolean;
   enableDebugging: boolean;
   // Display
   defaultView: View;
   displayEpisodesDayByDay: boolean;
   mergeCommonEpisodes: boolean;
+  // Notifications
+  enableNotifications: boolean;
+  autoCheckRate: number;
+  preferredSubtitles: string;
   // Crawlers
   inactiveCrawlers: string[];
 
@@ -68,12 +70,13 @@ export class SettingsService {
       openInNewTab: this.browser.isFirefox ? true : false,
       openLinksInInactiveTabs: true,
       maxEpisodesToRetrieve: 50,
-      autoCheckRate: 30,
-      enableNotifications: true,
       enableDebugging: false,
       defaultView: View.Latest,
       displayEpisodesDayByDay: true,
       mergeCommonEpisodes: true,
+      enableNotifications: true,
+      autoCheckRate: 30,
+      preferredSubtitles: Subtitles.Any,
       inactiveCrawlers: [],
     };
   }
@@ -83,12 +86,13 @@ export class SettingsService {
     this.openInNewTab = settings.openInNewTab;
     this.openLinksInInactiveTabs = settings.openLinksInInactiveTabs;
     this.maxEpisodesToRetrieve = settings.maxEpisodesToRetrieve;
-    this.autoCheckRate = settings.autoCheckRate;
-    this.enableNotifications = settings.enableNotifications;
     this.enableDebugging = settings.enableDebugging;
     this.defaultView = settings.defaultView;
     this.displayEpisodesDayByDay = settings.displayEpisodesDayByDay;
     this.mergeCommonEpisodes = settings.mergeCommonEpisodes;
+    this.enableNotifications = settings.enableNotifications;
+    this.autoCheckRate = settings.autoCheckRate;
+    this.preferredSubtitles = settings.preferredSubtitles;
     this.inactiveCrawlers = settings.inactiveCrawlers;
   }
 
@@ -98,13 +102,14 @@ export class SettingsService {
       openInNewTab: this.openInNewTab,
       openLinksInInactiveTabs: this.openLinksInInactiveTabs,
       maxEpisodesToRetrieve: this.maxEpisodesToRetrieve,
-      autoCheckRate: this.autoCheckRate,
-      enableNotifications: this.enableNotifications,
       enableDebugging: this.enableDebugging,
       defaultView: this.defaultView,
       displayEpisodesDayByDay: this.displayEpisodesDayByDay,
       mergeCommonEpisodes: this.mergeCommonEpisodes,
       inactiveCrawlers: this.inactiveCrawlers,
+      enableNotifications: this.enableNotifications,
+      autoCheckRate: this.autoCheckRate,
+      preferredSubtitles: this.preferredSubtitles,
     });
   }
 

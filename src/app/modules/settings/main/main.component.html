@@ -26,6 +26,7 @@
             <nav mdcTabBar>
               <a mdcTab (activate)="activeTabKey = 'general'" tabindex="0">General</a>
               <a mdcTab (activate)="activeTabKey = 'display'" tabindex="0">Display</a>
+              <a *ngIf="browser.isWebExtension" mdcTab (activate)="activeTabKey = 'notifications'" tabindex="0">Notifications</a>
               <a mdcTab (activate)="activeTabKey = 'crawlers'" tabindex="0">Crawlers</a>
             </nav>
           </div>
@@ -45,6 +46,9 @@
 
           <!-- Display -->
           <app-display-settings *ngSwitchCase="'display'"></app-display-settings>
+
+          <!-- Notifications -->
+          <app-notifications-settings *ngSwitchCase="'notifications'"></app-notifications-settings>
 
           <!-- Crawlers -->
           <app-crawlers-settings *ngSwitchCase="'crawlers'"></app-crawlers-settings>

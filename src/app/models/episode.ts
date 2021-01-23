@@ -12,11 +12,6 @@ export interface Episode {
   isViewed?: boolean;
 }
 
-export interface ViewedEpisode {
-  animeTitle: string,
-  number: number
-}
-
 export interface EpisodeLink {
   url: string;
   lang: string;
@@ -59,4 +54,9 @@ export class EpisodeRange {
     const lastIndex = this.range.length - 1;
     return lastIndex > 0 ? this.range[lastIndex] : null;
   }
+}
+
+export interface ViewedEpisode {
+  animeTitle: string,
+  number: number
 }

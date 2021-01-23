@@ -1,0 +1,41 @@
+
+<div mdcListGroup>
+
+  <ul mdcList [nonInteractive]="true">
+    <li mdcListItem>
+      <i mdcListItemGraphic class="material-icons">notifications_active</i>
+      <span mdcListItemText>
+        Enable notifications
+        <span mdcListItemSecondaryText>Display notifications when favorite animes episodes get released</span>
+      </span>
+      <div mdcListItemMeta mdcSwitch>
+        <input mdcSwitchInput type="checkbox" [(ngModel)]="settings.enableNotifications"/>
+      </div>
+    </li>
+    <li mdcListItem>
+      <i mdcListItemGraphic class="material-icons">refresh</i>
+      <span mdcListItemText>
+        Auto check rate for episodes (in minutes)
+        <span mdcListItemSecondaryText>You must have at least one favorite anime to receive episodes release notifications</span>
+      </span>
+      <div mdcListItemMeta>
+        <input type="number" class="number-input" min="5" max="1440" [(ngModel)]="settings.autoCheckRate"/>
+      </div>
+    </li>
+    <li mdcListItem>
+      <i mdcListItemGraphic class="material-icons">star_border</i>
+      <span mdcListItemText>
+        Preferred subtitles
+        <span mdcListItemSecondaryText>Get notifications for episodes in your preferred subtitles language</span>
+      </span>
+      <div mdcListItemMeta mdcSelect>
+        <select mdcSelectControl [(ngModel)]="settings.preferredSubtitles">
+          <option *ngFor="let subtitle of subtitles" [value]="subtitle.value">{{ subtitle.label }}</option>
+        </select>
+        <label mdcFloatingLabel></label> <!-- gives an error when removed, so better let it empty for now -->
+      </div>
+    </li>
+    <!-- <li mdcListDivider [inset]="true"></li> -->
+  </ul>
+
+</div>

@@ -5,13 +5,15 @@ export interface Settings {
   openInNewTab: boolean;
   openLinksInInactiveTabs: boolean;
   maxEpisodesToRetrieve: number;
-  autoCheckRate: number;
-  enableNotifications: boolean;
   enableDebugging: boolean;
   // Display
   defaultView: View;
   displayEpisodesDayByDay: boolean;
   mergeCommonEpisodes: boolean;
+  // Notifications
+  enableNotifications: boolean;
+  autoCheckRate: number;
+  preferredSubtitles: string;
   // Crawlers
   inactiveCrawlers: string[];
 }
@@ -19,4 +21,11 @@ export interface Settings {
 export enum View {
   Latest = 'latest',
   Favorites = 'favorites',
+}
+
+export enum Subtitles {
+  Any    = '',
+  Vostfr = 'vostfr',
+  Vosten = 'vosten',
+  Vostar = 'vostar',
 }

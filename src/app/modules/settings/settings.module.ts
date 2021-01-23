@@ -7,6 +7,7 @@ import { SharedModule } from '../shared/shared.module';
 import { GeneralComponent } from './general/general.component';
 import { DisplayComponent } from './display/display.component';
 import { CrawlersComponent } from './crawlers/crawlers.component';
+import { NotificationsComponent } from './notifications/notifications.component';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { CrawlersComponent } from './crawlers/crawlers.component';
     MainComponent,
     GeneralComponent,
     DisplayComponent,
-    CrawlersComponent
+    CrawlersComponent,
+    NotificationsComponent
   ],
   imports: [
     CommonModule,
