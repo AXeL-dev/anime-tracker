@@ -12,10 +12,11 @@ I watch animes almost daily or at least once or twice a week, & i wanted somethi
   <summary>Expand to continue reading</summary>
 
   <br>
-  Unfortunately, i didn't find a browser/client side web scraper available out there, so i just created a simple one composed of Angular's Http client service & a crafted HTML parser. I also, used some proxies to bypass <a href="https://en.wikipedia.org/wiki/Cross-origin_resource_sharing">CORS</a> limitations on browsers. In other words, this project is just a bunch of workarounds with some :sparkles: but it's surprisingly working well.
+  Unfortunately, i didn't find a browser/client side web scraper available out there, so i just created a simple one composed of Angular's Http client service & a crafted HTML parser. I also, used some proxies to bypass <a href="https://en.wikipedia.org/wiki/Cross-origin_resource_sharing">CORS</a> limitations on browsers.
   <br><br>
   Okay, so why Angular? why not React or Vue?
-  I mainly choosed Angular for its robust structure & advanced features, like: Pipes, directives, lazy loading, dependency injection & many others. Otherwise, any other library or framework with typescript support would do the job for me.
+  I mainly choosed Angular for its robust structure & advanced features, like: Pipes, directives, lazy loading, dependency injection & many others.
+  Still its learning & master curve long, but i honestly love the way Angular forces you to use best practices on top of keeping your code flexible & maintainable.
 
 </details>
 
