@@ -1,118 +1,80 @@
-<div #viewport class="snippet-page">
-  <aside mdcDrawerContainer="temporary" [(open)]="open">
-    <nav mdcDrawer>
-      <div mdcDrawerToolbarSpacer></div>
-      <!-- <div mdcDrawerHeader>
-        <div mdcDrawerHeaderContent>Anime Tracker</div>
-      </div> -->
-      <div mdcDrawerContent mdcListGroup>
-        <nav mdcList>
-          <a mdcListItem href="javascript:void(0)" [selected]="isLatestView()" (click)="showLatest()">
-            <i mdcListItemGraphic class="material-icons" aria-hidden="true">star</i>Latest
-          </a>
-          <a mdcListItem href="javascript:void(0)" [selected]="isFavoritesView()" (click)="showFavorites()">
-            <i mdcListItemGraphic class="material-icons" aria-hidden="true">favorite</i>Favorites
-          </a>
-        </nav>
-        <!-- <hr mdcListDivider> -->
-      </div>
-    </nav>
-  </aside>
-  <div class="content">
-    <header mdcTopAppBar [viewport]="viewport" [fixedAdjust]="content">
-      <div mdcTopAppBarRow>
-        <section mdcTopAppBarSection alignStart>
-          <button mdcTopAppBarNavIcon class="material-icons" (click)="toggleDrawer()">menu</button>
-          <span mdcTopAppBarTitle title="Anime Tracker">
-            <img alt="logo" src="assets/icons/128.png" />
-          </span>
-          <app-search-input [(value)]="searchInputValue" (tap)="isSearching = true" (valueChange)="search($event)"></app-search-input>
+
+<app-layout [view]="view" [(isLoading)]="isLoading" [(searchValue)]="searchValue" (searchValueChange)="search($event)">
+
+  <ng-container *ngIf="settings.displayEpisodesDayByDay; else showAllTemplate">
+
+    <ng-container *ngFor="let day of days">
+      <ng-container *ngIf="episodesByDays[day]?.length">
+        <h3 class="day-title">{{ day | shortdate }}</h3>
+        <div class="day-divider"></div>
+        <section class="custom-card-container">
+          <ng-container
+            *ngFor="let episode of episodesByDays[day]"
+            [ngTemplateOutlet]="episode.range ? episodeRangeCard : episodeCard"
+            [ngTemplateOutletContext]="{ $implicit: episode }"
+          ></ng-container>
         </section>
-        <section mdcTopAppBarSection alignEnd>
-          <a [routerLink]="['/settings']" mdcTopAppBarAction class="material-icons" label="Settings">settings</a>
-        </section>
-      </div>
-      <div mdcLinearProgress [indeterminate]="true" [closed]="!isLoading && !isSearching"></div>
-    </header>
+      </ng-container>
+    </ng-container>
 
-    <main #content>
+  </ng-container>
 
-        <ng-container *ngIf="settings.displayEpisodesDayByDay; else showAllTemplate">
+  <ng-template #showAllTemplate>
 
-          <ng-container *ngFor="let day of days">
-            <ng-container *ngIf="episodesByDays[day]?.length">
-              <h3 class="day-title">{{ day | shortdate }}</h3>
-              <div class="day-divider"></div>
-              <section class="custom-card-container">
-                <ng-container
-                  *ngFor="let episode of episodesByDays[day]"
-                  [ngTemplateOutlet]="episode.range ? episodeRangeCard : episodeCard"
-                  [ngTemplateOutletContext]="{ $implicit: episode }"
-                ></ng-container>
-              </section>
-            </ng-container>
-          </ng-container>
+    <section class="custom-card-container">
+      <ng-container
+        *ngFor="let episode of episodes"
+        [ngTemplateOutlet]="episode.range ? episodeRangeCard : episodeCard"
+        [ngTemplateOutletContext]="{ $implicit: episode }"
+      ></ng-container>
+    </section>
 
-        </ng-container>
+  </ng-template>
 
-        <ng-template #showAllTemplate>
+  <ng-template #episodeCard let-episode>
+    <episode-card
+      [episode]="episode"
+      (streamLinksClick)="openStreamLinksDialog($event)"
+      (downloadLinksClick)="openDownloadLinksDialog($event)"
+    ></episode-card>
+  </ng-template>
 
-          <section class="custom-card-container">
-            <ng-container
-              *ngFor="let episode of episodes"
-              [ngTemplateOutlet]="episode.range ? episodeRangeCard : episodeCard"
-              [ngTemplateOutletContext]="{ $implicit: episode }"
-            ></ng-container>
-          </section>
+  <ng-template #episodeRangeCard let-episodeRange>
+    <episode-range-card
+      [episodeRange]="episodeRange"
+      (streamLinksClick)="openStreamLinksDialog($event)"
+      (downloadLinksClick)="openDownloadLinksDialog($event)"
+    ></episode-range-card>
+  </ng-template>
 
-        </ng-template>
+  <episode-choose-link-dialog #episodeStreamLinksDialog
+    [title]="'Choose a stream link'"
+    [links]="selectedEpisode?.streamLinks || []"
+    (linkClick)="markEpisodeAsViewed(selectedEpisode)"
+    (close)="selectedEpisode = null"
+  ></episode-choose-link-dialog>
 
-        <ng-template #episodeCard let-episode>
-          <episode-card
-            [episode]="episode"
-            (streamLinksClick)="openStreamLinksDialog($event)"
-            (downloadLinksClick)="openDownloadLinksDialog($event)"
-          ></episode-card>
-        </ng-template>
+  <episode-choose-link-dialog #episodeDownloadLinksDialog
+    [title]="'Choose a download link'"
+    [links]="selectedEpisode?.downloadLinks || []"
+    (linkClick)="markEpisodeAsViewed(selectedEpisode)"
+    (close)="selectedEpisode = null"
+  ></episode-choose-link-dialog>
 
-        <ng-template #episodeRangeCard let-episodeRange>
-          <episode-range-card
-            [episodeRange]="episodeRange"
-            (streamLinksClick)="openStreamLinksDialog($event)"
-            (downloadLinksClick)="openDownloadLinksDialog($event)"
-          ></episode-range-card>
-        </ng-template>
+  <episode-range-choose-link-dialog #episodeRangeStreamLinksDialog
+    [title]="'Choose a stream link'"
+    [episodes]="selectedEpisodeRange?.range || []"
+    linksKey="streamLinks"
+    (linkClick)="markEpisodeAsViewed($event)"
+    (close)="selectedEpisodeRange = null"
+  ></episode-range-choose-link-dialog>
 
-        <episode-choose-link-dialog #episodeStreamLinksDialog
-          [title]="'Choose a stream link'"
-          [links]="selectedEpisode?.streamLinks || []"
-          (linkClick)="markEpisodeAsViewed(selectedEpisode)"
-          (close)="selectedEpisode = null"
-        ></episode-choose-link-dialog>
+  <episode-range-choose-link-dialog #episodeRangeDownloadLinksDialog
+    [title]="'Choose a download link'"
+    [episodes]="selectedEpisodeRange?.range || []"
+    linksKey="downloadLinks"
+    (linkClick)="markEpisodeAsViewed($event)"
+    (close)="selectedEpisodeRange = null"
+  ></episode-range-choose-link-dialog>
 
-        <episode-choose-link-dialog #episodeDownloadLinksDialog
-          [title]="'Choose a download link'"
-          [links]="selectedEpisode?.downloadLinks || []"
-          (linkClick)="markEpisodeAsViewed(selectedEpisode)"
-          (close)="selectedEpisode = null"
-        ></episode-choose-link-dialog>
-
-        <episode-range-choose-link-dialog #episodeRangeStreamLinksDialog
-          [title]="'Choose a stream link'"
-          [episodes]="selectedEpisodeRange?.range || []"
-          linksKey="streamLinks"
-          (linkClick)="markEpisodeAsViewed($event)"
-          (close)="selectedEpisodeRange = null"
-        ></episode-range-choose-link-dialog>
-
-        <episode-range-choose-link-dialog #episodeRangeDownloadLinksDialog
-          [title]="'Choose a download link'"
-          [episodes]="selectedEpisodeRange?.range || []"
-          linksKey="downloadLinks"
-          (linkClick)="markEpisodeAsViewed($event)"
-          (close)="selectedEpisodeRange = null"
-        ></episode-range-choose-link-dialog>
-
-    </main>
-  </div>
-</div>
+</app-layout>

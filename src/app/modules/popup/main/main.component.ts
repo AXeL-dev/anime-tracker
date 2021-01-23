@@ -11,6 +11,7 @@ import { DebugService } from 'src/app/services/debug.service';
 import { BrowserService } from 'src/app/services/browser.service';
 import { ViewedEpisodesService } from 'src/app/services/viewed-episodes.service';
 import { Dialog } from 'src/app/models/dialog';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-main',
@@ -19,18 +20,16 @@ import { Dialog } from 'src/app/models/dialog';
 })
 export class MainComponent implements OnInit, OnDestroy {
 
-  open: boolean = false;
   view: View;
+  isLoading: boolean = true;
+  searchValue: string = null;
   episodes: (Episode|EpisodeRange)[] = [];
   days: number[] = [];
   episodesByDays: (Episode|EpisodeRange)[][] = [];
   private allEpisodes: Episode[] = [];
   selectedEpisode: Episode = null;
   selectedEpisodeRange: EpisodeRange = null;
-  isLoading: boolean = true;
-  isSearching: boolean = false;
   private componentDestroy: Subject<void> = new Subject();
-  searchInputValue: string = null;
   @ViewChild('episodeStreamLinksDialog') private episodeStreamLinksDialog: Dialog;
   @ViewChild('episodeDownloadLinksDialog') private episodeDownloadLinksDialog: Dialog;
   @ViewChild('episodeRangeStreamLinksDialog') private episodeRangeStreamLinksDialog: Dialog;
@@ -42,15 +41,25 @@ export class MainComponent implements OnInit, OnDestroy {
     private viewedEpisodes: ViewedEpisodesService,
     public settings: SettingsService,
     private browser: BrowserService,
-    private debug: DebugService
+    private debug: DebugService,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
     if (this.browser.isWebExtension) {
       this.browser.setBadgeText(''); // Reset badge count
     }
-    this.view = this.settings.defaultView;
-    this.init();
+    this.route.queryParams.pipe(
+      takeUntil(this.componentDestroy)
+    ).subscribe(params => {
+      this.view = params['view'] || this.settings.defaultView;
+      this.debug.log('Current view:', this.view);
+      if (this.allEpisodes.length > 0) {
+        this.filterEpisodes(this.allEpisodes, this.days);
+      } else {
+        this.fetchEpisodes();
+      }
+    });
   }
 
   ngOnDestroy(): void {
@@ -58,7 +67,7 @@ export class MainComponent implements OnInit, OnDestroy {
     this.componentDestroy.complete();
   }
 
-  private init() {
+  private fetchEpisodes() {
     this.isLoading = true;
     this.animeProvider.getLatestEpisodes().pipe(
       takeUntil(this.componentDestroy)
@@ -80,10 +89,10 @@ export class MainComponent implements OnInit, OnDestroy {
 
   private filterEpisodes(episodes: Episode[], days: number[]) {
     // Filter by view
-    this.episodes = this.isFavoritesView() ? episodes.filter((episode: Episode) => this.favoriteAnimes.isFavorite(episode.anime.title)) : episodes;
-    // Filter by search input value
-    if (this.searchInputValue?.length) {
-      this.episodes = this.episodes.filter((episode: Episode) => episode.anime.title.toLowerCase().indexOf(this.searchInputValue.toLowerCase()) !== -1);
+    this.episodes = this.view === View.Favorites ? episodes.filter((episode: Episode) => this.favoriteAnimes.isFavorite(episode.anime.title)) : episodes;
+    // Filter by search value
+    if (this.searchValue?.length) {
+      this.episodes = this.episodes.filter((episode: Episode) => episode.anime.title.toLowerCase().indexOf(this.searchValue.toLowerCase()) !== -1);
     }
     // Merge common episodes
     if (this.settings.mergeCommonEpisodes) {
@@ -127,30 +136,6 @@ export class MainComponent implements OnInit, OnDestroy {
     }
   }
 
-  toggleDrawer() {
-    this.open = !this.open;
-  }
-
-  showLatest() {
-    this.view = View.Latest;
-    this.open = false;
-    this.filterEpisodes(this.allEpisodes, this.days);
-  }
-
-  showFavorites() {
-    this.view = View.Favorites;
-    this.open = false;
-    this.filterEpisodes(this.allEpisodes, this.days);
-  }
-
-  isLatestView() {
-    return this.view === View.Latest;
-  }
-
-  isFavoritesView() {
-    return this.view === View.Favorites;
-  }
-
   openStreamLinksDialog(episode: Episode|EpisodeRange) {
     if (episode instanceof EpisodeRange) {
       this.selectedEpisodeRange = episode as EpisodeRange;
@@ -179,7 +164,7 @@ export class MainComponent implements OnInit, OnDestroy {
   search(value: string) {
     this.debug.log('Searching for:', value);
     this.filterEpisodes(this.allEpisodes, this.days);
-    this.isSearching = false;
+    this.isLoading = false;
   }
 
 }
