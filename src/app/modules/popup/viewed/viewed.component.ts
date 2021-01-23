@@ -31,10 +31,20 @@ export class ViewedComponent implements OnInit {
 
   ngOnInit(): void {
     this.viewedEpisodes.get().forEach((episode: ViewedEpisode) => {
+      // Add episode to viewed animes array
       const index = this.allViewedAnimes.findIndex((anime: ViewedAnime) => isSimilar(anime.title, episode.animeTitle));
       if (index > -1) {
-        this.allViewedAnimes[index].episodes.push(episode);
+        // Merge with existing anime episodes
+        if (!this.allViewedAnimes[index].episodes.find((e: ViewedEpisode) => e.number === episode.number)) {
+          this.allViewedAnimes[index].episodes.push(episode);
+          this.allViewedAnimes[index].episodes = this.allViewedAnimes[index].episodes.sort(
+            (a: ViewedEpisode, b: ViewedEpisode) => b.number - a.number
+          );
+        } else {
+          this.debug.warn('Duplicate viewed episode found:', episode);
+        }
       } else {
+        // Add new anime
         this.allViewedAnimes.push({
           title: episode.animeTitle,
           episodes: [episode],
