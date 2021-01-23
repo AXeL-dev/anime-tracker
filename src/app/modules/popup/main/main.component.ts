@@ -67,9 +67,9 @@ export class MainComponent implements OnInit, OnDestroy {
     this.componentDestroy.complete();
   }
 
-  private fetchEpisodes() {
+  private fetchEpisodes(forcedUpdate?: boolean) {
     this.isLoading = true;
-    this.animeProvider.getLatestEpisodes().pipe(
+    this.animeProvider.getLatestEpisodes(forcedUpdate).pipe(
       takeUntil(this.componentDestroy)
     ).subscribe(([episodes, days]) => {
       // this.debug.log('Latest episodes:', episodes);
@@ -165,6 +165,12 @@ export class MainComponent implements OnInit, OnDestroy {
     this.debug.log('Searching for:', value);
     this.filterEpisodes(this.allEpisodes, this.days);
     this.isLoading = false;
+  }
+
+  refresh() {
+    this.episodes = [];
+    this.episodesByDays = [];
+    this.fetchEpisodes(true);
   }
 
 }

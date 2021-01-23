@@ -78,3 +78,7 @@
   ></episode-range-choose-link-dialog>
 
 </app-layout>
+
+<button *ngIf="!isLoading" mdcButton raised class="refresh-button" title="Refresh" (click)="refresh()">
+  <i mdcButtonIcon class="material-icons">refresh</i>
+</button>

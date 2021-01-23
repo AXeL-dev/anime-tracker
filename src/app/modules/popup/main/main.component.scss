@@ -27,3 +27,17 @@
   border-bottom: 1px solid rgba(0, 0, 0, 0.12);
   height: 0;
 }
+
+.refresh-button {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  padding: 0;
+  border-radius: 50%;
+  min-height: 45px;
+  min-width: 45px;
+  transition: all 300ms ease-in-out;
+  &:hover {
+    scale: 1.1;
+  }
+}
