@@ -22,6 +22,11 @@ export class ViewedComponent implements OnInit {
   searchValue: string = null;
   viewedAnimes: ViewedAnime[] = [];
   private allViewedAnimes: ViewedAnime[] = [];
+  readonly tabs: {[key: string]: string} = {
+    All: 'all',
+    Favorites: 'favorites'
+  };
+  private activeTab: string = this.tabs.All;
 
   constructor(
     private viewedEpisodes: ViewedEpisodesService,
@@ -52,17 +57,34 @@ export class ViewedComponent implements OnInit {
         });
       }
     });
+    // Show all viewed animes
     this.viewedAnimes = this.allViewedAnimes;
   }
 
   search(value: string) {
     this.debug.log('Searching for:', value);
+    this.filterAnimes();
+    this.isLoading = false;
+  }
+
+  private filterAnimes() {
+    // Filter by search value
     if (this.searchValue?.length) {
       this.viewedAnimes = this.allViewedAnimes.filter((anime: ViewedAnime) => anime.title.toLowerCase().indexOf(this.searchValue.toLowerCase()) !== -1);
     } else {
       this.viewedAnimes = this.allViewedAnimes;
     }
-    this.isLoading = false;
+    // Then, filter by active tab
+    switch (this.activeTab) {
+      case this.tabs.Favorites:
+        this.viewedAnimes = this.viewedAnimes.filter((anime: ViewedAnime) => anime.isFavorite);
+        break;
+    }
+  }
+
+  switchTab(tab: string) {
+    this.activeTab = tab;
+    this.filterAnimes();
   }
 
   toggleFavorite(anime: ViewedAnime, value: boolean) {
