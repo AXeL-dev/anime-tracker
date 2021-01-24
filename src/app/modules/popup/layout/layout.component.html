@@ -18,7 +18,7 @@
         </nav>
         <hr mdcListDivider>
         <nav mdcList>
-          <a mdcListItem [routerLink]="['/viewed']" [selected]="router.url === '/viewed'" (click)="closeDrawer()">
+          <a mdcListItem [routerLink]="['/viewed']" [selected]="router.url.startsWith('/viewed')" (click)="closeDrawer()">
             <i mdcListItemGraphic class="material-icons" aria-hidden="true">visibility</i>Viewed
           </a>
         </nav>
