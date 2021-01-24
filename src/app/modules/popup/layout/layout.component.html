@@ -31,9 +31,9 @@
       <div mdcTopAppBarRow>
         <section mdcTopAppBarSection alignStart>
           <button mdcTopAppBarNavIcon class="material-icons" (click)="toggleDrawer()">menu</button>
-          <span mdcTopAppBarTitle title="Anime Tracker">
+          <a mdcTopAppBarTitle title="Anime Tracker" [routerLink]="['/']">
             <img alt="logo" src="assets/icons/128.png" />
-          </span>
+          </a>
           <app-search-input [(value)]="searchValue" (tap)="onSearchTap()" (valueChange)="onSearchValueChange($event)"></app-search-input>
         </section>
         <section mdcTopAppBarSection alignEnd>
