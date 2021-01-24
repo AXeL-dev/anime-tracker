@@ -4,6 +4,7 @@ import { ChooseLinkDialogComponent } from './choose-link-dialog/choose-link-dial
 import { CardComponent } from './card/card.component';
 import { SharedModule } from '../shared/shared.module';
 import { LinkListComponent } from './link-list/link-list.component';
+import { RouterModule } from '@angular/router';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { LinkListComponent } from './link-list/link-list.component';
   ],
   imports: [
     CommonModule,
-    SharedModule
+    SharedModule,
+    RouterModule // so we can use routerLink directive
   ],
   exports: [
     ChooseLinkDialogComponent,

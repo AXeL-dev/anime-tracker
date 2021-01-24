@@ -25,6 +25,7 @@ export class CardComponent implements OnInit {
 
   ngOnInit(): void {
     this.episode.isViewed = this.viewedEpisodes.isViewed(this.episode);
+    this.episode.isRegular = this.viewedEpisodes.isRegular(this.episode);
   }
 
   onClick(event: Event) {

@@ -1,25 +1,28 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { DebugService } from 'src/app/services/debug.service';
 import { ViewedEpisodesService } from 'src/app/services/viewed-episodes.service';
 import { FavoriteAnimesService } from 'src/app/services/favorite-animes.service';
 import { ViewedEpisode } from 'src/app/models/episode';
 import { isSimilar } from 'src/app/helpers/string.helper';
+import { ActivatedRoute } from '@angular/router';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 interface ViewedAnime {
-  title: string,
-  episodes: ViewedEpisode[],
-  isFavorite?: boolean
+  title: string;
+  episodes: ViewedEpisode[];
+  isFavorite?: boolean;
 }
 
 interface ViewedAnimesCount {
-  all: number,
-  favorites: number
+  all: number;
+  favorites: number;
 }
 
 interface infiniteScrollConfig {
-  initial: number,
-  max: number,
-  step: number
+  initial: number;
+  max: number;
+  step: number;
 }
 
 @Component({
@@ -27,7 +30,7 @@ interface infiniteScrollConfig {
   templateUrl: './viewed.component.html',
   styleUrls: ['./viewed.component.scss']
 })
-export class ViewedComponent implements OnInit {
+export class ViewedComponent implements OnInit, OnDestroy {
 
   isLoading: boolean = false;
   searchValue: string = null;
@@ -47,16 +50,18 @@ export class ViewedComponent implements OnInit {
     max: 50,
     step: 50
   };
+  private componentDestroy: Subject<void> = new Subject();
 
   constructor(
     private viewedEpisodes: ViewedEpisodesService,
     private favoriteAnimes: FavoriteAnimesService,
-    private debug: DebugService
+    private debug: DebugService,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
+    // Add viewed episodes to viewed animes array
     this.viewedEpisodes.get().forEach((episode: ViewedEpisode) => {
-      // Add episode to viewed animes array
       const index = this.allViewedAnimes.findIndex((anime: ViewedAnime) => isSimilar(anime.title, episode.animeTitle));
       if (index > -1) {
         // Merge with existing anime episodes
@@ -84,6 +89,21 @@ export class ViewedComponent implements OnInit {
       all: this.allViewedAnimes.length,
       favorites: this.allViewedAnimes.filter((anime: ViewedAnime) => anime.isFavorite).length
     };
+    // Handle route parameters
+    this.route.params.pipe(
+      takeUntil(this.componentDestroy)
+    ).subscribe(params => {
+      this.searchValue = params['search'] || '';
+      this.debug.log('Search value:', this.searchValue);
+      if (this.searchValue.length) {
+        this.search(this.searchValue);
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.componentDestroy.next();
+    this.componentDestroy.complete();
   }
 
   search(value: string) {

@@ -49,6 +49,10 @@ export class ViewedEpisodesService {
     return !!this.viewed?.find((e: ViewedEpisode) => isSimilar(e.animeTitle, episode.anime.title) && e.number === episode.number);
   }
 
+  isRegular(episode: Episode) {
+    return !!this.viewed?.find((e: ViewedEpisode) => isSimilar(e.animeTitle, episode.anime.title, 0.7));
+  }
+
   refresh() {
     return this.init();
   }

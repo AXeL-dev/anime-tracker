@@ -11,7 +11,12 @@ const routes: Routes = [
   },
   {
     path: 'viewed',
-    component: ViewedComponent
+    children: [
+      ...[':search', ''].map(path => ({
+        path: path,
+        component: ViewedComponent,
+      }))
+    ]
   }
 ];
 

@@ -10,6 +10,7 @@ export interface Episode {
   downloadLinks?: EpisodeLink[];
   subtitlesLang?: string;
   isViewed?: boolean;
+  isRegular?: boolean;
 }
 
 export interface EpisodeLink {
@@ -57,6 +58,6 @@ export class EpisodeRange {
 }
 
 export interface ViewedEpisode {
-  animeTitle: string,
-  number: number
+  animeTitle: string;
+  number: number;
 }
