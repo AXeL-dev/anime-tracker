@@ -67,9 +67,9 @@ export class MainComponent implements OnInit {
 
   private autoCheckLoop() {
     setTimeout(async () => {
-      // Check for latest episodes
-      const [count, notifications] = await this.getLatestEpisodesCount();
-      this.debug.log('Latest episodes count:', count);
+      // Check for recent episodes
+      const [count, notifications] = await this.getRecentEpisodesCount();
+      this.debug.log('Recent episodes count:', count);
       if (count > 0) {
         // Set badge count
         const badgeText: string = await this.browser.getBadgeText();
@@ -94,7 +94,7 @@ export class MainComponent implements OnInit {
     }, this.settings.autoCheckRate * 60 * 1000); // convert minutes to milliseconds
   }
 
-  private getLatestEpisodesCount(): Promise<[number, Notification[]]> {
+  private getRecentEpisodesCount(): Promise<[number, Notification[]]> {
     return new Promise(async (resolve, reject) => {
 
       let count: number = 0;
