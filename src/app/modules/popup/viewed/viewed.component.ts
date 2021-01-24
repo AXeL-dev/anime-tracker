@@ -11,6 +11,11 @@ interface ViewedAnime {
   isFavorite?: boolean
 }
 
+interface ViewedAnimesCount {
+  all: number,
+  favorites: number
+}
+
 @Component({
   selector: 'app-viewed',
   templateUrl: './viewed.component.html',
@@ -27,6 +32,10 @@ export class ViewedComponent implements OnInit {
     Favorites: 'favorites'
   };
   private activeTab: string = this.tabs.All;
+  count: ViewedAnimesCount = {
+    all: 0,
+    favorites: 0
+  };
 
   constructor(
     private viewedEpisodes: ViewedEpisodesService,
@@ -59,6 +68,11 @@ export class ViewedComponent implements OnInit {
     });
     // Show all viewed animes
     this.viewedAnimes = this.allViewedAnimes;
+    // Set count
+    this.count = {
+      all: this.allViewedAnimes.length,
+      favorites: this.allViewedAnimes.filter((anime: ViewedAnime) => anime.isFavorite).length
+    };
   }
 
   search(value: string) {
@@ -74,10 +88,16 @@ export class ViewedComponent implements OnInit {
     } else {
       this.viewedAnimes = this.allViewedAnimes;
     }
+    // Update count
+    const favorites = this.viewedAnimes.filter((anime: ViewedAnime) => anime.isFavorite);
+    this.count = {
+      all: this.viewedAnimes.length,
+      favorites: favorites.length
+    };
     // Then, filter by active tab
     switch (this.activeTab) {
       case this.tabs.Favorites:
-        this.viewedAnimes = this.viewedAnimes.filter((anime: ViewedAnime) => anime.isFavorite);
+        this.viewedAnimes = favorites;
         break;
     }
   }

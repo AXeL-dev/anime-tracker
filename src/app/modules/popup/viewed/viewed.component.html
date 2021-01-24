@@ -11,8 +11,8 @@
       </div>
       <div mdcTabBarScrollerFrame>
         <nav mdcTabBar>
-          <a mdcTab (activate)="switchTab(tabs.All)" tabindex="0">All</a>
-          <a mdcTab (activate)="switchTab(tabs.Favorites)" tabindex="0">Favorites</a>
+          <a mdcTab (activate)="switchTab(tabs.All)" tabindex="0">All ({{ count.all }})</a>
+          <a mdcTab (activate)="switchTab(tabs.Favorites)" tabindex="0">Favorites ({{ count.favorites }})</a>
         </nav>
       </div>
       <div mdcTabBarScrollerForward>
