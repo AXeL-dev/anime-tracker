@@ -26,7 +26,7 @@
   </a>
   <div class="mdc-card__actions mdc-card__action-icons" #viewport>
     <div *ngIf="episode.isViewed; else isRegularTemplate" mdcMenuAnchor #anchor="mdcMenuAnchor" [style.display]="'flex'">
-      <button class="material-icons mdc-icon-button blue-eye" title="Viewed" [style.margin]="0" (click)="isViewedMenu.open = true">visibility</button>
+      <button class="material-icons-outlined mdc-icon-button wider blue-eye" title="Viewed" [style.margin]="0" (click)="isViewedMenu.open = true">visibility</button>
       <div mdcMenu
           [(open)]="isViewedMenu.open"
           [menuAnchor]="anchor"
@@ -38,7 +38,7 @@
       </div>
     </div>
     <ng-template #isRegularTemplate>
-      <button *ngIf="episode.isRegular" [routerLink]="['/viewed', episode.anime.title]" class="material-icons mdc-icon-button orange-check" title="Regular">
+      <button *ngIf="episode.isRegular" [routerLink]="['/viewed', episode.anime.title]" class="material-icons mdc-icon-button green-check" title="Regular">
         check_circle_outline
       </button>
     </ng-template>

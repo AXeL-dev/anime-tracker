@@ -96,6 +96,9 @@
       padding: 0;
       width: 30px;
       height: 30px;
+      &.wider {
+        font-size: 1.3em;
+      }
     }
   }
 }
@@ -105,9 +108,9 @@
 }
 
 .blue-eye {
-  color: #0061aa;
+  color: #0275d8;
 }
 
-.orange-check {
-  color: #f0ad4e;
+.green-check {
+  color: #28a745;
 }
