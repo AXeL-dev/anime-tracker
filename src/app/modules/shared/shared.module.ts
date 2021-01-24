@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MaterialModule } from '@blox/material';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { IconToggleDirective } from './directives/icon-toggle/icon-toggle.directive';
 import { SearchInputComponent } from './components/search-input/search-input.component';
 import { ShortDatePipe } from './pipes/shortdate.pipe';
@@ -26,6 +27,7 @@ import { SafePipe } from './pipes/safe.pipe';
   exports: [
     FormsModule,
     MaterialModule,
+    InfiniteScrollModule,
     IconToggleDirective,
     SearchInputComponent,
     ShortDatePipe,

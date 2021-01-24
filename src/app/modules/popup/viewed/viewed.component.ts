@@ -16,6 +16,12 @@ interface ViewedAnimesCount {
   favorites: number
 }
 
+interface infiniteScrollConfig {
+  initial: number,
+  max: number,
+  step: number
+}
+
 @Component({
   selector: 'app-viewed',
   templateUrl: './viewed.component.html',
@@ -35,6 +41,11 @@ export class ViewedComponent implements OnInit {
   count: ViewedAnimesCount = {
     all: 0,
     favorites: 0
+  };
+  infiniteScroll: infiniteScrollConfig = {
+    initial: 50,
+    max: 50,
+    step: 50
   };
 
   constructor(
@@ -82,24 +93,29 @@ export class ViewedComponent implements OnInit {
   }
 
   private filterAnimes() {
+    let filteredAnimes: ViewedAnime[] = [];
     // Filter by search value
     if (this.searchValue?.length) {
-      this.viewedAnimes = this.allViewedAnimes.filter((anime: ViewedAnime) => anime.title.toLowerCase().indexOf(this.searchValue.toLowerCase()) !== -1);
+      filteredAnimes = this.allViewedAnimes.filter((anime: ViewedAnime) => anime.title.toLowerCase().indexOf(this.searchValue.toLowerCase()) !== -1);
     } else {
-      this.viewedAnimes = this.allViewedAnimes;
+      filteredAnimes = this.allViewedAnimes;
     }
     // Update count
-    const favorites = this.viewedAnimes.filter((anime: ViewedAnime) => anime.isFavorite);
+    const favorites = filteredAnimes.filter((anime: ViewedAnime) => anime.isFavorite);
     this.count = {
-      all: this.viewedAnimes.length,
+      all: filteredAnimes.length,
       favorites: favorites.length
     };
     // Then, filter by active tab
     switch (this.activeTab) {
       case this.tabs.Favorites:
-        this.viewedAnimes = favorites;
+        filteredAnimes = favorites;
         break;
     }
+    // Display filtered animes
+    this.viewedAnimes = filteredAnimes;
+    // Reset infinite scroll
+    this.infiniteScroll.max = this.infiniteScroll.initial;
   }
 
   switchTab(tab: string) {
@@ -115,6 +131,10 @@ export class ViewedComponent implements OnInit {
       this.favoriteAnimes.remove(anime.title);
       anime.isFavorite = false;
     }
+  }
+
+  onScroll() {
+    this.infiniteScroll.max += this.infiniteScroll.step;
   }
 
 }

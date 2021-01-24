@@ -22,12 +22,12 @@
       </div>
     </div>
 
-    <div class="tab-content">
+    <div class="tab-content" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScroll()">
 
       <div mdcListGroup>
 
         <ul mdcList [nonInteractive]="true">
-          <ng-container *ngFor="let anime of viewedAnimes">
+          <ng-container *ngFor="let anime of viewedAnimes.slice(0, infiniteScroll.max)">
             <li mdcListItem>
               <span mdcListItemGraphic>
                 <button iconToggle class="material-icons mdc-icon-button" classOn="red-heart"
