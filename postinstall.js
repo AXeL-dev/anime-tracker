@@ -13,11 +13,22 @@ function changeFile(file, currLine, newLine) {
 // Fix postcss compile warnings
 let files = [
   './node_modules/@material/toolbar/mdc-toolbar.scss',
-  './node_modules/@material/toolbar/_mixins.scss'
+  './node_modules/@material/toolbar/_mixins.scss',
 ];
-let searchFileForString = 'align-items: start;';
-let replaceFileWithString = 'align-items: flex-start;';
+let searchForString = 'align-items: start;';
+let replaceWithString = 'align-items: flex-start;';
 
 for (let file of files) {
-  changeFile(file, searchFileForString, replaceFileWithString);
+  changeFile(file, searchForString, replaceWithString);
+}
+
+// Remove unused material icons
+files = [
+  './node_modules/material-icons/iconfont/material-icons.scss',
+];
+searchForString = "@each $name in 'Outlined', 'Round', 'Sharp', 'Two Tone' {";
+replaceWithString = "@each $name in 'Outlined' {";
+
+for (let file of files) {
+  changeFile(file, searchForString, replaceWithString);
 }

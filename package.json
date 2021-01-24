@@ -27,7 +27,7 @@
     "@angular/platform-browser-dynamic": "^9.1.13",
     "@angular/router": "^9.1.13",
     "@blox/material": "^0.18.1",
-    "material-icons": "^0.3.1",
+    "material-icons": "^0.5.2",
     "ngx-infinite-scroll": "^10.0.1",
     "roboto-fontface": "^0.10.0",
     "rxjs": "~6.5.4",
