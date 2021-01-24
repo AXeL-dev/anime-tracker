@@ -62,7 +62,7 @@ export class ViewedComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     // Add viewed episodes to viewed animes array
     this.viewedEpisodes.get().forEach((episode: ViewedEpisode) => {
-      const index = this.allViewedAnimes.findIndex((anime: ViewedAnime) => isSimilar(anime.title, episode.animeTitle));
+      const index = this.allViewedAnimes.findIndex((anime: ViewedAnime) => isSimilar(anime.title, episode.animeTitle, 0.7));
       if (index > -1) {
         // Merge with existing anime episodes
         if (!this.allViewedAnimes[index].episodes.find((e: ViewedEpisode) => e.number === episode.number)) {
@@ -116,7 +116,7 @@ export class ViewedComponent implements OnInit, OnDestroy {
     let filteredAnimes: ViewedAnime[] = [];
     // Filter by search value
     if (this.searchValue?.length) {
-      filteredAnimes = this.allViewedAnimes.filter((anime: ViewedAnime) => anime.title.toLowerCase().indexOf(this.searchValue.toLowerCase()) !== -1);
+      filteredAnimes = this.allViewedAnimes.filter((anime: ViewedAnime) => isSimilar(anime.title, this.searchValue, 0.7));
     } else {
       filteredAnimes = this.allViewedAnimes;
     }
