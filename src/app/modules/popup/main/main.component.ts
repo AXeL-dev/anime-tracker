@@ -69,7 +69,7 @@ export class MainComponent implements OnInit, OnDestroy {
 
   private fetchEpisodes(forcedUpdate?: boolean) {
     this.isLoading = true;
-    this.animeProvider.getLatestEpisodes(forcedUpdate).pipe(
+    this.animeProvider.getLatestEpisodesByDays(forcedUpdate).pipe(
       takeUntil(this.componentDestroy)
     ).subscribe(([episodes, days]) => {
       // this.debug.log('Latest episodes:', episodes);

@@ -100,7 +100,7 @@ export class MainComponent implements OnInit {
       let count: number = 0;
       let notifications: Notification[] = [];
 
-      const [episodes, days] = await this.animeProvider.getLatestEpisodes(true, false).pipe(take(1)).toPromise();
+      const episodes = await this.animeProvider.getLatestEpisodes(true).pipe(take(1)).toPromise();
 
       this.debug.log('Latest episodes:', episodes);
       this.debug.log('Checked episodes:', this.checkedEpisodes);
