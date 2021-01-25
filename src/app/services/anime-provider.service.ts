@@ -85,44 +85,45 @@ export class AnimeProviderService {
     );
   }
 
-  private mergeEpisodes(episodes: Episode[], existingEpisodes: Episode[] = []): Episode[] {
+  private mergeEpisodes(episodes: Episode[], uniqueEpisodes: Episode[] = []): Episode[] {
     // filter duplicates
     episodes.forEach((episode: Episode) => {
       let index: number = 0;
-      for (let existingEpisode of existingEpisodes) {
+      for (let uniqueEpisode of uniqueEpisodes) {
         // duplicated
-        if (isSimilar(existingEpisode.anime.title, episode.anime.title) && existingEpisode.number === episode.number) {
-          if (!existingEpisodes[index].releaseDate) {
-            existingEpisodes[index].releaseDate = episode.releaseDate;
+        if (isSimilar(uniqueEpisode.anime.title, episode.anime.title) && uniqueEpisode.number === episode.number) {
+          // merge properties
+          if (!uniqueEpisodes[index].releaseDate) {
+            uniqueEpisodes[index].releaseDate = episode.releaseDate;
           }
           if (episode.streamLinks?.length) {
-            existingEpisodes[index].streamLinks = [...existingEpisodes[index].streamLinks, ...episode.streamLinks]; // do not use array.push(...), it duplicates existing links
+            uniqueEpisodes[index].streamLinks = [...uniqueEpisodes[index].streamLinks, ...episode.streamLinks]; // do not use array.push(...), it duplicates existing links
           }
           if (episode.downloadLinks?.length) {
-            existingEpisodes[index].downloadLinks = [...existingEpisodes[index].downloadLinks, ...episode.downloadLinks];
+            uniqueEpisodes[index].downloadLinks = [...uniqueEpisodes[index].downloadLinks, ...episode.downloadLinks];
           }
-          if (episode.anime.isNew && !existingEpisodes[index].anime.isNew) {
-            existingEpisodes[index].anime.isNew = episode.anime.isNew;
+          if (episode.anime.isNew && !uniqueEpisodes[index].anime.isNew) {
+            uniqueEpisodes[index].anime.isNew = episode.anime.isNew;
           }
-          if (episode.anime.isFinished && !existingEpisodes[index].anime.isFinished) {
-            existingEpisodes[index].anime.isFinished = episode.anime.isFinished;
+          if (episode.anime.isFinished && !uniqueEpisodes[index].anime.isFinished) {
+            uniqueEpisodes[index].anime.isFinished = episode.anime.isFinished;
           }
           return; // ends the current iteration function of episodes.foreach(...), so the code below will not be executed
         }
         index++;
       }
       // not duplicated
-      existingEpisodes.push({
+      uniqueEpisodes.push({
         ...episode,
         streamLinks: episode.streamLinks || [],
         downloadLinks: episode.downloadLinks || []
       } as Episode);
     });
     // sort
-    if (existingEpisodes.length) {
-      existingEpisodes = existingEpisodes.sort((a: Episode, b: Episode) => (b.releaseDate as number) - (a.releaseDate as number));
+    if (uniqueEpisodes.length) {
+      uniqueEpisodes = uniqueEpisodes.sort((a: Episode, b: Episode) => (b.releaseDate as number) - (a.releaseDate as number));
     }
-    return existingEpisodes;
+    return uniqueEpisodes;
   }
 
   private getEpisodesDays(episodes: Episode[]): number[] {
