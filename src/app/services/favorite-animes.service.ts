@@ -27,13 +27,13 @@ export class FavoriteAnimesService {
 
   add(title: string) {
     if (!this.isFavorite(title)) {
-      this.favorites.push(title);
+      this.favorites.push(title.trim());
       this.save();
     }
   }
 
   remove(title: string) {
-    const index = this.favorites?.indexOf(title);
+    const index = this.getIndexOf(title);
     if (index !== -1) {
       this.favorites.splice(index, 1);
       this.save();
@@ -41,7 +41,11 @@ export class FavoriteAnimesService {
   }
 
   isFavorite(title: string) {
-    return this.favorites?.indexOf(title) !== -1;
+    return this.getIndexOf(title) !== -1;
+  }
+
+  private getIndexOf(title: string) {
+    return this.favorites?.indexOf(title.trim());
   }
 
   refresh() {
