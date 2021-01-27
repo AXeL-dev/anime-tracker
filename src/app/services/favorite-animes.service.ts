@@ -27,7 +27,7 @@ export class FavoriteAnimesService {
 
   add(title: string) {
     if (!this.isFavorite(title)) {
-      this.favorites.push(title.trim());
+      this.favorites.push(title);
       this.save();
     }
   }
@@ -45,7 +45,7 @@ export class FavoriteAnimesService {
   }
 
   private getIndexOf(title: string) {
-    return this.favorites?.indexOf(title.trim());
+    return this.favorites?.indexOf(title);
   }
 
   refresh() {

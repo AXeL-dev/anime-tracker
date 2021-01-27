@@ -30,6 +30,9 @@ export abstract class BaseCrawler {
       boolean: (text: string) => {
         return !!text?.length;
       },
+      trim: (text: string) => {
+        return text.trim();
+      },
       decodeUrl: (text: string) => {
         return decodeURI(text);
       },
@@ -90,8 +93,15 @@ export abstract class BaseCrawler {
       return of(this.cache.latestEpisodes);
     }
     return this._getLatestEpisodes().pipe(map((episodes: Episode[]) => {
-      this.cache.latestEpisodes = episodes;
-      return episodes;
+      const latestEpisodes: Episode[] = episodes.map((episode: Episode) => ({
+        ...episode,
+        anime: {
+          ...episode.anime,
+          title: episode.anime.title.trim(),
+        }
+      }));
+      this.cache.latestEpisodes = latestEpisodes;
+      return latestEpisodes;
     }));
   };
 
