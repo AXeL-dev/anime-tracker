@@ -38,7 +38,7 @@ export class ViewedEpisodesService {
   }
 
   remove(episode: Episode) {
-    const viewed = this.viewed?.filter((e: ViewedEpisode) => !(isSimilar(e.animeTitle, episode.anime.title) && e.number === episode.number));
+    const viewed = this.viewed?.filter((e: ViewedEpisode) => !(isSimilar(e.animeTitle, episode.anime.title, 0.9, true) && e.number === episode.number));
     if (viewed?.length < this.viewed?.length) {
       this.viewed = viewed;
       this.save();
@@ -46,7 +46,7 @@ export class ViewedEpisodesService {
   }
 
   isViewed(episode: Episode) {
-    return !!this.viewed?.find((e: ViewedEpisode) => isSimilar(e.animeTitle, episode.anime.title) && e.number === episode.number);
+    return !!this.viewed?.find((e: ViewedEpisode) => isSimilar(e.animeTitle, episode.anime.title, 0.9, true) && e.number === episode.number);
   }
 
   isRegular(episode: Episode) {

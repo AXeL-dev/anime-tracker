@@ -4,12 +4,11 @@ export function isString(val: any) {
   return typeof val === 'string' || ((!!val && typeof val === 'object') && Object.prototype.toString.call(val) === '[object String]');
 }
 
-export function isSimilar(s1: string, s2: string, degree: number = 0.5) {
+export function isSimilar(s1: string, s2: string, degree: number = 0.5, strict: boolean = false) {
   const cleanedS1 = s1.toLowerCase().replace(/[-_~:]/g, '');
   const cleanedS2 = s2.toLowerCase().replace(/[-_~:]/g, '');
   return cleanedS1 === cleanedS2 || 
-         cleanedS1.indexOf(cleanedS2) !== -1 || 
-         cleanedS2.indexOf(cleanedS1) !== -1 || 
+         (!strict && (cleanedS1.indexOf(cleanedS2) !== -1 || cleanedS2.indexOf(cleanedS1) !== -1)) || 
          similarity(cleanedS1, cleanedS2) >= degree;
 }
 

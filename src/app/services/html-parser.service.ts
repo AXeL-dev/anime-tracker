@@ -127,7 +127,7 @@ export class HTMLParserService {
     while (sibling) {
       const matches = sibling.querySelector(selector);
       if (matches) return matches;
-      sibling = sibling.nextElementSibling
+      sibling = sibling.nextElementSibling;
     }
   }
 
