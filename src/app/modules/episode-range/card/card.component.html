@@ -29,6 +29,9 @@
     </div>
   </a>
   <div class="mdc-card__actions mdc-card__action-icons" #viewport>
+    <button *ngIf="episodeRange.first.isRegular" [routerLink]="['/viewed', episodeRange.first.anime.title]" class="material-icons mdc-icon-button green-check" title="Regular">
+      check_circle_outline
+    </button>
     <button iconToggle class="material-icons mdc-icon-button" classOn="red-heart"
       titleOn="Remove from favorites" titleOff="Add to favorites"
       iconOn="favorite" iconOff="favorite_border"

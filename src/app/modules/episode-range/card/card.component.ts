@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { EpisodeRange } from 'src/app/models/episode';
+import { EpisodeRange, Episode } from 'src/app/models/episode';
 import { FavoriteAnimesService } from 'src/app/services/favorite-animes.service';
+import { ViewedEpisodesService } from 'src/app/services/viewed-episodes.service';
 
 @Component({
   selector: 'episode-range-card',
@@ -13,9 +14,14 @@ export class CardComponent implements OnInit {
   @Output() streamLinksClick: EventEmitter<EpisodeRange> = new EventEmitter();
   @Output() downloadLinksClick: EventEmitter<EpisodeRange> = new EventEmitter();
 
-  constructor(private favoriteAnimes: FavoriteAnimesService) { }
+  constructor(
+    private favoriteAnimes: FavoriteAnimesService,
+    private viewedEpisodes: ViewedEpisodesService
+  ) { }
 
   ngOnInit(): void {
+    this.episodeRange.range = this.episodeRange.range.map((episode: Episode) => ({ ...episode, isViewed: this.viewedEpisodes.isViewed(episode) }));
+    this.episodeRange.first.isRegular = this.viewedEpisodes.isRegular(this.episodeRange.first);
   }
 
   onClick(event: Event) {

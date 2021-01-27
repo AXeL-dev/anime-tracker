@@ -18,6 +18,7 @@
             <nav mdcTabBar>
               <a *ngFor="let episode of episodes; let i = index" mdcTab (activate)="activeIndex = i" tabindex="0">
                 {{ episode.number }}
+                <span *ngIf="episode.isViewed" class="material-icons-outlined viewed-icon" title="Viewed">visibility</span>
               </a>
             </nav>
           </div>
@@ -28,7 +29,7 @@
           </div>
         </div>
         <div class="tab-content">
-          <episode-link-list [links]="episodes[activeIndex][linksKey]" (linkClick)="linkClick.emit()"></episode-link-list>
+          <episode-link-list [links]="episodes[activeIndex][linksKey]" (linkClick)="linkClick.emit(episodes[activeIndex])"></episode-link-list>
         </div>
       </ng-container>
       <ng-template #emptyTemplate>
