@@ -26,6 +26,8 @@ I watch animes almost daily or at least once or twice a week, & i wanted somethi
 
 [How to install?](https://github.com/AXeL-dev/install-webextension)
 
+:mega: You can also [try it as a web application](https://axel-dev.github.io/anime-tracker/).
+
 ## ToDo
 
 - [x] Scrape anime data from several websites.
