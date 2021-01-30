@@ -1,0 +1,37 @@
+{
+  "manifest_version": 2,
+
+  "name": "__MSG_extensionName__",
+  "version": "1.0.6",
+
+  "default_locale": "en",
+  "description": "__MSG_extensionDesc__",
+  "icons": {
+    "128": "assets/icons/128.png"
+  },
+
+  "web_accessible_resources": ["assets/icons/*.png"],
+
+  "browser_action": {
+    "default_icon": "assets/icons/128.png",
+    "default_popup": "index.html"
+  },
+
+  "background": {
+    "page": "index.html?page=background"
+  },
+
+  "options_ui":{
+    "page": "index.html?page=settings",
+    "open_in_tab": true
+  },
+
+  "author": "AXeL-dev",
+  "homepage_url": "https://github.com/AXeL-dev/anime-tracker",
+
+  "permissions": [
+    "storage",
+    "notifications",
+    "<all_urls>"
+  ]
+}
