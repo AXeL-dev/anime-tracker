@@ -28,6 +28,16 @@ I watch animes almost daily or at least once or twice a week, & i wanted somethi
 
 :mega: You can also [try it as a web application](https://axel-dev.github.io/anime-tracker/).
 
+## Features
+
+|                               | web app                     | web extension     |
+| ----------------------------- | --------------------------- | ----------------- |
+| scraper                       | ✔️                           | ✔️                 |
+| proxy                         | ✔️ (required to bypass CORS) | ✔️ (optional)      |
+| notifications                 | ❌                          | ✔️                 |
+| popup mode                    | ❌                          | ✔️                 |
+| open links in inactive tabs   | ❌                          | ✔️                 |
+
 ## ToDo
 
 - [x] Scrape anime data from several websites.
