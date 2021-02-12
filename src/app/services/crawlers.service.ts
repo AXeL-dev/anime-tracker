@@ -15,6 +15,9 @@ import { FourAnimeCrawler } from '../crawlers/4anime.crawler';
 import { AnimeKisaCrawler } from '../crawlers/animekisa.crawler';
 import { WitAnimeCrawler } from '../crawlers/witanime.crawler';
 import { AnimeFourUpCrawler } from '../crawlers/anime4up.crawler';
+import { ToonAnimeCrawler } from '../crawlers/toonanime.crawler';
+import { VoirAnimeOrgCrawler } from '../crawlers/voiranimeorg.crawler';
+import { OtakuFrCrawler } from '../crawlers/otakufr.crawler';
 
 @Injectable({
   providedIn: 'root',
@@ -25,14 +28,17 @@ export class CrawlersService {
 
   constructor(private scraper: ScraperService, private settings: SettingsService) {
     // Vostfr crawlers
+    this.add(new VoirAnimeCrawler(this.scraper));
+    this.add(new VoirAnimeOrgCrawler(this.scraper));
+    this.add(new ToonAnimeCrawler(this.scraper));
     this.add(new AnimeKoCrawler(this.scraper));
     this.add(new AnimeResistanceCrawler(this.scraper));
     this.add(new VostFreeCrawler(this.scraper));
     this.add(new FullAnimeVFCrawler(this.scraper));
-    this.add(new VoirAnimeCrawler(this.scraper));
     this.add(new NekoSamaCrawler(this.scraper));
     this.add(new JapMangaCrawler(this.scraper));
     this.add(new MangasVostfrCrawler(this.scraper));
+    this.add(new OtakuFrCrawler(this.scraper));
     // Vosten crawlers
     this.add(new GogoAnimeCrawler(this.scraper));
     this.add(new FourAnimeCrawler(this.scraper));
