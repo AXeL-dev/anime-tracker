@@ -111,10 +111,13 @@ export class HTMLParserService {
     // If the sibling matches our selector, use it
     // If not, jump to the previous sibling and continue the loop
     while (sibling) {
+      if (sibling.matches(selector)) return sibling;
       const matches = sibling.querySelector(selector);
       if (matches) return matches;
       sibling = sibling.previousElementSibling;
     }
+
+    return null;
   }
 
   private getNextSibling(elem: any, selector: string) {
@@ -125,10 +128,13 @@ export class HTMLParserService {
     // If the sibling matches our selector, use it
     // If not, jump to the next sibling and continue the loop
     while (sibling) {
+      if (sibling.matches(selector)) return sibling;
       const matches = sibling.querySelector(selector);
       if (matches) return matches;
       sibling = sibling.nextElementSibling;
     }
+
+    return null;
   }
 
 }
