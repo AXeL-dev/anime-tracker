@@ -4,7 +4,7 @@ export function isString(val: any) {
   return typeof val === 'string' || ((!!val && typeof val === 'object') && Object.prototype.toString.call(val) === '[object String]');
 }
 
-export function isSimilar(s1: string, s2: string, degree: number = 0.5, strict: boolean = false) {
+export function isSimilar(s1: string, s2: string, degree: number = 0.7, strict: boolean = false) {
   const cleanedS1 = s1.toLowerCase().replace(/[-_~:]/g, '');
   const cleanedS2 = s2.toLowerCase().replace(/[-_~:]/g, '');
   return cleanedS1 === cleanedS2 || 
