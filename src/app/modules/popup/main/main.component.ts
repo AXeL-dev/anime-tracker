@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { AnimeProviderService } from 'src/app/services/anime-provider.service';
 import { Episode, EpisodeRange } from 'src/app/models/episode';
 import { SettingsService } from 'src/app/services/settings.service';
-import { dateOnly } from 'src/app/helpers/date.helper';
+import { dateOnly, sameDates } from 'src/app/helpers/date.helper';
 import { Subject } from 'rxjs';
 import { View } from 'src/app/models/settings';
 import { FavoriteAnimesService } from 'src/app/services/favorite-animes.service';
@@ -104,7 +104,7 @@ export class MainComponent implements OnInit, OnDestroy {
           continue; // go to next episode
         }
         const range: Episode[] = (this.episodes as Episode[]).slice(index).filter((e: Episode) => {
-          return e.anime.title === episode.anime.title && (!this.settings.displayEpisodesDayByDay || e.releaseDate === episode.releaseDate);
+          return e.anime.title === episode.anime.title && (!this.settings.displayEpisodesDayByDay || sameDates(e.releaseDate, episode.releaseDate));
         }).sort((a: Episode, b: Episode) => a.number - b.number);
         if (range.length > 1) {
           const episodeRange = new EpisodeRange(range, episode.releaseDate);
