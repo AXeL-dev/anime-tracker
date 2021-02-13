@@ -115,10 +115,7 @@ export class MainComponent implements OnInit, OnDestroy {
           ];
           // Update selected episode range
           if (this.selectedEpisodeRange?.first.anime.title === episodeRange.first.anime.title) {
-            const { isViewed, isRegular } = this.selectedEpisodeRange.first;
-            this.selectedEpisodeRange.range = episodeRange.range;
-            this.selectedEpisodeRange.first.isViewed = isViewed;
-            this.selectedEpisodeRange.first.isRegular = isRegular;
+            this.selectedEpisodeRange = episodeRange;
           }
         } else {
           results.push(episode);

@@ -16,7 +16,14 @@
           </div>
           <div mdcTabBarScrollerFrame>
             <nav mdcTabBar>
-              <a *ngFor="let episode of episodes; let i = index" mdcTab (activate)="activeIndex = i" tabindex="0">
+              <a
+                *ngFor="let episode of episodes; let i = index"
+                mdcTab
+                [active]="activeIndex === i"
+                [class.mdc-ripple-upgraded--background-focused]="activeIndex === i"
+                (activate)="activeIndex = i"
+                tabindex="0"
+              >
                 {{ episode.number }}
                 <span *ngIf="episode.isViewed" class="material-icons-outlined viewed-icon" title="Viewed">visibility</span>
               </a>
