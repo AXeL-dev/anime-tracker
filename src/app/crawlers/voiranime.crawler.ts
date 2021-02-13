@@ -9,7 +9,7 @@ export class VoirAnimeCrawler extends BaseCrawler {
 
   constructor(private scraper: ScraperService) {
     super(
-      'Voiranime',
+      'VoirAnime',
       'https://voiranime.to'
     );
     this.filters = {

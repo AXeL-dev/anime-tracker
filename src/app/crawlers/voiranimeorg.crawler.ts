@@ -14,15 +14,16 @@ export class VoirAnimeOrgCrawler extends BaseCrawler {
     this.filters = {
       ...this.filters,
       title: (text: string) => {
-        const title = text.match(/(.*) (–|épisode) (\d+) vostfr$/i);
+        const title = text.trim().match(/(.*) (–|épisode) (\d+) (vostfr|vf)$/i);
         return title?.length ? title[1].trim() : text;
       },
       number: (text: string) => {
-        const num = text.match(/(\d+) vostfr$/i);
+        const num = text.trim().match(/(\d+) (vostfr|vf)$/i);
         return num?.length ? +num[1] : +text;
       },
       subtitles: (text: string) => {
-        return 'vostfr';
+        const sub = text.trim().match(/(vostfr|vf)$/i);
+        return sub?.length ? sub[1] : 'vostfr';
       }
     };
   }
@@ -55,7 +56,7 @@ export class VoirAnimeOrgCrawler extends BaseCrawler {
         streamLinks: [
           {
             url: '.item-head > h3 > a@href',
-            lang: '| subtitles',
+            lang: '.item-head > h3 > a | subtitles',
           }
         ],
         //subtitlesLang: '| subtitles',
