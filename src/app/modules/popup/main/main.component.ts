@@ -113,6 +113,13 @@ export class MainComponent implements OnInit, OnDestroy {
             ...(treatedEpisodes[episode.anime.title] || []), // keep old numbers
             ...range.map((e: Episode) => e.number) // add new range numbers
           ];
+          // Update selected episode range
+          if (this.selectedEpisodeRange?.first.anime.title === episodeRange.first.anime.title) {
+            const { isViewed, isRegular } = this.selectedEpisodeRange.first;
+            this.selectedEpisodeRange.range = episodeRange.range;
+            this.selectedEpisodeRange.first.isViewed = isViewed;
+            this.selectedEpisodeRange.first.isRegular = isRegular;
+          }
         } else {
           results.push(episode);
         }
