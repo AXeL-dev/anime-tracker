@@ -9,8 +9,9 @@ import { isSimilar } from 'src/app/helpers/string.helper';
 import { Router } from '@angular/router';
 import { FavoriteAnimesService } from 'src/app/services/favorite-animes.service';
 import { ViewedEpisodesService } from 'src/app/services/viewed-episodes.service';
+import { NotificationsService } from 'src/app/services/notifications.service';
 import { SettingsService } from 'src/app/services/settings.service';
-import { Notification } from 'src/app/models/notification';
+import { EpisodeNotification } from 'src/app/models/notification';
 import { environment } from 'src/environments/environment';
 import { Subtitles } from 'src/app/models/settings';
 
@@ -31,7 +32,8 @@ export class MainComponent implements OnInit {
     private debug: DebugService,
     private animeProvider: AnimeProviderService,
     private favoriteAnimes: FavoriteAnimesService,
-    private viewedEpisodes: ViewedEpisodesService
+    private viewedEpisodes: ViewedEpisodesService,
+    private notifications: NotificationsService
   ) { }
 
   ngOnInit(): void {
@@ -82,7 +84,8 @@ export class MainComponent implements OnInit {
         this.browser.setBadgeText(this.badgeCount);
         // Notify
         if (this.settings.enableNotifications) {
-          notifications.forEach((notification: Notification) => {
+          notifications.forEach((notification: EpisodeNotification) => {
+            this.notifications.push(notification.message);
             const id = now().getTime() + '::' + notification.episode.index;
             this.browser.sendNotification(notification.message, id);
           });
@@ -94,11 +97,11 @@ export class MainComponent implements OnInit {
     }, this.settings.autoCheckRate * 60 * 1000); // convert minutes to milliseconds
   }
 
-  private getRecentEpisodesCount(): Promise<[number, Notification[]]> {
+  private getRecentEpisodesCount(): Promise<[number, EpisodeNotification[]]> {
     return new Promise(async (resolve, reject) => {
 
       let count: number = 0;
-      let notifications: Notification[] = [];
+      let notifications: EpisodeNotification[] = [];
 
       const episodes = await this.animeProvider.getLatestEpisodes(true).pipe(take(1)).toPromise();
 
