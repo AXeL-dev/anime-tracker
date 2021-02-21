@@ -66,25 +66,23 @@ export class MainComponent implements OnInit {
       }
     });
     // Handle messages
-    this.browser.api?.runtime.onMessage.addListener(this.handleMessage);
-  }
-
-  private handleMessage(request: any, sender: any, sendResponse: any) {
-    this.debug.log('Handle message:', request);
-    let response = null;
-    return new Promise(resolve => {
-      switch (request.message) {
-        case 'getNotifications':
-          response = this.notifications.get();
-          break;
-        case 'markNotificationsAsRead':
-          response = this.notifications.markAllAsRead();
-          break;
-        default:
-          this.debug.warn(`Cannot handle "${request.message}" message!`);
-          break;
-      }
-      resolve({ response });
+    this.browser.api?.runtime.onMessage.addListener((request: any, sender: any, sendResponse: any) => {
+      this.debug.log('Handle message:', request);
+      let response = null;
+      return new Promise(resolve => {
+        switch (request.message) {
+          case 'getNotifications':
+            response = this.notifications.get();
+            break;
+          case 'markNotificationsAsRead':
+            response = this.notifications.markAllAsRead();
+            break;
+          default:
+            this.debug.warn(`Cannot handle "${request.message}" message!`);
+            break;
+        }
+        resolve({ response });
+      });
     });
   }
 
