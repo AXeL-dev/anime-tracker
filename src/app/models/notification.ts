@@ -3,7 +3,7 @@ export interface Notification {
   message: string,
   type?: NotificationType,
   date?: Date,
-  isViewed?: boolean
+  status?: NotificationStatus
 }
 
 export interface EpisodeNotification extends Notification {
@@ -16,6 +16,12 @@ export interface NotificationEpisodeData {
 }
 
 export enum NotificationType {
+  Success = 'success',
   Info = 'info',
   Error = 'error',
+}
+
+export enum NotificationStatus {
+  Read = 'read',
+  Unread = 'unread',
 }

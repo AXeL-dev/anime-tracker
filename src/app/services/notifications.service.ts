@@ -1,16 +1,27 @@
 import { Injectable } from '@angular/core';
-import { Notification, NotificationType } from 'src/app/models/notification';
+import { Notification, NotificationStatus, NotificationType } from 'src/app/models/notification';
 import { now } from '../helpers/date.helper';
+import { BrowserService } from './browser.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NotificationsService {
 
-  private notifications: Notification[];
+  private notifications: Notification[] = [];
 
-  constructor() {
+  constructor(private browser: BrowserService) {
+    if (this.browser.isWebExtension) {
+      this.fetchFromBackgroundScript();
+    }
     this.listenToConsole();
+  }
+
+  private async fetchFromBackgroundScript() {
+    const notifications = await this.browser.api?.runtime.sendMessage({ message: 'getNotifications' });
+    if (notifications?.length) {
+      this.notifications = [...notifications];
+    }
   }
 
   private listenToConsole() {
@@ -27,12 +38,27 @@ export class NotificationsService {
       message: message,
       type: type,
       date: now(),
-      isViewed: false
+      status: NotificationStatus.Unread
     });
   }
 
   get() {
     return this.notifications;
+  }
+
+  markAllAsRead() {
+    this.browser.api?.runtime.sendMessage({ message: 'markNotificationsAsRead' });
+    this.notifications.forEach((notification: Notification) => {
+      notification.status = NotificationStatus.Read;
+    });
+
+    return this.notifications;
+  }
+
+  hasUnread() {
+    return this.notifications.filter((notification: Notification) =>
+      !notification.status || notification.status === NotificationStatus.Unread
+    ).length > 0;
   }
 
 }

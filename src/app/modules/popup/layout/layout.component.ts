@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { View } from 'src/app/models/settings';
 import { Router } from '@angular/router';
 import { DebugService } from 'src/app/services/debug.service';
+import { NotificationsService } from 'src/app/services/notifications.service';
 
 @Component({
   selector: 'app-layout',
@@ -10,7 +11,8 @@ import { DebugService } from 'src/app/services/debug.service';
 })
 export class LayoutComponent implements OnInit {
 
-  open: boolean = false;
+  openMenu: boolean = false;
+  openNotifications: boolean = false;
   @Input() view: View = null;
   @Input() isLoading: boolean = false;
   @Output() private isLoadingChange: EventEmitter<boolean> = new EventEmitter();
@@ -18,19 +20,34 @@ export class LayoutComponent implements OnInit {
   @Output() private searchValueChange: EventEmitter<string> = new EventEmitter();
   readonly views: typeof View = View;
 
-  constructor(public router: Router, private debug: DebugService) {
+  constructor(
+    public router: Router,
+    private debug: DebugService,
+    public notifications: NotificationsService
+  ) {
     this.debug.log('Router url:', this.router.url);
   }
 
   ngOnInit(): void {
   }
 
-  toggleDrawer() {
-    this.open = !this.open;
+  toggleMenu() {
+    this.openMenu = !this.openMenu;
   }
 
-  closeDrawer() {
-    this.open = false;
+  closeMenu() {
+    this.openMenu = false;
+  }
+
+  toggleNotifications() {
+    this.openNotifications = !this.openNotifications;
+    if (this.openNotifications) {
+      this.notifications.markAllAsRead();
+    }
+  }
+
+  closeNotifications() {
+    this.openNotifications = false;
   }
 
   onSearchTap() {

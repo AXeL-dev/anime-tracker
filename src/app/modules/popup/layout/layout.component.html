@@ -1,7 +1,7 @@
 
-<div #viewport class="snippet-page">
+<div #viewport class="page">
 
-  <aside mdcDrawerContainer="temporary" [(open)]="open">
+  <aside mdcDrawerContainer="temporary" [(open)]="openMenu">
     <nav mdcDrawer>
       <div mdcDrawerToolbarSpacer></div>
       <!-- <div mdcDrawerHeader>
@@ -9,16 +9,16 @@
       </div> -->
       <div mdcDrawerContent mdcListGroup>
         <nav mdcList>
-          <a mdcListItem [routerLink]="['/']" [queryParams]="{ view: views.Latest }" [selected]="view === views.Latest" (click)="closeDrawer()">
+          <a mdcListItem [routerLink]="['/']" [queryParams]="{ view: views.Latest }" [selected]="view === views.Latest" (click)="closeMenu()">
             <i mdcListItemGraphic class="material-icons" aria-hidden="true">star</i>Latest
           </a>
-          <a mdcListItem [routerLink]="['/']" [queryParams]="{ view: views.Favorites }" [selected]="view === views.Favorites" (click)="closeDrawer()">
+          <a mdcListItem [routerLink]="['/']" [queryParams]="{ view: views.Favorites }" [selected]="view === views.Favorites" (click)="closeMenu()">
             <i mdcListItemGraphic class="material-icons" aria-hidden="true">favorite</i>Favorites
           </a>
         </nav>
         <hr mdcListDivider>
         <nav mdcList>
-          <a mdcListItem [routerLink]="['/viewed']" [selected]="router.url.startsWith('/viewed')" (click)="closeDrawer()">
+          <a mdcListItem [routerLink]="['/viewed']" [selected]="router.url.startsWith('/viewed')" (click)="closeMenu()">
             <i mdcListItemGraphic class="material-icons" aria-hidden="true">visibility</i>Viewed
           </a>
         </nav>
@@ -30,13 +30,14 @@
     <header mdcTopAppBar [viewport]="viewport" [fixedAdjust]="content">
       <div mdcTopAppBarRow>
         <section mdcTopAppBarSection alignStart>
-          <button mdcTopAppBarNavIcon class="material-icons" (click)="toggleDrawer()">menu</button>
+          <button mdcTopAppBarNavIcon class="material-icons" (click)="toggleMenu()">menu</button>
           <a mdcTopAppBarTitle title="Anime Tracker" [routerLink]="['/']">
             <img alt="logo" src="assets/icons/128.png" />
           </a>
           <app-search-input [(value)]="searchValue" (tap)="onSearchTap()" (valueChange)="onSearchValueChange($event)"></app-search-input>
         </section>
         <section mdcTopAppBarSection alignEnd>
+          <button mdcTopAppBarAction class="material-icons" label="Notifications" [class.red-color]="notifications.hasUnread()" (click)="toggleNotifications()">{{ notifications.hasUnread() ? 'notifications_active' : 'notifications' }}</button>
           <a [routerLink]="['/settings']" mdcTopAppBarAction class="material-icons" label="Settings">settings</a>
         </section>
       </div>
@@ -47,5 +48,15 @@
       <ng-content></ng-content>
     </main>
   </div>
+
+  <aside mdcDrawerContainer="temporary" class="right" [(open)]="openNotifications">
+    <nav mdcDrawer>
+      <div mdcDrawerToolbarSpacer></div>
+      <div mdcDrawerHeader>
+        <div mdcDrawerHeaderContent>Notifications</div>
+      </div>
+      <app-notifications mdcDrawerContent></app-notifications>
+    </nav>
+  </aside>
 
 </div>

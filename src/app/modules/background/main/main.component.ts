@@ -11,7 +11,7 @@ import { FavoriteAnimesService } from 'src/app/services/favorite-animes.service'
 import { ViewedEpisodesService } from 'src/app/services/viewed-episodes.service';
 import { NotificationsService } from 'src/app/services/notifications.service';
 import { SettingsService } from 'src/app/services/settings.service';
-import { EpisodeNotification } from 'src/app/models/notification';
+import { EpisodeNotification, NotificationType } from 'src/app/models/notification';
 import { environment } from 'src/environments/environment';
 import { Subtitles } from 'src/app/models/settings';
 
@@ -52,7 +52,7 @@ export class MainComponent implements OnInit {
       notifications: this.settings.enableNotifications ? 'on' : 'off'
     });
     this.autoCheckLoop();
-    // Handle click on notifications
+    // Handle click on browser notifications
     this.browser.api?.notifications.onClicked.addListener((notificationId: string) => {
       this.debug.log('Notification clicked:', notificationId);
       const [ id, index ] = notificationId.split('::').map(str => +str);
@@ -64,6 +64,27 @@ export class MainComponent implements OnInit {
           this.viewedEpisodes.add(episode);
         }
       }
+    });
+    // Handle messages
+    this.browser.api?.runtime.onMessage.addListener(this.handleMessage);
+  }
+
+  private handleMessage(request: any, sender: any, sendResponse: any) {
+    this.debug.log('Handle message:', request);
+    let response = null;
+    return new Promise(resolve => {
+      switch (request.message) {
+        case 'getNotifications':
+          response = this.notifications.get();
+          break;
+        case 'markNotificationsAsRead':
+          response = this.notifications.markAllAsRead();
+          break;
+        default:
+          this.debug.warn(`Cannot handle "${request.message}" message!`);
+          break;
+      }
+      resolve({ response });
     });
   }
 
@@ -85,7 +106,7 @@ export class MainComponent implements OnInit {
         // Notify
         if (this.settings.enableNotifications) {
           notifications.forEach((notification: EpisodeNotification) => {
-            this.notifications.push(notification.message);
+            this.notifications.push(notification.message, NotificationType.Success);
             const id = now().getTime() + '::' + notification.episode.index;
             this.browser.sendNotification(notification.message, id);
           });

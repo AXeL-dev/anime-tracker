@@ -35,7 +35,7 @@ export class SettingsService {
   ) { }
 
   static init(self: SettingsService) { // always executed on app init @see app.module.ts
-    return () => new Promise((resolve, reject) => {
+    return () => new Promise<void>((resolve, reject) => {
       self.get().then(async () => {
         if (self.browser.isWebExtension) {
           const page = getQueryParam('page');
