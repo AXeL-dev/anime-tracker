@@ -6,6 +6,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { IconToggleDirective } from './directives/icon-toggle/icon-toggle.directive';
 import { SearchInputComponent } from './components/search-input/search-input.component';
 import { ShortDatePipe } from './pipes/shortdate.pipe';
+import { DateTimePipe } from './pipes/datetime.pipe';
 import { UrlPipe } from './pipes/url.pipe';
 import { SafePipe } from './pipes/safe.pipe';
 
@@ -16,6 +17,7 @@ import { SafePipe } from './pipes/safe.pipe';
     IconToggleDirective,
     SearchInputComponent,
     ShortDatePipe,
+    DateTimePipe,
     UrlPipe,
     SafePipe
   ],
@@ -31,6 +33,7 @@ import { SafePipe } from './pipes/safe.pipe';
     IconToggleDirective,
     SearchInputComponent,
     ShortDatePipe,
+    DateTimePipe,
     UrlPipe,
     SafePipe
   ]

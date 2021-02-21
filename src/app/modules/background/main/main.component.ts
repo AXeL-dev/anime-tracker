@@ -9,8 +9,9 @@ import { isSimilar } from 'src/app/helpers/string.helper';
 import { Router } from '@angular/router';
 import { FavoriteAnimesService } from 'src/app/services/favorite-animes.service';
 import { ViewedEpisodesService } from 'src/app/services/viewed-episodes.service';
+import { NotificationsService } from 'src/app/services/notifications.service';
 import { SettingsService } from 'src/app/services/settings.service';
-import { Notification } from 'src/app/models/notification';
+import { EpisodeNotification, NotificationType } from 'src/app/models/notification';
 import { environment } from 'src/environments/environment';
 import { Subtitles } from 'src/app/models/settings';
 
@@ -31,7 +32,8 @@ export class MainComponent implements OnInit {
     private debug: DebugService,
     private animeProvider: AnimeProviderService,
     private favoriteAnimes: FavoriteAnimesService,
-    private viewedEpisodes: ViewedEpisodesService
+    private viewedEpisodes: ViewedEpisodesService,
+    private notifications: NotificationsService
   ) { }
 
   ngOnInit(): void {
@@ -50,7 +52,7 @@ export class MainComponent implements OnInit {
       notifications: this.settings.enableNotifications ? 'on' : 'off'
     });
     this.autoCheckLoop();
-    // Handle click on notifications
+    // Handle click on browser notifications
     this.browser.api?.notifications.onClicked.addListener((notificationId: string) => {
       this.debug.log('Notification clicked:', notificationId);
       const [ id, index ] = notificationId.split('::').map(str => +str);
@@ -62,6 +64,24 @@ export class MainComponent implements OnInit {
           this.viewedEpisodes.add(episode);
         }
       }
+    });
+    // Handle messages
+    this.browser.api?.runtime.onMessage.addListener((request: any, sender: any, sendResponse: any) => {
+      this.debug.log('Handle message:', request);
+      let response = null;
+      switch (request.message) {
+        case 'getNotifications':
+          response = this.notifications.get();
+          break;
+        case 'markNotificationsAsRead':
+          response = this.notifications.markAllAsRead();
+          break;
+        default:
+          this.debug.warn(`Cannot handle "${request.message}" message!`);
+          break;
+      }
+      this.debug.log('response:', response);
+      sendResponse({ response });
     });
   }
 
@@ -82,7 +102,8 @@ export class MainComponent implements OnInit {
         this.browser.setBadgeText(this.badgeCount);
         // Notify
         if (this.settings.enableNotifications) {
-          notifications.forEach((notification: Notification) => {
+          notifications.forEach((notification: EpisodeNotification) => {
+            this.notifications.push(notification.message, NotificationType.Success);
             const id = now().getTime() + '::' + notification.episode.index;
             this.browser.sendNotification(notification.message, id);
           });
@@ -94,11 +115,11 @@ export class MainComponent implements OnInit {
     }, this.settings.autoCheckRate * 60 * 1000); // convert minutes to milliseconds
   }
 
-  private getRecentEpisodesCount(): Promise<[number, Notification[]]> {
+  private getRecentEpisodesCount(): Promise<[number, EpisodeNotification[]]> {
     return new Promise(async (resolve, reject) => {
 
       let count: number = 0;
-      let notifications: Notification[] = [];
+      let notifications: EpisodeNotification[] = [];
 
       const episodes = await this.animeProvider.getLatestEpisodes(true).pipe(take(1)).toPromise();
 

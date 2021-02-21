@@ -65,6 +65,22 @@ export class BrowserService {
     });
   }
 
+  sendMessage(message: string, ...params: any) {
+    return new Promise(resolve => {
+      try {
+        browser.runtime.sendMessage({
+          message: message,
+          params: params
+        }).then(({ response } = { response: null }) => {
+          resolve(response);
+        });
+      } catch (error) {
+        console.error(error);
+        resolve(null);
+      }
+    });
+  }
+
   setBadgeText(text: string|number): void {
     if (!this.isWebExtension) {
       return;

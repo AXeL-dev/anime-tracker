@@ -1,6 +1,7 @@
 //@import "@material/theme/mixins";
 @import "@material/typography/mixins";
 @import "@material/card/mixins"; // stackblitz-skip-line: Not supported on stackblitz due to https://github.com/stackblitz/core/issues/284
+@import "../../shared/css/colors.scss";
 
 .card-badge {
   position: absolute;
@@ -64,7 +65,7 @@
     min-width: 160px;
 
     > a {
-      background: transparent url('src/assets/icons/loading.gif') center no-repeat;
+      background: transparent url('/assets/icons/loading.gif') center no-repeat;
     }
 
     [mdcCardMediaContent] {
@@ -104,13 +105,13 @@
 }
 
 .red-heart {
-  color: #e25555;
+  color: $red-color;
 }
 
 .blue-eye {
-  color: #0275d8;
+  color: $blue-color;
 }
 
 .green-check {
-  color: #28a745;
+  color: $green-color;
 }

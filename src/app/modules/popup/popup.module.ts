@@ -8,6 +8,7 @@ import { EpisodeModule } from '../episode/episode.module';
 import { EpisodeRangeModule } from '../episode-range/episode-range.module';
 import { LayoutComponent } from './layout/layout.component';
 import { ViewedComponent } from './viewed/viewed.component';
+import { NotificationsComponent } from './notifications/notifications.component';
 
 
 @NgModule({
@@ -15,6 +16,7 @@ import { ViewedComponent } from './viewed/viewed.component';
     MainComponent,
     LayoutComponent,
     ViewedComponent,
+    NotificationsComponent,
   ],
   imports: [
     CommonModule,

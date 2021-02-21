@@ -1,3 +1,4 @@
+@import "../../shared/css/colors.scss";
 
 [mdcDialogBody] {
   padding: 0;
@@ -12,7 +13,7 @@
 }
 
 .red-heart {
-  color: #e25555;
+  color: $red-color;
 }
 
 [mdcSelect] {
