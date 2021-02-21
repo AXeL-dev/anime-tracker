@@ -10,9 +10,11 @@ import { BrowserService } from './browser.service';
 export class NotificationsService {
 
   private notifications: Notification[] = [];
+  private canSendMessage: boolean = false;
 
   constructor(private browser: BrowserService, private router: Router) {
-    if (this.browser.isWebExtension && this.router.url !== '/background') {
+    this.canSendMessage = this.browser.isWebExtension && this.router.url !== '/background';
+    if (this.canSendMessage) {
       this.fetchFromBackgroundScript();
     }
     this.listenToConsole();
@@ -48,7 +50,9 @@ export class NotificationsService {
   }
 
   markAllAsRead() {
-    this.browser.api?.runtime.sendMessage({ message: 'markNotificationsAsRead' });
+    if (this.canSendMessage) {
+      this.browser.sendMessage('markNotificationsAsRead');
+    }
     this.notifications.forEach((notification: Notification) => {
       notification.status = NotificationStatus.Read;
     });
