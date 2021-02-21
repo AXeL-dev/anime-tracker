@@ -3,7 +3,7 @@
   <div mdcListGroup>
     <nav mdcList class="mdc-list--two-line" *ngFor="let notification of getByType('success')">
       <a mdcListItem>
-        <i mdcListItemGraphic class="material-icons green-color" aria-hidden="true">check_circle</i>
+        <i mdcListItemGraphic class="material-icons success" aria-hidden="true">check_circle</i>
         <ng-container
           [ngTemplateOutlet]="notificationTextTpl"
           [ngTemplateOutletContext]="{ $implicit: notification }"
@@ -13,7 +13,7 @@
     </nav>
     <nav mdcList class="mdc-list--two-line" *ngFor="let notification of getByType('info')">
       <a mdcListItem>
-        <i mdcListItemGraphic class="material-icons blue-color" aria-hidden="true">info</i>
+        <i mdcListItemGraphic class="material-icons info" aria-hidden="true">info</i>
         <ng-container
           [ngTemplateOutlet]="notificationTextTpl"
           [ngTemplateOutletContext]="{ $implicit: notification }"
@@ -23,7 +23,7 @@
     </nav>
     <nav mdcList class="mdc-list--two-line" *ngFor="let notification of getByType('error')">
       <a mdcListItem>
-        <i mdcListItemGraphic class="material-icons red-color" aria-hidden="true">error</i>
+        <i mdcListItemGraphic class="material-icons error" aria-hidden="true">error</i>
         <ng-container
           [ngTemplateOutlet]="notificationTextTpl"
           [ngTemplateOutletContext]="{ $implicit: notification }"

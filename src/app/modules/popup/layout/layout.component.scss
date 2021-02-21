@@ -1,5 +1,6 @@
 @import "@material/theme/mixins";
 //@import "@material/rtl/mixins";
+@import "../../shared/css/colors.scss";
 
 // Place drawer and content side by side:
 .page {
@@ -66,5 +67,5 @@
 }
 
 .red-color {
-  color: #e25555;
+  color: $red-color;
 }

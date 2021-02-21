@@ -1,5 +1,6 @@
 
 @import '../../episode/choose-link-dialog/choose-link-dialog.component.scss';
+@import "../../shared/css/colors.scss";
 
 [mdcDialogBody] {
   position: relative;
@@ -20,7 +21,7 @@
 }
 
 .viewed-icon {
-  color: #0275d8;
+  color: $blue-color;
   vertical-align: middle;
   font-size: 1.6em;
   margin-left: 8px;

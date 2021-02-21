@@ -1,14 +1,15 @@
+@import "../../shared/css/colors.scss";
 
-.red-color {
-  color: #e25555;
+.error {
+  color: $red-color;
 }
 
-.blue-color {
-  color: #0275d8;
+.info {
+  color: $blue-color;
 }
 
-.green-color {
-  color: #28a745;
+.success {
+  color: $green-color;
 }
 
 .no-notifications-container {
