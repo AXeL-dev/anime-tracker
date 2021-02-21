@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Notification, NotificationStatus, NotificationType } from 'src/app/models/notification';
 import { now } from '../helpers/date.helper';
 import { BrowserService } from './browser.service';
@@ -10,15 +11,15 @@ export class NotificationsService {
 
   private notifications: Notification[] = [];
 
-  constructor(private browser: BrowserService) {
-    if (this.browser.isWebExtension) {
+  constructor(private browser: BrowserService, private router: Router) {
+    if (this.browser.isWebExtension && this.router.url !== '/background') {
       this.fetchFromBackgroundScript();
     }
     this.listenToConsole();
   }
 
   private async fetchFromBackgroundScript() {
-    const notifications = await this.browser.api?.runtime.sendMessage({ message: 'getNotifications' });
+    const notifications: Notification[] = await this.browser.sendMessage('getNotifications') as Notification[];
     if (notifications?.length) {
       this.notifications = [...notifications];
     }
