@@ -1,45 +1,31 @@
 
-<ng-container *ngIf="getCount() > 0; else noNotificationsTpl">
+<ng-container *ngIf="notifications.get().length > 0; else noNotificationsTpl">
   <div mdcListGroup>
-    <nav mdcList class="mdc-list--two-line" *ngFor="let notification of getByType(notificationTypes.Success)">
+    <nav mdcList *ngFor="let notification of notifications.get()">
       <a mdcListItem>
-        <i mdcListItemGraphic class="material-icons success" aria-hidden="true">check_circle</i>
         <ng-container
-          [ngTemplateOutlet]="notificationTextTpl"
+          [ngTemplateOutlet]="notificationIconTpl"
           [ngTemplateOutletContext]="{ $implicit: notification }"
         ></ng-container>
-      </a>
-      <hr mdcListDivider>
-    </nav>
-    <nav mdcList class="mdc-list--two-line" *ngFor="let notification of getByType(notificationTypes.Info)">
-      <a mdcListItem>
-        <i mdcListItemGraphic class="material-icons info" aria-hidden="true">info</i>
-        <ng-container
-          [ngTemplateOutlet]="notificationTextTpl"
-          [ngTemplateOutletContext]="{ $implicit: notification }"
-        ></ng-container>
-      </a>
-      <hr mdcListDivider>
-    </nav>
-    <nav mdcList class="mdc-list--two-line" *ngFor="let notification of getByType(notificationTypes.Error)">
-      <a mdcListItem>
-        <i mdcListItemGraphic class="material-icons error" aria-hidden="true">error</i>
-        <ng-container
-          [ngTemplateOutlet]="notificationTextTpl"
-          [ngTemplateOutletContext]="{ $implicit: notification }"
-        ></ng-container>
+
+        <span mdcListItemText>
+          {{ notification.message }}
+          <span mdcListItemSecondaryText>{{ notification.date | datetime }}</span>
+        </span>
       </a>
       <hr mdcListDivider>
     </nav>
   </div>
-  
-  <ng-template #notificationTextTpl let-notification>
-    <span mdcListItemText>
-      {{ notification.message }}
-      <span mdcListItemSecondaryText>{{ notification.date | datetime }}</span>
-    </span>
-  </ng-template>
 </ng-container>
+
+<ng-template #notificationIconTpl let-notification>
+  <ng-container [ngSwitch]="notification.type">
+    <i *ngSwitchCase="notificationTypes.Success" mdcListItemGraphic class="material-icons success" aria-hidden="true">check_circle</i>
+    <i *ngSwitchCase="notificationTypes.Info" mdcListItemGraphic class="material-icons info" aria-hidden="true">info</i>
+    <i *ngSwitchCase="notificationTypes.Error" mdcListItemGraphic class="material-icons error" aria-hidden="true">error</i>
+    <i *ngSwitchDefault mdcListItemGraphic class="material-icons info" aria-hidden="true">info</i>
+  </ng-container>
+</ng-template>
 
 <ng-template #noNotificationsTpl>
   <div class="no-notifications-container">

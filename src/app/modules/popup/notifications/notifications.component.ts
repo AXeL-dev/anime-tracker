@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Notification, NotificationType } from 'src/app/models/notification';
-import { DebugService } from 'src/app/services/debug.service';
 import { NotificationsService } from 'src/app/services/notifications.service';
 
 @Component({
@@ -12,19 +11,9 @@ export class NotificationsComponent implements OnInit {
 
   notificationTypes: typeof NotificationType = NotificationType;
 
-  constructor(private notifications: NotificationsService, private debug: DebugService) {
-    this.debug.log('Notifications:', this.notifications.get());
-  }
+  constructor(public notifications: NotificationsService) { }
 
   ngOnInit(): void {
-  }
-
-  getByType(type: NotificationType) {
-    return this.notifications.get().filter((notification: Notification) => notification.type === type);
-  }
-
-  getCount() {
-    return this.notifications.get().length;
   }
 
 }
