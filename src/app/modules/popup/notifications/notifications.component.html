@@ -1,7 +1,7 @@
 
 <ng-container *ngIf="getCount() > 0; else noNotificationsTpl">
   <div mdcListGroup>
-    <nav mdcList class="mdc-list--two-line" *ngFor="let notification of getByType('success')">
+    <nav mdcList class="mdc-list--two-line" *ngFor="let notification of getByType(notificationTypes.Success)">
       <a mdcListItem>
         <i mdcListItemGraphic class="material-icons success" aria-hidden="true">check_circle</i>
         <ng-container
@@ -11,7 +11,7 @@
       </a>
       <hr mdcListDivider>
     </nav>
-    <nav mdcList class="mdc-list--two-line" *ngFor="let notification of getByType('info')">
+    <nav mdcList class="mdc-list--two-line" *ngFor="let notification of getByType(notificationTypes.Info)">
       <a mdcListItem>
         <i mdcListItemGraphic class="material-icons info" aria-hidden="true">info</i>
         <ng-container
@@ -21,7 +21,7 @@
       </a>
       <hr mdcListDivider>
     </nav>
-    <nav mdcList class="mdc-list--two-line" *ngFor="let notification of getByType('error')">
+    <nav mdcList class="mdc-list--two-line" *ngFor="let notification of getByType(notificationTypes.Error)">
       <a mdcListItem>
         <i mdcListItemGraphic class="material-icons error" aria-hidden="true">error</i>
         <ng-container

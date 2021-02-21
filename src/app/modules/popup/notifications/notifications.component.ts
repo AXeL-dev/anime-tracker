@@ -10,6 +10,8 @@ import { NotificationsService } from 'src/app/services/notifications.service';
 })
 export class NotificationsComponent implements OnInit {
 
+  notificationTypes: typeof NotificationType = NotificationType;
+
   constructor(private notifications: NotificationsService, private debug: DebugService) {
     this.debug.log('Notifications:', this.notifications.get());
   }
