@@ -19,7 +19,6 @@ export class LayoutComponent implements OnInit {
   @Input() searchValue: string = null;
   @Output() private searchValueChange: EventEmitter<string> = new EventEmitter();
   readonly views: typeof View = View;
-  private notificationsOpenTimes: number = 0;
 
   constructor(
     public router: Router,
@@ -43,10 +42,7 @@ export class LayoutComponent implements OnInit {
   toggleNotifications() {
     this.openNotifications = !this.openNotifications;
     if (this.openNotifications) {
-      if (this.notificationsOpenTimes === 0) {
-        this.notifications.markAllAsRead();
-      }
-      this.notificationsOpenTimes++;
+      this.notifications.markAllAsRead();
     }
   }
 
