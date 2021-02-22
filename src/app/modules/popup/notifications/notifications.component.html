@@ -8,7 +8,7 @@
           [ngTemplateOutletContext]="{ $implicit: notification }"
         ></ng-container>
 
-        <span mdcListItemText>
+        <span mdcListItemText [attr.title]="notification.message">
           {{ notification.message }}
           <span mdcListItemSecondaryText>{{ notification.date | datetime }}</span>
         </span>
