@@ -11,6 +11,7 @@ export class NotificationsService {
 
   private notifications: Notification[] = [];
   private canSendMessage: boolean = false;
+  private canUpdateBackgroundNotifications: boolean = true;
 
   constructor(private browser: BrowserService, private router: Router) {
     this.canSendMessage = this.browser.isWebExtension && this.router.url !== '/background';
@@ -50,8 +51,9 @@ export class NotificationsService {
   }
 
   markAllAsRead() {
-    if (this.canSendMessage) {
+    if (this.canSendMessage && this.canUpdateBackgroundNotifications) {
       this.browser.sendMessage('markNotificationsAsRead');
+      this.canUpdateBackgroundNotifications = false; // Allow updating background notifications only once
     }
     this.notifications.forEach((notification: Notification) => {
       notification.status = NotificationStatus.Read;
