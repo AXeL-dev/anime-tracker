@@ -14,15 +14,15 @@ export class VoirAnimeOrgCrawler extends BaseCrawler {
     this.filters = {
       ...this.filters,
       title: (text: string) => {
-        const title = text.trim().match(/(.*) (–|épisode) (\d+) (vostfr|vf)$/i);
+        const title = text.trim().match(/(.*) (–|épisode) (\d+) (vostfr|vf)(?:.*)$/i);
         return title?.length ? title[1].trim() : text;
       },
       number: (text: string) => {
-        const num = text.trim().match(/(\d+) (vostfr|vf)$/i);
+        const num = text.trim().match(/(\d+) (vostfr|vf)(?:.*)$/i);
         return num?.length ? +num[1] : +text;
       },
       subtitles: (text: string) => {
-        const sub = text.trim().match(/(vostfr|vf)$/i);
+        const sub = text.trim().match(/(vostfr|vf)(?:.*)$/i);
         return sub?.length ? sub[1] : 'vostfr';
       }
     };

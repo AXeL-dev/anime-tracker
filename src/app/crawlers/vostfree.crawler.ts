@@ -15,7 +15,7 @@ export class VostFreeCrawler extends BaseCrawler {
     this.filters = {
       ...this.filters,
       title: (text: string) => {
-        return text.replace(/ VOSTFR$/, '');
+        return text.replace(/ VOSTFR(?:.*)$/, '');
       },
       cover: (text: string) => {
         return this.filters.concatUrl(text);

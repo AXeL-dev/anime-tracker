@@ -15,11 +15,11 @@ export class OtakuFrCrawler extends BaseCrawler {
     this.filters = {
       ...this.filters,
       title: (text: string) => {
-        const title = text.trim().match(/(.*) (\d+) vostfr$/i);
+        const title = text.trim().match(/(.*) (\d+) vostfr(?:.*)$/i);
         return title?.length ? title[1].trim() : text;
       },
       number: (text: string) => {
-        const num = text.trim().match(/(\d+) vostfr$/i);
+        const num = text.trim().match(/(\d+) vostfr(?:.*)$/i);
         return num?.length ? +num[1] : +text;
       },
       subtitles: (text: string) => {
