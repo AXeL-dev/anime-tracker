@@ -20,8 +20,7 @@ export class ViewedEpisodesService {
   }
 
   private async init() {
-    const viewed = await this.getAsync(true);
-    this.viewed = viewed?.length ? viewed : [];
+    this.viewed = await this.getAsync(true);
     this.url = this.browser.getUrl('viewed');
   }
 
@@ -29,7 +28,8 @@ export class ViewedEpisodesService {
     if (this.viewed?.length && !forceUpdate) {
       return this.viewed;
     } else {
-      return await this.storage.get('viewed');
+      const viewed = await this.storage.get('viewed');
+      return viewed?.length ? viewed : [];
     }
   }
 
