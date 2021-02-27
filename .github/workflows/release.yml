@@ -18,14 +18,14 @@ jobs:
 
       - name: Install and Build 🔧
         run: |
-          npm install
-          npm run build:firefox
-          npm run build:github
+          yarn install
+          yarn build:firefox
+          yarn build:github
           cp dist/anime-tracker/webapp/index.html dist/anime-tracker/webapp/404.html
 
       - name: Package 📦
         run: |
-          npm run package
+          yarn package
           echo "::set-output name=PACKAGE_NAME::$(ls -d anime_tracker-*.zip)"
         id: package
 
