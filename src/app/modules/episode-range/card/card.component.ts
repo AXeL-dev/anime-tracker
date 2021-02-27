@@ -16,7 +16,7 @@ export class CardComponent implements OnInit {
 
   constructor(
     private favoriteAnimes: FavoriteAnimesService,
-    private viewedEpisodes: ViewedEpisodesService
+    public viewedEpisodes: ViewedEpisodesService
   ) { }
 
   ngOnInit(): void {

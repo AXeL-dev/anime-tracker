@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { sanitizePath } from 'src/app/helpers/url.helper';
 
 declare var browser: any; // Fixes "Cannot find name 'browser'." error on build
 
@@ -35,11 +36,12 @@ export class BrowserService {
     });
   }
 
-  getUrl(path: string) {
-    if (!this.isWebExtension) {
-      return path;
+  getUrl(path?: string) {
+    let url = this.isWebExtension ? 'index.html' : './';
+    if (path?.length) {
+      url += (this.isWebExtension ? '?page=' : '') + sanitizePath(path);
     }
-    return browser.extension.getURL(path);
+    return this.isWebExtension ? browser.extension.getURL(url) : url;
   }
 
   executeScript(tabId: number, code: string): void {

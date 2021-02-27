@@ -20,7 +20,7 @@ export class CardComponent implements OnInit {
     private settings: SettingsService,
     private browser: BrowserService,
     private favoriteAnimes: FavoriteAnimesService,
-    private viewedEpisodes: ViewedEpisodesService
+    public viewedEpisodes: ViewedEpisodesService
   ) { }
 
   ngOnInit(): void {

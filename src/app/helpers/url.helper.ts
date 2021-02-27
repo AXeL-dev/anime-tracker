@@ -9,3 +9,11 @@ export function getQueryParam(name: string, url?: string) {
   if (!results[2]) return '';
   return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
+
+export function sanitizePath(path: string) {
+  return path.replace('/^[.|\/]+/', '');
+}
+
+export function concatUrl(url: string, params: string) {
+  return url + (url.indexOf('?') !== -1 ? '&' : '?') + params.replace('/^[\?|&]+/', '');
+}

@@ -97,6 +97,11 @@
       padding: 0;
       width: 30px;
       height: 30px;
+      &.centered {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
       &.wider {
         font-size: 1.3em;
       }

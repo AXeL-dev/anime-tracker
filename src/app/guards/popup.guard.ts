@@ -10,13 +10,15 @@ export class PopupGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
 
-    const page = route.queryParams['page'];
+    const { page, ...preservedQueryParams } = route.queryParams;
 
     if (!page || page === 'popup') {
       return true;
     }
 
-    this.router.navigate(['/' + page]);
+    this.router.navigate(['/' + page], {
+      queryParams: preservedQueryParams
+    });
     return false;
   }
 

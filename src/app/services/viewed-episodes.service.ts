@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { StorageService } from './storage.service';
 import { Episode, ViewedEpisode } from '../models/episode';
 import { isSimilar } from '../helpers/string.helper';
+import { BrowserService } from './browser.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,14 +10,27 @@ import { isSimilar } from '../helpers/string.helper';
 export class ViewedEpisodesService {
 
   private viewed: ViewedEpisode[];
+  private url: string;
 
-  constructor(private storage: StorageService) {
+  constructor(
+    private storage: StorageService,
+    private browser: BrowserService
+  ) {
     this.init();
   }
 
   private async init() {
-    const viewed = await this.storage.get('viewed');
+    const viewed = await this.getAsync(true);
     this.viewed = viewed?.length ? viewed : [];
+    this.url = this.browser.getUrl('viewed');
+  }
+
+  async getAsync(forceUpdate?: boolean) {
+    if (this.viewed?.length && !forceUpdate) {
+      return this.viewed;
+    } else {
+      return await this.storage.get('viewed');
+    }
   }
 
   private save() {
@@ -55,6 +69,10 @@ export class ViewedEpisodesService {
 
   refresh() {
     return this.init();
+  }
+
+  getEpisodeUrl(episode: Episode) {
+    return `${this.url}/${episode.anime.title}`;
   }
 
 }

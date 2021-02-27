@@ -59,9 +59,10 @@ export class ViewedComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute
   ) { }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     // Add viewed episodes to viewed animes array
-    this.viewedEpisodes.get().forEach((episode: ViewedEpisode) => {
+    const viewed = await this.viewedEpisodes.getAsync();
+    viewed.forEach((episode: ViewedEpisode) => {
       const index = this.allViewedAnimes.findIndex((anime: ViewedAnime) => isSimilar(anime.title, episode.animeTitle, 0.7));
       if (index > -1) {
         // Merge with existing anime episodes

@@ -38,9 +38,9 @@
       </div>
     </div>
     <ng-template #isRegularTemplate>
-      <button *ngIf="episode.isRegular" [routerLink]="['/viewed', episode.anime.title]" class="material-icons mdc-icon-button green-check" title="Regular">
+      <a *ngIf="episode.isRegular" target="_blank" [href]="viewedEpisodes.getEpisodeUrl(episode) | safe:'resourceUrl'" class="material-icons mdc-icon-button centered green-check" title="Regular">
         check_circle_outline
-      </button>
+      </a>
     </ng-template>
     <button iconToggle class="material-icons mdc-icon-button" classOn="red-heart"
       titleOn="Remove from favorites" titleOff="Add to favorites"
