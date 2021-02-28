@@ -38,6 +38,7 @@ export class BrowserService {
 
   getUrl(path?: string) {
     let url = this.isWebExtension ? 'index.html' : './';
+    path = path?.replace(/^index.html/, '');
     if (path?.length) {
       url += (this.isWebExtension ? '?page=' : '') + sanitizePath(path);
     }
