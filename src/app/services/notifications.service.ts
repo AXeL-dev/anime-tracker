@@ -38,7 +38,7 @@ export class NotificationsService {
   }
 
   push(message: string, type: NotificationType = NotificationType.Info) {
-    this.notifications.push({
+    this.notifications.unshift({
       message: message,
       type: type,
       date: now(),
