@@ -24,9 +24,9 @@ export class ScraperService {
     }));
   }
 
-  getRawHTML(url: string) {
+  getRawHTML(url: string, requestTimeout: number = 30000) {
     return this.httpClient.get(this.resolveUrl(url), { responseType: 'text' }).pipe(
-      timeout(10000),
+      timeout(requestTimeout),
       catchError((error: Error) => {
         console.error(error.message);
         //return EMPTY; // emits only complete & causes "TypeError: undefined has no properties" when converting the observable to promise with async/await
