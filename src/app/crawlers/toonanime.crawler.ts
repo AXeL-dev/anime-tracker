@@ -48,7 +48,7 @@ export class ToonAnimeCrawler extends BaseCrawler {
       {
         anime: {
           title: 'footer > div.short__story-title | title',
-          cover: 'img@data-src,src',
+          cover: 'img@data-src,src | concatUrl',
         },
         number: '.progress__box > div | number',
         streamLinks: [
