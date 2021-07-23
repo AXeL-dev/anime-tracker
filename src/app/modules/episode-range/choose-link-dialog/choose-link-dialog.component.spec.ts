@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { ChooseLinkDialogComponent } from './choose-link-dialog.component';
 
@@ -6,7 +6,7 @@ describe('ChooseLinkDialogComponent', () => {
   let component: ChooseLinkDialogComponent;
   let fixture: ComponentFixture<ChooseLinkDialogComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ ChooseLinkDialogComponent ]
     })

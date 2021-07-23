@@ -3,14 +3,15 @@ import { DatePipe } from '@angular/common';
 import { today, yesterday, dateOnly } from 'src/app/helpers/date.helper';
 
 @Pipe({
-  name: 'shortdate'
+  name: 'shortdate',
 })
 export class ShortDatePipe extends DatePipe implements PipeTransform {
-
   constructor() {
     super('en');
   }
 
+  transform(value: Date | string | number): string | null;
+  transform(value: null | undefined): null;
   transform(value: any, format?: string, timezone?: string, locale?: string): string {
     const date = dateOnly(new Date(value));
     switch (date) {
@@ -22,5 +23,4 @@ export class ShortDatePipe extends DatePipe implements PipeTransform {
         return super.transform(value, format || 'EEEE, dd MMMM yyyy', timezone, locale);
     }
   }
-
 }
