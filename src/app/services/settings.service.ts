@@ -21,6 +21,7 @@ export class SettingsService {
   defaultView: View;
   displayEpisodesDayByDay: boolean;
   mergeCommonEpisodes: boolean;
+  episodeSimilarityDegree: number;
   // Notifications
   enableNotifications: boolean;
   autoCheckRate: number;
@@ -74,6 +75,7 @@ export class SettingsService {
       defaultView: View.Latest,
       displayEpisodesDayByDay: true,
       mergeCommonEpisodes: true,
+      episodeSimilarityDegree: 0.7,
       enableNotifications: true,
       autoCheckRate: 30,
       preferredSubtitles: Subtitles.Any,
@@ -90,6 +92,7 @@ export class SettingsService {
     this.defaultView = settings.defaultView;
     this.displayEpisodesDayByDay = settings.displayEpisodesDayByDay;
     this.mergeCommonEpisodes = settings.mergeCommonEpisodes;
+    this.episodeSimilarityDegree = settings.episodeSimilarityDegree;
     this.enableNotifications = settings.enableNotifications;
     this.autoCheckRate = settings.autoCheckRate;
     this.preferredSubtitles = settings.preferredSubtitles;
@@ -106,6 +109,7 @@ export class SettingsService {
       defaultView: this.defaultView,
       displayEpisodesDayByDay: this.displayEpisodesDayByDay,
       mergeCommonEpisodes: this.mergeCommonEpisodes,
+      episodeSimilarityDegree: this.episodeSimilarityDegree,
       inactiveCrawlers: this.inactiveCrawlers,
       enableNotifications: this.enableNotifications,
       autoCheckRate: this.autoCheckRate,

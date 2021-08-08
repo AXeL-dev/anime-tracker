@@ -35,6 +35,16 @@
         <input mdcSwitchInput type="checkbox" [(ngModel)]="settings.mergeCommonEpisodes"/>
       </div>
     </li>
+    <li mdcListItem>
+      <i mdcListItemGraphic class="material-icons">text_format</i>
+      <span mdcListItemText>
+        Episodes titles similarity degree
+        <span mdcListItemSecondaryText>Set the similarity degree for episodes titles<br>(a value of 1 means the exact same titles)</span>
+      </span>
+      <div mdcListItemMeta>
+        <input type="number" class="number-input" min="0.1" max="1" step="0.1" [(ngModel)]="settings.episodeSimilarityDegree"/>
+      </div>
+    </li>
     <!-- <li mdcListDivider [inset]="true"></li> -->
   </ul>
 

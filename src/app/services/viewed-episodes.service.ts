@@ -3,6 +3,7 @@ import { StorageService } from './storage.service';
 import { Episode, ViewedEpisode } from '../models/episode';
 import { isSimilar } from '../helpers/string.helper';
 import { BrowserService } from './browser.service';
+import { SettingsService } from './settings.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,7 @@ export class ViewedEpisodesService {
 
   constructor(
     private storage: StorageService,
+    private settings: SettingsService,
     private browser: BrowserService
   ) {
     this.init();
@@ -64,7 +66,7 @@ export class ViewedEpisodesService {
   }
 
   isRegular(episode: Episode) {
-    return !!this.viewed?.find((e: ViewedEpisode) => isSimilar(e.animeTitle, episode.anime.title, 0.7));
+    return !!this.viewed?.find((e: ViewedEpisode) => isSimilar(e.animeTitle, episode.anime.title, this.settings.episodeSimilarityDegree));
   }
 
   refresh() {

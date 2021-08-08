@@ -10,6 +10,7 @@ export interface Settings {
   defaultView: View;
   displayEpisodesDayByDay: boolean;
   mergeCommonEpisodes: boolean;
+  episodeSimilarityDegree: number;
   // Notifications
   enableNotifications: boolean;
   autoCheckRate: number;

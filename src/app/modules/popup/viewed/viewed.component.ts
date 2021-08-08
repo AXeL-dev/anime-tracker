@@ -7,6 +7,7 @@ import { isSimilar } from 'src/app/helpers/string.helper';
 import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { SettingsService } from 'src/app/services/settings.service';
 
 interface ViewedAnime {
   title: string;
@@ -55,6 +56,7 @@ export class ViewedComponent implements OnInit, OnDestroy {
   constructor(
     private viewedEpisodes: ViewedEpisodesService,
     private favoriteAnimes: FavoriteAnimesService,
+    private settings: SettingsService,
     private debug: DebugService,
     private route: ActivatedRoute
   ) { }
@@ -63,7 +65,7 @@ export class ViewedComponent implements OnInit, OnDestroy {
     // Add viewed episodes to viewed animes array
     const viewed = await this.viewedEpisodes.getAsync();
     viewed.forEach((episode: ViewedEpisode) => {
-      const index = this.allViewedAnimes.findIndex((anime: ViewedAnime) => isSimilar(anime.title, episode.animeTitle, 0.7));
+      const index = this.allViewedAnimes.findIndex((anime: ViewedAnime) => isSimilar(anime.title, episode.animeTitle, this.settings.episodeSimilarityDegree));
       if (index > -1) {
         // Merge with existing anime episodes
         if (!this.allViewedAnimes[index].episodes.find((e: ViewedEpisode) => e.number === episode.number)) {
@@ -117,7 +119,7 @@ export class ViewedComponent implements OnInit, OnDestroy {
     let filteredAnimes: ViewedAnime[] = [];
     // Filter by search value
     if (this.searchValue?.length) {
-      filteredAnimes = this.allViewedAnimes.filter((anime: ViewedAnime) => isSimilar(anime.title, this.searchValue, 0.7));
+      filteredAnimes = this.allViewedAnimes.filter((anime: ViewedAnime) => isSimilar(anime.title, this.searchValue, this.settings.episodeSimilarityDegree));
     } else {
       filteredAnimes = this.allViewedAnimes;
     }

@@ -167,6 +167,6 @@ export class MainComponent implements OnInit {
   }
 
   private isAlreadyChecked(episode: Episode) {
-    return !!this.checkedEpisodes.find((e: Episode) => isSimilar(e.anime.title, episode.anime.title) && e.number === episode.number);
+    return !!this.checkedEpisodes.find((e: Episode) => isSimilar(e.anime.title, episode.anime.title, this.settings.episodeSimilarityDegree) && e.number === episode.number);
   }
 }

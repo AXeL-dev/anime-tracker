@@ -91,7 +91,7 @@ export class AnimeProviderService {
       let index: number = 0;
       for (let uniqueEpisode of uniqueEpisodes) {
         // duplicated
-        if (isSimilar(uniqueEpisode.anime.title, episode.anime.title) && uniqueEpisode.number === episode.number) {
+        if (isSimilar(uniqueEpisode.anime.title, episode.anime.title, this.settings.episodeSimilarityDegree) && uniqueEpisode.number === episode.number) {
           // merge properties
           if (!uniqueEpisodes[index].releaseDate) {
             uniqueEpisodes[index].releaseDate = episode.releaseDate;
