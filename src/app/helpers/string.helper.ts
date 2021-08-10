@@ -5,8 +5,8 @@ export function isString(val: any) {
 }
 
 export function isSimilar(s1: string, s2: string, degree: number = 0.7, strict: boolean = false) {
-  const cleanedS1 = s1.toLowerCase().replace(/[-_~:]/g, '');
-  const cleanedS2 = s2.toLowerCase().replace(/[-_~:]/g, '');
+  const cleanedS1 = s1.toLowerCase().replace(/[-_~:,;'".]/g, '');
+  const cleanedS2 = s2.toLowerCase().replace(/[-_~:,;'".]/g, '');
   return cleanedS1 === cleanedS2 || 
          (!strict && (cleanedS1.indexOf(cleanedS2) !== -1 || cleanedS2.indexOf(cleanedS1) !== -1)) || 
          similarity(cleanedS1, cleanedS2) >= degree;
