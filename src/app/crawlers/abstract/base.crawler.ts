@@ -44,6 +44,9 @@ export abstract class BaseCrawler {
       },
       today: (text: string) => {
         return today();
+      },
+      date: (text: string) => {
+        return new Date(text)?.getTime();
       }
     };
   }

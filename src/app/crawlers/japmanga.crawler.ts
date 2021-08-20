@@ -22,9 +22,6 @@ export class JapMangaCrawler extends BaseCrawler {
       },
       subtitles: (text: string) => {
         return 'vostfr';
-      },
-      date: (text: string) => {
-        return new Date(text)?.getTime();
       }
     };
   }

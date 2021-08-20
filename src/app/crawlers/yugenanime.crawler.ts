@@ -24,20 +24,6 @@ export class YugenAnimeCrawler extends BaseCrawler {
       },
       subtitles: (text: string) => {
         return 'vosten';
-      },
-      date: (text: string) => {
-        const date = text.split('—')[1]?.replace('&nbsp;', ' ').trim();
-        if (date.indexOf('mins ago') !== -1 || date.indexOf('hours ago') !== -1) {
-          return today();
-        } else if (date.indexOf('1 day ago') !== -1) {
-          return yesterday();
-        } else {
-          const matches = date.match(/(\d+) days ago/);
-          if (matches?.length) {
-            return dateBefore(+matches[1]);
-          }
-          return new Date(date)?.getTime();
-        }
       }
     };
   }
@@ -60,7 +46,7 @@ export class YugenAnimeCrawler extends BaseCrawler {
   _getLatestEpisodes(): Observable<Episode[]> {
     return this.scraper.scrape(
       `${this.baseUrl}/latest`,
-      '#wrapper ul li.ep-card',
+      'section ul.ep-grid li.ep-card',
       {
         anime: {
           title: 'a.ep-details .ep-origin-name',
@@ -74,7 +60,7 @@ export class YugenAnimeCrawler extends BaseCrawler {
           }
         ],
         //subtitlesLang: '| subtitles',
-        releaseDate: 'a.ep-details .ep-statistics | date',
+        releaseDate: 'a.ep-details .ep-statistics time@datetime | date',
       },
       this.filters
     );
