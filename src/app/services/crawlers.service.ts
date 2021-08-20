@@ -1,26 +1,28 @@
 import { Injectable } from '@angular/core';
-import { BaseCrawler } from '../crawlers/abstract/base.crawler';
 import { ScraperService } from './scraper.service';
 import { SettingsService } from './settings.service';
-import { AnimeKoCrawler } from '../crawlers/animeko.crawler';
-import { AnimeResistanceCrawler } from '../crawlers/animeresistance.crawler';
-import { VostFreeCrawler } from '../crawlers/vostfree.crawler';
-import { FullAnimeVFCrawler } from '../crawlers/fullanimevf.crawler';
-import { VoirAnimeCrawler } from '../crawlers/voiranime.crawler';
-import { NekoSamaCrawler } from '../crawlers/neko-sama.crawler';
-import { JapMangaCrawler } from '../crawlers/japmanga.crawler';
-import { MangasVostfrCrawler } from '../crawlers/mangas-vostfr.crawler';
-import { GogoAnimeCrawler } from '../crawlers/gogoanime.crawler';
-import { FourAnimeCrawler } from '../crawlers/4anime.crawler';
-import { AnimeKisaCrawler } from '../crawlers/animekisa.crawler';
-import { WitAnimeCrawler } from '../crawlers/witanime.crawler';
-import { AnimeFourUpCrawler } from '../crawlers/anime4up.crawler';
-import { ToonAnimeCrawler } from '../crawlers/toonanime.crawler';
-import { VoirAnimeOrgCrawler } from '../crawlers/voiranimeorg.crawler';
-import { OtakuFrCrawler } from '../crawlers/otakufr.crawler';
-import { MavAnimesCrawler } from '../crawlers/mavanimes.crawler';
-import { YugenAnimeCrawler } from '../crawlers/yugenanime.crawler';
-import { AnimixPlayCrawler } from '../crawlers/animixplay.crawler';
+import {
+  BaseCrawler,
+  AnimeKoCrawler,
+  AnimeResistanceCrawler,
+  VostFreeCrawler,
+  FullAnimeVFCrawler,
+  VoirAnimeCrawler,
+  NekoSamaCrawler,
+  JapMangaCrawler,
+  MangasVostfrCrawler,
+  GogoAnimeCrawler,
+  FourAnimeCrawler,
+  AnimeKisaCrawler,
+  WitAnimeCrawler,
+  AnimeFourUpCrawler,
+  ToonAnimeCrawler,
+  VoirAnimeOrgCrawler,
+  OtakuFrCrawler,
+  MavAnimesCrawler,
+  YugenAnimeCrawler,
+  AnimixPlayCrawler,
+} from '../crawlers';
 
 @Injectable({
   providedIn: 'root',
