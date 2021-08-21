@@ -2,7 +2,7 @@
 <ng-container *ngIf="notifications.get().length > 0; else noNotificationsTpl">
   <div mdcListGroup>
     <nav mdcList *ngFor="let notification of notifications.get()">
-      <a mdcListItem>
+      <a mdcListItem [class.unread]="notification.status === notificationStatus.Unread">
         <ng-container
           [ngTemplateOutlet]="notificationIconTpl"
           [ngTemplateOutletContext]="{ $implicit: notification }"

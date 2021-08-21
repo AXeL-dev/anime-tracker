@@ -13,6 +13,7 @@ export class LayoutComponent implements OnInit {
 
   openMenu: boolean = false;
   openNotifications: boolean = false;
+  private wasNotificationsOpened: boolean = false;
   @Input() view: View = null;
   @Input() isLoading: boolean = false;
   @Output() private isLoadingChange: EventEmitter<boolean> = new EventEmitter();
@@ -41,13 +42,13 @@ export class LayoutComponent implements OnInit {
 
   toggleNotifications() {
     this.openNotifications = !this.openNotifications;
-    if (this.openNotifications) {
-      this.notifications.markAllAsRead();
-    }
+    this.wasNotificationsOpened = this.openNotifications;
   }
 
-  closeNotifications() {
-    this.openNotifications = false;
+  onOpenNotificationsChange(open: boolean) {
+    if (!open && this.wasNotificationsOpened) {
+      this.notifications.markAllAsRead();
+    }
   }
 
   onSearchTap() {

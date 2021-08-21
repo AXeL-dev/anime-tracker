@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Notification, NotificationType } from 'src/app/models/notification';
+import { NotificationType, NotificationStatus } from 'src/app/models/notification';
 import { NotificationsService } from 'src/app/services/notifications.service';
 
 @Component({
@@ -10,6 +10,7 @@ import { NotificationsService } from 'src/app/services/notifications.service';
 export class NotificationsComponent implements OnInit {
 
   notificationTypes: typeof NotificationType = NotificationType;
+  notificationStatus: typeof NotificationStatus = NotificationStatus;
 
   constructor(public notifications: NotificationsService) { }
 

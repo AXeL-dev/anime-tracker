@@ -49,7 +49,7 @@
     </main>
   </div>
 
-  <aside mdcDrawerContainer="temporary" class="right" [(open)]="openNotifications">
+  <aside mdcDrawerContainer="temporary" class="right" [(open)]="openNotifications" (openChange)="onOpenNotificationsChange($event)">
     <nav mdcDrawer>
       <div mdcDrawerToolbarSpacer></div>
       <div mdcDrawerHeader>
