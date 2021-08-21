@@ -9,7 +9,7 @@
   },
 
   "name": "__MSG_extensionName__",
-  "version": "1.0.9",
+  "version": "1.1.0",
 
   "default_locale": "en",
   "description": "__MSG_extensionDesc__",
@@ -28,7 +28,7 @@
     "page": "index.html?page=background"
   },
 
-  "options_ui":{
+  "options_ui": {
     "page": "index.html?page=settings",
     "open_in_tab": true
   },
