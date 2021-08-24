@@ -1,11 +1,10 @@
-import { BaseCrawler } from './abstract/base.crawler';
+import { LatestEpisodesCrawler } from './abstract/latest-episodes.crawler';
 import { ScraperService } from '../services/scraper.service';
-import { Anime } from '../models/anime';
 import { Episode } from '../models/episode';
 import { today, yesterday, dateBefore } from '../helpers/date.helper';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 
-export class AnimeResistanceCrawler extends BaseCrawler {
+export class AnimeResistanceCrawler extends LatestEpisodesCrawler {
 
   constructor(private scraper: ScraperService) {
     super(
@@ -35,21 +34,6 @@ export class AnimeResistanceCrawler extends BaseCrawler {
         }
       }
     };
-  }
-
-  _getAnimeList(forcedUpdate: boolean = false): Observable<Anime[]> {
-    // ToDo
-    return of([]);
-  }
-
-  _getAnimeInfo(link: string): Observable<Anime> {
-    // ToDo
-    return of();
-  }
-
-  _getEpisodes(link: string): Observable<Episode[]> {
-    // ToDo
-    return of([]);
   }
 
   _getLatestEpisodes(): Observable<Episode[]> {

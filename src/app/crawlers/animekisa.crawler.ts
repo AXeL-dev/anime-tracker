@@ -1,10 +1,9 @@
-import { BaseCrawler } from './abstract/base.crawler';
+import { LatestEpisodesCrawler } from './abstract/latest-episodes.crawler';
 import { ScraperService } from '../services/scraper.service';
-import { Anime } from '../models/anime';
 import { Episode } from '../models/episode';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 
-export class AnimeKisaCrawler extends BaseCrawler {
+export class AnimeKisaCrawler extends LatestEpisodesCrawler {
 
   constructor(private scraper: ScraperService) {
     super(
@@ -24,21 +23,6 @@ export class AnimeKisaCrawler extends BaseCrawler {
         return +text * 1000; // convert to unix timestamp
       }
     };
-  }
-
-  _getAnimeList(forcedUpdate: boolean = false): Observable<Anime[]> {
-    // ToDo
-    return of([]);
-  }
-
-  _getAnimeInfo(link: string): Observable<Anime> {
-    // ToDo
-    return of();
-  }
-
-  _getEpisodes(link: string): Observable<Episode[]> {
-    // ToDo
-    return of([]);
   }
 
   _getLatestEpisodes(): Observable<Episode[]> {

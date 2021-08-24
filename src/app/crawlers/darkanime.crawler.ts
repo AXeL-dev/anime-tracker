@@ -1,11 +1,10 @@
-import { BaseCrawler } from './abstract/base.crawler';
+import { LatestEpisodesCrawler } from './abstract/latest-episodes.crawler';
 import { ScraperService } from '../services/scraper.service';
-import { Anime } from '../models/anime';
 import { Episode } from '../models/episode';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { isNumber } from '../helpers/number.helper';
 
-export class DarkAnimeCrawler extends BaseCrawler {
+export class DarkAnimeCrawler extends LatestEpisodesCrawler {
 
   constructor(private scraper: ScraperService) {
     super(
@@ -22,21 +21,6 @@ export class DarkAnimeCrawler extends BaseCrawler {
         return text?.indexOf('DUB') !== -1 ? 'dub' : 'vosten';
       }
     };
-  }
-
-  _getAnimeList(forcedUpdate: boolean = false): Observable<Anime[]> {
-    // ToDo
-    return of([]);
-  }
-
-  _getAnimeInfo(link: string): Observable<Anime> {
-    // ToDo
-    return of();
-  }
-
-  _getEpisodes(link: string): Observable<Episode[]> {
-    // ToDo
-    return of([]);
   }
 
   _getLatestEpisodes(): Observable<Episode[]> {

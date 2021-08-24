@@ -1,10 +1,9 @@
-import { BaseCrawler } from './abstract/base.crawler';
+import { LatestEpisodesCrawler } from './abstract/latest-episodes.crawler';
 import { ScraperService } from '../services/scraper.service';
-import { Anime } from '../models/anime';
 import { Episode } from '../models/episode';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 
-export class VoirAnimeOrgCrawler extends BaseCrawler {
+export class VoirAnimeOrgCrawler extends LatestEpisodesCrawler {
 
   constructor(private scraper: ScraperService) {
     super(
@@ -26,21 +25,6 @@ export class VoirAnimeOrgCrawler extends BaseCrawler {
         return sub?.length ? sub[1] : 'vostfr';
       }
     };
-  }
-
-  _getAnimeList(forcedUpdate: boolean = false): Observable<Anime[]> {
-    // ToDo
-    return of([]);
-  }
-
-  _getAnimeInfo(link: string): Observable<Anime> {
-    // ToDo
-    return of();
-  }
-
-  _getEpisodes(link: string): Observable<Episode[]> {
-    // ToDo
-    return of([]);
   }
 
   _getLatestEpisodes(): Observable<Episode[]> {
