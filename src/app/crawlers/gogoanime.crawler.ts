@@ -9,7 +9,7 @@ export class GogoAnimeCrawler extends BaseCrawler {
   constructor(private scraper: ScraperService) {
     super(
       'GogoAnime',
-      'https://www19.gogoanime.io'
+      'https://gogoanime.pe'
     );
     this.filters = {
       ...this.filters,
