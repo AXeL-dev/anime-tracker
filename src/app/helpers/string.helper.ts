@@ -54,3 +54,19 @@ function editDistance(s1: string, s2: string) {
   }
   return costs[s2.length];
 }
+
+export function slugify (text: string) {
+  const a = 'àáäâãèéëêìíïîòóöôùúüûñçßÿœæŕśńṕẃǵǹḿǘẍźḧ&·/_,:;';
+  const b = 'aaaaaeeeeiiiioooouuuuncsyoarsnpwgnmuxzh-------';
+  const p = new RegExp(a.split('').join('|'), 'g');
+
+  return text
+    .toString()                                 // Cast to string
+    .toLowerCase()                              // Convert to lowercase letters
+    .replace(/\s+/g, '-')                       // Replace spaces with -
+    .replace(p, c => b.charAt(a.indexOf(c)))    // Replace special chars
+    .replace(/[^\w\-]+/g, '')                   // Remove all non-word chars
+    .replace(/\-\-+/g, '-')                     // Replace multiple - with single -
+    .replace(/^-+/, '')                         // Trim - from start of text
+    .replace(/-+$/, '')                         // Trim - from end of text
+}

@@ -18,3 +18,4 @@ export { OtakuFrCrawler } from './otakufr.crawler';
 export { MavAnimesCrawler } from './mavanimes.crawler';
 export { YugenAnimeCrawler } from './yugenanime.crawler';
 export { AnimixPlayCrawler } from './animixplay.crawler';
+export { WacVostfrCrawler } from './wacvostfr.crawler';

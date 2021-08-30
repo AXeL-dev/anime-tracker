@@ -77,6 +77,8 @@ export class HTMLParserService {
           results = this.getPreviousSibling(element, data.selector.replace(':prev ', ''));
         } else if (data.selector.startsWith(':next ')) {
           results = this.getNextSibling(element, data.selector.replace(':next ', ''));
+        } else if (data.selector.startsWith(':self')) {
+          results = element;
         } else {
           results = element.querySelector(data.selector);
         }
