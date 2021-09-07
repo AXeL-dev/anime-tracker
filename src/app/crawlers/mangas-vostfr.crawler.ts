@@ -39,7 +39,7 @@ export class MangasVostfrCrawler extends LatestEpisodesCrawler {
       {
         anime: {
           title: 'h2.title a | title',
-          cover: '.featured-thumbnail img@src',
+          cover: '.featured-thumbnail img@data-lazy-src,src',
         },
         number: 'h2.title a | number',
         streamLinks: [
