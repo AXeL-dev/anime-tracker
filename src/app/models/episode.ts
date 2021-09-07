@@ -5,7 +5,8 @@ export interface Episode {
   title?: string;
   cover?: string;
   number: number;
-  releaseDate: EpisodeReleaseDate;
+  fetchingDate?: EpisodeDate;
+  releaseDate: EpisodeDate;
   streamLinks: EpisodeLink[];
   downloadLinks?: EpisodeLink[];
   subtitlesLang?: string;
@@ -20,15 +21,20 @@ export interface EpisodeLink {
   isSubtitled?: boolean;
 }
 
-export type EpisodeReleaseDate = string | number | Date;
+export type EpisodeDate = number;
+
+export enum EpisodeSortingCriteria {
+  FetchingDate = 'fetchingDate',
+  ReleaseDate = 'releaseDate',
+}
 
 export class EpisodeRange {
   private _range: Episode[] = [];
   first: Episode;
   last: Episode;
-  releaseDate?: EpisodeReleaseDate;
+  releaseDate?: EpisodeDate;
 
-  constructor(range?: Episode[], releaseDate?: EpisodeReleaseDate) {
+  constructor(range?: Episode[], releaseDate?: EpisodeDate) {
     if (range?.length) {
       this.range = range;
     }

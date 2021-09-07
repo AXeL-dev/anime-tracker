@@ -3,11 +3,11 @@ import { BaseCrawler } from '../crawlers/abstract/base.crawler';
 import { flatten } from '../helpers/array.helper';
 import { CrawlersService } from './crawlers.service';
 import { Anime } from '../models/anime';
-import { Episode } from '../models/episode';
+import { Episode, EpisodeSortingCriteria } from '../models/episode';
 import { isSimilar } from '../helpers/string.helper';
 import { Observable, concat, forkJoin, timer } from 'rxjs';
 import { map, concatMap, takeWhile } from 'rxjs/operators';
-import { dateOnly } from '../helpers/date.helper';
+import { dateOnly, sameDates } from '../helpers/date.helper';
 import { SettingsService } from './settings.service';
 import { DebugService } from './debug.service';
 
@@ -121,7 +121,11 @@ export class AnimeProviderService {
     });
     // sort
     if (uniqueEpisodes.length) {
-      uniqueEpisodes = uniqueEpisodes.sort((a: Episode, b: Episode) => (b.releaseDate as number) - (a.releaseDate as number));
+      uniqueEpisodes = uniqueEpisodes.sort(
+        this.settings.sortEpisodesBy === EpisodeSortingCriteria.FetchingDate ?
+        (a: Episode, b: Episode) => (sameDates(a.releaseDate, b.releaseDate) ? a.fetchingDate - b.fetchingDate : b.releaseDate - a.releaseDate) :
+        (a: Episode, b: Episode) => b.releaseDate - a.releaseDate
+      );
     }
     return uniqueEpisodes;
   }

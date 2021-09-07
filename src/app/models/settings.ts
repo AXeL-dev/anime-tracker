@@ -1,3 +1,4 @@
+import { EpisodeSortingCriteria } from "./episode";
 
 export interface Settings {
   // General
@@ -10,6 +11,7 @@ export interface Settings {
   defaultView: View;
   displayEpisodesDayByDay: boolean;
   mergeCommonEpisodes: boolean;
+  sortEpisodesBy: EpisodeSortingCriteria;
   episodeSimilarityDegree: number;
   // Notifications
   enableNotifications: boolean;

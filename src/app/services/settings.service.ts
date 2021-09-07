@@ -5,6 +5,7 @@ import { BrowserService } from './browser.service';
 import { getQueryParam } from '../helpers/url.helper';
 import { DebugService } from './debug.service';
 import { CORSProxies } from '../helpers/proxy.helper';
+import { EpisodeSortingCriteria } from '../models/episode';
 
 @Injectable({
   providedIn: 'root',
@@ -21,6 +22,7 @@ export class SettingsService {
   defaultView: View;
   displayEpisodesDayByDay: boolean;
   mergeCommonEpisodes: boolean;
+  sortEpisodesBy: EpisodeSortingCriteria;
   episodeSimilarityDegree: number;
   // Notifications
   enableNotifications: boolean;
@@ -75,6 +77,7 @@ export class SettingsService {
       defaultView: View.Latest,
       displayEpisodesDayByDay: true,
       mergeCommonEpisodes: true,
+      sortEpisodesBy: EpisodeSortingCriteria.FetchingDate,
       episodeSimilarityDegree: 0.7,
       enableNotifications: true,
       autoCheckRate: 30,
@@ -92,6 +95,7 @@ export class SettingsService {
     this.defaultView = settings.defaultView;
     this.displayEpisodesDayByDay = settings.displayEpisodesDayByDay;
     this.mergeCommonEpisodes = settings.mergeCommonEpisodes;
+    this.sortEpisodesBy = settings.sortEpisodesBy;
     this.episodeSimilarityDegree = settings.episodeSimilarityDegree;
     this.enableNotifications = settings.enableNotifications;
     this.autoCheckRate = settings.autoCheckRate;
@@ -109,6 +113,7 @@ export class SettingsService {
       defaultView: this.defaultView,
       displayEpisodesDayByDay: this.displayEpisodesDayByDay,
       mergeCommonEpisodes: this.mergeCommonEpisodes,
+      sortEpisodesBy: this.sortEpisodesBy,
       episodeSimilarityDegree: this.episodeSimilarityDegree,
       inactiveCrawlers: this.inactiveCrawlers,
       enableNotifications: this.enableNotifications,

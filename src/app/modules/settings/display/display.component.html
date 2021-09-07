@@ -36,6 +36,19 @@
       </div>
     </li>
     <li mdcListItem>
+      <i mdcListItemGraphic class="material-icons">sort</i>
+      <span mdcListItemText>
+        Sort episodes by
+        <span mdcListItemSecondaryText>Set episodes sorting criteria</span>
+      </span>
+      <div mdcListItemMeta mdcSelect>
+        <select mdcSelectControl [(ngModel)]="settings.sortEpisodesBy">
+          <option *ngFor="let criteria of sortingCriterias" [value]="criteria.value">{{ criteria.label }}</option>
+        </select>
+        <label mdcFloatingLabel></label> <!-- gives an error when removed, so better let it empty for now -->
+      </div>
+    </li>
+    <li mdcListItem>
       <i mdcListItemGraphic class="material-icons">text_format</i>
       <span mdcListItemText>
         Episodes titles similarity degree

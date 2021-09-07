@@ -101,7 +101,8 @@ export abstract class BaseCrawler {
         anime: {
           ...episode.anime,
           title: episode.anime.title.trim(),
-        }
+        },
+        fetchingDate: new Date().getTime(),
       }));
       this.cache.latestEpisodes = latestEpisodes;
       return latestEpisodes;
