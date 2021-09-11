@@ -37,8 +37,36 @@
           <app-search-input [(value)]="searchValue" (tap)="onSearchTap()" (valueChange)="onSearchValueChange($event)"></app-search-input>
         </section>
         <section mdcTopAppBarSection alignEnd>
-          <button mdcTopAppBarAction class="material-icons" label="Notifications" [class.red-color]="notifications.hasUnread()" (click)="toggleNotifications()">{{ notifications.hasUnread() ? 'notifications_active' : 'notifications' }}</button>
-          <a [routerLink]="['/settings']" mdcTopAppBarAction class="material-icons" label="Settings">settings</a>
+          <a
+            *ngIf="settings.openInNewTab"
+            [routerLink]="['/']"
+            [queryParams]="{ view: view === views.Favorites ? views.Latest : views.Favorites }"
+            [title]="view === views.Favorites ? 'Show all' : 'Show favorites'"
+            mdcTopAppBarAction
+            class="material-icons"
+            label="Show favorites"
+          >
+            {{ view === views.Favorites ? 'favorite' : 'favorite_border' }}
+          </a>
+          <button
+            mdcTopAppBarAction
+            class="material-icons"
+            label="Notifications"
+            title="Notifications"
+            [class.red-color]="notifications.hasUnread()"
+            (click)="toggleNotifications()"
+          >
+            {{ notifications.hasUnread() ? 'notifications_active' : 'notifications' }}
+          </button>
+          <a
+            [routerLink]="['/settings']"
+            mdcTopAppBarAction
+            class="material-icons"
+            label="Settings"
+            title="Settings"
+          >
+            settings
+          </a>
         </section>
       </div>
       <div mdcLinearProgress [indeterminate]="true" [closed]="!isLoading"></div>

@@ -3,6 +3,7 @@ import { View } from 'src/app/models/settings';
 import { Router } from '@angular/router';
 import { DebugService } from 'src/app/services/debug.service';
 import { NotificationsService } from 'src/app/services/notifications.service';
+import { SettingsService } from 'src/app/services/settings.service';
 
 @Component({
   selector: 'app-layout',
@@ -24,6 +25,7 @@ export class LayoutComponent implements OnInit {
   constructor(
     public router: Router,
     private debug: DebugService,
+    public settings: SettingsService,
     public notifications: NotificationsService
   ) {
     this.debug.log('Router url:', this.router.url);

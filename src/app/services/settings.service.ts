@@ -70,7 +70,7 @@ export class SettingsService {
   getDefaults() {
     return {
       proxy: this.browser.isWebExtension ? '' : CORSProxies[0].url,
-      openInNewTab: this.browser.isFirefox ? true : false,
+      openInNewTab: !this.browser.isWebExtension || this.browser.isFirefox ? true : false,
       openLinksInInactiveTabs: true,
       maxEpisodesToRetrieve: 50,
       enableDebugging: false,
