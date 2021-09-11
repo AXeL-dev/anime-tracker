@@ -1,15 +1,15 @@
-import { LatestEpisodesCrawler } from './abstract/latest-episodes.crawler';
-import { ScraperService } from '../services/scraper.service';
-import { Episode } from '../models/episode';
+import { LatestEpisodesCrawler } from '../abstract/latest-episodes.crawler';
+import { ScraperService } from '../../services/scraper.service';
+import { Episode } from '../../models/episode';
 import { Observable } from 'rxjs';
-import { frenchMonths } from '../helpers/date.helper';
+import { frenchMonths } from '../../helpers/date.helper';
 
 export class MangasVostfrCrawler extends LatestEpisodesCrawler {
 
   constructor(private scraper: ScraperService) {
     super(
       'Mangas-vostfr',
-      'https://www.mangas-vostfr.pro'
+      'https://mangas-vostfr.com'
     );
     this.filters = {
       ...this.filters,

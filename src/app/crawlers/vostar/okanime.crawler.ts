@@ -1,6 +1,6 @@
-import { LatestEpisodesCrawler } from './abstract/latest-episodes.crawler';
-import { ScraperService } from '../services/scraper.service';
-import { Episode } from '../models/episode';
+import { LatestEpisodesCrawler } from '../abstract/latest-episodes.crawler';
+import { ScraperService } from '../../services/scraper.service';
+import { Episode } from '../../models/episode';
 import { Observable } from 'rxjs';
 
 export class OkanimeCrawler extends LatestEpisodesCrawler {
@@ -8,7 +8,7 @@ export class OkanimeCrawler extends LatestEpisodesCrawler {
   constructor(private scraper: ScraperService) {
     super(
       'OKanime',
-      'https://www.okanime.com'
+      'https://okanime.tv'
     );
     this.filters = {
       ...this.filters,
@@ -20,8 +20,8 @@ export class OkanimeCrawler extends LatestEpisodesCrawler {
 
   _getLatestEpisodes(): Observable<Episode[]> {
     return this.scraper.scrape(
-      `${this.baseUrl}`,
-      '.latest-episodes div#scroll-container > .item',
+      `${this.baseUrl}/dashboard/newest_episodes`,
+      '.latest-episodes > div.row > .item',
       {
         anime: {
           title: 'span.video-title',

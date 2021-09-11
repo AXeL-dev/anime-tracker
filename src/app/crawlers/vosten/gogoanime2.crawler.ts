@@ -1,6 +1,6 @@
-import { LatestEpisodesCrawler } from './abstract/latest-episodes.crawler';
-import { ScraperService } from '../services/scraper.service';
-import { Episode } from '../models/episode';
+import { LatestEpisodesCrawler } from '../abstract/latest-episodes.crawler';
+import { ScraperService } from '../../services/scraper.service';
+import { Episode } from '../../models/episode';
 import { Observable } from 'rxjs';
 
 export class GogoAnimeCrawler extends LatestEpisodesCrawler {
@@ -8,16 +8,17 @@ export class GogoAnimeCrawler extends LatestEpisodesCrawler {
   constructor(private scraper: ScraperService) {
     super(
       'GogoAnime',
-      'https://gogoanime.pe'
+      'https://www11.gogoanimehub.com'
     );
     this.filters = {
       ...this.filters,
       number: (text: string) => {
-        const num = text.match(/Episode (\d+)/);
+        const num = text.match(/Eps (\d+) \| (\w+)/);
         return num?.length ? +num[1] : +text;
       },
       subtitles: (text: string) => {
-        return text?.indexOf('ic-DUB') !== -1 ? 'dub' : 'vosten';
+        const sub = text.match(/Eps (\d+) \| (\w+)/);
+        return sub[2]?.toLowerCase() !== 'sub' ? 'English ' + sub[2] : 'vosten';
       }
     };
   }
@@ -25,20 +26,20 @@ export class GogoAnimeCrawler extends LatestEpisodesCrawler {
   _getLatestEpisodes(): Observable<Episode[]> {
     return this.scraper.scrape(
       `${this.baseUrl}`,
-      '.last_episodes ul li',
+      'ul#ongoing-animes li',
       {
         anime: {
-          title: 'p.name a',
-          cover: 'div.img img@src',
+          title: 'h3',
+          cover: 'img.cover@src',
         },
-        number: 'p.episode | number',
+        number: '.type | number',
         streamLinks: [
           {
-            url: 'p.name a@href | concatUrl',
-            lang: '.type@class | subtitles',
+            url: 'a@href | concatUrl',
+            lang: '.type | subtitles',
           }
         ],
-        //subtitlesLang: '.type@class | subtitles',
+        //subtitlesLang: '.type | subtitles',
         releaseDate: '| today', // since we don't have the release date info. let's just return today's date
       },
       this.filters

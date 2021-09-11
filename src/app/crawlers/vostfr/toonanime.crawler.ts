@@ -1,6 +1,6 @@
-import { LatestEpisodesCrawler } from './abstract/latest-episodes.crawler';
-import { ScraperService } from '../services/scraper.service';
-import { Episode } from '../models/episode';
+import { LatestEpisodesCrawler } from '../abstract/latest-episodes.crawler';
+import { ScraperService } from '../../services/scraper.service';
+import { Episode } from '../../models/episode';
 import { Observable } from 'rxjs';
 
 export class ToonAnimeCrawler extends LatestEpisodesCrawler {
@@ -8,7 +8,7 @@ export class ToonAnimeCrawler extends LatestEpisodesCrawler {
   constructor(private scraper: ScraperService) {
     super(
       'ToonAnime',
-      'https://wvvw.toonanime.co'
+      'https://wvvw.toonanime.tv'
     );
     this.filters = {
       ...this.filters,

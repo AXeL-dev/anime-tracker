@@ -1,6 +1,6 @@
-import { LatestEpisodesCrawler } from './abstract/latest-episodes.crawler';
-import { ScraperService } from '../services/scraper.service';
-import { Episode } from '../models/episode';
+import { LatestEpisodesCrawler } from '../abstract/latest-episodes.crawler';
+import { ScraperService } from '../../services/scraper.service';
+import { Episode } from '../../models/episode';
 import { Observable } from 'rxjs';
 
 export class FullAnimeVFCrawler extends LatestEpisodesCrawler {

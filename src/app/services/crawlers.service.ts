@@ -6,16 +6,17 @@ import {
   AnimeKoCrawler,
   AnimeResistanceCrawler,
   VostFreeCrawler,
-  FullAnimeVFCrawler,
   VoirAnimeCrawler,
   NekoSamaCrawler,
   JapMangaCrawler,
   MangasVostfrCrawler,
   GogoAnimeCrawler,
-  FourAnimeCrawler,
   AnimeKisaCrawler,
   WitAnimeCrawler,
   AnimeFourUpCrawler,
+  ArabAnimeCrawler,
+  AddAnimeCrawler,
+  OkanimeCrawler,
   ToonAnimeCrawler,
   VoirAnimeOrgCrawler,
   OtakuFrCrawler,
@@ -40,10 +41,9 @@ export class CrawlersService {
     this.add(new VoirAnimeOrgCrawler(this.scraper));
     this.add(new MavAnimesCrawler(this.scraper));
     this.add(new AnimeResistanceCrawler(this.scraper));
-    this.add(new WacVostfrCrawler(this.scraper));
     this.add(new VostFreeCrawler(this.scraper));
-    this.add(new FullAnimeVFCrawler(this.scraper));
     this.add(new MangasVostfrCrawler(this.scraper));
+    this.add(new WacVostfrCrawler(this.scraper));
     this.add(new OtakuFrCrawler(this.scraper));
     this.add(new JapMangaCrawler(this.scraper));
     this.add(new ToonAnimeCrawler(this.scraper));
@@ -51,11 +51,13 @@ export class CrawlersService {
     this.add(new YugenAnimeCrawler(this.scraper));
     this.add(new AnimixPlayCrawler(this.scraper));
     this.add(new GogoAnimeCrawler(this.scraper));
-    this.add(new FourAnimeCrawler(this.scraper));
     this.add(new AnimeKisaCrawler(this.scraper));
     // Vostar crawlers
     this.add(new WitAnimeCrawler(this.scraper));
     this.add(new AnimeFourUpCrawler(this.scraper));
+    this.add(new ArabAnimeCrawler(this.scraper));
+    this.add(new AddAnimeCrawler(this.scraper));
+    this.add(new OkanimeCrawler(this.scraper));
 
     // Update crawlers state
     this.update();

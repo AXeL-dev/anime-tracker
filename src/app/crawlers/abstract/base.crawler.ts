@@ -40,7 +40,9 @@ export abstract class BaseCrawler {
         return encodeURI(text);
       },
       concatUrl: (text: string) => {
-        return `${this.baseUrl.replace(/\/$/, '')}/${text?.replace(/^\//, '')}`;
+        return /^https?:\/\//.test(text) ?
+          text :
+          `${this.baseUrl.replace(/\/$/, '')}/${text?.replace(/^\//, '')}`;
       },
       today: (text: string) => {
         return today();

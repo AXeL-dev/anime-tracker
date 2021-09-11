@@ -1,7 +1,7 @@
-import { LatestEpisodesCrawler } from './abstract/latest-episodes.crawler';
-import { ScraperService } from '../services/scraper.service';
-import { Episode } from '../models/episode';
-import { today, yesterday, dateBefore } from '../helpers/date.helper';
+import { LatestEpisodesCrawler } from '../abstract/latest-episodes.crawler';
+import { ScraperService } from '../../services/scraper.service';
+import { Episode } from '../../models/episode';
+import { today, yesterday, dateBefore } from '../../helpers/date.helper';
 import { Observable } from 'rxjs';
 
 export class VoirAnimeCrawler extends LatestEpisodesCrawler {

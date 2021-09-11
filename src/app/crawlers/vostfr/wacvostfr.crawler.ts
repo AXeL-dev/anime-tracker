@@ -1,8 +1,8 @@
-import { LatestEpisodesCrawler } from './abstract/latest-episodes.crawler';
-import { ScraperService } from '../services/scraper.service';
-import { Episode } from '../models/episode';
+import { LatestEpisodesCrawler } from '../abstract/latest-episodes.crawler';
+import { ScraperService } from '../../services/scraper.service';
+import { Episode } from '../../models/episode';
 import { Observable } from 'rxjs';
-import { slugify } from '../helpers/string.helper';
+import { slugify } from '../../helpers/string.helper';
 
 export class WacVostfrCrawler extends LatestEpisodesCrawler {
 

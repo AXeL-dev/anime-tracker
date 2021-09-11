@@ -1,6 +1,6 @@
-import { LatestEpisodesCrawler } from './abstract/latest-episodes.crawler';
-import { ScraperService } from '../services/scraper.service';
-import { Episode } from '../models/episode';
+import { LatestEpisodesCrawler } from '../abstract/latest-episodes.crawler';
+import { ScraperService } from '../../services/scraper.service';
+import { Episode } from '../../models/episode';
 import { Observable } from 'rxjs';
 
 export class AnimeFourUpCrawler extends LatestEpisodesCrawler {
@@ -25,7 +25,7 @@ export class AnimeFourUpCrawler extends LatestEpisodesCrawler {
   _getLatestEpisodes(): Observable<Episode[]> {
     return this.scraper.scrape(
       `${this.baseUrl}`,
-      'body > div:nth-child(7).page-content-container .episodes-list-content .episodes-card-container',
+      'body > div:nth-child(6).page-content-container .episodes-list-content .episodes-card-container',
       {
         anime: {
           title: '.ep-card-anime-title > h3 > a',

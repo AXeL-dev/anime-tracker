@@ -1,17 +1,21 @@
-import { LatestEpisodesCrawler } from './abstract/latest-episodes.crawler';
-import { ScraperService } from '../services/scraper.service';
-import { Episode } from '../models/episode';
+import { LatestEpisodesCrawler } from '../abstract/latest-episodes.crawler';
+import { ScraperService } from '../../services/scraper.service';
+import { Episode } from '../../models/episode';
 import { Observable } from 'rxjs';
 
-export class WitAnimeCrawler extends LatestEpisodesCrawler {
+export class EgyAnimeCrawler extends LatestEpisodesCrawler {
 
   constructor(private scraper: ScraperService) {
     super(
-      'WitAnime',
-      'https://witanime.com'
+      'EgyAnime',
+      'https://www.egyanime.com'
     );
     this.filters = {
       ...this.filters,
+      cover: (text: string) => {
+        const url = text.replace(/^\.\./, '');
+        return this.filters.concatUrl(url);
+      },
       number: (text: string) => {
         const num = text.match(/(.*) (\d+)/);
         return num?.length ? +num[2] : 1;
@@ -25,16 +29,16 @@ export class WitAnimeCrawler extends LatestEpisodesCrawler {
   _getLatestEpisodes(): Observable<Episode[]> {
     return this.scraper.scrape(
       `${this.baseUrl}`,
-      'body > div.page-content-container:not(.content) .episodes-list-content .episodes-card-container',
+      'div.column.a-1',
       {
         anime: {
-          title: '.ep-card-anime-title > h3 > a',
-          cover: '.episodes-card > div > img@src',
+          title: 'a.go-link > div.pin-box > figure.image > span.epi-shadow > p',
+          cover: 'a.go-link > div.pin-box > figure.image > img@src | cover',
         },
-        number: '.episodes-card-title > h3 > a | number',
+        number: 'a.go-link > span.tag > p | number',
         streamLinks: [
           {
-            url: '.episodes-card > div > a@href | decodeUrl',
+            url: 'a.go-link@href | concatUrl',
             lang: '| subtitles',
           }
         ],
