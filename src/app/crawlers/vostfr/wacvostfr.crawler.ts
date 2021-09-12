@@ -23,7 +23,7 @@ export class WacVostfrCrawler extends LatestEpisodesCrawler {
       },
       cover: (text: string) => {
         const title = this.filters.title(text);
-        return this.filters.concatUrl(`/imgs/animes/${slugify(title)}.jpg`);
+        return this.filters.concatUrl(`/imgs/animes/${slugify(title, '-')}.jpg`);
       },
       subtitles: (text: string) => {
         const sub = text.trim().match(/(vostfr|vf)(?:.*)$/i);
