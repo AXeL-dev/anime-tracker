@@ -48,16 +48,15 @@
           >
             {{ view === views.Favorites ? 'favorite' : 'favorite_border' }}
           </a>
-          <button
-            mdcTopAppBarAction
+          <app-badge-button
             class="material-icons"
             label="Notifications"
             title="Notifications"
-            [class.red-color]="notifications.hasUnread()"
+            [badge]="notifications.unreadCount()"
             (click)="toggleNotifications()"
           >
-            {{ notifications.hasUnread() ? 'notifications_active' : 'notifications' }}
-          </button>
+            notifications
+          </app-badge-button>
           <a
             [routerLink]="['/settings']"
             mdcTopAppBarAction

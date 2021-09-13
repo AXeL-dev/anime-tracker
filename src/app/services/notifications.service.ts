@@ -62,10 +62,14 @@ export class NotificationsService {
     return this.notifications;
   }
 
-  hasUnread() {
+  unreadCount() {
     return this.notifications.filter((notification: Notification) =>
       !notification.status || notification.status === NotificationStatus.Unread
-    ).length > 0;
+    ).length;
+  }
+
+  hasUnread() {
+    return this.unreadCount() > 0;
   }
 
 }

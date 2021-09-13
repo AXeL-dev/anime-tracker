@@ -1,6 +1,5 @@
 @import "@material/theme/mixins";
 //@import "@material/rtl/mixins";
-@import "../../shared/css/colors.scss";
 
 // Place drawer and content side by side:
 .page {
@@ -64,8 +63,4 @@
   .mdc-linear-progress__bar-inner {
     @include mdc-theme-prop(background-color, secondary);
   }
-}
-
-.red-color {
-  color: $red-color;
 }

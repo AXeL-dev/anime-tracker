@@ -1,0 +1,15 @@
+
+<span class="badge-button-container" (click)="$event.stopPropagation()">
+  <button
+    mdcTopAppBarAction
+    [class]="class"
+    [label]="label"
+    [title]="title"
+    (click)="onClick($event)"
+  >
+    <ng-content></ng-content>
+  </button>
+  <span *ngIf="badge" class="badge">
+    {{ badge }}
+  </span>
+</span>

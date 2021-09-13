@@ -1,0 +1,31 @@
+@import "../../css/colors.scss";
+
+.badge-button-container {
+  display: flex;
+  position: relative;
+}
+
+.badge {
+  min-width: 20px;
+  height: 20px;
+  display: flex;
+  padding: 0 6px;
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  right: 0;
+  flex-wrap: wrap;
+  font-size: 0.75rem;
+  box-sizing: border-box;
+  transition: transform 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  align-items: center;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-weight: 500;
+  line-height: 1;
+  align-content: center;
+  border-radius: 10px;
+  flex-direction: row;
+  justify-content: center;
+  color: #fff;
+  background-color: $red-color;
+}
