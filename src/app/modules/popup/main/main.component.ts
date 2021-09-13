@@ -12,6 +12,7 @@ import { BrowserService } from 'src/app/services/browser.service';
 import { ViewedEpisodesService } from 'src/app/services/viewed-episodes.service';
 import { Dialog } from 'src/app/models/dialog';
 import { ActivatedRoute } from '@angular/router';
+import { isSimilar } from 'src/app/helpers/string.helper';
 
 @Component({
   selector: 'app-main',
@@ -100,11 +101,15 @@ export class MainComponent implements OnInit, OnDestroy {
       const treatedEpisodes: {[key: string]: number[]} = {}; // key == anime title, value == episodes number
       let index: number = 0;
       for (let episode of this.episodes as Episode[]) {
-        if (treatedEpisodes[episode.anime.title] && treatedEpisodes[episode.anime.title].indexOf(episode.number) !== -1) { // if episode already treated
+        const treatedEpisodesTitles = Object.keys(treatedEpisodes);
+        const foundTitle = treatedEpisodesTitles.find((title: string) => isSimilar(title, episode.anime.title, this.settings.episodeSimilarityDegree, true));
+        if (foundTitle && treatedEpisodes[foundTitle].indexOf(episode.number) !== -1) { // if episode already treated
           continue; // go to next episode
         }
-        const range: Episode[] = (this.episodes as Episode[]).slice(index).filter((e: Episode) => {
-          return e.anime.title === episode.anime.title && (!this.settings.displayEpisodesDayByDay || sameDates(e.releaseDate, episode.releaseDate, today()));
+        const remainingEpisodes = (this.episodes as Episode[]).slice(index);
+        const range: Episode[] = remainingEpisodes.filter((e: Episode) => {
+          return isSimilar(e.anime.title, episode.anime.title, this.settings.episodeSimilarityDegree, true) &&
+            (!this.settings.displayEpisodesDayByDay || sameDates(e.releaseDate, episode.releaseDate, today()));
         }).sort((a: Episode, b: Episode) => a.number - b.number);
         if (range.length > 1) {
           const episodeRange = new EpisodeRange(range, episode.releaseDate);
