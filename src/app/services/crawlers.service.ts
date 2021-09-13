@@ -41,17 +41,17 @@ export class CrawlersService {
     this.add(new VoirAnimeOrgCrawler(this.scraper));
     this.add(new MavAnimesCrawler(this.scraper));
     this.add(new AnimeResistanceCrawler(this.scraper));
+    this.add(new OtakuFrCrawler(this.scraper));
     this.add(new VostFreeCrawler(this.scraper));
     this.add(new MangasVostfrCrawler(this.scraper));
     this.add(new WacVostfrCrawler(this.scraper));
-    this.add(new OtakuFrCrawler(this.scraper));
     this.add(new JapMangaCrawler(this.scraper));
     this.add(new ToonAnimeCrawler(this.scraper));
     // Vosten crawlers
+    this.add(new AnimeKisaCrawler(this.scraper));
     this.add(new YugenAnimeCrawler(this.scraper));
     this.add(new AnimixPlayCrawler(this.scraper));
     this.add(new GogoAnimeCrawler(this.scraper));
-    this.add(new AnimeKisaCrawler(this.scraper));
     // Vostar crawlers
     this.add(new WitAnimeCrawler(this.scraper));
     this.add(new AnimeFourUpCrawler(this.scraper));
@@ -91,6 +91,14 @@ export class CrawlersService {
 
   getActive() {
     return this.crawlers.filter((c: BaseCrawler) => c.isActive);
+  }
+
+  getCount() {
+    return this.getAll().length;
+  }
+
+  getActiveCount() {
+    return this.getActive().length;
   }
 
 }

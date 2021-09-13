@@ -5,6 +5,7 @@ import { BrowserService } from 'src/app/services/browser.service';
 import { Settings } from 'src/app/models/settings';
 import { DebugService } from 'src/app/services/debug.service';
 import { MdcSnackbarService } from '@blox/material';
+import { CrawlersService } from 'src/app/services/crawlers.service';
 
 @Component({
   selector: 'app-main',
@@ -21,6 +22,7 @@ export class MainComponent implements OnInit {
     private router: Router,
     private debug: DebugService,
     public browser: BrowserService,
+    public crawlers: CrawlersService,
     private snackbar: MdcSnackbarService
   ) {
     this.defaults = this.settings.getDefaults();

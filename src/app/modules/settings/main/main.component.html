@@ -27,7 +27,7 @@
               <a mdcTab (activate)="activeTabKey = 'general'" tabindex="0">General</a>
               <a mdcTab (activate)="activeTabKey = 'display'" tabindex="0">Display</a>
               <a *ngIf="browser.isWebExtension" mdcTab (activate)="activeTabKey = 'notifications'" tabindex="0">Notifications</a>
-              <a mdcTab (activate)="activeTabKey = 'crawlers'" tabindex="0">Crawlers</a>
+              <a mdcTab (activate)="activeTabKey = 'crawlers'" tabindex="0">Crawlers ({{ crawlers.getActiveCount() }}/{{ crawlers.getCount() }})</a>
             </nav>
           </div>
           <div mdcTabBarScrollerForward>
