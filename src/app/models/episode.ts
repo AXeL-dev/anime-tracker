@@ -6,7 +6,7 @@ export interface Episode {
   cover?: string;
   number: number;
   fetchingDate?: EpisodeDate;
-  releaseDate: EpisodeDate;
+  releaseDate?: EpisodeDate;
   streamLinks: EpisodeLink[];
   downloadLinks?: EpisodeLink[];
   subtitlesLang?: string;

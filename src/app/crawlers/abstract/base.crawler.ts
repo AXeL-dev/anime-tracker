@@ -2,7 +2,6 @@ import { Anime } from '../../models/anime';
 import { Episode } from '../../models/episode';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { today } from 'src/app/helpers/date.helper';
 
 interface Cache {
   animeList: Anime[],
@@ -43,9 +42,6 @@ export abstract class BaseCrawler {
         return /^https?:\/\//.test(text) ?
           text :
           `${this.baseUrl.replace(/\/$/, '')}/${text?.replace(/^\//, '')}`;
-      },
-      today: (text: string) => {
-        return today();
       },
       date: (text: string) => {
         return new Date(text)?.getTime();

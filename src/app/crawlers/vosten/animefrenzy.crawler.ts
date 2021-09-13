@@ -34,7 +34,6 @@ export class AnimeFrenzyCrawler extends LatestEpisodesCrawler {
             lang: '| subtitles',
           }
         ],
-        //subtitlesLang: '| subtitles',
         releaseDate: '.iep > .iepsbox > a .iepst3 time@datetime | number',
       },
       this.filters

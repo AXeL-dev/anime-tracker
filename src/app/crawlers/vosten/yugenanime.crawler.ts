@@ -42,7 +42,6 @@ export class YugenAnimeCrawler extends LatestEpisodesCrawler {
             lang: '| subtitles',
           }
         ],
-        //subtitlesLang: '| subtitles',
         releaseDate: 'a.ep-details .ep-statistics time@datetime | date',
       },
       this.filters

@@ -52,7 +52,6 @@ export class AnimixPlayCrawler extends LatestEpisodesCrawler {
             lang: '| subtitles',
           }
         ],
-        //subtitlesLang: '| subtitles',
         releaseDate: 'a .timetext | date',
       },
       this.filters

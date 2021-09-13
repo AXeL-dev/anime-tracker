@@ -52,7 +52,6 @@ export class FullAnimeVFCrawler extends LatestEpisodesCrawler {
             lang: '| subtitles',
           }
         ],
-        //subtitlesLang: '| subtitles',
         releaseDate: 'time.entry-date@datetime | date',
       },
       this.filters

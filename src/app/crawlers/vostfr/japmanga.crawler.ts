@@ -41,7 +41,6 @@ export class JapMangaCrawler extends LatestEpisodesCrawler {
             lang: '| subtitles',
           }
         ],
-        //subtitlesLang: '| subtitles',
         releaseDate: '.grd-post-date | date',
       },
       this.filters

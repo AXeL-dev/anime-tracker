@@ -7,7 +7,7 @@ import { Episode, EpisodeSortingCriteria } from '../models/episode';
 import { isSimilar } from '../helpers/string.helper';
 import { Observable, concat, forkJoin, timer } from 'rxjs';
 import { map, concatMap, takeWhile } from 'rxjs/operators';
-import { dateOnly, sameDates } from '../helpers/date.helper';
+import { dateOnly, sameDates, today } from '../helpers/date.helper';
 import { SettingsService } from './settings.service';
 import { DebugService } from './debug.service';
 
@@ -122,9 +122,15 @@ export class AnimeProviderService {
     // sort
     if (uniqueEpisodes.length) {
       uniqueEpisodes = uniqueEpisodes.sort(
-        this.settings.sortEpisodesBy === EpisodeSortingCriteria.FetchingDate ?
-        (a: Episode, b: Episode) => (sameDates(a.releaseDate, b.releaseDate) ? a.fetchingDate - b.fetchingDate : b.releaseDate - a.releaseDate) :
-        (a: Episode, b: Episode) => b.releaseDate - a.releaseDate
+        (a: Episode, b: Episode) => {
+          const releaseDate = {
+            a: a.releaseDate || today(),
+            b: b.releaseDate || today(),
+          };
+          return this.settings.sortEpisodesBy === EpisodeSortingCriteria.FetchingDate ?
+            (sameDates(releaseDate.a, releaseDate.b) ? a.fetchingDate - b.fetchingDate : releaseDate.b - releaseDate.a) :
+            releaseDate.b - releaseDate.a;
+        }
       );
     }
     return uniqueEpisodes;
@@ -133,11 +139,9 @@ export class AnimeProviderService {
   private getEpisodesDays(episodes: Episode[]): number[] {
     let days: number[] = [];
     episodes.forEach((episode: Episode) => {
-      if (episode.releaseDate) {
-        const day = dateOnly(new Date(episode.releaseDate));
-        if (days.indexOf(day) === -1) {
-          days.push(day);
-        }
+      const day: number = episode.releaseDate ? dateOnly(new Date(episode.releaseDate)) : today();
+      if (days.indexOf(day) === -1) {
+        days.push(day);
       }
     });
     return days;

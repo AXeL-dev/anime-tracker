@@ -51,7 +51,6 @@ export class VoirAnimeCrawler extends LatestEpisodesCrawler {
             lang: '| subtitles',
           }
         ],
-        //subtitlesLang: '| subtitles',
         releaseDate: '.chapter-item:first-child .post-on | date',
       },
       this.filters

@@ -48,8 +48,6 @@ export class WacVostfrCrawler extends LatestEpisodesCrawler {
             lang: ':self | subtitles',
           }
         ],
-        //subtitlesLang: '| subtitles',
-        releaseDate: '| today', // since we don't have the release date info. let's just return today's date
       },
       this.filters
     );

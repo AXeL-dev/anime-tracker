@@ -52,9 +52,7 @@ export class NekoSamaCrawler extends LatestEpisodesCrawler {
             lang: '| subtitles',
           }
         ],
-        //subtitlesLang: '| subtitles',
         //releaseDate: 'span.time | date',
-        releaseDate: '| today',
       },
       this.filters
     );

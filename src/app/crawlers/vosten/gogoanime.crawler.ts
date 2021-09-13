@@ -38,8 +38,6 @@ export class GogoAnimeCrawler extends LatestEpisodesCrawler {
             lang: '.type@class | subtitles',
           }
         ],
-        //subtitlesLang: '.type@class | subtitles',
-        releaseDate: '| today', // since we don't have the release date info. let's just return today's date
       },
       this.filters
     );

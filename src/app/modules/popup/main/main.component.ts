@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { AnimeProviderService } from 'src/app/services/anime-provider.service';
 import { Episode, EpisodeRange } from 'src/app/models/episode';
 import { SettingsService } from 'src/app/services/settings.service';
-import { dateOnly, sameDates } from 'src/app/helpers/date.helper';
+import { dateOnly, sameDates, today } from 'src/app/helpers/date.helper';
 import { Subject } from 'rxjs';
 import { View } from 'src/app/models/settings';
 import { FavoriteAnimesService } from 'src/app/services/favorite-animes.service';
@@ -104,7 +104,7 @@ export class MainComponent implements OnInit, OnDestroy {
           continue; // go to next episode
         }
         const range: Episode[] = (this.episodes as Episode[]).slice(index).filter((e: Episode) => {
-          return e.anime.title === episode.anime.title && (!this.settings.displayEpisodesDayByDay || sameDates(e.releaseDate, episode.releaseDate));
+          return e.anime.title === episode.anime.title && (!this.settings.displayEpisodesDayByDay || sameDates(e.releaseDate, episode.releaseDate, today()));
         }).sort((a: Episode, b: Episode) => a.number - b.number);
         if (range.length > 1) {
           const episodeRange = new EpisodeRange(range, episode.releaseDate);
@@ -130,10 +130,8 @@ export class MainComponent implements OnInit, OnDestroy {
         if (day) {
           const dayDate = dateOnly(new Date(day));
           this.episodesByDays[day] = this.episodes.filter((episode: Episode|EpisodeRange) => {
-            if (!episode.releaseDate) {
-              return false;
-            }
-            return dayDate === dateOnly(new Date(episode.releaseDate));
+            const episodeDate: number = episode.releaseDate ? dateOnly(new Date(episode.releaseDate)) : today();
+            return dayDate === episodeDate;
           });
         }
       });

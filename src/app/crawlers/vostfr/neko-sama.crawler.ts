@@ -54,7 +54,6 @@ export class NekoSamaCrawler extends LatestEpisodesCrawler {
                   lang: 'vostfr',
                 }
               ],
-              //subtitlesLang: 'vostfr',
               releaseDate: this.filters.date(episode.time),
             });
           });

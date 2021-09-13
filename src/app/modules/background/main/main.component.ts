@@ -4,7 +4,7 @@ import { AnimeProviderService } from 'src/app/services/anime-provider.service';
 import { take } from 'rxjs/operators';
 import { Episode, EpisodeLink } from 'src/app/models/episode';
 import { DebugService } from 'src/app/services/debug.service';
-import { isInToday, now } from 'src/app/helpers/date.helper';
+import { isInToday, now, today } from 'src/app/helpers/date.helper';
 import { isSimilar } from 'src/app/helpers/string.helper';
 import { Router } from '@angular/router';
 import { FavoriteAnimesService } from 'src/app/services/favorite-animes.service';
@@ -131,10 +131,11 @@ export class MainComponent implements OnInit {
       await this.favoriteAnimes.refresh();
 
       episodes.forEach((episode: Episode) => {
+        const releaseDate: number = episode.releaseDate || today();
         // Generate notification messages (for favorite animes episodes only)
         if (
           !this.isAlreadyChecked(episode) &&
-          isInToday(new Date(episode.releaseDate)) &&
+          isInToday(new Date(releaseDate)) &&
           !this.viewedEpisodes.isViewed(episode) &&
           this.favoriteAnimes.isFavorite(episode.anime.title) &&
           this.hasMatchingSubtitles(episode)

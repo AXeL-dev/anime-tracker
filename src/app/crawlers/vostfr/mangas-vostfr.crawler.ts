@@ -48,7 +48,6 @@ export class MangasVostfrCrawler extends LatestEpisodesCrawler {
             lang: '| subtitles',
           }
         ],
-        //subtitlesLang: '| subtitles',
         releaseDate: '.post-info .date span | date',
       },
       this.filters

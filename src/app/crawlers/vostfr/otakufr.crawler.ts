@@ -50,7 +50,6 @@ export class OtakuFrCrawler extends LatestEpisodesCrawler {
             lang: '.traduction | subtitles',
           }
         ],
-        //subtitlesLang: '| subtitles',
         releaseDate: ':prev div.title | date',
       },
       this.filters

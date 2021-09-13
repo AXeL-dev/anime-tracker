@@ -54,7 +54,6 @@ export class AnimeKoCrawler extends LatestEpisodesCrawler {
             lang: '| subtitles',
           }
         ],
-        //subtitlesLang: '| subtitles',
         releaseDate: ':prev div .untitle | date',
       },
       this.filters

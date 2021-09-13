@@ -42,9 +42,13 @@ export const dateBefore = (numberOfDays: number, asString: boolean = false): any
 
 export const isInToday = (inputDate: Date) => {
   const today = now();
-  return today.setHours(0, 0, 0, 0) === inputDate.setHours(0, 0, 0, 0);
+  return dateOnly(today) === dateOnly(inputDate);
 };
 
-export const sameDates = (date1: Date|number|string, date2: Date|number|string) => {
-  return new Date(date1).setHours(0, 0, 0, 0) === new Date(date2).setHours(0, 0, 0, 0);
+export const sameDates = (date1: Date|number|string, date2: Date|number|string, defaultDate?: Date|number|string) => {
+  const dates = {
+    date1: date1 ? dateOnly(new Date(date1)) : defaultDate,
+    date2: date2 ? dateOnly(new Date(date2)) : defaultDate,
+  };
+  return dates.date1 === dates.date2;
 };

@@ -41,7 +41,6 @@ export class AnimeKisaCrawler extends LatestEpisodesCrawler {
             lang: '| subtitles',
           }
         ],
-        //subtitlesLang: '| subtitles',
         releaseDate: '.info-box > div > time@time | date',
       },
       this.filters

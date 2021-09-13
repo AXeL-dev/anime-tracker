@@ -52,7 +52,6 @@ export class VostFreeCrawler extends LatestEpisodesCrawler {
             lang: '.quality',
           }
         ],
-        //subtitlesLang: '.quality',
         releaseDate: '.info ul.additional li.type:first-child a | date',
       },
       this.filters

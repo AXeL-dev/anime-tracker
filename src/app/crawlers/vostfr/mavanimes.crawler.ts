@@ -44,8 +44,6 @@ export class MavAnimesCrawler extends LatestEpisodesCrawler {
             lang: '| subtitles',
           }
         ],
-        //subtitlesLang: '| subtitles',
-        releaseDate: '| today', // since we don't have the release date info. let's just return today's date
       },
       this.filters
     );

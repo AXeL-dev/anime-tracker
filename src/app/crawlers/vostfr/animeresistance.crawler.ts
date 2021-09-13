@@ -52,7 +52,6 @@ export class AnimeResistanceCrawler extends LatestEpisodesCrawler {
             lang: '| subtitles',
           }
         ],
-        //subtitlesLang: '| subtitles',
         releaseDate: '.published | date',
       },
       this.filters
