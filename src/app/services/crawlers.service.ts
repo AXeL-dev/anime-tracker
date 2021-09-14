@@ -93,11 +93,11 @@ export class CrawlersService {
     return this.crawlers.filter((c: BaseCrawler) => c.isActive);
   }
 
-  getCount() {
+  get count() {
     return this.getAll().length;
   }
 
-  getActiveCount() {
+  get activeCount() {
     return this.getActive().length;
   }
 
