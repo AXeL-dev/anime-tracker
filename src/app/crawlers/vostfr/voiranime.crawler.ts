@@ -42,7 +42,7 @@ export class VoirAnimeCrawler extends LatestEpisodesCrawler {
       {
         anime: {
           title: '.post-title h3 a',
-          cover: 'img.img-responsive@src | cover',
+          cover: 'img.img-responsive@src | cover',
         },
         number: '.chapter-item:first-child .chapter a | number',
         streamLinks: [

@@ -30,7 +30,7 @@ export class AnimeFrenzyCrawler extends LatestEpisodesCrawler {
         number: '.iep > .iepsbox > a .iepst2 > div | number',
         streamLinks: [
           {
-            url: '.iep > .iepsbox > a@href | concatUrl',
+            url: '.iep > .iepsbox > a@href | concatUrl',
             lang: '| subtitles',
           }
         ],

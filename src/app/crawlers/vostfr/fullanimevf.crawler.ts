@@ -41,7 +41,7 @@ export class FullAnimeVFCrawler extends LatestEpisodesCrawler {
       {
         anime: {
           title: 'h3.entry-title a | title',
-          cover: 'img.entry-thumb@src,data-cfsrc | cover',
+          cover: 'img.entry-thumb@src,data-cfsrc | cover',
           isNew: 'h3.entry-title a | isNew',
           isFinished: 'h3.entry-title a | isFinished',
         },

@@ -38,7 +38,7 @@ export class YugenAnimeCrawler extends LatestEpisodesCrawler {
         number: 'a.ep-title | number',
         streamLinks: [
           {
-            url: 'a.ep-thumbnail@href | concatUrl',
+            url: 'a.ep-thumbnail@href | concatUrl',
             lang: '| subtitles',
           }
         ],

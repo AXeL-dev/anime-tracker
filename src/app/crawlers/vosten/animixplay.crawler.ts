@@ -48,7 +48,7 @@ export class AnimixPlayCrawler extends LatestEpisodesCrawler {
         number: 'a .details .infotext | number',
         streamLinks: [
           {
-            url: 'a@href | concatUrl',
+            url: 'a@href | concatUrl',
             lang: '| subtitles',
           }
         ],
