@@ -127,6 +127,9 @@ export class MainComponent implements OnInit {
       this.debug.log('Checked episodes:', this.checkedEpisodes);
 
       // Refresh viewed episodes & favorite animes (refetch from local storage)
+      // ToDo: instead of doing a refresh every time, it would be more interesting
+      // to use the sendMessage API to notify the background script about the changes
+      // & update the services data (same thing for the settings refresh above)
       await this.viewedEpisodes.refresh();
       await this.favoriteAnimes.refresh();
 

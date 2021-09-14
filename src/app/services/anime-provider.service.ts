@@ -33,7 +33,7 @@ export class AnimeProviderService {
   }
 
   getLatestEpisodes(forcedUpdate: boolean = false): Observable<Episode[]> {
-    const crawlers = this.crawlers.getActive();
+    const crawlers = this.crawlers.getActive(forcedUpdate);
 
     return forkJoin(...crawlers.map((crawler: BaseCrawler) => crawler.getLatestEpisodes(forcedUpdate))).pipe(
       map((episodes: Episode[][]) => {
@@ -48,7 +48,7 @@ export class AnimeProviderService {
   }
 
   getLatestEpisodesByDays(forcedUpdate: boolean = false, maxEpisodesPerSlice: number = 50): Observable<[Episode[], number[]]> {
-    const crawlers = this.crawlers.getActive();
+    const crawlers = this.crawlers.getActive(forcedUpdate);
     let latestEpisodes: Episode[] = [];
     let slicedEpisodesCount: number = 0;
     if (!maxEpisodesPerSlice) {

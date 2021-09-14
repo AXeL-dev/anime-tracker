@@ -81,7 +81,10 @@ export class CrawlersService {
     return this.crawlers.filter((c: BaseCrawler) => names.indexOf(c.name) !== -1);
   }
 
-  getAll() {
+  getAll(forcedUpdate: boolean = false) {
+    if (forcedUpdate) {
+      this.update();
+    }
     return this.crawlers;
   }
 
@@ -89,7 +92,10 @@ export class CrawlersService {
     return this.crawlers.filter((c: BaseCrawler) => names.indexOf(c.name) === -1);
   }
 
-  getActive() {
+  getActive(forcedUpdate: boolean = false) {
+    if (forcedUpdate) {
+      this.update();
+    }
     return this.crawlers.filter((c: BaseCrawler) => c.isActive);
   }
 
