@@ -120,13 +120,14 @@ export class MainComponent implements OnInit, OnDestroy {
     // Loop over all episodes
     for (let episode of episodes) {
       const treatedEpisodesTitles = Object.keys(treatedEpisodes);
-      const foundTitle = treatedEpisodesTitles.find((title: string) =>
-        isSimilar(title, episode.anime.title, this.settings.episodeSimilarityDegree, true)
+      const found = treatedEpisodesTitles.find((title: string) =>
+        isSimilar(title, episode.anime.title, this.settings.episodeSimilarityDegree, true) &&
+        treatedEpisodes[title].indexOf(episode.number) !== -1
       );
-      if (foundTitle && treatedEpisodes[foundTitle].indexOf(episode.number) !== -1) { // if episode already treated
+      if (found) { // if episode already treated
         continue; // go to next episode
       }
-      // Try merging common episodes
+      // Seeking for common episodes
       const range: Episode[] = remainingEpisodes.filter((e: Episode) => {
         return isSimilar(e.anime.title, episode.anime.title, this.settings.episodeSimilarityDegree, true) &&
           (!this.settings.displayEpisodesDayByDay || sameDates(e.releaseDate, episode.releaseDate, today()));
