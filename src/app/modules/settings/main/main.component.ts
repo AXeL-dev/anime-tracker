@@ -40,12 +40,12 @@ export class MainComponent implements OnInit {
       this.settings.autoCheckRate = this.defaults.autoCheckRate;
     }
     this.settings.save();
+    this.router.navigate(['/']);
     this.snackbar.show({
       message: 'Settings successfully saved!',
       timeout: 3000,
       multiline: this.browser.isPopup
     });
-    this.router.navigate(['/']);
   }
 
 }
