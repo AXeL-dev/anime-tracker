@@ -123,13 +123,11 @@ export class AnimeProviderService {
     if (uniqueEpisodes.length) {
       uniqueEpisodes = uniqueEpisodes.sort(
         (a: Episode, b: Episode) => {
-          const releaseDate = {
-            a: a.releaseDate || today(),
-            b: b.releaseDate || today(),
-          };
+          const { releaseDate: releaseDateA = today() } = a;
+          const { releaseDate: releaseDateB = today() } = b;
           return this.settings.sortEpisodesBy === EpisodeSortingCriteria.FetchingDate ?
-            (sameDates(releaseDate.a, releaseDate.b) ? a.fetchingDate - b.fetchingDate : releaseDate.b - releaseDate.a) :
-            releaseDate.b - releaseDate.a;
+            (sameDates(releaseDateA, releaseDateB) ? a.fetchingDate - b.fetchingDate : releaseDateB - releaseDateA) :
+            releaseDateB - releaseDateA;
         }
       );
     }
