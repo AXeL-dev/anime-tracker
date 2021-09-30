@@ -25,8 +25,8 @@ export class AnimeProviderService {
   search(title: string): Observable<Anime[]> {
     const crawlers = this.crawlers.getActive();
 
-    return forkJoin(...crawlers.map((crawler: BaseCrawler) => crawler.searchAnime(title))).pipe(
-      map((animes: Anime[]) => {
+    return forkJoin(crawlers.map((crawler: BaseCrawler) => crawler.searchAnime(title))).pipe(
+      map((animes: Anime[][]) => {
         return flatten(animes);
       })
     );
@@ -35,7 +35,7 @@ export class AnimeProviderService {
   getLatestEpisodes(forcedUpdate: boolean = false): Observable<Episode[]> {
     const crawlers = this.crawlers.getActive(forcedUpdate);
 
-    return forkJoin(...crawlers.map((crawler: BaseCrawler) => crawler.getLatestEpisodes(forcedUpdate))).pipe(
+    return forkJoin(crawlers.map((crawler: BaseCrawler) => crawler.getLatestEpisodes(forcedUpdate))).pipe(
       map((episodes: Episode[][]) => {
         const allEpisodes = flatten(
           episodes.map((episodesArray: Episode[]) => episodesArray.slice(0, Math.min(episodesArray.length, this.settings.maxEpisodesToRetrieve)))
