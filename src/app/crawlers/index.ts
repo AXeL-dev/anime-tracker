@@ -14,6 +14,7 @@ export { AnimeKisaCrawler } from './vosten/animekisa.crawler';
 export { AnimixPlayCrawler } from './vosten/animixplay.crawler';
 export { DarkAnimeCrawler } from './vosten/darkanime.crawler';
 export { GogoAnimeCrawler } from './vosten/gogoanime.crawler';
+export { GogoPlayCrawler } from './vosten/gogoplay.crawler';
 export { YugenAnimeCrawler } from './vosten/yugenanime.crawler';
 // vostfr
 export { AnimeKoCrawler } from './vostfr/animeko.crawler';

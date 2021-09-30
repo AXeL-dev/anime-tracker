@@ -24,6 +24,7 @@ import {
   YugenAnimeCrawler,
   AnimixPlayCrawler,
   WacVostfrCrawler,
+  GogoPlayCrawler,
 } from '../crawlers';
 
 @Injectable({
@@ -48,6 +49,7 @@ export class CrawlersService {
     this.add(new JapMangaCrawler(this.scraper));
     this.add(new ToonAnimeCrawler(this.scraper));
     // Vosten crawlers
+    this.add(new GogoPlayCrawler(this.scraper));
     this.add(new AnimeKisaCrawler(this.scraper));
     this.add(new YugenAnimeCrawler(this.scraper));
     this.add(new AnimixPlayCrawler(this.scraper));
