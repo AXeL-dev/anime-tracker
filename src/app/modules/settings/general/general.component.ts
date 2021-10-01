@@ -8,20 +8,16 @@ import { Proxy } from 'src/app/models/proxy';
 @Component({
   selector: 'app-general-settings',
   templateUrl: './general.component.html',
-  styleUrls: [
-    './general.component.scss',
-    '../settings.shared.scss'
-  ]
+  styleUrls: ['./general.component.scss', '../settings.shared.scss'],
 })
 export class GeneralComponent implements OnInit {
-
   readonly proxies: Proxy[] = CORSProxies;
 
   constructor(
     public settings: SettingsService,
     public browser: BrowserService,
-    private debug: DebugService,
-  ) { }
+    private debug: DebugService
+  ) {}
 
   ngOnInit(): void {
     this.settings.enableDebugging = this.debug.isEnabled(); // ensure that we get the right debugging state even on dev env.
@@ -34,5 +30,4 @@ export class GeneralComponent implements OnInit {
       this.debug.disable();
     }
   }
-
 }

@@ -3,7 +3,13 @@
     <header mdcTopAppBar [viewport]="viewport" [fixedAdjust]="content">
       <div mdcTopAppBarRow>
         <section mdcTopAppBarSection alignStart>
-          <button mdcTopAppBarNavIcon class="material-icons" [routerLink]="['/']">arrow_back</button>
+          <button
+            mdcTopAppBarNavIcon
+            class="material-icons"
+            [routerLink]="['/']"
+          >
+            arrow_back
+          </button>
           <span mdcTopAppBarTitle>Settings</span>
         </section>
         <section mdcTopAppBarSection alignEnd>
@@ -13,59 +19,85 @@
     </header>
 
     <main #content>
-
       <section mdcDialogBody>
-
         <div mdcTabBarScroller>
           <div mdcTabBarScrollerBack>
-            <a mdcTabBarScrollerInner class="material-icons" href="javascript:void(0)" aria-label="scroll back button">
+            <a
+              mdcTabBarScrollerInner
+              class="material-icons"
+              href="javascript:void(0)"
+              aria-label="scroll back button"
+            >
               navigate_before
             </a>
           </div>
           <div mdcTabBarScrollerFrame>
             <nav mdcTabBar>
-              <a mdcTab (activate)="activeTabKey = 'general'" tabindex="0">General</a>
-              <a mdcTab (activate)="activeTabKey = 'display'" tabindex="0">Display</a>
-              <a *ngIf="browser.isWebExtension" mdcTab (activate)="activeTabKey = 'notifications'" tabindex="0">Notifications</a>
-              <a mdcTab (activate)="activeTabKey = 'crawlers'" tabindex="0">Crawlers ({{ crawlers.activeCount }}/{{ crawlers.count }})</a>
+              <a mdcTab (activate)="activeTabKey = 'general'" tabindex="0"
+                >General</a
+              >
+              <a mdcTab (activate)="activeTabKey = 'display'" tabindex="0"
+                >Display</a
+              >
+              <a
+                *ngIf="browser.isWebExtension"
+                mdcTab
+                (activate)="activeTabKey = 'notifications'"
+                tabindex="0"
+                >Notifications</a
+              >
+              <a mdcTab (activate)="activeTabKey = 'crawlers'" tabindex="0"
+                >Crawlers ({{ crawlers.activeCount }}/{{ crawlers.count }})</a
+              >
             </nav>
           </div>
           <div mdcTabBarScrollerForward>
-            <a mdcTabBarScrollerInner class="material-icons" href="javascript:void(0)" aria-label="scroll forward button">
+            <a
+              mdcTabBarScrollerInner
+              class="material-icons"
+              href="javascript:void(0)"
+              aria-label="scroll forward button"
+            >
               navigate_next
             </a>
           </div>
         </div>
 
         <div class="tab-content" [ngSwitch]="activeTabKey">
-
           <!-- General -->
           <ng-container *ngSwitchCase="'general'">
-            <ng-container *ngTemplateOutlet="generalSettingsTemplate"></ng-container>
+            <ng-container
+              *ngTemplateOutlet="generalSettingsTemplate"
+            ></ng-container>
           </ng-container>
 
           <!-- Display -->
-          <app-display-settings *ngSwitchCase="'display'"></app-display-settings>
+          <app-display-settings
+            *ngSwitchCase="'display'"
+          ></app-display-settings>
 
           <!-- Notifications -->
-          <app-notifications-settings *ngSwitchCase="'notifications'"></app-notifications-settings>
+          <app-notifications-settings
+            *ngSwitchCase="'notifications'"
+          ></app-notifications-settings>
 
           <!-- Crawlers -->
-          <app-crawlers-settings *ngSwitchCase="'crawlers'"></app-crawlers-settings>
+          <app-crawlers-settings
+            *ngSwitchCase="'crawlers'"
+          ></app-crawlers-settings>
 
           <!-- Default -->
           <ng-container *ngSwitchDefault>
-            <ng-container *ngTemplateOutlet="generalSettingsTemplate"></ng-container>
+            <ng-container
+              *ngTemplateOutlet="generalSettingsTemplate"
+            ></ng-container>
           </ng-container>
 
           <ng-template #generalSettingsTemplate>
             <app-general-settings></app-general-settings>
           </ng-template>
-
         </div>
-
       </section>
-
     </main>
   </div>
 </div>

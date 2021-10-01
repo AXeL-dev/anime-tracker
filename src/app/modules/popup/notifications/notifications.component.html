@@ -1,8 +1,10 @@
-
 <ng-container *ngIf="notifications.get().length > 0; else noNotificationsTpl">
   <div mdcListGroup>
     <nav mdcList *ngFor="let notification of notifications.get()">
-      <a mdcListItem [class.unread]="notification.status === notificationStatus.Unread">
+      <a
+        mdcListItem
+        [class.unread]="notification.status === notificationStatus.Unread"
+      >
         <ng-container
           [ngTemplateOutlet]="notificationIconTpl"
           [ngTemplateOutletContext]="{ $implicit: notification }"
@@ -10,25 +12,53 @@
 
         <span mdcListItemText [attr.title]="notification.message">
           {{ notification.message }}
-          <span mdcListItemSecondaryText>{{ notification.date | datetime }}</span>
+          <span mdcListItemSecondaryText>{{
+            notification.date | datetime
+          }}</span>
         </span>
       </a>
-      <hr mdcListDivider>
+      <hr mdcListDivider />
     </nav>
   </div>
 </ng-container>
 
 <ng-template #notificationIconTpl let-notification>
   <ng-container [ngSwitch]="notification.type">
-    <i *ngSwitchCase="notificationTypes.Success" mdcListItemGraphic class="material-icons success" aria-hidden="true">check_circle</i>
-    <i *ngSwitchCase="notificationTypes.Info" mdcListItemGraphic class="material-icons info" aria-hidden="true">info</i>
-    <i *ngSwitchCase="notificationTypes.Error" mdcListItemGraphic class="material-icons error" aria-hidden="true">error</i>
-    <i *ngSwitchDefault mdcListItemGraphic class="material-icons info" aria-hidden="true">info</i>
+    <i
+      *ngSwitchCase="notificationTypes.Success"
+      mdcListItemGraphic
+      class="material-icons success"
+      aria-hidden="true"
+      >check_circle</i
+    >
+    <i
+      *ngSwitchCase="notificationTypes.Info"
+      mdcListItemGraphic
+      class="material-icons info"
+      aria-hidden="true"
+      >info</i
+    >
+    <i
+      *ngSwitchCase="notificationTypes.Error"
+      mdcListItemGraphic
+      class="material-icons error"
+      aria-hidden="true"
+      >error</i
+    >
+    <i
+      *ngSwitchDefault
+      mdcListItemGraphic
+      class="material-icons info"
+      aria-hidden="true"
+      >info</i
+    >
   </ng-container>
 </ng-template>
 
 <ng-template #noNotificationsTpl>
   <div class="no-notifications-container">
-    <i mdcListItemGraphic class="material-icons" aria-hidden="true">notifications_off</i>
+    <i mdcListItemGraphic class="material-icons" aria-hidden="true"
+      >notifications_off</i
+    >
   </div>
 </ng-template>

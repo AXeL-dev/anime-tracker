@@ -31,10 +31,12 @@ import {
   providedIn: 'root',
 })
 export class CrawlersService {
-
   private crawlers: BaseCrawler[] = [];
 
-  constructor(private scraper: ScraperService, private settings: SettingsService) {
+  constructor(
+    private scraper: ScraperService,
+    private settings: SettingsService
+  ) {
     // Vostfr crawlers (keep the ones that provides precise release dates on the top)
     this.add(new AnimeKoCrawler(this.scraper));
     this.add(new NekoSamaCrawler(this.scraper));
@@ -67,7 +69,8 @@ export class CrawlersService {
 
   update() {
     this.crawlers.forEach((crawler: BaseCrawler) => {
-      crawler.isActive = this.settings.inactiveCrawlers.indexOf(crawler.name) === -1;
+      crawler.isActive =
+        this.settings.inactiveCrawlers.indexOf(crawler.name) === -1;
     });
   }
 
@@ -76,11 +79,15 @@ export class CrawlersService {
   }
 
   remove(crawler: BaseCrawler) {
-    this.crawlers = this.crawlers.filter((c: BaseCrawler) => c.name !== crawler.name);
+    this.crawlers = this.crawlers.filter(
+      (c: BaseCrawler) => c.name !== crawler.name
+    );
   }
 
   get(...names: string[]) {
-    return this.crawlers.filter((c: BaseCrawler) => names.indexOf(c.name) !== -1);
+    return this.crawlers.filter(
+      (c: BaseCrawler) => names.indexOf(c.name) !== -1
+    );
   }
 
   getAll(forcedUpdate: boolean = false) {
@@ -91,7 +98,9 @@ export class CrawlersService {
   }
 
   getAllExcept(...names: string[]) {
-    return this.crawlers.filter((c: BaseCrawler) => names.indexOf(c.name) === -1);
+    return this.crawlers.filter(
+      (c: BaseCrawler) => names.indexOf(c.name) === -1
+    );
   }
 
   getActive(forcedUpdate: boolean = false) {
@@ -108,5 +117,4 @@ export class CrawlersService {
   get activeCount() {
     return this.getActive().length;
   }
-
 }

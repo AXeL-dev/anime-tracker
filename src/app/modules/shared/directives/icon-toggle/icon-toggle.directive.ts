@@ -1,10 +1,17 @@
-import { Directive, Input, Output, EventEmitter, HostListener, ElementRef, SimpleChanges } from '@angular/core';
+import {
+  Directive,
+  Input,
+  Output,
+  EventEmitter,
+  HostListener,
+  ElementRef,
+  SimpleChanges,
+} from '@angular/core';
 
 @Directive({
-  selector: '[iconToggle]'
+  selector: '[iconToggle]',
 })
 export class IconToggleDirective {
-
   @Input() iconOn: string;
   @Input() iconOff: string;
   @Input() on: boolean = false;
@@ -14,7 +21,7 @@ export class IconToggleDirective {
   @Input() classOff: string = '';
   @Output() onChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  constructor(private element: ElementRef) { }
+  constructor(private element: ElementRef) {}
 
   ngOnInit(): void {
     this.update();
@@ -60,5 +67,4 @@ export class IconToggleDirective {
     this.on = !this.on;
     this.onChange.emit(this.on);
   }
-
 }

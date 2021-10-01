@@ -5,12 +5,8 @@ import { today, yesterday, dateBefore } from '../../helpers/date.helper';
 import { Observable } from 'rxjs';
 
 export class VoirAnimeCrawler extends LatestEpisodesCrawler {
-
   constructor(private scraper: ScraperService) {
-    super(
-      'VoirAnime',
-      'https://voiranime.com'
-    );
+    super('VoirAnime', 'https://voiranime.com');
     this.filters = {
       ...this.filters,
       cover: (text: string) => {
@@ -20,7 +16,10 @@ export class VoirAnimeCrawler extends LatestEpisodesCrawler {
         return 'vostfr';
       },
       date: (text: string) => {
-        if (text.indexOf('mins ago') !== -1 || text.indexOf('hours ago') !== -1) {
+        if (
+          text.indexOf('mins ago') !== -1 ||
+          text.indexOf('hours ago') !== -1
+        ) {
           return today();
         } else if (text.indexOf('1 day ago') !== -1) {
           return yesterday();
@@ -31,7 +30,7 @@ export class VoirAnimeCrawler extends LatestEpisodesCrawler {
           }
           return new Date(text)?.getTime();
         }
-      }
+      },
     };
   }
 
@@ -49,7 +48,7 @@ export class VoirAnimeCrawler extends LatestEpisodesCrawler {
           {
             url: '.chapter-item:first-child .chapter a@href',
             lang: '| subtitles',
-          }
+          },
         ],
         releaseDate: '.chapter-item:first-child .post-on | date',
       },

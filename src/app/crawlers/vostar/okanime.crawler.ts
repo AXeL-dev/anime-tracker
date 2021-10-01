@@ -4,17 +4,13 @@ import { Episode } from '../../models/episode';
 import { Observable } from 'rxjs';
 
 export class OkanimeCrawler extends LatestEpisodesCrawler {
-
   constructor(private scraper: ScraperService) {
-    super(
-      'OKanime',
-      'https://okanime.tv'
-    );
+    super('OKanime', 'https://okanime.tv');
     this.filters = {
       ...this.filters,
       subtitles: (text: string) => {
         return 'vostar';
-      }
+      },
     };
   }
 
@@ -32,7 +28,7 @@ export class OkanimeCrawler extends LatestEpisodesCrawler {
           {
             url: 'a@href | concatUrl',
             lang: '| subtitles',
-          }
+          },
         ],
       },
       this.filters

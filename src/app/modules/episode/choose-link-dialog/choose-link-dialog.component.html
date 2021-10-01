@@ -1,11 +1,15 @@
-
 <aside #dialog="mdcDialog" mdcDialog mdcFocusTrap (cancel)="onClose()">
   <div mdcDialogSurface>
     <header mdcDialogHeader>
-      <h2 mdcDialogHeaderTitle>{{ title }} {{ links?.length > 1 ? '(' + links.length + ')' : '' }}</h2>
+      <h2 mdcDialogHeaderTitle>
+        {{ title }} {{ links?.length > 1 ? "(" + links.length + ")" : "" }}
+      </h2>
     </header>
     <section mdcDialogBody scrollable>
-      <episode-link-list [links]="links" (linkClick)="linkClick.emit()"></episode-link-list>
+      <episode-link-list
+        [links]="links"
+        (linkClick)="linkClick.emit()"
+      ></episode-link-list>
     </section>
     <footer mdcDialogFooter>
       <button mdcButton mdcDialogCancel>Close</button>

@@ -1,20 +1,24 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Notification, NotificationStatus, NotificationType } from 'src/app/models/notification';
+import {
+  Notification,
+  NotificationStatus,
+  NotificationType,
+} from 'src/app/models/notification';
 import { now } from '../helpers/date.helper';
 import { BrowserService } from './browser.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class NotificationsService {
-
   private notifications: Notification[] = [];
   private canSendMessage: boolean = false;
   private canUpdateBackgroundNotifications: boolean = true;
 
   constructor(private browser: BrowserService, private router: Router) {
-    this.canSendMessage = this.browser.isWebExtension && this.router.url !== '/background';
+    this.canSendMessage =
+      this.browser.isWebExtension && this.router.url !== '/background';
     if (this.canSendMessage) {
       this.fetchFromBackgroundScript();
     }
@@ -22,7 +26,9 @@ export class NotificationsService {
   }
 
   private async fetchFromBackgroundScript() {
-    const notifications: Notification[] = await this.browser.sendMessage('getNotifications') as Notification[];
+    const notifications: Notification[] = (await this.browser.sendMessage(
+      'getNotifications'
+    )) as Notification[];
     if (notifications?.length) {
       this.notifications = [...notifications];
     }
@@ -42,7 +48,7 @@ export class NotificationsService {
       message: message,
       type: type,
       date: now(),
-      status: NotificationStatus.Unread
+      status: NotificationStatus.Unread,
     });
   }
 
@@ -63,13 +69,14 @@ export class NotificationsService {
   }
 
   get unreadCount() {
-    return this.notifications.filter((notification: Notification) =>
-      !notification.status || notification.status === NotificationStatus.Unread
+    return this.notifications.filter(
+      (notification: Notification) =>
+        !notification.status ||
+        notification.status === NotificationStatus.Unread
     ).length;
   }
 
   hasUnread() {
     return this.unreadCount > 0;
   }
-
 }

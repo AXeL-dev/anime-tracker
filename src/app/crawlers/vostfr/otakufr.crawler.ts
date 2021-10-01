@@ -5,12 +5,8 @@ import { Observable } from 'rxjs';
 import { frenchDays, frenchMonths } from '../../helpers/date.helper';
 
 export class OtakuFrCrawler extends LatestEpisodesCrawler {
-
   constructor(private scraper: ScraperService) {
-    super(
-      'OtakuFr',
-      'https://otakufr.co'
-    );
+    super('OtakuFr', 'https://otakufr.co');
     this.filters = {
       ...this.filters,
       title: (text: string) => {
@@ -26,11 +22,19 @@ export class OtakuFrCrawler extends LatestEpisodesCrawler {
       },
       date: (text: string) => {
         let date = text.toLowerCase();
-        date = date.replace(new RegExp('^(' + frenchDays.join('|') + ')', 'g'), '');
-        date = date.replace(new RegExp('(' + Object.keys(frenchMonths).join('|') + ')', 'g'), month => frenchMonths[month]).trim();
+        date = date.replace(
+          new RegExp('^(' + frenchDays.join('|') + ')', 'g'),
+          ''
+        );
+        date = date
+          .replace(
+            new RegExp('(' + Object.keys(frenchMonths).join('|') + ')', 'g'),
+            (month) => frenchMonths[month]
+          )
+          .trim();
         date = date.split(' ').reverse().join('-');
         return new Date(date)?.getTime();
-      }
+      },
     };
   }
 
@@ -48,7 +52,7 @@ export class OtakuFrCrawler extends LatestEpisodesCrawler {
           {
             url: 'a.episode-link@href',
             lang: '.traduction | subtitles',
-          }
+          },
         ],
         releaseDate: ':prev div.title | date',
       },

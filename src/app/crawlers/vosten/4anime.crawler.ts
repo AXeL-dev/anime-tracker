@@ -4,12 +4,8 @@ import { Episode } from '../../models/episode';
 import { Observable } from 'rxjs';
 
 export class FourAnimeCrawler extends LatestEpisodesCrawler {
-
   constructor(private scraper: ScraperService) {
-    super(
-      '4Anime',
-      'https://4anime.to'
-    );
+    super('4Anime', 'https://4anime.to');
     this.filters = {
       ...this.filters,
       cover: (text: string) => {
@@ -25,7 +21,7 @@ export class FourAnimeCrawler extends LatestEpisodesCrawler {
       },
       subtitles: (text: string) => {
         return 'vosten';
-      }
+      },
     };
   }
 
@@ -43,7 +39,7 @@ export class FourAnimeCrawler extends LatestEpisodesCrawler {
           {
             url: 'a#headerA_5@href',
             lang: '| subtitles',
-          }
+          },
         ],
       },
       this.filters

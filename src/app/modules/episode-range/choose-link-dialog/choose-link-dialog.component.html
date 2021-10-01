@@ -1,16 +1,25 @@
-
 <aside #dialog="mdcDialog" mdcDialog mdcFocusTrap (cancel)="onClose()">
   <div mdcDialogSurface>
     <header mdcDialogHeader>
       <h2 mdcDialogHeaderTitle>
-        {{ title }} {{ episodes?.length && episodes[activeIndex][linksKey]?.length > 1 ? '(' + episodes[activeIndex][linksKey].length + ')' : '' }}
+        {{ title }}
+        {{
+          episodes?.length && episodes[activeIndex][linksKey]?.length > 1
+            ? "(" + episodes[activeIndex][linksKey].length + ")"
+            : ""
+        }}
       </h2>
     </header>
     <section mdcDialogBody scrollable>
       <ng-container *ngIf="episodes?.length; else emptyTemplate">
         <div mdcTabBarScroller>
           <div mdcTabBarScrollerBack>
-            <a mdcTabBarScrollerInner class="material-icons" href="javascript:void(0)" aria-label="scroll back button">
+            <a
+              mdcTabBarScrollerInner
+              class="material-icons"
+              href="javascript:void(0)"
+              aria-label="scroll back button"
+            >
               navigate_before
             </a>
           </div>
@@ -20,23 +29,38 @@
                 *ngFor="let episode of episodes; let i = index"
                 mdcTab
                 [active]="activeIndex === i"
-                [class.mdc-ripple-upgraded--background-focused]="activeIndex === i"
+                [class.mdc-ripple-upgraded--background-focused]="
+                  activeIndex === i
+                "
                 (activate)="activeIndex = i"
                 tabindex="0"
               >
                 {{ episode.number }}
-                <span *ngIf="episode.isViewed" class="material-icons-outlined viewed-icon" title="Viewed">visibility</span>
+                <span
+                  *ngIf="episode.isViewed"
+                  class="material-icons-outlined viewed-icon"
+                  title="Viewed"
+                  >visibility</span
+                >
               </a>
             </nav>
           </div>
           <div mdcTabBarScrollerForward>
-            <a mdcTabBarScrollerInner class="material-icons" href="javascript:void(0)" aria-label="scroll forward button">
+            <a
+              mdcTabBarScrollerInner
+              class="material-icons"
+              href="javascript:void(0)"
+              aria-label="scroll forward button"
+            >
               navigate_next
             </a>
           </div>
         </div>
         <div class="tab-content">
-          <episode-link-list [links]="episodes[activeIndex][linksKey]" (linkClick)="linkClick.emit(episodes[activeIndex])"></episode-link-list>
+          <episode-link-list
+            [links]="episodes[activeIndex][linksKey]"
+            (linkClick)="linkClick.emit(episodes[activeIndex])"
+          ></episode-link-list>
         </div>
       </ng-container>
       <ng-template #emptyTemplate>

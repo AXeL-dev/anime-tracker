@@ -6,12 +6,8 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 export class NekoSamaCrawler extends LatestEpisodesCrawler {
-
   constructor(private scraper: ScraperService) {
-    super(
-      'Neko-sama',
-      'https://www.neko-sama.fr'
-    );
+    super('Neko-sama', 'https://www.neko-sama.fr');
     this.filters = {
       ...this.filters,
       number: (text: string) => {
@@ -30,39 +26,41 @@ export class NekoSamaCrawler extends LatestEpisodesCrawler {
           }
           return new Date(text)?.getTime();
         }
-      }
+      },
     };
   }
 
   _getLatestEpisodes(): Observable<Episode[]> {
-    return this.scraper.getRawHTML(this.baseUrl).pipe(map((html: string) => {
-      const results = html.match(/lastEpisodes = \[(.*)\]/);
-      const latestEpisodes: Episode[] = [];
-      if (results?.length) {
-        try {
-          const episodes = JSON.parse(`[${results[1]}]`);
-          episodes.forEach((episode: any) => {
-            latestEpisodes.push({
-              anime: {
-                title: episode.title,
-                cover: episode.url_image,
-              },
-              number: this.filters.number(episode.episode),
-              streamLinks: [
-                {
-                  url: this.filters.concatUrl(episode.url),
-                  lang: 'vostfr',
-                }
-              ],
-              releaseDate: this.filters.date(episode.time),
+    return this.scraper.getRawHTML(this.baseUrl).pipe(
+      map((html: string) => {
+        const results = html.match(/lastEpisodes = \[(.*)\]/);
+        const latestEpisodes: Episode[] = [];
+        if (results?.length) {
+          try {
+            const episodes = JSON.parse(`[${results[1]}]`);
+            episodes.forEach((episode: any) => {
+              latestEpisodes.push({
+                anime: {
+                  title: episode.title,
+                  cover: episode.url_image,
+                },
+                number: this.filters.number(episode.episode),
+                streamLinks: [
+                  {
+                    url: this.filters.concatUrl(episode.url),
+                    lang: 'vostfr',
+                  },
+                ],
+                releaseDate: this.filters.date(episode.time),
+              });
             });
-          });
-        } catch (error) {
-          console.error(error.message);
+          } catch (error) {
+            console.error(error.message);
+          }
         }
-      }
 
-      return latestEpisodes;
-    }));
+        return latestEpisodes;
+      })
+    );
   }
 }

@@ -1,10 +1,12 @@
-
 <div mdcListGroup>
-
   <h3 mdcListGroupSubHeader class="ml-8">
     <div mdcFormField>
       <div mdcCheckbox>
-        <input mdcCheckboxInput type="checkbox" (change)="onSelectAllCrawlersChange($event.target.checked)"/>
+        <input
+          mdcCheckboxInput
+          type="checkbox"
+          (change)="onSelectAllCrawlersChange($event.target.checked)"
+        />
       </div>
       <label mdcFormFieldLabel></label>
     </div>
@@ -15,7 +17,12 @@
     <li mdcListItem *ngFor="let crawler of allCrawlers">
       <span mdcListItemGraphic>
         <div mdcCheckbox>
-          <input mdcCheckboxInput type="checkbox" [(ngModel)]="crawler.isActive" (change)="onCrawlerChange(crawler)"/>
+          <input
+            mdcCheckboxInput
+            type="checkbox"
+            [(ngModel)]="crawler.isActive"
+            (change)="onCrawlerChange(crawler)"
+          />
         </div>
       </span>
       <span mdcListItemText>
@@ -28,5 +35,4 @@
       </span>
     </li>
   </ul>
-
 </div>

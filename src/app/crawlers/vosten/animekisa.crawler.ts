@@ -4,12 +4,8 @@ import { Episode } from '../../models/episode';
 import { Observable } from 'rxjs';
 
 export class AnimeKisaCrawler extends LatestEpisodesCrawler {
-
   constructor(private scraper: ScraperService) {
-    super(
-      'AnimeKisa',
-      'https://animekisa.tv'
-    );
+    super('AnimeKisa', 'https://animekisa.tv');
     this.filters = {
       ...this.filters,
       number: (text: string) => {
@@ -21,7 +17,7 @@ export class AnimeKisaCrawler extends LatestEpisodesCrawler {
       },
       date: (text: string) => {
         return +text * 1000; // convert to unix timestamp
-      }
+      },
     };
   }
 
@@ -39,7 +35,7 @@ export class AnimeKisaCrawler extends LatestEpisodesCrawler {
           {
             url: '.episode-box-2 a.an:first-child@href | concatUrl',
             lang: '| subtitles',
-          }
+          },
         ],
         releaseDate: '.info-box > div > time@time | date',
       },

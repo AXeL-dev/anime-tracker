@@ -4,10 +4,9 @@ import { sanitizePath } from 'src/app/helpers/url.helper';
 declare var browser: any; // Fixes "Cannot find name 'browser'." error on build
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class BrowserService {
-
   api: any;
   isWebExtension: boolean;
   isPopup: boolean;
@@ -18,7 +17,7 @@ export class BrowserService {
     try {
       this.api = browser;
       this.isWebExtension = !!this.api;
-    } catch(error) {
+    } catch (error) {
       this.isWebExtension = false;
     }
     this.isPopup = window.innerWidth < 1000;
@@ -32,7 +31,7 @@ export class BrowserService {
     }
     return browser.tabs.create({
       url: url,
-      active: isActive
+      active: isActive,
     });
   }
 
@@ -49,14 +48,17 @@ export class BrowserService {
     if (!this.isWebExtension) {
       return;
     }
-    browser.tabs.executeScript(
-      tabId, {
-        code: code
-      }
-    );
+    browser.tabs.executeScript(tabId, {
+      code: code,
+    });
   }
 
-  sendNotification(message: string, id: string = '', type: string = 'basic'): void { // id will be auto-generated if empty
+  sendNotification(
+    message: string,
+    id: string = '',
+    type: string = 'basic'
+  ): void {
+    // id will be auto-generated if empty
     if (!this.isWebExtension) {
       return;
     }
@@ -64,19 +66,21 @@ export class BrowserService {
       type: type,
       title: 'Anime Tracker',
       iconUrl: 'assets/icons/128.png',
-      message: message
+      message: message,
     });
   }
 
   sendMessage(message: string, ...params: any) {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       try {
-        browser.runtime.sendMessage({
-          message: message,
-          params: params
-        }).then(({ response } = { response: null }) => {
-          resolve(response);
-        });
+        browser.runtime
+          .sendMessage({
+            message: message,
+            params: params,
+          })
+          .then(({ response } = { response: null }) => {
+            resolve(response);
+          });
       } catch (error) {
         console.error(error);
         resolve(null);
@@ -84,12 +88,12 @@ export class BrowserService {
     });
   }
 
-  setBadgeText(text: string|number): void {
+  setBadgeText(text: string | number): void {
     if (!this.isWebExtension) {
       return;
     }
     browser.browserAction.setBadgeText({
-      text: text === 0 ? '' : text.toString()
+      text: text === 0 ? '' : text.toString(),
     });
   }
 
@@ -105,7 +109,7 @@ export class BrowserService {
 
   getBadgeText(): Promise<string> {
     if (!this.isWebExtension) {
-      return new Promise(resolve => resolve(''));
+      return new Promise((resolve) => resolve(''));
     }
     return browser.browserAction.getBadgeText({});
   }

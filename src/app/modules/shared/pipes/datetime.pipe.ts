@@ -11,7 +11,17 @@ export class DateTimePipe extends DatePipe implements PipeTransform {
 
   transform(value: Date | string | number): string | null;
   transform(value: null | undefined): null;
-  transform(value: any, format?: string, timezone?: string, locale?: string): string {
-    return super.transform(value, format || 'dd MMMM yyyy HH:mm', timezone, locale);
+  transform(
+    value: any,
+    format?: string,
+    timezone?: string,
+    locale?: string
+  ): string {
+    return super.transform(
+      value,
+      format || 'dd MMMM yyyy HH:mm',
+      timezone,
+      locale
+    );
   }
 }

@@ -4,7 +4,6 @@ import { Episode } from '../../models/episode';
 import { Observable, of } from 'rxjs';
 
 export abstract class LatestEpisodesCrawler extends BaseCrawler {
-
   _getAnimeList(forcedUpdate: boolean = false): Observable<Anime[]> {
     // ToDo
     return of([]);
@@ -19,5 +18,4 @@ export abstract class LatestEpisodesCrawler extends BaseCrawler {
     // ToDo
     return of([]);
   }
-
 }

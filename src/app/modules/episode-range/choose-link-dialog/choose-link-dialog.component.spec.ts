@@ -6,12 +6,13 @@ describe('ChooseLinkDialogComponent', () => {
   let component: ChooseLinkDialogComponent;
   let fixture: ComponentFixture<ChooseLinkDialogComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ ChooseLinkDialogComponent ]
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [ChooseLinkDialogComponent],
+      }).compileComponents();
     })
-    .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ChooseLinkDialogComponent);

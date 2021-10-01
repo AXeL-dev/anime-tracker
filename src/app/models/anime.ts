@@ -23,5 +23,5 @@ export enum AnimeStatus {
   ComingSoon,
   OnGoing,
   Stopped,
-  Finished
+  Finished,
 }

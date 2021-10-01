@@ -6,10 +6,9 @@ import { ViewedEpisodesService } from 'src/app/services/viewed-episodes.service'
 @Component({
   selector: 'episode-range-card',
   templateUrl: './card.component.html',
-  styleUrls: ['./card.component.scss']
+  styleUrls: ['./card.component.scss'],
 })
 export class CardComponent implements OnInit {
-
   @Input() episodeRange: EpisodeRange;
   @Output() streamLinksClick: EventEmitter<EpisodeRange> = new EventEmitter();
   @Output() downloadLinksClick: EventEmitter<EpisodeRange> = new EventEmitter();
@@ -17,11 +16,18 @@ export class CardComponent implements OnInit {
   constructor(
     private favoriteAnimes: FavoriteAnimesService,
     public viewedEpisodes: ViewedEpisodesService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
-    this.episodeRange.range = this.episodeRange.range.map((episode: Episode) => ({ ...episode, isViewed: this.viewedEpisodes.isViewed(episode) }));
-    this.episodeRange.first.isRegular = this.viewedEpisodes.isRegular(this.episodeRange.first);
+    this.episodeRange.range = this.episodeRange.range.map(
+      (episode: Episode) => ({
+        ...episode,
+        isViewed: this.viewedEpisodes.isViewed(episode),
+      })
+    );
+    this.episodeRange.first.isRegular = this.viewedEpisodes.isRegular(
+      this.episodeRange.first
+    );
   }
 
   onClick(event: Event) {
@@ -49,5 +55,4 @@ export class CardComponent implements OnInit {
   isFavorite() {
     return this.favoriteAnimes.isFavorite(this.episodeRange.first.anime.title);
   }
-
 }

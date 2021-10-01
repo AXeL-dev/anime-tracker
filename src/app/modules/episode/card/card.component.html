@@ -1,8 +1,16 @@
-
 <div mdcCard class="custom-card-photo">
-  <a mdcCardPrimaryAction [href]="episode.streamLinks[0].url" (click)="onClick($event)" target="_blank">
-    <div mdcCardMedia size="square"
-      [style.background-image]="episode.anime.cover | url:'encodeAndFormat' | safe:'style'"
+  <a
+    mdcCardPrimaryAction
+    [href]="episode.streamLinks[0].url"
+    (click)="onClick($event)"
+    target="_blank"
+  >
+    <div
+      mdcCardMedia
+      size="square"
+      [style.background-image]="
+        episode.anime.cover | url: 'encodeAndFormat' | safe: 'style'
+      "
       [attr.data-cover]="episode.anime.cover"
     >
       <div mdcCardMediaContent>
@@ -25,29 +33,68 @@
     </div>
   </a>
   <div class="mdc-card__actions mdc-card__action-icons" #viewport>
-    <div *ngIf="episode.isViewed; else isRegularTemplate" mdcMenuAnchor #anchor="mdcMenuAnchor" [style.display]="'flex'">
-      <button class="material-icons-outlined mdc-icon-button wider blue-eye" title="Viewed" [style.margin]="0" (click)="isViewedMenu.open = true">visibility</button>
-      <div mdcMenu
-          [(open)]="isViewedMenu.open"
-          [menuAnchor]="anchor"
-          [viewport]="viewport"
-          #isViewedMenu>
+    <div
+      *ngIf="episode.isViewed; else isRegularTemplate"
+      mdcMenuAnchor
+      #anchor="mdcMenuAnchor"
+      [style.display]="'flex'"
+    >
+      <button
+        class="material-icons-outlined mdc-icon-button wider blue-eye"
+        title="Viewed"
+        [style.margin]="0"
+        (click)="isViewedMenu.open = true"
+      >
+        visibility
+      </button>
+      <div
+        mdcMenu
+        [(open)]="isViewedMenu.open"
+        [menuAnchor]="anchor"
+        [viewport]="viewport"
+        #isViewedMenu
+      >
         <ul mdcList>
           <li mdcListItem (click)="markAsUnviewed()">Mark as unviewed</li>
         </ul>
       </div>
     </div>
     <ng-template #isRegularTemplate>
-      <a *ngIf="episode.isRegular" target="_blank" [href]="viewedEpisodes.getEpisodeUrl(episode) | safe:'resourceUrl'" class="material-icons mdc-icon-button centered green-check" title="Regular">
+      <a
+        *ngIf="episode.isRegular"
+        target="_blank"
+        [href]="viewedEpisodes.getEpisodeUrl(episode) | safe: 'resourceUrl'"
+        class="material-icons mdc-icon-button centered green-check"
+        title="Regular"
+      >
         check_circle_outline
       </a>
     </ng-template>
-    <button iconToggle class="material-icons mdc-icon-button" classOn="red-heart"
-      titleOn="Remove from favorites" titleOff="Add to favorites"
-      iconOn="favorite" iconOff="favorite_border"
-      [on]="isFavorite()" (onChange)="toggleFavorite($event)"></button>
-    <button class="material-icons mdc-icon-button" title="Stream links" (click)="showStreamLinks()">play_circle_outline</button>
-    <button class="material-icons mdc-icon-button" title="Download links" (click)="showDownloadLinks()">save_alt</button>
+    <button
+      iconToggle
+      class="material-icons mdc-icon-button"
+      classOn="red-heart"
+      titleOn="Remove from favorites"
+      titleOff="Add to favorites"
+      iconOn="favorite"
+      iconOff="favorite_border"
+      [on]="isFavorite()"
+      (onChange)="toggleFavorite($event)"
+    ></button>
+    <button
+      class="material-icons mdc-icon-button"
+      title="Stream links"
+      (click)="showStreamLinks()"
+    >
+      play_circle_outline
+    </button>
+    <button
+      class="material-icons mdc-icon-button"
+      title="Download links"
+      (click)="showDownloadLinks()"
+    >
+      save_alt
+    </button>
     <!-- <button class="material-icons mdc-icon-button" title="More options">more_vert</button> -->
   </div>
 </div>

@@ -11,7 +11,6 @@ import { EpisodeSortingCriteria } from '../models/episode';
   providedIn: 'root',
 })
 export class SettingsService {
-
   // General
   proxy: string;
   openInNewTab: boolean;
@@ -35,42 +34,47 @@ export class SettingsService {
     private storage: StorageService,
     private browser: BrowserService,
     private debug: DebugService
-  ) { }
+  ) {}
 
-  static init(self: SettingsService) { // always executed on app init @see app.module.ts
-    return () => new Promise<void>((resolve, reject) => {
-      self.get().then(async () => {
-        if (self.browser.isWebExtension) {
-          const page = getQueryParam('page');
-          if (!page || page === 'popup') {
-            // open in new tab
-            const openInNewTabLock = await self.storage.get('openInNewTabLock');
-            if (self.openInNewTab && !openInNewTabLock) {
-              self.storage.save('openInNewTabLock', true);
-              self.browser.createTab(self.browser.getUrl('index.html'));
-              window.close(); // close popup on Firefox
-              reject('openInNewTab is enabled');
-            } else if (openInNewTabLock) {
-              self.storage.save('openInNewTabLock', false);
+  static init(self: SettingsService) {
+    // always executed on app init @see app.module.ts
+    return () =>
+      new Promise<void>((resolve, reject) => {
+        self.get().then(async () => {
+          if (self.browser.isWebExtension) {
+            const page = getQueryParam('page');
+            if (!page || page === 'popup') {
+              // open in new tab
+              const openInNewTabLock = await self.storage.get(
+                'openInNewTabLock'
+              );
+              if (self.openInNewTab && !openInNewTabLock) {
+                self.storage.save('openInNewTabLock', true);
+                self.browser.createTab(self.browser.getUrl('index.html'));
+                window.close(); // close popup on Firefox
+                reject('openInNewTab is enabled');
+              } else if (openInNewTabLock) {
+                self.storage.save('openInNewTabLock', false);
+              }
             }
           }
-        }
-        resolve();
+          resolve();
+        });
       });
-    });
   }
 
   private async get() {
     const settings = await this.storage.get('settings');
     this.debug.log('Storage settings:', settings);
     const defaults = this.getDefaults();
-    this.set({...defaults, ...settings}); // any existing settings value will override defaults
+    this.set({ ...defaults, ...settings }); // any existing settings value will override defaults
   }
 
   getDefaults() {
     return {
       proxy: this.browser.isWebExtension ? '' : CORSProxies[0].url,
-      openInNewTab: !this.browser.isWebExtension || this.browser.isFirefox ? true : false,
+      openInNewTab:
+        !this.browser.isWebExtension || this.browser.isFirefox ? true : false,
       openLinksInInactiveTabs: true,
       maxEpisodesToRetrieve: 50,
       enableDebugging: false,
@@ -125,5 +129,4 @@ export class SettingsService {
   async refresh() {
     await this.get();
   }
-
 }

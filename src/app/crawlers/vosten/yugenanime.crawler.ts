@@ -4,12 +4,8 @@ import { Episode } from '../../models/episode';
 import { Observable } from 'rxjs';
 
 export class YugenAnimeCrawler extends LatestEpisodesCrawler {
-
   constructor(private scraper: ScraperService) {
-    super(
-      'YugenAnime',
-      'https://yugenani.me'
-    );
+    super('YugenAnime', 'https://yugenani.me');
     this.filters = {
       ...this.filters,
       cover: (text: string) => {
@@ -22,7 +18,7 @@ export class YugenAnimeCrawler extends LatestEpisodesCrawler {
       },
       subtitles: (text: string) => {
         return 'vosten';
-      }
+      },
     };
   }
 
@@ -40,7 +36,7 @@ export class YugenAnimeCrawler extends LatestEpisodesCrawler {
           {
             url: 'a.ep-thumbnail@href | concatUrl',
             lang: '| subtitles',
-          }
+          },
         ],
         releaseDate: 'a.ep-details .ep-statistics time@datetime | date',
       },

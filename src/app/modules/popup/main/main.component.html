@@ -1,8 +1,10 @@
-
-<app-layout [view]="view" [(isLoading)]="isLoading" [(searchValue)]="searchValue" (searchValueChange)="search($event)">
-
+<app-layout
+  [view]="view"
+  [(isLoading)]="isLoading"
+  [(searchValue)]="searchValue"
+  (searchValueChange)="search($event)"
+>
   <ng-container *ngIf="settings.displayEpisodesDayByDay; else showAllTemplate">
-
     <ng-container *ngFor="let day of days">
       <ng-container *ngIf="episodesByDays[day]?.length">
         <h3 class="day-title">{{ day | shortdate }}</h3>
@@ -16,11 +18,9 @@
         </section>
       </ng-container>
     </ng-container>
-
   </ng-container>
 
   <ng-template #showAllTemplate>
-
     <section class="custom-card-container">
       <ng-container
         *ngFor="let episode of episodes"
@@ -28,7 +28,6 @@
         [ngTemplateOutletContext]="{ $implicit: episode }"
       ></ng-container>
     </section>
-
   </ng-template>
 
   <ng-template #episodeCard let-episode>
@@ -47,21 +46,24 @@
     ></episode-range-card>
   </ng-template>
 
-  <episode-choose-link-dialog #episodeStreamLinksDialog
+  <episode-choose-link-dialog
+    #episodeStreamLinksDialog
     [title]="'Choose a stream link'"
     [links]="selectedEpisode?.streamLinks || []"
     (linkClick)="markEpisodeAsViewed(selectedEpisode)"
     (close)="selectedEpisode = null"
   ></episode-choose-link-dialog>
 
-  <episode-choose-link-dialog #episodeDownloadLinksDialog
+  <episode-choose-link-dialog
+    #episodeDownloadLinksDialog
     [title]="'Choose a download link'"
     [links]="selectedEpisode?.downloadLinks || []"
     (linkClick)="markEpisodeAsViewed(selectedEpisode)"
     (close)="selectedEpisode = null"
   ></episode-choose-link-dialog>
 
-  <episode-range-choose-link-dialog #episodeRangeStreamLinksDialog
+  <episode-range-choose-link-dialog
+    #episodeRangeStreamLinksDialog
     [title]="'Choose a stream link'"
     [episodes]="selectedEpisodeRange?.range || []"
     linksKey="streamLinks"
@@ -69,16 +71,23 @@
     (close)="selectedEpisodeRange = null"
   ></episode-range-choose-link-dialog>
 
-  <episode-range-choose-link-dialog #episodeRangeDownloadLinksDialog
+  <episode-range-choose-link-dialog
+    #episodeRangeDownloadLinksDialog
     [title]="'Choose a download link'"
     [episodes]="selectedEpisodeRange?.range || []"
     linksKey="downloadLinks"
     (linkClick)="markEpisodeAsViewed($event)"
     (close)="selectedEpisodeRange = null"
   ></episode-range-choose-link-dialog>
-
 </app-layout>
 
-<button *ngIf="!isLoading" mdcButton raised class="refresh-button" title="Refresh" (click)="refresh()">
+<button
+  *ngIf="!isLoading"
+  mdcButton
+  raised
+  class="refresh-button"
+  title="Refresh"
+  (click)="refresh()"
+>
   <i mdcButtonIcon class="material-icons">refresh</i>
 </button>

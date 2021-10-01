@@ -8,10 +8,9 @@ import { SettingsService } from 'src/app/services/settings.service';
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',
-  styleUrls: ['./layout.component.scss']
+  styleUrls: ['./layout.component.scss'],
 })
 export class LayoutComponent implements OnInit {
-
   openMenu: boolean = false;
   openNotifications: boolean = false;
   private wasNotificationsOpened: boolean = false;
@@ -19,7 +18,8 @@ export class LayoutComponent implements OnInit {
   @Input() isLoading: boolean = false;
   @Output() private isLoadingChange: EventEmitter<boolean> = new EventEmitter();
   @Input() searchValue: string = null;
-  @Output() private searchValueChange: EventEmitter<string> = new EventEmitter();
+  @Output() private searchValueChange: EventEmitter<string> =
+    new EventEmitter();
   readonly views: typeof View = View;
 
   constructor(
@@ -31,8 +31,7 @@ export class LayoutComponent implements OnInit {
     this.debug.log('Router url:', this.router.url);
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   toggleMenu() {
     this.openMenu = !this.openMenu;
@@ -61,5 +60,4 @@ export class LayoutComponent implements OnInit {
   onSearchValueChange(value: string) {
     this.searchValueChange.emit(value);
   }
-
 }

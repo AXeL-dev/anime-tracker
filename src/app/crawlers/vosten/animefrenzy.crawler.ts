@@ -4,17 +4,13 @@ import { Episode } from '../../models/episode';
 import { Observable } from 'rxjs';
 
 export class AnimeFrenzyCrawler extends LatestEpisodesCrawler {
-
   constructor(private scraper: ScraperService) {
-    super(
-      'AnimeFrenzy',
-      'https://animefrenzy.net'
-    );
+    super('AnimeFrenzy', 'https://animefrenzy.net');
     this.filters = {
       ...this.filters,
       subtitles: (text: string) => {
         return 'vosten';
-      }
+      },
     };
   }
 
@@ -32,7 +28,7 @@ export class AnimeFrenzyCrawler extends LatestEpisodesCrawler {
           {
             url: '.iep > .iepsbox > a@href | concatUrl',
             lang: '| subtitles',
-          }
+          },
         ],
         releaseDate: '.iep > .iepsbox > a .iepst3 time@datetime | number',
       },

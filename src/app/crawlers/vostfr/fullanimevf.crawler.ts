@@ -4,19 +4,19 @@ import { Episode } from '../../models/episode';
 import { Observable } from 'rxjs';
 
 export class FullAnimeVFCrawler extends LatestEpisodesCrawler {
-
   constructor(private scraper: ScraperService) {
-    super(
-      'FullAnimeVF',
-      'https://www.fullanimefr.com'
-    );
+    super('FullAnimeVF', 'https://www.fullanimefr.com');
     this.filters = {
       ...this.filters,
       cover: (text: string) => {
         return text.replace('-218x150', '');
       },
       number: (text: string) => {
-        const num = text.replace('[NEW]', '').replace('[HD]', '').replace('VOSTFR', '').match(/(.*) Episode (\d+)/);
+        const num = text
+          .replace('[NEW]', '')
+          .replace('[HD]', '')
+          .replace('VOSTFR', '')
+          .match(/(.*) Episode (\d+)/);
         return num?.length ? +num[2] : 1;
       },
       isNew: (text: string) => {
@@ -26,11 +26,15 @@ export class FullAnimeVFCrawler extends LatestEpisodesCrawler {
         return text.indexOf('[FIN]') !== -1;
       },
       title: (text: string) => {
-        return text.replace('[NEW]', '').replace('[HD]', '').replace('VOSTFR', '').replace(/(.*) Episode (\d+)/, '$1');
+        return text
+          .replace('[NEW]', '')
+          .replace('[HD]', '')
+          .replace('VOSTFR', '')
+          .replace(/(.*) Episode (\d+)/, '$1');
       },
       subtitles: (text: string) => {
         return 'vostfr';
-      }
+      },
     };
   }
 
@@ -50,7 +54,7 @@ export class FullAnimeVFCrawler extends LatestEpisodesCrawler {
           {
             url: 'h3.entry-title a@href',
             lang: '| subtitles',
-          }
+          },
         ],
         releaseDate: 'time.entry-date@datetime | date',
       },

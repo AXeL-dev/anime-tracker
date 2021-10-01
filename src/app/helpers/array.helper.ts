@@ -1,6 +1,5 @@
-
 // Stolen from: https://stackoverflow.com/a/39000004
-export const flatten = function(arr: any[], result: any[] = []) {
+export const flatten = function (arr: any[], result: any[] = []) {
   for (let i = 0, length = arr.length; i < length; i++) {
     const value = arr[i];
     if (isArray(value)) {

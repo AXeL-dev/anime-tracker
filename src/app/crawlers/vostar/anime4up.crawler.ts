@@ -4,12 +4,8 @@ import { Episode } from '../../models/episode';
 import { Observable } from 'rxjs';
 
 export class AnimeFourUpCrawler extends LatestEpisodesCrawler {
-
   constructor(private scraper: ScraperService) {
-    super(
-      'Anime4up',
-      'https://ww.anime4up.com'
-    );
+    super('Anime4up', 'https://ww.anime4up.com');
     this.filters = {
       ...this.filters,
       number: (text: string) => {
@@ -18,7 +14,7 @@ export class AnimeFourUpCrawler extends LatestEpisodesCrawler {
       },
       subtitles: (text: string) => {
         return 'vostar';
-      }
+      },
     };
   }
 
@@ -36,7 +32,7 @@ export class AnimeFourUpCrawler extends LatestEpisodesCrawler {
           {
             url: '.episodes-card > div > a@href | decodeUrl',
             lang: '| subtitles',
-          }
+          },
         ],
       },
       this.filters

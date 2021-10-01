@@ -6,10 +6,9 @@ import { BrowserService } from './browser.service';
 import { SettingsService } from './settings.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ViewedEpisodesService {
-
   private viewed: ViewedEpisode[];
   private url: string;
 
@@ -47,14 +46,20 @@ export class ViewedEpisodesService {
     if (!this.isViewed(episode)) {
       this.viewed.push({
         animeTitle: episode.anime.title,
-        number: episode.number
+        number: episode.number,
       });
       this.save();
     }
   }
 
   remove(episode: Episode) {
-    const viewed = this.viewed?.filter((e: ViewedEpisode) => !(isSimilar(e.animeTitle, episode.anime.title, 0.9, true) && e.number === episode.number));
+    const viewed = this.viewed?.filter(
+      (e: ViewedEpisode) =>
+        !(
+          isSimilar(e.animeTitle, episode.anime.title, 0.9, true) &&
+          e.number === episode.number
+        )
+    );
     if (viewed?.length < this.viewed?.length) {
       this.viewed = viewed;
       this.save();
@@ -62,11 +67,21 @@ export class ViewedEpisodesService {
   }
 
   isViewed(episode: Episode) {
-    return !!this.viewed?.find((e: ViewedEpisode) => isSimilar(e.animeTitle, episode.anime.title, 0.9, true) && e.number === episode.number);
+    return !!this.viewed?.find(
+      (e: ViewedEpisode) =>
+        isSimilar(e.animeTitle, episode.anime.title, 0.9, true) &&
+        e.number === episode.number
+    );
   }
 
   isRegular(episode: Episode) {
-    return !!this.viewed?.find((e: ViewedEpisode) => isSimilar(e.animeTitle, episode.anime.title, this.settings.episodeSimilarityDegree));
+    return !!this.viewed?.find((e: ViewedEpisode) =>
+      isSimilar(
+        e.animeTitle,
+        episode.anime.title,
+        this.settings.episodeSimilarityDegree
+      )
+    );
   }
 
   refresh() {
@@ -76,5 +91,4 @@ export class ViewedEpisodesService {
   getEpisodeUrl(episode: Episode) {
     return `${this.url}/${episode.anime.title}`;
   }
-
 }

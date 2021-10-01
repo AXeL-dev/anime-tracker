@@ -5,12 +5,8 @@ import { Observable } from 'rxjs';
 import { frenchMonths } from '../../helpers/date.helper';
 
 export class MangasVostfrCrawler extends LatestEpisodesCrawler {
-
   constructor(private scraper: ScraperService) {
-    super(
-      'Mangas-vostfr',
-      'https://mangas-vostfr.com'
-    );
+    super('Mangas-vostfr', 'https://mangas-vostfr.com');
     this.filters = {
       ...this.filters,
       number: (text: string) => {
@@ -18,17 +14,25 @@ export class MangasVostfrCrawler extends LatestEpisodesCrawler {
         return num?.length ? +num[2] : 1;
       },
       title: (text: string) => {
-        return text.replace('Vostfr', '').replace(/(.*) (\d+)/, '$1').trim();
+        return text
+          .replace('Vostfr', '')
+          .replace(/(.*) (\d+)/, '$1')
+          .trim();
       },
       subtitles: (text: string) => {
         return 'vostfr';
       },
       date: (text: string) => {
         let date = text.toLowerCase();
-        date = date.replace(new RegExp('(' + Object.keys(frenchMonths).join('|') + ')', 'g'), month => frenchMonths[month]).trim();
+        date = date
+          .replace(
+            new RegExp('(' + Object.keys(frenchMonths).join('|') + ')', 'g'),
+            (month) => frenchMonths[month]
+          )
+          .trim();
         date = date.split(' ').reverse().join('-'); // reverse date format from dd-mm-yyyy to yyyy-mm-dd
         return new Date(date)?.getTime();
-      }
+      },
     };
   }
 
@@ -46,7 +50,7 @@ export class MangasVostfrCrawler extends LatestEpisodesCrawler {
           {
             url: 'h2.title a@href',
             lang: '| subtitles',
-          }
+          },
         ],
         releaseDate: '.post-info .date span | date',
       },

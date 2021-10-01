@@ -5,16 +5,14 @@ import { Observable } from 'rxjs';
 import { slugify } from '../../helpers/string.helper';
 
 export class WacVostfrCrawler extends LatestEpisodesCrawler {
-
   constructor(private scraper: ScraperService) {
-    super(
-      'WacVostfr',
-      'https://wacvostfr.com'
-    );
+    super('WacVostfr', 'https://wacvostfr.com');
     this.filters = {
       ...this.filters,
       title: (text: string) => {
-        const title = text.trim().match(/(.*) (–|épisode) (\d+) (vostfr|vf)(?:.*)$/i);
+        const title = text
+          .trim()
+          .match(/(.*) (–|épisode) (\d+) (vostfr|vf)(?:.*)$/i);
         return title?.length ? title[1].trim() : text;
       },
       number: (text: string) => {
@@ -23,12 +21,14 @@ export class WacVostfrCrawler extends LatestEpisodesCrawler {
       },
       cover: (text: string) => {
         const title = this.filters.title(text);
-        return this.filters.concatUrl(`/imgs/animes/${slugify(title, '-')}.jpg`);
+        return this.filters.concatUrl(
+          `/imgs/animes/${slugify(title, '-')}.jpg`
+        );
       },
       subtitles: (text: string) => {
         const sub = text.trim().match(/(vostfr|vf)(?:.*)$/i);
         return sub?.length ? sub[1] : 'vostfr';
-      }
+      },
     };
   }
 
@@ -46,7 +46,7 @@ export class WacVostfrCrawler extends LatestEpisodesCrawler {
           {
             url: ':self@href | concatUrl',
             lang: ':self | subtitles',
-          }
+          },
         ],
       },
       this.filters

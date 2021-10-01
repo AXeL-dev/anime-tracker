@@ -11,7 +11,6 @@ import { DateTimePipe } from './pipes/datetime.pipe';
 import { UrlPipe } from './pipes/url.pipe';
 import { SafePipe } from './pipes/safe.pipe';
 
-
 @NgModule({
   declarations: [
     IconToggleDirective,
@@ -20,13 +19,9 @@ import { SafePipe } from './pipes/safe.pipe';
     ShortDatePipe,
     DateTimePipe,
     UrlPipe,
-    SafePipe
+    SafePipe,
   ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    MaterialModule
-  ],
+  imports: [CommonModule, FormsModule, MaterialModule],
   exports: [
     FormsModule,
     MaterialModule,
@@ -37,7 +32,7 @@ import { SafePipe } from './pipes/safe.pipe';
     ShortDatePipe,
     DateTimePipe,
     UrlPipe,
-    SafePipe
-  ]
+    SafePipe,
+  ],
 })
-export class SharedModule { }
+export class SharedModule {}

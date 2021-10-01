@@ -5,14 +5,10 @@ import { Subtitles } from 'src/app/models/settings';
 @Component({
   selector: 'app-notifications-settings',
   templateUrl: './notifications.component.html',
-  styleUrls: [
-    './notifications.component.scss',
-    '../settings.shared.scss'
-  ]
+  styleUrls: ['./notifications.component.scss', '../settings.shared.scss'],
 })
 export class NotificationsComponent implements OnInit {
-
-  readonly subtitles: { label: string, value: Subtitles }[] = [];
+  readonly subtitles: { label: string; value: Subtitles }[] = [];
 
   constructor(public settings: SettingsService) {
     this.subtitles = Object.keys(Subtitles).map((key: string) => {
@@ -20,7 +16,5 @@ export class NotificationsComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

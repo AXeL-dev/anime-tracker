@@ -3,15 +3,15 @@ import { Proxy } from '../models/proxy';
 export const CORSProxies: Proxy[] = [
   {
     name: 'allOrigins',
-    url: 'https://api.allorigins.win/raw?url='
+    url: 'https://api.allorigins.win/raw?url=',
   },
   {
     name: 'cors-anywhere',
-    url: 'https://cors-anywhere.herokuapp.com/'
+    url: 'https://cors-anywhere.herokuapp.com/',
   },
   {
     name: 'JSONProxy',
-    url: 'https://jsonp.afeld.me/?url='
+    url: 'https://jsonp.afeld.me/?url=',
   },
   // {
   //   name: 'YaCDN',

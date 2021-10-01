@@ -5,12 +5,8 @@ import { today, yesterday, dateBefore } from '../../helpers/date.helper';
 import { Observable } from 'rxjs';
 
 export class NekoSamaCrawler extends LatestEpisodesCrawler {
-
   constructor(private scraper: ScraperService) {
-    super(
-      'Neko-sama',
-      'https://www.neko-sama.fr'
-    );
+    super('Neko-sama', 'https://www.neko-sama.fr');
     this.filters = {
       ...this.filters,
       number: (text: string) => {
@@ -32,7 +28,7 @@ export class NekoSamaCrawler extends LatestEpisodesCrawler {
           }
           return new Date(text)?.getTime();
         }
-      }
+      },
     };
   }
 
@@ -50,7 +46,7 @@ export class NekoSamaCrawler extends LatestEpisodesCrawler {
           {
             url: 'a.play@href | concatUrl',
             lang: '| subtitles',
-          }
+          },
         ],
         //releaseDate: 'span.time | date',
       },

@@ -4,12 +4,8 @@ import { Episode } from '../../models/episode';
 import { Observable } from 'rxjs';
 
 export class GogoAnimeCrawler extends LatestEpisodesCrawler {
-
   constructor(private scraper: ScraperService) {
-    super(
-      'GogoAnime',
-      'https://www11.gogoanimehub.com'
-    );
+    super('GogoAnime', 'https://www11.gogoanimehub.com');
     this.filters = {
       ...this.filters,
       number: (text: string) => {
@@ -19,7 +15,7 @@ export class GogoAnimeCrawler extends LatestEpisodesCrawler {
       subtitles: (text: string) => {
         const sub = text.match(/Eps (\d+) \| (\w+)/);
         return sub[2]?.toLowerCase() !== 'sub' ? 'English ' + sub[2] : 'vosten';
-      }
+      },
     };
   }
 
@@ -37,7 +33,7 @@ export class GogoAnimeCrawler extends LatestEpisodesCrawler {
           {
             url: 'a@href | concatUrl',
             lang: '.type | subtitles',
-          }
+          },
         ],
       },
       this.filters

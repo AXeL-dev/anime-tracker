@@ -6,23 +6,24 @@ import { BrowserService } from 'src/app/services/browser.service';
 @Component({
   selector: 'episode-link-list',
   templateUrl: './link-list.component.html',
-  styleUrls: ['./link-list.component.scss']
+  styleUrls: ['./link-list.component.scss'],
 })
 export class LinkListComponent implements OnInit {
-
   @Input() links: EpisodeLink[] = [];
   @Output() linkClick: EventEmitter<void> = new EventEmitter();
-  readonly langColors: {[key: string]: string} = {
-    'vostfr': 'blue',
-    'vostar': 'yellow',
-    'vosten': 'dark',
-    'vf': 'green',
+  readonly langColors: { [key: string]: string } = {
+    vostfr: 'blue',
+    vostar: 'yellow',
+    vosten: 'dark',
+    vf: 'green',
   };
 
-  constructor(private settings: SettingsService, private browser: BrowserService) { }
+  constructor(
+    private settings: SettingsService,
+    private browser: BrowserService
+  ) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   onClick(event: Event, url: string) {
     this.linkClick.emit();
@@ -31,5 +32,4 @@ export class LinkListComponent implements OnInit {
       this.browser.createTab(url, !this.settings.openLinksInInactiveTabs);
     }
   }
-
 }

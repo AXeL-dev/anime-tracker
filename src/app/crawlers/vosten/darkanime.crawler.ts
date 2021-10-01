@@ -4,12 +4,8 @@ import { Episode } from '../../models/episode';
 import { Observable } from 'rxjs';
 
 export class DarkAnimeCrawler extends LatestEpisodesCrawler {
-
   constructor(private scraper: ScraperService) {
-    super(
-      'DarkAnime',
-      'https://darkanime.stream'
-    );
+    super('DarkAnime', 'https://darkanime.stream');
     this.filters = {
       ...this.filters,
       number: (text: string) => {
@@ -19,9 +15,13 @@ export class DarkAnimeCrawler extends LatestEpisodesCrawler {
         return 'vosten';
       },
       url: (text: string, element: any) => {
-        const number = this.scraper.htmlParser.find(element, 'span.series-content-episode-count | number', this.filters);
+        const number = this.scraper.htmlParser.find(
+          element,
+          'span.series-content-episode-count | number',
+          this.filters
+        );
         return `${this.filters.concatUrl(text)}/episodes/${number}`;
-      }
+      },
     };
   }
 
@@ -39,7 +39,7 @@ export class DarkAnimeCrawler extends LatestEpisodesCrawler {
           {
             url: 'a.series-card-hyperlink@href | url',
             lang: '| subtitles',
-          }
+          },
         ],
       },
       this.filters

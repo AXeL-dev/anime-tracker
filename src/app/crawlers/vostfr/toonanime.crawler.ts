@@ -4,12 +4,8 @@ import { Episode } from '../../models/episode';
 import { Observable } from 'rxjs';
 
 export class ToonAnimeCrawler extends LatestEpisodesCrawler {
-
   constructor(private scraper: ScraperService) {
-    super(
-      'ToonAnime',
-      'https://wvvw.toonanime.tv'
-    );
+    super('ToonAnime', 'https://wvvw.toonanime.tv');
     this.filters = {
       ...this.filters,
       title: (text: string) => {
@@ -21,7 +17,7 @@ export class ToonAnimeCrawler extends LatestEpisodesCrawler {
       },
       subtitles: (text: string) => {
         return text?.length ? text.toLowerCase().trim() : 'vostfr';
-      }
+      },
     };
   }
 
@@ -39,7 +35,7 @@ export class ToonAnimeCrawler extends LatestEpisodesCrawler {
           {
             url: 'a@href',
             lang: '.label__rate | subtitles',
-          }
+          },
         ],
       },
       this.filters

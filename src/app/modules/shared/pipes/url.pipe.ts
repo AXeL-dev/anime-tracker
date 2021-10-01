@@ -1,13 +1,18 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-export type UrlPipeAction = 'format' | 'encode' | 'decode' | 'encodeAndFormat' | 'decodeAndFormat';
+export type UrlPipeAction =
+  | 'format'
+  | 'encode'
+  | 'decode'
+  | 'encodeAndFormat'
+  | 'decodeAndFormat';
 
 @Pipe({
   name: 'url',
-  pure: true
+  pure: true,
 })
 export class UrlPipe implements PipeTransform {
-  constructor() { }
+  constructor() {}
 
   public transform(value: string, action: UrlPipeAction): string {
     switch (action) {
@@ -22,7 +27,9 @@ export class UrlPipe implements PipeTransform {
       case 'decodeAndFormat':
         return this.transform(this.transform(value, 'decode'), 'format');
       default:
-        throw new Error(`UrlPipe unable to transform url for invalid action: ${action}`);
+        throw new Error(
+          `UrlPipe unable to transform url for invalid action: ${action}`
+        );
     }
   }
 }

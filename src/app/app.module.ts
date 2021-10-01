@@ -7,18 +7,17 @@ import { HttpClientModule } from '@angular/common/http';
 import { SettingsService } from './services/settings.service';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule
-  ],
+  declarations: [AppComponent],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule],
   providers: [
     // Init settings service on app initialisation
-    { provide: APP_INITIALIZER, useFactory: SettingsService.init, deps: [SettingsService], multi: true },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: SettingsService.init,
+      deps: [SettingsService],
+      multi: true,
+    },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

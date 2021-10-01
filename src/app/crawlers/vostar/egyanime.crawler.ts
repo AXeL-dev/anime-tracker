@@ -4,12 +4,8 @@ import { Episode } from '../../models/episode';
 import { Observable } from 'rxjs';
 
 export class EgyAnimeCrawler extends LatestEpisodesCrawler {
-
   constructor(private scraper: ScraperService) {
-    super(
-      'EgyAnime',
-      'https://www.egyanime.com'
-    );
+    super('EgyAnime', 'https://www.egyanime.com');
     this.filters = {
       ...this.filters,
       cover: (text: string) => {
@@ -22,7 +18,7 @@ export class EgyAnimeCrawler extends LatestEpisodesCrawler {
       },
       subtitles: (text: string) => {
         return 'vostar';
-      }
+      },
     };
   }
 
@@ -40,7 +36,7 @@ export class EgyAnimeCrawler extends LatestEpisodesCrawler {
           {
             url: 'a.go-link@href | concatUrl',
             lang: '| subtitles',
-          }
+          },
         ],
       },
       this.filters

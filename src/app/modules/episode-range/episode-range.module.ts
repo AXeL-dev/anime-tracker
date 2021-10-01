@@ -6,21 +6,14 @@ import { SharedModule } from '../shared/shared.module';
 import { EpisodeModule } from '../episode/episode.module';
 import { RouterModule } from '@angular/router';
 
-
 @NgModule({
-  declarations: [
-    ChooseLinkDialogComponent,
-    CardComponent
-  ],
+  declarations: [ChooseLinkDialogComponent, CardComponent],
   imports: [
     CommonModule,
     SharedModule,
     EpisodeModule,
-    RouterModule // so we can use routerLink directive
+    RouterModule, // so we can use routerLink directive
   ],
-  exports: [
-    ChooseLinkDialogComponent,
-    CardComponent
-  ]
+  exports: [ChooseLinkDialogComponent, CardComponent],
 })
-export class EpisodeRangeModule { }
+export class EpisodeRangeModule {}

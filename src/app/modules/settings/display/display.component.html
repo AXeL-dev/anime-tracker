@@ -1,6 +1,4 @@
-
 <div mdcListGroup>
-
   <ul mdcList [nonInteractive]="true">
     <li mdcListItem>
       <i mdcListItemGraphic class="material-icons">visibility</i>
@@ -10,29 +8,44 @@
       </span>
       <div mdcListItemMeta mdcSelect>
         <select mdcSelectControl [(ngModel)]="settings.defaultView">
-          <option *ngFor="let view of views" [value]="view.value">{{ view.label }}</option>
+          <option *ngFor="let view of views" [value]="view.value">
+            {{ view.label }}
+          </option>
         </select>
-        <label mdcFloatingLabel></label> <!-- gives an error when removed, so better let it empty for now -->
+        <label mdcFloatingLabel></label>
+        <!-- gives an error when removed, so better let it empty for now -->
       </div>
     </li>
     <li mdcListItem>
       <i mdcListItemGraphic class="material-icons">view_day</i>
       <span mdcListItemText>
         Display episodes day by day
-        <span mdcListItemSecondaryText>Changes the display layout to day by day</span>
+        <span mdcListItemSecondaryText
+          >Changes the display layout to day by day</span
+        >
       </span>
       <div mdcListItemMeta mdcSwitch>
-        <input mdcSwitchInput type="checkbox" [(ngModel)]="settings.displayEpisodesDayByDay"/>
+        <input
+          mdcSwitchInput
+          type="checkbox"
+          [(ngModel)]="settings.displayEpisodesDayByDay"
+        />
       </div>
     </li>
     <li mdcListItem>
       <i mdcListItemGraphic class="material-icons">view_carousel</i>
       <span mdcListItemText>
         Merge common episodes
-        <span mdcListItemSecondaryText>Displays common episodes on the same card</span>
+        <span mdcListItemSecondaryText
+          >Displays common episodes on the same card</span
+        >
       </span>
       <div mdcListItemMeta mdcSwitch>
-        <input mdcSwitchInput type="checkbox" [(ngModel)]="settings.mergeCommonEpisodes"/>
+        <input
+          mdcSwitchInput
+          type="checkbox"
+          [(ngModel)]="settings.mergeCommonEpisodes"
+        />
       </div>
     </li>
     <li mdcListItem>
@@ -43,22 +56,37 @@
       </span>
       <div mdcListItemMeta mdcSelect>
         <select mdcSelectControl [(ngModel)]="settings.sortEpisodesBy">
-          <option *ngFor="let criteria of sortingCriterias" [value]="criteria.value">{{ criteria.label }}</option>
+          <option
+            *ngFor="let criteria of sortingCriterias"
+            [value]="criteria.value"
+          >
+            {{ criteria.label }}
+          </option>
         </select>
-        <label mdcFloatingLabel></label> <!-- gives an error when removed, so better let it empty for now -->
+        <label mdcFloatingLabel></label>
+        <!-- gives an error when removed, so better let it empty for now -->
       </div>
     </li>
     <li mdcListItem>
       <i mdcListItemGraphic class="material-icons">text_format</i>
       <span mdcListItemText>
         Episodes titles similarity degree
-        <span mdcListItemSecondaryText>Set the similarity degree for episodes titles<br>(a value of 1 means the exact same titles)</span>
+        <span mdcListItemSecondaryText
+          >Set the similarity degree for episodes titles<br />(a value of 1
+          means the exact same titles)</span
+        >
       </span>
       <div mdcListItemMeta>
-        <input type="number" class="number-input" min="0.1" max="1" step="0.1" [(ngModel)]="settings.episodeSimilarityDegree"/>
+        <input
+          type="number"
+          class="number-input"
+          min="0.1"
+          max="1"
+          step="0.1"
+          [(ngModel)]="settings.episodeSimilarityDegree"
+        />
       </div>
     </li>
     <!-- <li mdcListDivider [inset]="true"></li> -->
   </ul>
-
 </div>

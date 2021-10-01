@@ -5,12 +5,8 @@ import { today, yesterday, dateBefore } from '../../helpers/date.helper';
 import { Observable } from 'rxjs';
 
 export class AnimeResistanceCrawler extends LatestEpisodesCrawler {
-
   constructor(private scraper: ScraperService) {
-    super(
-      'AnimeResistance',
-      'https://animeresistance.co'
-    );
+    super('AnimeResistance', 'https://animeresistance.co');
     this.filters = {
       ...this.filters,
       number: (text: string) => {
@@ -32,7 +28,7 @@ export class AnimeResistanceCrawler extends LatestEpisodesCrawler {
           }
           return new Date(text)?.getTime();
         }
-      }
+      },
     };
   }
 
@@ -50,7 +46,7 @@ export class AnimeResistanceCrawler extends LatestEpisodesCrawler {
           {
             url: 'a.thumbnail-link@href | concatUrl',
             lang: '| subtitles',
-          }
+          },
         ],
         releaseDate: '.published | date',
       },

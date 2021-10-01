@@ -4,12 +4,8 @@ import { Episode } from '../../models/episode';
 import { Observable } from 'rxjs';
 
 export class WitAnimeCrawler extends LatestEpisodesCrawler {
-
   constructor(private scraper: ScraperService) {
-    super(
-      'WitAnime',
-      'https://witanime.com'
-    );
+    super('WitAnime', 'https://witanime.com');
     this.filters = {
       ...this.filters,
       number: (text: string) => {
@@ -18,7 +14,7 @@ export class WitAnimeCrawler extends LatestEpisodesCrawler {
       },
       subtitles: (text: string) => {
         return 'vostar';
-      }
+      },
     };
   }
 
@@ -36,7 +32,7 @@ export class WitAnimeCrawler extends LatestEpisodesCrawler {
           {
             url: '.episodes-card > div > a@href | decodeUrl',
             lang: '| subtitles',
-          }
+          },
         ],
       },
       this.filters

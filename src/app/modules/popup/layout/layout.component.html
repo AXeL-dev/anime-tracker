@@ -1,6 +1,4 @@
-
 <div #viewport class="page">
-
   <aside mdcDrawerContainer="temporary" [(open)]="openMenu">
     <nav mdcDrawer>
       <div mdcDrawerToolbarSpacer></div>
@@ -9,17 +7,40 @@
       </div> -->
       <div mdcDrawerContent mdcListGroup>
         <nav mdcList>
-          <a mdcListItem [routerLink]="['/']" [queryParams]="{ view: views.Latest }" [selected]="view === views.Latest" (click)="closeMenu()">
-            <i mdcListItemGraphic class="material-icons" aria-hidden="true">star</i>Latest
+          <a
+            mdcListItem
+            [routerLink]="['/']"
+            [queryParams]="{ view: views.Latest }"
+            [selected]="view === views.Latest"
+            (click)="closeMenu()"
+          >
+            <i mdcListItemGraphic class="material-icons" aria-hidden="true"
+              >star</i
+            >Latest
           </a>
-          <a mdcListItem [routerLink]="['/']" [queryParams]="{ view: views.Favorites }" [selected]="view === views.Favorites" (click)="closeMenu()">
-            <i mdcListItemGraphic class="material-icons" aria-hidden="true">favorite</i>Favorites
+          <a
+            mdcListItem
+            [routerLink]="['/']"
+            [queryParams]="{ view: views.Favorites }"
+            [selected]="view === views.Favorites"
+            (click)="closeMenu()"
+          >
+            <i mdcListItemGraphic class="material-icons" aria-hidden="true"
+              >favorite</i
+            >Favorites
           </a>
         </nav>
-        <hr mdcListDivider>
+        <hr mdcListDivider />
         <nav mdcList>
-          <a mdcListItem [routerLink]="['/viewed']" [selected]="router.url.startsWith('/viewed')" (click)="closeMenu()">
-            <i mdcListItemGraphic class="material-icons" aria-hidden="true">visibility</i>Viewed
+          <a
+            mdcListItem
+            [routerLink]="['/viewed']"
+            [selected]="router.url.startsWith('/viewed')"
+            (click)="closeMenu()"
+          >
+            <i mdcListItemGraphic class="material-icons" aria-hidden="true"
+              >visibility</i
+            >Viewed
           </a>
         </nav>
       </div>
@@ -30,23 +51,35 @@
     <header mdcTopAppBar [viewport]="viewport" [fixedAdjust]="content">
       <div mdcTopAppBarRow>
         <section mdcTopAppBarSection alignStart>
-          <button mdcTopAppBarNavIcon class="material-icons" (click)="toggleMenu()">menu</button>
+          <button
+            mdcTopAppBarNavIcon
+            class="material-icons"
+            (click)="toggleMenu()"
+          >
+            menu
+          </button>
           <a mdcTopAppBarTitle title="Anime Tracker" [routerLink]="['/']">
             <img alt="logo" src="assets/icons/128.png" />
           </a>
-          <app-search-input [(value)]="searchValue" (tap)="onSearchTap()" (valueChange)="onSearchValueChange($event)"></app-search-input>
+          <app-search-input
+            [(value)]="searchValue"
+            (tap)="onSearchTap()"
+            (valueChange)="onSearchValueChange($event)"
+          ></app-search-input>
         </section>
         <section mdcTopAppBarSection alignEnd>
           <a
             *ngIf="settings.openInNewTab"
             [routerLink]="['/']"
-            [queryParams]="{ view: view === views.Favorites ? views.Latest : views.Favorites }"
+            [queryParams]="{
+              view: view === views.Favorites ? views.Latest : views.Favorites
+            }"
             [title]="view === views.Favorites ? 'Show all' : 'Show favorites'"
             mdcTopAppBarAction
             class="material-icons"
             label="Show favorites"
           >
-            {{ view === views.Favorites ? 'favorite' : 'favorite_border' }}
+            {{ view === views.Favorites ? "favorite" : "favorite_border" }}
           </a>
           <app-badge-button
             class="material-icons"
@@ -76,7 +109,12 @@
     </main>
   </div>
 
-  <aside mdcDrawerContainer="temporary" class="right" [(open)]="openNotifications" (openChange)="onOpenNotificationsChange($event)">
+  <aside
+    mdcDrawerContainer="temporary"
+    class="right"
+    [(open)]="openNotifications"
+    (openChange)="onOpenNotificationsChange($event)"
+  >
     <nav mdcDrawer>
       <div mdcDrawerToolbarSpacer></div>
       <div mdcDrawerHeader>
@@ -85,5 +123,4 @@
       <app-notifications mdcDrawerContent></app-notifications>
     </nav>
   </aside>
-
 </div>

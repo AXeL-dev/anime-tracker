@@ -4,12 +4,8 @@ import { Episode } from '../../models/episode';
 import { Observable } from 'rxjs';
 
 export class ArabAnimeCrawler extends LatestEpisodesCrawler {
-
   constructor(private scraper: ScraperService) {
-    super(
-      'ArabAnime',
-      'https://www.arabanime.net'
-    );
+    super('ArabAnime', 'https://www.arabanime.net');
     this.filters = {
       ...this.filters,
       number: (text: string) => {
@@ -18,7 +14,7 @@ export class ArabAnimeCrawler extends LatestEpisodesCrawler {
       },
       subtitles: (text: string) => {
         return 'vostar';
-      }
+      },
     };
   }
 
@@ -36,7 +32,7 @@ export class ArabAnimeCrawler extends LatestEpisodesCrawler {
           {
             url: 'a.as-info@href | concatUrl',
             lang: '| subtitles',
-          }
+          },
         ],
       },
       this.filters

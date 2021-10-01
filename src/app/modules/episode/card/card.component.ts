@@ -8,10 +8,9 @@ import { ViewedEpisodesService } from 'src/app/services/viewed-episodes.service'
 @Component({
   selector: 'episode-card',
   templateUrl: './card.component.html',
-  styleUrls: ['./card.component.scss']
+  styleUrls: ['./card.component.scss'],
 })
 export class CardComponent implements OnInit {
-
   @Input() episode: Episode;
   @Output() streamLinksClick: EventEmitter<Episode> = new EventEmitter();
   @Output() downloadLinksClick: EventEmitter<Episode> = new EventEmitter();
@@ -21,7 +20,7 @@ export class CardComponent implements OnInit {
     private browser: BrowserService,
     private favoriteAnimes: FavoriteAnimesService,
     public viewedEpisodes: ViewedEpisodesService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.episode.isViewed = this.viewedEpisodes.isViewed(this.episode);
@@ -37,7 +36,10 @@ export class CardComponent implements OnInit {
       this.markAsViewed();
       if (this.browser.isWebExtension) {
         event.preventDefault();
-        this.browser.createTab(this.episode.streamLinks[0].url, !this.settings.openLinksInInactiveTabs);
+        this.browser.createTab(
+          this.episode.streamLinks[0].url,
+          !this.settings.openLinksInInactiveTabs
+        );
       }
     }
   }
@@ -71,5 +73,4 @@ export class CardComponent implements OnInit {
     this.episode.isViewed = false;
     this.viewedEpisodes.remove(this.episode);
   }
-
 }

@@ -10,7 +10,6 @@ import { LayoutComponent } from './layout/layout.component';
 import { ViewedComponent } from './viewed/viewed.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 
-
 @NgModule({
   declarations: [
     MainComponent,
@@ -23,7 +22,7 @@ import { NotificationsComponent } from './notifications/notifications.component'
     PopupRoutingModule,
     SharedModule,
     EpisodeModule,
-    EpisodeRangeModule
-  ]
+    EpisodeRangeModule,
+  ],
 })
-export class PopupModule { }
+export class PopupModule {}

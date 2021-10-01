@@ -10,10 +10,9 @@ import { CrawlersService } from 'src/app/services/crawlers.service';
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
-  styleUrls: ['./main.component.scss']
+  styleUrls: ['./main.component.scss'],
 })
 export class MainComponent implements OnInit {
-
   activeTabKey: string = 'general';
   private readonly defaults: Settings;
 
@@ -44,8 +43,7 @@ export class MainComponent implements OnInit {
     this.snackbar.show({
       message: 'Settings successfully saved!',
       timeout: 3000,
-      multiline: this.browser.isPopup
+      multiline: this.browser.isPopup,
     });
   }
-
 }

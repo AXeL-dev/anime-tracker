@@ -8,9 +8,8 @@ describe('BadgeButtonComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ BadgeButtonComponent ]
-    })
-    .compileComponents();
+      declarations: [BadgeButtonComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

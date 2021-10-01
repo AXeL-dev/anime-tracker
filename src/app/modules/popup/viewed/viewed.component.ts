@@ -29,27 +29,26 @@ interface infiniteScrollConfig {
 @Component({
   selector: 'app-viewed',
   templateUrl: './viewed.component.html',
-  styleUrls: ['./viewed.component.scss']
+  styleUrls: ['./viewed.component.scss'],
 })
 export class ViewedComponent implements OnInit, OnDestroy {
-
   isLoading: boolean = false;
   searchValue: string = null;
   viewedAnimes: ViewedAnime[] = [];
   private allViewedAnimes: ViewedAnime[] = [];
-  readonly tabs: {[key: string]: string} = {
+  readonly tabs: { [key: string]: string } = {
     All: 'all',
-    Favorites: 'favorites'
+    Favorites: 'favorites',
   };
   private activeTab: string = this.tabs.All;
   count: ViewedAnimesCount = {
     all: 0,
-    favorites: 0
+    favorites: 0,
   };
   infiniteScroll: infiniteScrollConfig = {
     initial: 50,
     max: 50,
-    step: 50
+    step: 50,
   };
   private componentDestroy: Subject<void> = new Subject();
 
@@ -59,18 +58,30 @@ export class ViewedComponent implements OnInit, OnDestroy {
     private settings: SettingsService,
     private debug: DebugService,
     private route: ActivatedRoute
-  ) { }
+  ) {}
 
   async ngOnInit(): Promise<void> {
     // Add viewed episodes to viewed animes array
     const viewed = await this.viewedEpisodes.getAsync();
     viewed.forEach((episode: ViewedEpisode) => {
-      const index = this.allViewedAnimes.findIndex((anime: ViewedAnime) => isSimilar(anime.title, episode.animeTitle, this.settings.episodeSimilarityDegree));
+      const index = this.allViewedAnimes.findIndex((anime: ViewedAnime) =>
+        isSimilar(
+          anime.title,
+          episode.animeTitle,
+          this.settings.episodeSimilarityDegree
+        )
+      );
       if (index > -1) {
         // Merge with existing anime episodes
-        if (!this.allViewedAnimes[index].episodes.find((e: ViewedEpisode) => e.number === episode.number)) {
+        if (
+          !this.allViewedAnimes[index].episodes.find(
+            (e: ViewedEpisode) => e.number === episode.number
+          )
+        ) {
           this.allViewedAnimes[index].episodes.push(episode);
-          this.allViewedAnimes[index].episodes = this.allViewedAnimes[index].episodes.sort(
+          this.allViewedAnimes[index].episodes = this.allViewedAnimes[
+            index
+          ].episodes.sort(
             (a: ViewedEpisode, b: ViewedEpisode) => b.number - a.number
           );
         } else {
@@ -81,7 +92,7 @@ export class ViewedComponent implements OnInit, OnDestroy {
         this.allViewedAnimes.push({
           title: episode.animeTitle,
           episodes: [episode],
-          isFavorite: this.favoriteAnimes.isFavorite(episode.animeTitle)
+          isFavorite: this.favoriteAnimes.isFavorite(episode.animeTitle),
         });
       }
     });
@@ -90,18 +101,20 @@ export class ViewedComponent implements OnInit, OnDestroy {
     // Set count
     this.count = {
       all: this.allViewedAnimes.length,
-      favorites: this.allViewedAnimes.filter((anime: ViewedAnime) => anime.isFavorite).length
+      favorites: this.allViewedAnimes.filter(
+        (anime: ViewedAnime) => anime.isFavorite
+      ).length,
     };
     // Handle route parameters
-    this.route.params.pipe(
-      takeUntil(this.componentDestroy)
-    ).subscribe(params => {
-      this.searchValue = params['search'] || '';
-      this.debug.log('Search value:', this.searchValue);
-      if (this.searchValue.length) {
-        this.search(this.searchValue);
-      }
-    });
+    this.route.params
+      .pipe(takeUntil(this.componentDestroy))
+      .subscribe((params) => {
+        this.searchValue = params['search'] || '';
+        this.debug.log('Search value:', this.searchValue);
+        if (this.searchValue.length) {
+          this.search(this.searchValue);
+        }
+      });
   }
 
   ngOnDestroy(): void {
@@ -119,15 +132,23 @@ export class ViewedComponent implements OnInit, OnDestroy {
     let filteredAnimes: ViewedAnime[] = [];
     // Filter by search value
     if (this.searchValue?.length) {
-      filteredAnimes = this.allViewedAnimes.filter((anime: ViewedAnime) => isSimilar(anime.title, this.searchValue, this.settings.episodeSimilarityDegree));
+      filteredAnimes = this.allViewedAnimes.filter((anime: ViewedAnime) =>
+        isSimilar(
+          anime.title,
+          this.searchValue,
+          this.settings.episodeSimilarityDegree
+        )
+      );
     } else {
       filteredAnimes = this.allViewedAnimes;
     }
     // Update count
-    const favorites = filteredAnimes.filter((anime: ViewedAnime) => anime.isFavorite);
+    const favorites = filteredAnimes.filter(
+      (anime: ViewedAnime) => anime.isFavorite
+    );
     this.count = {
       all: filteredAnimes.length,
-      favorites: favorites.length
+      favorites: favorites.length,
     };
     // Then, filter by active tab
     switch (this.activeTab) {
@@ -159,5 +180,4 @@ export class ViewedComponent implements OnInit, OnDestroy {
   onScroll() {
     this.infiniteScroll.max += this.infiniteScroll.step;
   }
-
 }

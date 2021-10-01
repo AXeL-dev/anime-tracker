@@ -4,18 +4,15 @@ import { Episode } from '../../models/episode';
 import { Observable } from 'rxjs';
 
 export class MavAnimesCrawler extends LatestEpisodesCrawler {
-
   constructor(private scraper: ScraperService) {
-    super(
-      'MavAnimes',
-      'http://www.mavanimes.co'
-    );
+    super('MavAnimes', 'http://www.mavanimes.co');
     this.filters = {
       ...this.filters,
       cover: (text: string) => {
-        const url = text.indexOf(',') !== -1 ?
-          text.split(',')[0].replace(/ (\d+\w)$/, '') :
-          text.replace('-300x169', '');
+        const url =
+          text.indexOf(',') !== -1
+            ? text.split(',')[0].replace(/ (\d+\w)$/, '')
+            : text.replace('-300x169', '');
         return url;
       },
       number: (text: string) => {
@@ -23,11 +20,14 @@ export class MavAnimesCrawler extends LatestEpisodesCrawler {
         return num?.length ? +num[2] : 1;
       },
       title: (text: string) => {
-        return text.replace('VOSTFR', '').replace(/(.*) (\d+)/, '$1').replace(/ – $/, '');
+        return text
+          .replace('VOSTFR', '')
+          .replace(/(.*) (\d+)/, '$1')
+          .replace(/ – $/, '');
       },
       subtitles: (text: string) => {
         return 'vostfr';
-      }
+      },
     };
   }
 
@@ -45,7 +45,7 @@ export class MavAnimesCrawler extends LatestEpisodesCrawler {
           {
             url: 'a@href',
             lang: '| subtitles',
-          }
+          },
         ],
       },
       this.filters

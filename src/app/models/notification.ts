@@ -1,18 +1,17 @@
-
 export interface Notification {
-  message: string,
-  type?: NotificationType,
-  date?: Date,
-  status?: NotificationStatus
+  message: string;
+  type?: NotificationType;
+  date?: Date;
+  status?: NotificationStatus;
 }
 
 export interface EpisodeNotification extends Notification {
-  episode: NotificationEpisodeData,
+  episode: NotificationEpisodeData;
 }
 
 export interface NotificationEpisodeData {
-  index: number,
-  url?: string
+  index: number;
+  url?: string;
 }
 
 export enum NotificationType {

@@ -9,19 +9,14 @@ import { DisplayComponent } from './display/display.component';
 import { CrawlersComponent } from './crawlers/crawlers.component';
 import { NotificationsComponent } from './notifications/notifications.component';
 
-
 @NgModule({
   declarations: [
     MainComponent,
     GeneralComponent,
     DisplayComponent,
     CrawlersComponent,
-    NotificationsComponent
+    NotificationsComponent,
   ],
-  imports: [
-    CommonModule,
-    SettingsRoutingModule,
-    SharedModule
-  ]
+  imports: [CommonModule, SettingsRoutingModule, SharedModule],
 })
-export class SettingsModule { }
+export class SettingsModule {}

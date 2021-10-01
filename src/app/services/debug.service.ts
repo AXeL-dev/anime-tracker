@@ -2,10 +2,9 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DebugService {
-
   private enabled: boolean = !environment.production;
   private displayTime: boolean = false;
 
@@ -33,11 +32,7 @@ export class DebugService {
   private writeToConsole(logFunction: Function, message: any, ...params: any) {
     if (this.enabled) {
       let data = this.displayTime ? [this.getCurrentTime()] : [];
-      data = [
-        ...data,
-        message,
-        ...params
-      ];
+      data = [...data, message, ...params];
       logFunction(...data);
     }
   }

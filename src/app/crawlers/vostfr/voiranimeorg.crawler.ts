@@ -4,16 +4,14 @@ import { Episode } from '../../models/episode';
 import { Observable } from 'rxjs';
 
 export class VoirAnimeOrgCrawler extends LatestEpisodesCrawler {
-
   constructor(private scraper: ScraperService) {
-    super(
-      'VoirAnime.org',
-      'https://voiranime.org'
-    );
+    super('VoirAnime.org', 'https://voiranime.org');
     this.filters = {
       ...this.filters,
       title: (text: string) => {
-        const title = text.trim().match(/(.*) (–|épisode) (\d+) (vostfr|vf)(?:.*)$/i);
+        const title = text
+          .trim()
+          .match(/(.*) (–|épisode) (\d+) (vostfr|vf)(?:.*)$/i);
         return title?.length ? title[1].trim() : text;
       },
       number: (text: string) => {
@@ -23,7 +21,7 @@ export class VoirAnimeOrgCrawler extends LatestEpisodesCrawler {
       subtitles: (text: string) => {
         const sub = text.trim().match(/(vostfr|vf)(?:.*)$/i);
         return sub?.length ? sub[1] : 'vostfr';
-      }
+      },
     };
   }
 
@@ -41,7 +39,7 @@ export class VoirAnimeOrgCrawler extends LatestEpisodesCrawler {
           {
             url: '.item-head > h3 > a@href',
             lang: '.item-head > h3 > a | subtitles',
-          }
+          },
         ],
       },
       this.filters

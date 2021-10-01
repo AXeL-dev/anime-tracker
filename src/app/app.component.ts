@@ -6,11 +6,14 @@ import { DebugService } from './services/debug.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-
-  constructor(private browser: BrowserService, private settings: SettingsService, private debug: DebugService) {}
+  constructor(
+    private browser: BrowserService,
+    private settings: SettingsService,
+    private debug: DebugService
+  ) {}
 
   ngOnInit(): void {
     // Fix webExtension popup width

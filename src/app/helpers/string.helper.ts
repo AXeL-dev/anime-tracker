@@ -1,15 +1,28 @@
-
 // Stolen from: https://github.com/lodash/lodash/blob/master/isString.js
 export function isString(val: any) {
-  return typeof val === 'string' || ((!!val && typeof val === 'object') && Object.prototype.toString.call(val) === '[object String]');
+  return (
+    typeof val === 'string' ||
+    (!!val &&
+      typeof val === 'object' &&
+      Object.prototype.toString.call(val) === '[object String]')
+  );
 }
 
-export function isSimilar(s1: string, s2: string, degree: number = 0.7, strict: boolean = false) {
+export function isSimilar(
+  s1: string,
+  s2: string,
+  degree: number = 0.7,
+  strict: boolean = false
+) {
   const cleanedS1 = s1.toLowerCase().replace(/[-_~:,;'".]/g, '');
   const cleanedS2 = s2.toLowerCase().replace(/[-_~:,;'".]/g, '');
-  return cleanedS1 === cleanedS2 || 
-         (!strict && (cleanedS1.indexOf(cleanedS2) !== -1 || cleanedS2.indexOf(cleanedS1) !== -1)) || 
-         similarity(cleanedS1, cleanedS2) >= degree;
+  return (
+    cleanedS1 === cleanedS2 ||
+    (!strict &&
+      (cleanedS1.indexOf(cleanedS2) !== -1 ||
+        cleanedS2.indexOf(cleanedS1) !== -1)) ||
+    similarity(cleanedS1, cleanedS2) >= degree
+  );
 }
 
 // Stolen from: https://stackoverflow.com/a/36566052
@@ -35,14 +48,12 @@ function editDistance(s1: string, s2: string) {
   for (let i = 0; i <= s1.length; i++) {
     let lastValue = i;
     for (let j = 0; j <= s2.length; j++) {
-      if (i == 0)
-        costs[j] = j;
+      if (i == 0) costs[j] = j;
       else {
         if (j > 0) {
           let newValue = costs[j - 1];
           if (s1.charAt(i - 1) != s2.charAt(j - 1))
-            newValue = Math.min(Math.min(newValue, lastValue),
-              costs[j]) + 1;
+            newValue = Math.min(Math.min(newValue, lastValue), costs[j]) + 1;
           costs[j - 1] = lastValue;
           lastValue = newValue;
         }
@@ -55,22 +66,22 @@ function editDistance(s1: string, s2: string) {
   return costs[s2.length];
 }
 
-export function slugify (text: string, specialCharsReplacement?: string) {
+export function slugify(text: string, specialCharsReplacement?: string) {
   const a = 'àáäâãèéëêìíïîòóöôùúüûñçßÿœæŕśńṕẃǵǹḿǘẍźḧ&·/_,:;';
   const b = 'aaaaaeeeeiiiioooouuuuncsyoarsnpwgnmuxzh-------';
   const p = new RegExp(a.split('').join('|'), 'g');
 
-  const specialCharsReplacer = specialCharsReplacement ?
-    () => specialCharsReplacement :
-    (c: string) => b.charAt(a.indexOf(c));
+  const specialCharsReplacer = specialCharsReplacement
+    ? () => specialCharsReplacement
+    : (c: string) => b.charAt(a.indexOf(c));
 
   return text
-    .toString()                                 // Cast to string
-    .toLowerCase()                              // Convert to lowercase letters
-    .replace(/\s+/g, '-')                       // Replace spaces with -
-    .replace(p, specialCharsReplacer)           // Replace special chars
-    .replace(/[^\w\-]+/g, '')                   // Remove all non-word chars
-    .replace(/\-\-+/g, '-')                     // Replace multiple - with single -
-    .replace(/^-+/, '')                         // Trim - from start of text
-    .replace(/-+$/, '')                         // Trim - from end of text
+    .toString() // Cast to string
+    .toLowerCase() // Convert to lowercase letters
+    .replace(/\s+/g, '-') // Replace spaces with -
+    .replace(p, specialCharsReplacer) // Replace special chars
+    .replace(/[^\w\-]+/g, '') // Remove all non-word chars
+    .replace(/\-\-+/g, '-') // Replace multiple - with single -
+    .replace(/^-+/, '') // Trim - from start of text
+    .replace(/-+$/, ''); // Trim - from end of text
 }

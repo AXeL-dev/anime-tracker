@@ -6,10 +6,7 @@ import { dateBefore, today, yesterday } from 'src/app/helpers/date.helper';
 
 export class GogoPlayCrawler extends LatestEpisodesCrawler {
   constructor(private scraper: ScraperService) {
-    super(
-      'GogoPlay',
-      'https://goload.one/'
-    );
+    super('GogoPlay', 'https://goload.one/');
     this.filters = {
       ...this.filters,
       title: (text: string) => {
@@ -24,7 +21,10 @@ export class GogoPlayCrawler extends LatestEpisodesCrawler {
         return 'vosten';
       },
       date: (text: string) => {
-        if (text.indexOf('mins ago') !== -1 || text.indexOf('hours ago') !== -1) {
+        if (
+          text.indexOf('mins ago') !== -1 ||
+          text.indexOf('hours ago') !== -1
+        ) {
           return today();
         } else if (text.indexOf('1 day ago') !== -1) {
           return yesterday();

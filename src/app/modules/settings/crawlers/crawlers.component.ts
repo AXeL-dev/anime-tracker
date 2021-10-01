@@ -7,13 +7,9 @@ import { CrawlersService } from 'src/app/services/crawlers.service';
 @Component({
   selector: 'app-crawlers-settings',
   templateUrl: './crawlers.component.html',
-  styleUrls: [
-    './crawlers.component.scss',
-    '../settings.shared.scss'
-  ]
+  styleUrls: ['./crawlers.component.scss', '../settings.shared.scss'],
 })
 export class CrawlersComponent implements OnInit {
-
   allCrawlers: BaseCrawler[] = [];
 
   constructor(
@@ -24,12 +20,13 @@ export class CrawlersComponent implements OnInit {
     this.allCrawlers = this.crawlers.getAll();
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   onCrawlerChange(crawler: BaseCrawler) {
     if (crawler.isActive) {
-      this.settings.inactiveCrawlers = this.settings.inactiveCrawlers.filter((name: string) => name !== crawler.name);
+      this.settings.inactiveCrawlers = this.settings.inactiveCrawlers.filter(
+        (name: string) => name !== crawler.name
+      );
     } else {
       this.settings.inactiveCrawlers.push(crawler.name);
     }
@@ -41,5 +38,4 @@ export class CrawlersComponent implements OnInit {
       this.onCrawlerChange(crawler);
     });
   }
-
 }

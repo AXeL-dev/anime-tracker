@@ -1,39 +1,67 @@
-
-<app-layout [(isLoading)]="isLoading" [(searchValue)]="searchValue" (searchValueChange)="search($event)">
-
+<app-layout
+  [(isLoading)]="isLoading"
+  [(searchValue)]="searchValue"
+  (searchValueChange)="search($event)"
+>
   <section mdcDialogBody>
-
     <div mdcTabBarScroller>
       <div mdcTabBarScrollerBack>
-        <a mdcTabBarScrollerInner class="material-icons" href="javascript:void(0)" aria-label="scroll back button">
+        <a
+          mdcTabBarScrollerInner
+          class="material-icons"
+          href="javascript:void(0)"
+          aria-label="scroll back button"
+        >
           navigate_before
         </a>
       </div>
       <div mdcTabBarScrollerFrame>
         <nav mdcTabBar>
-          <a mdcTab (activate)="switchTab(tabs.All)" tabindex="0">All ({{ count.all }})</a>
-          <a mdcTab (activate)="switchTab(tabs.Favorites)" tabindex="0">Favorites ({{ count.favorites }})</a>
+          <a mdcTab (activate)="switchTab(tabs.All)" tabindex="0"
+            >All ({{ count.all }})</a
+          >
+          <a mdcTab (activate)="switchTab(tabs.Favorites)" tabindex="0"
+            >Favorites ({{ count.favorites }})</a
+          >
         </nav>
       </div>
       <div mdcTabBarScrollerForward>
-        <a mdcTabBarScrollerInner class="material-icons" href="javascript:void(0)" aria-label="scroll forward button">
+        <a
+          mdcTabBarScrollerInner
+          class="material-icons"
+          href="javascript:void(0)"
+          aria-label="scroll forward button"
+        >
           navigate_next
         </a>
       </div>
     </div>
 
-    <div class="tab-content" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScroll()">
-
+    <div
+      class="tab-content"
+      infiniteScroll
+      [infiniteScrollDistance]="2"
+      [infiniteScrollThrottle]="50"
+      (scrolled)="onScroll()"
+    >
       <div mdcListGroup>
-
         <ul mdcList [nonInteractive]="true">
-          <ng-container *ngFor="let anime of viewedAnimes.slice(0, infiniteScroll.max)">
+          <ng-container
+            *ngFor="let anime of viewedAnimes.slice(0, infiniteScroll.max)"
+          >
             <li mdcListItem>
               <span mdcListItemGraphic>
-                <button iconToggle class="material-icons mdc-icon-button" classOn="red-heart"
-                  titleOn="Remove from favorites" titleOff="Add to favorites"
-                  iconOn="favorite" iconOff="favorite_border"
-                  [on]="anime.isFavorite" (onChange)="toggleFavorite(anime, $event)"></button>
+                <button
+                  iconToggle
+                  class="material-icons mdc-icon-button"
+                  classOn="red-heart"
+                  titleOn="Remove from favorites"
+                  titleOff="Add to favorites"
+                  iconOn="favorite"
+                  iconOff="favorite_border"
+                  [on]="anime.isFavorite"
+                  (onChange)="toggleFavorite(anime, $event)"
+                ></button>
               </span>
               <span mdcListItemText>
                 {{ anime.title }}
@@ -41,7 +69,11 @@
               <span mdcListItemMeta>
                 <div mdcSelect outlined>
                   <select mdcSelectControl [ngModel]="anime.episodes[0].number">
-                    <option *ngFor="let episode of anime.episodes" [value]="episode.number" disabled>
+                    <option
+                      *ngFor="let episode of anime.episodes"
+                      [value]="episode.number"
+                      disabled
+                    >
                       {{ episode.number }}
                     </option>
                   </select>
@@ -52,11 +84,7 @@
             <li mdcListDivider></li>
           </ng-container>
         </ul>
-    
       </div>
-
     </div>
-
   </section>
-
 </app-layout>

@@ -1,4 +1,4 @@
-import { EpisodeSortingCriteria } from "./episode";
+import { EpisodeSortingCriteria } from './episode';
 
 export interface Settings {
   // General
@@ -27,7 +27,7 @@ export enum View {
 }
 
 export enum Subtitles {
-  Any    = '',
+  Any = '',
   Vostfr = 'vostfr',
   Vosten = 'vosten',
   Vostar = 'vostar',

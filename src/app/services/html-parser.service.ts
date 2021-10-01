@@ -6,7 +6,6 @@ import { isArray } from '../helpers/array.helper';
   providedIn: 'root',
 })
 export class HTMLParserService {
-
   private parser: DOMParser;
 
   constructor() {
@@ -50,7 +49,11 @@ export class HTMLParserService {
           else {
             data[key] = {};
             Object.keys(selector[key]).forEach((subkey: string) => {
-              data[key][subkey] = this.find(item, selector[key][subkey], filters);
+              data[key][subkey] = this.find(
+                item,
+                selector[key][subkey],
+                filters
+              );
             });
           }
         });
@@ -67,23 +70,29 @@ export class HTMLParserService {
     const data = {
       selector: secondSplit[0]?.trim(),
       attributes: secondSplit[1]?.trim().split(','),
-      filter: firstSplit[1]?.trim()
+      filter: firstSplit[1]?.trim(),
     };
     let results = null;
     let output = '';
     try {
       if (data.selector?.length) {
         if (data.selector.startsWith(':prev ')) {
-          results = this.getPreviousSibling(element, data.selector.replace(':prev ', ''));
+          results = this.getPreviousSibling(
+            element,
+            data.selector.replace(':prev ', '')
+          );
         } else if (data.selector.startsWith(':next ')) {
-          results = this.getNextSibling(element, data.selector.replace(':next ', ''));
+          results = this.getNextSibling(
+            element,
+            data.selector.replace(':next ', '')
+          );
         } else if (data.selector.startsWith(':self')) {
           results = element;
         } else {
           results = element.querySelector(data.selector);
         }
       }
-    } catch(e) {
+    } catch (e) {
       console.error(e.message);
     }
     if (results) {
@@ -138,5 +147,4 @@ export class HTMLParserService {
 
     return null;
   }
-
 }

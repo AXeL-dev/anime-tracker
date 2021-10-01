@@ -2,10 +2,9 @@ import { Injectable } from '@angular/core';
 import { StorageService } from './storage.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class FavoriteAnimesService {
-
   private favorites: string[];
 
   constructor(private storage: StorageService) {
@@ -51,5 +50,4 @@ export class FavoriteAnimesService {
   refresh() {
     return this.init();
   }
-
 }

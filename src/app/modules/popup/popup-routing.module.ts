@@ -3,25 +3,24 @@ import { Routes, RouterModule } from '@angular/router';
 import { MainComponent } from './main/main.component';
 import { ViewedComponent } from './viewed/viewed.component';
 
-
 const routes: Routes = [
   {
     path: '', // don't use '**' because other modules routes will not be accessible
-    component: MainComponent
+    component: MainComponent,
   },
   {
     path: 'viewed',
     children: [
-      ...[':search', ''].map(path => ({
+      ...[':search', ''].map((path) => ({
         path: path,
         component: ViewedComponent,
-      }))
-    ]
-  }
+      })),
+    ],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class PopupRoutingModule { }
+export class PopupRoutingModule {}

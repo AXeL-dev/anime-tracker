@@ -4,24 +4,26 @@ import { Episode } from '../../models/episode';
 import { Observable } from 'rxjs';
 
 export class ZimabdkoCrawler extends LatestEpisodesCrawler {
-
   constructor(private scraper: ScraperService) {
-    super(
-      'Zimabdko',
-      'https://www.zimabdko.com'
-    );
+    super('Zimabdko', 'https://www.zimabdko.com');
     this.filters = {
       ...this.filters,
       title: (text: string) => {
-        return text.replace('أوفا ', '').replace(' والأخيرة', '').replace(/(أنمي )?(.*) الحلقة (\d+)/, '$2');
+        return text
+          .replace('أوفا ', '')
+          .replace(' والأخيرة', '')
+          .replace(/(أنمي )?(.*) الحلقة (\d+)/, '$2');
       },
       number: (text: string) => {
-        const num = text.replace('أوفا ', '').replace(' والأخيرة', '').match(/(أنمي )?(.*) الحلقة (\d+)/);
+        const num = text
+          .replace('أوفا ', '')
+          .replace(' والأخيرة', '')
+          .match(/(أنمي )?(.*) الحلقة (\d+)/);
         return num?.length ? +num[3] : +text.match(/\d+/g)?.[0] || 1;
       },
       subtitles: (text: string) => {
         return 'vostar';
-      }
+      },
     };
   }
 
@@ -39,7 +41,7 @@ export class ZimabdkoCrawler extends LatestEpisodesCrawler {
           {
             url: 'a@href',
             lang: '| subtitles',
-          }
+          },
         ],
       },
       this.filters

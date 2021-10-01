@@ -5,12 +5,8 @@ import { today, yesterday, dateBefore } from '../../helpers/date.helper';
 import { Observable } from 'rxjs';
 
 export class AnimixPlayCrawler extends LatestEpisodesCrawler {
-
   constructor(private scraper: ScraperService) {
-    super(
-      'AnimixPlay',
-      'https://animixplay.to'
-    );
+    super('AnimixPlay', 'https://animixplay.to');
     this.filters = {
       ...this.filters,
       number: (text: string) => {
@@ -21,7 +17,10 @@ export class AnimixPlayCrawler extends LatestEpisodesCrawler {
         return 'vosten';
       },
       date: (text: string) => {
-        if (text.indexOf('mins ago') !== -1 || text.indexOf('hours ago') !== -1) {
+        if (
+          text.indexOf('mins ago') !== -1 ||
+          text.indexOf('hours ago') !== -1
+        ) {
           return today();
         } else if (text.indexOf('1 day ago') !== -1) {
           return yesterday();
@@ -32,7 +31,7 @@ export class AnimixPlayCrawler extends LatestEpisodesCrawler {
           }
           return new Date(text)?.getTime();
         }
-      }
+      },
     };
   }
 
@@ -50,7 +49,7 @@ export class AnimixPlayCrawler extends LatestEpisodesCrawler {
           {
             url: 'a@href | concatUrl',
             lang: '| subtitles',
-          }
+          },
         ],
         releaseDate: 'a .timetext | date',
       },

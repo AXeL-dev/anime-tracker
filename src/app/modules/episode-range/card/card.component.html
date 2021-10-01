@@ -1,8 +1,11 @@
-
 <div mdcCard class="custom-card-photo">
   <a mdcCardPrimaryAction href="javascript:void(0)" (click)="onClick($event)">
-    <div mdcCardMedia size="square"
-      [style.background-image]="episodeRange.first.anime.cover | url:'encodeAndFormat' | safe:'style'"
+    <div
+      mdcCardMedia
+      size="square"
+      [style.background-image]="
+        episodeRange.first.anime.cover | url: 'encodeAndFormat' | safe: 'style'
+      "
       [attr.data-cover]="episodeRange.first.anime.cover"
     >
       <div mdcCardMediaContent>
@@ -13,7 +16,10 @@
           {{ episodeRange.first.anime.title }}
         </h2>
         <div class="card-badge number">
-          <span>{{ episodeRange.first.number }} - {{ episodeRange.last.number }}</span>
+          <span
+            >{{ episodeRange.first.number }} -
+            {{ episodeRange.last.number }}</span
+          >
         </div>
         <ng-container *ngIf="episodeRange.first.anime.isNew; else endBadge">
           <div class="card-badge new">
@@ -21,7 +27,10 @@
           </div>
         </ng-container>
         <ng-template #endBadge>
-          <div *ngIf="episodeRange.last.anime.isFinished" class="card-badge end">
+          <div
+            *ngIf="episodeRange.last.anime.isFinished"
+            class="card-badge end"
+          >
             <span>End</span>
           </div>
         </ng-template>
@@ -29,15 +38,42 @@
     </div>
   </a>
   <div class="mdc-card__actions mdc-card__action-icons" #viewport>
-    <a *ngIf="episodeRange.first.isRegular" target="_blank" [href]="viewedEpisodes.getEpisodeUrl(episodeRange.first) | safe:'resourceUrl'" class="material-icons mdc-icon-button centered green-check" title="Regular">
+    <a
+      *ngIf="episodeRange.first.isRegular"
+      target="_blank"
+      [href]="
+        viewedEpisodes.getEpisodeUrl(episodeRange.first) | safe: 'resourceUrl'
+      "
+      class="material-icons mdc-icon-button centered green-check"
+      title="Regular"
+    >
       check_circle_outline
     </a>
-    <button iconToggle class="material-icons mdc-icon-button" classOn="red-heart"
-      titleOn="Remove from favorites" titleOff="Add to favorites"
-      iconOn="favorite" iconOff="favorite_border"
-      [on]="isFavorite()" (onChange)="toggleFavorite($event)"></button>
-    <button class="material-icons mdc-icon-button" title="Stream links" (click)="showStreamLinks()">play_circle_outline</button>
-    <button class="material-icons mdc-icon-button" title="Download links" (click)="showDownloadLinks()">save_alt</button>
+    <button
+      iconToggle
+      class="material-icons mdc-icon-button"
+      classOn="red-heart"
+      titleOn="Remove from favorites"
+      titleOff="Add to favorites"
+      iconOn="favorite"
+      iconOff="favorite_border"
+      [on]="isFavorite()"
+      (onChange)="toggleFavorite($event)"
+    ></button>
+    <button
+      class="material-icons mdc-icon-button"
+      title="Stream links"
+      (click)="showStreamLinks()"
+    >
+      play_circle_outline
+    </button>
+    <button
+      class="material-icons mdc-icon-button"
+      title="Download links"
+      (click)="showDownloadLinks()"
+    >
+      save_alt
+    </button>
     <!-- <button class="material-icons mdc-icon-button" title="More options">more_vert</button> -->
   </div>
 </div>

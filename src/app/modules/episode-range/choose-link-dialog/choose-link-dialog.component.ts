@@ -1,4 +1,11 @@
-import { Component, OnInit, Input, ViewChild, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  ViewChild,
+  Output,
+  EventEmitter,
+} from '@angular/core';
 import { Episode } from 'src/app/models/episode';
 import { MdcDialogDirective } from '@blox/material';
 import { Dialog } from 'src/app/models/dialog';
@@ -6,10 +13,9 @@ import { Dialog } from 'src/app/models/dialog';
 @Component({
   selector: 'episode-range-choose-link-dialog',
   templateUrl: './choose-link-dialog.component.html',
-  styleUrls: ['./choose-link-dialog.component.scss']
+  styleUrls: ['./choose-link-dialog.component.scss'],
 })
 export class ChooseLinkDialogComponent implements OnInit, Dialog {
-
   @Input() title: string = 'Choose a link';
   @Input() episodes: Episode[] = [];
   @Input() linksKey: string = 'streamLinks';
@@ -18,10 +24,9 @@ export class ChooseLinkDialogComponent implements OnInit, Dialog {
   @ViewChild('dialog') private dialog: MdcDialogDirective;
   activeIndex: number = 0;
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   open() {
     this.dialog.open();
@@ -31,5 +36,4 @@ export class ChooseLinkDialogComponent implements OnInit, Dialog {
     this.activeIndex = 0;
     this.close.emit();
   }
-
 }

@@ -4,12 +4,8 @@ import { Episode } from '../../models/episode';
 import { Observable } from 'rxjs';
 
 export class JapMangaCrawler extends LatestEpisodesCrawler {
-
   constructor(private scraper: ScraperService) {
-    super(
-      'JapManga',
-      'https://www.japmanga.com'
-    );
+    super('JapManga', 'https://www.japmanga.com');
     this.filters = {
       ...this.filters,
       number: (text: string) => {
@@ -17,11 +13,14 @@ export class JapMangaCrawler extends LatestEpisodesCrawler {
         return num?.length ? +num[2] : 1;
       },
       title: (text: string) => {
-        return text.replace('Vostfr', '').replace(/(.*) (\d+)/, '$1').trim();
+        return text
+          .replace('Vostfr', '')
+          .replace(/(.*) (\d+)/, '$1')
+          .trim();
       },
       subtitles: (text: string) => {
         return 'vostfr';
-      }
+      },
     };
   }
 
@@ -39,7 +38,7 @@ export class JapMangaCrawler extends LatestEpisodesCrawler {
           {
             url: '.grd-post-thumbnail a@href',
             lang: '| subtitles',
-          }
+          },
         ],
         releaseDate: '.grd-post-date | date',
       },

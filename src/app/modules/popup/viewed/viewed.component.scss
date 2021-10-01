@@ -21,7 +21,9 @@
   select {
     text-align: center;
   }
-  label, .mdc-notched-outline, .mdc-notched-outline__idle {
+  label,
+  .mdc-notched-outline,
+  .mdc-notched-outline__idle {
     transition: none;
   }
 }
