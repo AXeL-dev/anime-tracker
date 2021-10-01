@@ -46,7 +46,10 @@ export class VoirAnimeCrawler extends LatestEpisodesCrawler {
         number: '.chapter-item:first-child .chapter a | number',
         streamLinks: [
           {
-            url: '.chapter-item:first-child .chapter a@href',
+            url: [
+              '.chapter-item:first-child .chapter a@href',
+              '.post-title h3 a@href',
+            ],
             lang: '| subtitles',
           },
         ],

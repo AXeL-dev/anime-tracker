@@ -39,7 +39,11 @@ export class HTMLParserService {
               } else {
                 let obj = {};
                 Object.keys(element).forEach((subkey: string) => {
-                  obj[subkey] = this.find(item, element[subkey], filters);
+                  obj[subkey] = this.parseSelector(
+                    item,
+                    element[subkey],
+                    filters
+                  );
                 });
                 data[key].push(obj);
               }
@@ -49,7 +53,7 @@ export class HTMLParserService {
           else {
             data[key] = {};
             Object.keys(selector[key]).forEach((subkey: string) => {
-              data[key][subkey] = this.find(
+              data[key][subkey] = this.parseSelector(
                 item,
                 selector[key][subkey],
                 filters
@@ -62,6 +66,19 @@ export class HTMLParserService {
     });
 
     return results;
+  }
+
+  parseSelector(element: any, selector: string | string[], filters?: any) {
+    if (isArray(selector)) {
+      for (const sel of selector) {
+        const result = this.find(element, sel, filters);
+        if (result) {
+          return result;
+        }
+      }
+    } else {
+      return this.find(element, selector as string, filters);
+    }
   }
 
   find(element: any, selector: string, filters?: any) {
