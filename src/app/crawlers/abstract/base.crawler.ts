@@ -2,10 +2,11 @@ import { Anime } from '../../models/anime';
 import { Episode } from '../../models/episode';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { today } from 'src/app/helpers/date.helper';
 
 interface Cache {
-  animeList: Anime[],
-  latestEpisodes: Episode[],
+  animeList: Anime[];
+  latestEpisodes: Episode[];
 }
 
 export abstract class BaseCrawler {
@@ -15,7 +16,7 @@ export abstract class BaseCrawler {
   protected filters: any = {};
   protected cache: Cache = {
     animeList: [],
-    latestEpisodes: []
+    latestEpisodes: [],
   };
 
   constructor(name: string, baseUrl: string) {
@@ -39,13 +40,13 @@ export abstract class BaseCrawler {
         return encodeURI(text);
       },
       concatUrl: (text: string) => {
-        return /^https?:\/\//.test(text) ?
-          text :
-          `${this.baseUrl.replace(/\/$/, '')}/${text?.replace(/^\//, '')}`;
+        return /^https?:\/\//.test(text)
+          ? text
+          : `${this.baseUrl.replace(/\/$/, '')}/${text?.replace(/^\//, '')}`;
       },
       date: (text: string) => {
         return new Date(text)?.getTime();
-      }
+      },
     };
   }
 
@@ -69,50 +70,64 @@ export abstract class BaseCrawler {
     if (this.cache.animeList.length > 0 && !forcedUpdate) {
       return of(this.cache.animeList);
     }
-    return this._getAnimeList().pipe(map((list: Anime[]) => {
-      this.cache.animeList = list;
-      return list;
-    }));
-  };
+    return this._getAnimeList().pipe(
+      map((list: Anime[]) => {
+        this.cache.animeList = list;
+        return list;
+      })
+    );
+  }
 
   getAnimeInfo(link: string): Observable<Anime> {
-    return this._getAnimeInfo(link).pipe(map((info: Anime) => {
-      // append link
-      if (info) {
-        info.link = link;
-      }
-      return info;
-    }));
-  };
+    return this._getAnimeInfo(link).pipe(
+      map((info: Anime) => {
+        // append link
+        if (info) {
+          info.link = link;
+        }
+        return info;
+      })
+    );
+  }
 
   getEpisodes(link: string): Observable<Episode[]> {
     return this._getEpisodes(link);
-  };
+  }
 
   getLatestEpisodes(forcedUpdate: boolean = false): Observable<Episode[]> {
     if (this.cache.latestEpisodes.length > 0 && !forcedUpdate) {
       return of(this.cache.latestEpisodes);
     }
-    return this._getLatestEpisodes().pipe(map((episodes: Episode[]) => {
-      const latestEpisodes: Episode[] = episodes.map((episode: Episode) => ({
-        ...episode,
-        anime: {
-          ...episode.anime,
-          title: episode.anime.title.trim(),
-        },
-        fetchingDate: new Date().getTime(),
-      }));
-      this.cache.latestEpisodes = latestEpisodes;
-      return latestEpisodes;
-    }));
-  };
+    return this._getLatestEpisodes().pipe(
+      map((episodes: Episode[]) => {
+        const latestEpisodes: Episode[] = episodes.map((episode: Episode) => ({
+          ...episode,
+          anime: {
+            ...episode.anime,
+            title: episode.anime.title.trim(),
+          },
+          fetchingDate: new Date().getTime(),
+          releaseDate: episode.releaseDate || today(),
+          hasTemporaryReleaseDate: !episode.releaseDate,
+        }));
+        this.cache.latestEpisodes = latestEpisodes;
+        return latestEpisodes;
+      })
+    );
+  }
 
   searchAnime(title: string): Observable<Anime[]> {
-    return this._getAnimeList().pipe(map((list: Anime[]) => {
-      const searched: Anime[] = list.filter((anime: Anime) => anime.title.toLowerCase().indexOf(title.toLowerCase()) !== -1) || [];
-      return searched;
-    }));
-  };
+    return this._getAnimeList().pipe(
+      map((list: Anime[]) => {
+        const searched: Anime[] =
+          list.filter(
+            (anime: Anime) =>
+              anime.title.toLowerCase().indexOf(title.toLowerCase()) !== -1
+          ) || [];
+        return searched;
+      })
+    );
+  }
 
   protected abstract _getAnimeList(): Observable<Anime[]>;
   protected abstract _getAnimeInfo(link: string): Observable<Anime>;

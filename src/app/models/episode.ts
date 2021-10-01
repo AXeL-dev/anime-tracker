@@ -7,6 +7,7 @@ export interface Episode {
   number: number;
   fetchingDate?: EpisodeDate;
   releaseDate?: EpisodeDate;
+  hasTemporaryReleaseDate?: boolean;
   streamLinks: EpisodeLink[];
   downloadLinks?: EpisodeLink[];
   subtitlesLang?: string;

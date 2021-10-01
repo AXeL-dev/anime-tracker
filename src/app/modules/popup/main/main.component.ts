@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { AnimeProviderService } from 'src/app/services/anime-provider.service';
 import { Episode, EpisodeRange } from 'src/app/models/episode';
 import { SettingsService } from 'src/app/services/settings.service';
-import { dateOnly, sameDates, today } from 'src/app/helpers/date.helper';
+import { dateOnly, sameDates } from 'src/app/helpers/date.helper';
 import { Subject } from 'rxjs';
 import { View } from 'src/app/models/settings';
 import { FavoriteAnimesService } from 'src/app/services/favorite-animes.service';
@@ -17,24 +17,27 @@ import { isSimilar } from 'src/app/helpers/string.helper';
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
-  styleUrls: ['./main.component.scss']
+  styleUrls: ['./main.component.scss'],
 })
 export class MainComponent implements OnInit, OnDestroy {
-
   view: View;
   isLoading: boolean = true;
   searchValue: string = null;
-  episodes: (Episode|EpisodeRange)[] = [];
+  episodes: (Episode | EpisodeRange)[] = [];
   days: number[] = [];
-  episodesByDays: (Episode|EpisodeRange)[][] = [];
+  episodesByDays: (Episode | EpisodeRange)[][] = [];
   private allEpisodes: Episode[] = [];
   selectedEpisode: Episode = null;
   selectedEpisodeRange: EpisodeRange = null;
   private componentDestroy: Subject<void> = new Subject();
-  @ViewChild('episodeStreamLinksDialog') private episodeStreamLinksDialog: Dialog;
-  @ViewChild('episodeDownloadLinksDialog') private episodeDownloadLinksDialog: Dialog;
-  @ViewChild('episodeRangeStreamLinksDialog') private episodeRangeStreamLinksDialog: Dialog;
-  @ViewChild('episodeRangeDownloadLinksDialog') private episodeRangeDownloadLinksDialog: Dialog;
+  @ViewChild('episodeStreamLinksDialog')
+  private episodeStreamLinksDialog: Dialog;
+  @ViewChild('episodeDownloadLinksDialog')
+  private episodeDownloadLinksDialog: Dialog;
+  @ViewChild('episodeRangeStreamLinksDialog')
+  private episodeRangeStreamLinksDialog: Dialog;
+  @ViewChild('episodeRangeDownloadLinksDialog')
+  private episodeRangeDownloadLinksDialog: Dialog;
 
   constructor(
     private animeProvider: AnimeProviderService,
@@ -44,23 +47,23 @@ export class MainComponent implements OnInit, OnDestroy {
     private browser: BrowserService,
     private debug: DebugService,
     private route: ActivatedRoute
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     if (this.browser.isWebExtension) {
       this.browser.setBadgeText(''); // Reset badge count
     }
-    this.route.queryParams.pipe(
-      takeUntil(this.componentDestroy)
-    ).subscribe(params => {
-      this.view = params['view'] || this.settings.defaultView;
-      this.debug.log('Current view:', this.view);
-      if (this.allEpisodes.length > 0) {
-        this.filterEpisodes(this.allEpisodes, this.days);
-      } else {
-        this.fetchEpisodes();
-      }
-    });
+    this.route.queryParams
+      .pipe(takeUntil(this.componentDestroy))
+      .subscribe((params) => {
+        this.view = params['view'] || this.settings.defaultView;
+        this.debug.log('Current view:', this.view);
+        if (this.allEpisodes.length > 0) {
+          this.filterEpisodes(this.allEpisodes, this.days);
+        } else {
+          this.fetchEpisodes();
+        }
+      });
   }
 
   ngOnDestroy(): void {
@@ -70,30 +73,45 @@ export class MainComponent implements OnInit, OnDestroy {
 
   private fetchEpisodes(forcedUpdate?: boolean) {
     this.isLoading = true;
-    this.animeProvider.getLatestEpisodesByDays(forcedUpdate).pipe(
-      takeUntil(this.componentDestroy)
-    ).subscribe(([episodes, days]) => {
-      // this.debug.log('Latest episodes:', episodes);
-      // this.debug.log('Days:', days);
-      // this.debug.log('--------------------------');
-      // Set episodes
-      this.allEpisodes = episodes;
-      this.filterEpisodes(episodes, days);
-      // Set days
-      this.days = days;
-    }, (error: Error) => {
-      console.error(error.message);
-    }, () => {
-      this.isLoading = false;
-    });
+    this.animeProvider
+      .getLatestEpisodesByDays(forcedUpdate)
+      .pipe(takeUntil(this.componentDestroy))
+      .subscribe(
+        ([episodes, days]) => {
+          // this.debug.log('Latest episodes:', episodes);
+          // this.debug.log('Days:', days);
+          // this.debug.log('--------------------------');
+          // Set episodes
+          this.allEpisodes = episodes;
+          this.filterEpisodes(episodes, days);
+          // Set days
+          this.days = days;
+        },
+        (error: Error) => {
+          console.error(error.message);
+        },
+        () => {
+          this.isLoading = false;
+        }
+      );
   }
 
   private filterEpisodes(episodes: Episode[], days: number[]) {
     // Filter by view
-    this.episodes = this.view === View.Favorites ? episodes.filter((episode: Episode) => this.favoriteAnimes.isFavorite(episode.anime.title)) : episodes;
+    this.episodes =
+      this.view === View.Favorites
+        ? episodes.filter((episode: Episode) =>
+            this.favoriteAnimes.isFavorite(episode.anime.title)
+          )
+        : episodes;
     // Filter by search value
     if (this.searchValue?.length) {
-      this.episodes = this.episodes.filter((episode: Episode) => episode.anime.title.toLowerCase().indexOf(this.searchValue.toLowerCase()) !== -1);
+      this.episodes = this.episodes.filter(
+        (episode: Episode) =>
+          episode.anime.title
+            .toLowerCase()
+            .indexOf(this.searchValue.toLowerCase()) !== -1
+      );
     }
     // Merge common episodes
     if (this.settings.mergeCommonEpisodes) {
@@ -104,41 +122,66 @@ export class MainComponent implements OnInit, OnDestroy {
       days.forEach((day: number) => {
         if (day) {
           const dayDate = dateOnly(new Date(day));
-          this.episodesByDays[day] = this.episodes.filter((episode: Episode|EpisodeRange) => {
-            const episodeDate: number = episode.releaseDate ? dateOnly(new Date(episode.releaseDate)) : today();
-            return dayDate === episodeDate;
-          });
+          this.episodesByDays[day] = this.episodes.filter(
+            (episode: Episode | EpisodeRange) => {
+              if (!episode.releaseDate) {
+                return false;
+              }
+              const episodeDate: number = dateOnly(
+                new Date(episode.releaseDate)
+              );
+              return dayDate === episodeDate;
+            }
+          );
         }
       });
     }
   }
 
   private mergeCommonEpisodes(episodes: Episode[]) {
-    const results: (Episode|EpisodeRange)[] = [];
-    const treatedEpisodes: {[key: string]: number[]} = {}; // key == anime title, value == episodes number
+    const results: (Episode | EpisodeRange)[] = [];
+    const treatedEpisodes: { [key: string]: number[] } = {}; // key == anime title, value == episodes number
     let remainingEpisodes: Episode[] = episodes.slice();
     // Loop over all episodes
     for (let episode of episodes) {
       const treatedEpisodesTitles = Object.keys(treatedEpisodes);
-      const found = treatedEpisodesTitles.find((title: string) =>
-        isSimilar(title, episode.anime.title, this.settings.episodeSimilarityDegree, true) &&
-        treatedEpisodes[title].indexOf(episode.number) !== -1
+      const found = treatedEpisodesTitles.find(
+        (title: string) =>
+          isSimilar(
+            title,
+            episode.anime.title,
+            this.settings.episodeSimilarityDegree,
+            true
+          ) && treatedEpisodes[title].indexOf(episode.number) !== -1
       );
-      if (found) { // if episode already treated
+      if (found) {
+        // if episode already treated
         continue; // go to next episode
       }
       // Seeking for common episodes
       const range: Episode[] = remainingEpisodes.filter((e: Episode) => {
-        return isSimilar(e.anime.title, episode.anime.title, this.settings.episodeSimilarityDegree, true) &&
-          (!this.settings.displayEpisodesDayByDay || sameDates(e.releaseDate, episode.releaseDate, today()));
+        return (
+          isSimilar(
+            e.anime.title,
+            episode.anime.title,
+            this.settings.episodeSimilarityDegree,
+            true
+          ) &&
+          (!this.settings.displayEpisodesDayByDay ||
+            sameDates(e.releaseDate, episode.releaseDate))
+        );
       });
       // Update treated & remaining episodes
       treatedEpisodes[episode.anime.title] = [
         ...(treatedEpisodes[episode.anime.title] || []), // keep old numbers
-        ...range.map((e: Episode) => e.number) // add new range numbers
+        ...range.map((e: Episode) => e.number), // add new range numbers
       ];
-      remainingEpisodes = remainingEpisodes.filter((re: Episode) => 
-        range.findIndex((e: Episode) => e.anime.title === re.anime.title && e.number === re.number) === -1
+      remainingEpisodes = remainingEpisodes.filter(
+        (re: Episode) =>
+          range.findIndex(
+            (e: Episode) =>
+              e.anime.title === re.anime.title && e.number === re.number
+          ) === -1
       );
       // Save results
       if (range.length > 1) {
@@ -148,7 +191,10 @@ export class MainComponent implements OnInit, OnDestroy {
         );
         results.push(episodeRange);
         // Update selected episode range
-        if (this.selectedEpisodeRange?.first.anime.title === episodeRange.first.anime.title) {
+        if (
+          this.selectedEpisodeRange?.first.anime.title ===
+          episodeRange.first.anime.title
+        ) {
           this.selectedEpisodeRange = episodeRange;
         }
       } else {
@@ -158,7 +204,7 @@ export class MainComponent implements OnInit, OnDestroy {
     return results;
   }
 
-  openStreamLinksDialog(episode: Episode|EpisodeRange) {
+  openStreamLinksDialog(episode: Episode | EpisodeRange) {
     if (episode instanceof EpisodeRange) {
       this.selectedEpisodeRange = episode as EpisodeRange;
       this.episodeRangeStreamLinksDialog.open();
@@ -168,7 +214,7 @@ export class MainComponent implements OnInit, OnDestroy {
     }
   }
 
-  openDownloadLinksDialog(episode: Episode|EpisodeRange) {
+  openDownloadLinksDialog(episode: Episode | EpisodeRange) {
     if (episode instanceof EpisodeRange) {
       this.selectedEpisodeRange = episode as EpisodeRange;
       this.episodeRangeDownloadLinksDialog.open();
@@ -194,5 +240,4 @@ export class MainComponent implements OnInit, OnDestroy {
     this.episodesByDays = [];
     this.fetchEpisodes(true);
   }
-
 }

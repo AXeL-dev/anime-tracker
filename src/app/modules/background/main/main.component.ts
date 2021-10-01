@@ -4,24 +4,26 @@ import { AnimeProviderService } from 'src/app/services/anime-provider.service';
 import { take } from 'rxjs/operators';
 import { Episode, EpisodeLink } from 'src/app/models/episode';
 import { DebugService } from 'src/app/services/debug.service';
-import { isInToday, now, today } from 'src/app/helpers/date.helper';
+import { isInToday, now } from 'src/app/helpers/date.helper';
 import { isSimilar } from 'src/app/helpers/string.helper';
 import { Router } from '@angular/router';
 import { FavoriteAnimesService } from 'src/app/services/favorite-animes.service';
 import { ViewedEpisodesService } from 'src/app/services/viewed-episodes.service';
 import { NotificationsService } from 'src/app/services/notifications.service';
 import { SettingsService } from 'src/app/services/settings.service';
-import { EpisodeNotification, NotificationType } from 'src/app/models/notification';
+import {
+  EpisodeNotification,
+  NotificationType,
+} from 'src/app/models/notification';
 import { environment } from 'src/environments/environment';
 import { Subtitles } from 'src/app/models/settings';
 
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
-  styleUrls: ['./main.component.scss']
+  styleUrls: ['./main.component.scss'],
 })
 export class MainComponent implements OnInit {
-
   private checkedEpisodes: Episode[] = [];
   private badgeCount: number = 0;
 
@@ -34,7 +36,7 @@ export class MainComponent implements OnInit {
     private favoriteAnimes: FavoriteAnimesService,
     private viewedEpisodes: ViewedEpisodesService,
     private notifications: NotificationsService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.debug.enable(true); // force enable debug messages for background page
@@ -49,40 +51,44 @@ export class MainComponent implements OnInit {
     this.browser.setBadgeColors('#666', '#fff');
     this.debug.log({
       rate: this.settings.autoCheckRate,
-      notifications: this.settings.enableNotifications ? 'on' : 'off'
+      notifications: this.settings.enableNotifications ? 'on' : 'off',
     });
     this.autoCheckLoop();
     // Handle click on browser notifications
-    this.browser.api?.notifications.onClicked.addListener((notificationId: string) => {
-      this.debug.log('Notification clicked:', notificationId);
-      const [ id, index ] = notificationId.split('::').map(str => +str);
-      if (index >= 0) {
-        const episode: Episode = this.checkedEpisodes[index];
-        const url: string = episode.streamLinks[0]?.url;
-        if (url?.length) {
-          this.browser.createTab(url);
-          this.viewedEpisodes.add(episode);
+    this.browser.api?.notifications.onClicked.addListener(
+      (notificationId: string) => {
+        this.debug.log('Notification clicked:', notificationId);
+        const [id, index] = notificationId.split('::').map((str) => +str);
+        if (index >= 0) {
+          const episode: Episode = this.checkedEpisodes[index];
+          const url: string = episode.streamLinks[0]?.url;
+          if (url?.length) {
+            this.browser.createTab(url);
+            this.viewedEpisodes.add(episode);
+          }
         }
       }
-    });
+    );
     // Handle messages
-    this.browser.api?.runtime.onMessage.addListener((request: any, sender: any, sendResponse: any) => {
-      this.debug.log('Handle message:', request);
-      let response = null;
-      switch (request.message) {
-        case 'getNotifications':
-          response = this.notifications.get();
-          break;
-        case 'markNotificationsAsRead':
-          response = this.notifications.markAllAsRead();
-          break;
-        default:
-          this.debug.warn(`Cannot handle "${request.message}" message!`);
-          break;
+    this.browser.api?.runtime.onMessage.addListener(
+      (request: any, sender: any, sendResponse: any) => {
+        this.debug.log('Handle message:', request);
+        let response = null;
+        switch (request.message) {
+          case 'getNotifications':
+            response = this.notifications.get();
+            break;
+          case 'markNotificationsAsRead':
+            response = this.notifications.markAllAsRead();
+            break;
+          default:
+            this.debug.warn(`Cannot handle "${request.message}" message!`);
+            break;
+        }
+        this.debug.log('response:', response);
+        sendResponse({ response });
       }
-      this.debug.log('response:', response);
-      sendResponse({ response });
-    });
+    );
   }
 
   private autoCheckLoop() {
@@ -103,7 +109,10 @@ export class MainComponent implements OnInit {
         // Notify
         if (this.settings.enableNotifications) {
           notifications.forEach((notification: EpisodeNotification) => {
-            this.notifications.push(notification.message, NotificationType.Success);
+            this.notifications.push(
+              notification.message,
+              NotificationType.Success
+            );
             const id = now().getTime() + '::' + notification.episode.index;
             this.browser.sendNotification(notification.message, id);
           });
@@ -117,11 +126,13 @@ export class MainComponent implements OnInit {
 
   private getRecentEpisodesCount(): Promise<[number, EpisodeNotification[]]> {
     return new Promise(async (resolve, reject) => {
-
       let count: number = 0;
       let notifications: EpisodeNotification[] = [];
 
-      const episodes = await this.animeProvider.getLatestEpisodes(true).pipe(take(1)).toPromise();
+      const episodes = await this.animeProvider
+        .getLatestEpisodes(true)
+        .pipe(take(1))
+        .toPromise();
 
       this.debug.log('Latest episodes:', episodes);
       this.debug.log('Checked episodes:', this.checkedEpisodes);
@@ -134,11 +145,11 @@ export class MainComponent implements OnInit {
       await this.favoriteAnimes.refresh();
 
       episodes.forEach((episode: Episode) => {
-        const releaseDate: number = episode.releaseDate || today();
         // Generate notification messages (for favorite animes episodes only)
         if (
           !this.isAlreadyChecked(episode) &&
-          isInToday(new Date(releaseDate)) &&
+          episode.releaseDate &&
+          isInToday(new Date(episode.releaseDate)) &&
           !this.viewedEpisodes.isViewed(episode) &&
           this.favoriteAnimes.isFavorite(episode.anime.title) &&
           this.hasMatchingSubtitles(episode)
@@ -148,7 +159,7 @@ export class MainComponent implements OnInit {
             episode: {
               index: count,
               //url: episode.streamLinks[0].url // not useful anymore
-            }
+            },
           });
           // update count
           count++;
@@ -158,7 +169,6 @@ export class MainComponent implements OnInit {
       });
 
       resolve([count, notifications]);
-
     });
   }
 
@@ -166,11 +176,22 @@ export class MainComponent implements OnInit {
     if (this.settings.preferredSubtitles === Subtitles.Any) {
       return true;
     } else {
-      return !!episode.streamLinks.find((link: EpisodeLink) => link.lang.toLowerCase() === this.settings.preferredSubtitles.toLowerCase());
+      return !!episode.streamLinks.find(
+        (link: EpisodeLink) =>
+          link.lang.toLowerCase() ===
+          this.settings.preferredSubtitles.toLowerCase()
+      );
     }
   }
 
   private isAlreadyChecked(episode: Episode) {
-    return !!this.checkedEpisodes.find((e: Episode) => isSimilar(e.anime.title, episode.anime.title, this.settings.episodeSimilarityDegree) && e.number === episode.number);
+    return !!this.checkedEpisodes.find(
+      (e: Episode) =>
+        isSimilar(
+          e.anime.title,
+          episode.anime.title,
+          this.settings.episodeSimilarityDegree
+        ) && e.number === episode.number
+    );
   }
 }
