@@ -3,6 +3,7 @@ import { ScraperService } from '../../services/scraper.service';
 import { Episode } from '../../models/episode';
 import { Observable } from 'rxjs';
 import { dateBefore, today, yesterday } from 'src/app/helpers/date.helper';
+import { toNumber } from 'src/app/helpers/number.helper';
 
 export class GogoPlayCrawler extends LatestEpisodesCrawler {
   constructor(private scraper: ScraperService) {
@@ -15,7 +16,7 @@ export class GogoPlayCrawler extends LatestEpisodesCrawler {
       },
       number: (text: string) => {
         const num = text.match(/Episode (\d+)/);
-        return num?.length ? +num[1] : +text;
+        return toNumber(num?.length ? num[1] : text);
       },
       subtitles: (text: string) => {
         return 'vosten';

@@ -2,6 +2,7 @@ import { LatestEpisodesCrawler } from '../abstract/latest-episodes.crawler';
 import { ScraperService } from '../../services/scraper.service';
 import { Episode } from '../../models/episode';
 import { Observable } from 'rxjs';
+import { toNumber } from 'src/app/helpers/number.helper';
 
 export class ZimabdkoCrawler extends LatestEpisodesCrawler {
   constructor(private scraper: ScraperService) {
@@ -19,7 +20,7 @@ export class ZimabdkoCrawler extends LatestEpisodesCrawler {
           .replace('أوفا ', '')
           .replace(' والأخيرة', '')
           .match(/(أنمي )?(.*) الحلقة (\d+)/);
-        return num?.length ? +num[3] : +text.match(/\d+/g)?.[0] || 1;
+        return toNumber(num?.length ? num[3] : text.match(/\d+/g)?.[0]);
       },
       subtitles: (text: string) => {
         return 'vostar';

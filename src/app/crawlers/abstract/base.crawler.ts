@@ -3,6 +3,7 @@ import { Episode } from '../../models/episode';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { today } from 'src/app/helpers/date.helper';
+import { toNumber } from 'src/app/helpers/number.helper';
 
 interface Cache {
   animeList: Anime[];
@@ -25,7 +26,7 @@ export abstract class BaseCrawler {
     this._isActive = true;
     this.filters = {
       number: (text: string) => {
-        return +text || 1;
+        return toNumber(text);
       },
       boolean: (text: string) => {
         return !!text?.length;

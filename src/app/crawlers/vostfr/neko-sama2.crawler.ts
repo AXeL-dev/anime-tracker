@@ -3,6 +3,7 @@ import { ScraperService } from '../../services/scraper.service';
 import { Episode } from '../../models/episode';
 import { today, yesterday, dateBefore } from '../../helpers/date.helper';
 import { Observable } from 'rxjs';
+import { toNumber } from 'src/app/helpers/number.helper';
 
 export class NekoSamaCrawler extends LatestEpisodesCrawler {
   constructor(private scraper: ScraperService) {
@@ -11,7 +12,7 @@ export class NekoSamaCrawler extends LatestEpisodesCrawler {
       ...this.filters,
       number: (text: string) => {
         const num = text.match(/Ep. (\d+)/);
-        return num?.length ? +num[1] : +text;
+        return toNumber(num?.length ? num[1] : text);
       },
       subtitles: (text: string) => {
         return 'vostfr';

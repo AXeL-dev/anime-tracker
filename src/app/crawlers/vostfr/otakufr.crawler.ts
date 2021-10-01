@@ -3,6 +3,7 @@ import { ScraperService } from '../../services/scraper.service';
 import { Episode } from '../../models/episode';
 import { Observable } from 'rxjs';
 import { frenchDays, frenchMonths } from '../../helpers/date.helper';
+import { toNumber } from 'src/app/helpers/number.helper';
 
 export class OtakuFrCrawler extends LatestEpisodesCrawler {
   constructor(private scraper: ScraperService) {
@@ -15,7 +16,7 @@ export class OtakuFrCrawler extends LatestEpisodesCrawler {
       },
       number: (text: string) => {
         const num = text.trim().match(/(\d+) vostfr(?:.*)$/i);
-        return num?.length ? +num[1] : +text;
+        return toNumber(num?.length ? num[1] : text);
       },
       subtitles: (text: string) => {
         return text?.length ? text.toLowerCase().trim() : 'vostfr';

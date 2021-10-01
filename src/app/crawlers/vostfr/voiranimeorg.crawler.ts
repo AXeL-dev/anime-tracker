@@ -2,6 +2,7 @@ import { LatestEpisodesCrawler } from '../abstract/latest-episodes.crawler';
 import { ScraperService } from '../../services/scraper.service';
 import { Episode } from '../../models/episode';
 import { Observable } from 'rxjs';
+import { toNumber } from 'src/app/helpers/number.helper';
 
 export class VoirAnimeOrgCrawler extends LatestEpisodesCrawler {
   constructor(private scraper: ScraperService) {
@@ -16,7 +17,7 @@ export class VoirAnimeOrgCrawler extends LatestEpisodesCrawler {
       },
       number: (text: string) => {
         const num = text.trim().match(/(\d+) (vostfr|vf)(?:.*)$/i);
-        return num?.length ? +num[1] : +text;
+        return toNumber(num?.length ? num[1] : text);
       },
       subtitles: (text: string) => {
         const sub = text.trim().match(/(vostfr|vf)(?:.*)$/i);

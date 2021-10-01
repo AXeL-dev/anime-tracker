@@ -3,6 +3,7 @@ import { ScraperService } from '../../services/scraper.service';
 import { Episode } from '../../models/episode';
 import { Observable } from 'rxjs';
 import { slugify } from '../../helpers/string.helper';
+import { toNumber } from 'src/app/helpers/number.helper';
 
 export class WacVostfrCrawler extends LatestEpisodesCrawler {
   constructor(private scraper: ScraperService) {
@@ -17,7 +18,7 @@ export class WacVostfrCrawler extends LatestEpisodesCrawler {
       },
       number: (text: string) => {
         const num = text.trim().match(/(\d+) (vostfr|vf)(?:.*)$/i);
-        return num?.length ? +num[1] : +text;
+        return toNumber(num?.length ? num[1] : text);
       },
       cover: (text: string) => {
         const title = this.filters.title(text);
