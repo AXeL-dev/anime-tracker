@@ -25,7 +25,7 @@ export abstract class BaseCrawler {
     this._isActive = true;
     this.filters = {
       number: (text: string) => {
-        return +text;
+        return +text || 1;
       },
       boolean: (text: string) => {
         return !!text?.length;
