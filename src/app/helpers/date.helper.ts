@@ -57,12 +57,7 @@ export const isInToday = (inputDate: Date) => {
 
 export const sameDates = (
   date1: Date | number | string,
-  date2: Date | number | string,
-  defaultDate?: Date | number | string
+  date2: Date | number | string
 ) => {
-  const dates = {
-    date1: date1 ? dateOnly(new Date(date1)) : defaultDate,
-    date2: date2 ? dateOnly(new Date(date2)) : defaultDate,
-  };
-  return dates.date1 === dates.date2;
+  return dateOnly(new Date(date1)) === dateOnly(new Date(date2));
 };
