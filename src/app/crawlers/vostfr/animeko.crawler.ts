@@ -15,7 +15,8 @@ export class AnimeKoCrawler extends LatestEpisodesCrawler {
     this.filters = {
       ...this.filters,
       cover: (text: string) => {
-        return text.replace('/small', '');
+        const cover = text.replace('/small', '');
+        return this.filters.concatUrl(cover);
       },
       subtitles: (text: string) => {
         return 'vostfr';
@@ -59,7 +60,7 @@ export class AnimeKoCrawler extends LatestEpisodesCrawler {
         number: 'span.badge-number | number',
         streamLinks: [
           {
-            url: 'h2 a@href',
+            url: 'h2 a@href | concatUrl',
             lang: '| subtitles',
           },
         ],
