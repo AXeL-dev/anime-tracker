@@ -24,6 +24,7 @@ import {
   AnimixPlayCrawler,
   WacVostfrCrawler,
   GogoPlayCrawler,
+  ElevenAnimCrawler,
 } from '../crawlers';
 
 @Injectable({
@@ -41,6 +42,7 @@ export class CrawlersService {
     this.add(new NekoSamaCrawler(this.scraper));
     this.add(new VoirAnimeCrawler(this.scraper));
     this.add(new VoirAnimeOrgCrawler(this.scraper));
+    this.add(new ElevenAnimCrawler(this.scraper));
     this.add(new MavAnimesCrawler(this.scraper));
     this.add(new AnimeResistanceCrawler(this.scraper));
     this.add(new OtakuFrCrawler(this.scraper));

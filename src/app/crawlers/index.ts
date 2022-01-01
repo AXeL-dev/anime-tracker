@@ -30,3 +30,4 @@ export { VoirAnimeCrawler } from './vostfr/voiranime.crawler';
 export { VoirAnimeOrgCrawler } from './vostfr/voiranimeorg.crawler';
 export { VostFreeCrawler } from './vostfr/vostfree.crawler';
 export { WacVostfrCrawler } from './vostfr/wacvostfr.crawler';
+export { ElevenAnimCrawler } from './vostfr/11anim.crawler';
