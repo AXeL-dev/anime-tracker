@@ -24,6 +24,7 @@ export interface Settings {
 export enum View {
   Latest = 'latest',
   Favorites = 'favorites',
+  FirstEpisodes = '1st',
 }
 
 export enum Subtitles {

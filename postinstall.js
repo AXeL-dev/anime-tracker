@@ -22,7 +22,7 @@ for (let file of files) {
   changeFile(file, searchForString, replaceWithString);
 }
 
-// Remove unused material icons
+// Remove unused material icons (to reduce bundle size)
 files = [
   './node_modules/material-icons/iconfont/material-icons.scss',
 ];

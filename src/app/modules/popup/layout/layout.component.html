@@ -29,6 +29,17 @@
               >favorite</i
             >Favorites
           </a>
+          <a
+            mdcListItem
+            [routerLink]="['/']"
+            [queryParams]="{ view: views.FirstEpisodes }"
+            [selected]="view === views.FirstEpisodes"
+            (click)="closeMenu()"
+          >
+            <i mdcListItemGraphic class="material-icons" aria-hidden="true"
+              >looks_one</i
+            >First episodes
+          </a>
         </nav>
         <hr mdcListDivider />
         <nav mdcList>
@@ -68,6 +79,28 @@
           ></app-search-input>
         </section>
         <section mdcTopAppBarSection alignEnd>
+          <a
+            *ngIf="settings.openInNewTab"
+            [routerLink]="['/']"
+            [queryParams]="{
+              view:
+                view === views.FirstEpisodes
+                  ? views.Latest
+                  : views.FirstEpisodes
+            }"
+            [title]="
+              view === views.FirstEpisodes ? 'Show all' : 'Show first episodes'
+            "
+            mdcTopAppBarAction
+            [class]="
+              view === views.FirstEpisodes
+                ? 'material-icons'
+                : 'material-icons-outlined'
+            "
+            label="Show first episodes"
+          >
+            looks_one
+          </a>
           <a
             *ngIf="settings.openInNewTab"
             [routerLink]="['/']"

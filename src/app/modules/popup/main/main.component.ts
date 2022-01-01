@@ -96,14 +96,22 @@ export class MainComponent implements OnInit, OnDestroy {
       );
   }
 
+  private filterEpisodesByView(episodes: Episode[], view: View) {
+    switch (view) {
+      case View.Favorites:
+        return episodes.filter((episode: Episode) =>
+          this.favoriteAnimes.isFavorite(episode.anime.title)
+        );
+      case View.FirstEpisodes:
+        return episodes.filter((episode: Episode) => episode.number === 1);
+      default:
+        return episodes;
+    }
+  }
+
   private filterEpisodes(episodes: Episode[], days: number[]) {
     // Filter by view
-    this.episodes =
-      this.view === View.Favorites
-        ? episodes.filter((episode: Episode) =>
-            this.favoriteAnimes.isFavorite(episode.anime.title)
-          )
-        : episodes;
+    this.episodes = this.filterEpisodesByView(episodes, this.view);
     // Filter by search value
     if (this.searchValue?.length) {
       this.episodes = this.episodes.filter(
