@@ -8,7 +8,6 @@ import {
   VostFreeCrawler,
   VoirAnimeCrawler,
   NekoSamaCrawler,
-  JapMangaCrawler,
   MangasVostfrCrawler,
   GogoAnimeCrawler,
   AnimeKisaCrawler,
@@ -48,7 +47,6 @@ export class CrawlersService {
     this.add(new VostFreeCrawler(this.scraper));
     this.add(new MangasVostfrCrawler(this.scraper));
     this.add(new WacVostfrCrawler(this.scraper));
-    this.add(new JapMangaCrawler(this.scraper));
     this.add(new ToonAnimeCrawler(this.scraper));
     // Vosten crawlers
     this.add(new GogoPlayCrawler(this.scraper));

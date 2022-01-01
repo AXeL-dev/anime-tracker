@@ -7,7 +7,7 @@ import { toNumber } from 'src/app/helpers/number.helper';
 
 export class GogoPlayCrawler extends LatestEpisodesCrawler {
   constructor(private scraper: ScraperService) {
-    super('GogoPlay', 'https://goload.one/');
+    super('GogoPlay', 'https://gogoplay1.com/');
     this.filters = {
       ...this.filters,
       title: (text: string) => {
