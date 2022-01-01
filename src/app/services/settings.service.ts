@@ -1,18 +1,19 @@
 import { Injectable } from '@angular/core';
-import { Settings, View, Subtitles } from '../models/settings';
+import { Settings, View, Subtitles, ProxySettings } from '../models/settings';
 import { StorageService } from './storage.service';
 import { BrowserService } from './browser.service';
 import { getQueryParam } from '../helpers/url.helper';
 import { DebugService } from './debug.service';
 import { CORSProxies } from '../helpers/proxy.helper';
 import { EpisodeSortingCriteria } from '../models/episode';
+import { isString } from '../helpers/string.helper';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SettingsService {
   // General
-  proxy: string;
+  proxy: ProxySettings;
   openInNewTab: boolean;
   openLinksInInactiveTabs: boolean;
   maxEpisodesToRetrieve: number;
@@ -72,7 +73,14 @@ export class SettingsService {
 
   getDefaults() {
     return {
-      proxy: this.browser.isWebExtension ? '' : CORSProxies[0].url,
+      proxy: this.browser.isWebExtension
+        ? {
+            enabled: false,
+          }
+        : {
+            enabled: true,
+            name: CORSProxies[0].name,
+          },
       openInNewTab:
         !this.browser.isWebExtension || this.browser.isFirefox ? true : false,
       openLinksInInactiveTabs: true,
@@ -91,7 +99,10 @@ export class SettingsService {
   }
 
   private set(settings: Settings) {
-    this.proxy = settings.proxy;
+    // NOTE: the below proxy type check ensures backward compatibility
+    this.proxy = isString(settings.proxy)
+      ? this.getDefaults().proxy
+      : settings.proxy;
     this.openInNewTab = settings.openInNewTab;
     this.openLinksInInactiveTabs = settings.openLinksInInactiveTabs;
     this.maxEpisodesToRetrieve = settings.maxEpisodesToRetrieve;

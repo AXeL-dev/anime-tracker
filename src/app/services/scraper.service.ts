@@ -5,6 +5,7 @@ import { SettingsService } from './settings.service';
 import { Observable, EMPTY, of } from 'rxjs';
 import { map, catchError, timeout } from 'rxjs/operators';
 import { Episode } from '../models/episode';
+import { CORSProxiesByName } from '../helpers/proxy.helper';
 
 @Injectable({
   providedIn: 'root',
@@ -15,6 +16,10 @@ export class ScraperService {
     public htmlParser: HTMLParserService,
     private settings: SettingsService
   ) {}
+
+  get proxy() {
+    return CORSProxiesByName[this.settings.proxy.name];
+  }
 
   scrape(
     url: string,
@@ -37,7 +42,10 @@ export class ScraperService {
 
   getRawHTML(url: string, requestTimeout: number = 30000) {
     return this.httpClient
-      .get(this.resolveUrl(url), { responseType: 'text' })
+      .get(this.resolveUrl(url), {
+        responseType: 'text',
+        headers: this.getRequestHeaders(),
+      })
       .pipe(
         timeout(requestTimeout),
         catchError((error: Error) => {
@@ -49,6 +57,32 @@ export class ScraperService {
   }
 
   private resolveUrl(url: string): string {
-    return this.settings.proxy?.length ? `${this.settings.proxy}${url}` : url;
+    return this.settings.proxy.enabled ? `${this.proxy.url}${url}` : url;
+  }
+
+  private getRequestHeaders() {
+    const proxyHeaders = this.settings.proxy.enabled
+      ? this.proxy.headers
+      : null;
+    return proxyHeaders
+      ? Object.keys(proxyHeaders).reduce(
+          (acc, key) => ({
+            ...acc,
+            [key]: this.resolveHeaderValue(proxyHeaders[key]),
+          }),
+          {}
+        )
+      : {};
+  }
+
+  private resolveHeaderValue(value: string) {
+    switch (value) {
+      case '$hotsname':
+        return window.location.hostname;
+      case '$apiKey':
+        return this.settings.proxy.apiKey;
+      default:
+        return value;
+    }
   }
 }

@@ -12,6 +12,7 @@ import { Proxy } from 'src/app/models/proxy';
 })
 export class GeneralComponent implements OnInit {
   readonly proxies: Proxy[] = CORSProxies;
+  selectedProxyIndex: number = -1;
 
   constructor(
     public settings: SettingsService,
@@ -21,6 +22,11 @@ export class GeneralComponent implements OnInit {
 
   ngOnInit(): void {
     this.settings.enableDebugging = this.debug.isEnabled(); // ensure that we get the right debugging state even on dev env.
+    if (this.settings.proxy.enabled) {
+      this.selectedProxyIndex = this.proxies.findIndex(
+        (proxy) => proxy.name === this.settings.proxy.name
+      );
+    }
   }
 
   onEnableDebuggingSwitchChange(value: boolean) {
@@ -28,6 +34,19 @@ export class GeneralComponent implements OnInit {
       this.debug.enable();
     } else {
       this.debug.disable();
+    }
+  }
+
+  onProxyChange(event: Event) {
+    const target = event.target as HTMLSelectElement;
+    const index = target.selectedOptions[0].getAttribute('data-index');
+    if (index === null) {
+      this.selectedProxyIndex = -1;
+      this.settings.proxy.enabled = false;
+    } else {
+      this.selectedProxyIndex = +index;
+      this.settings.proxy.enabled = true;
+      this.settings.proxy.name = this.proxies[this.selectedProxyIndex].name;
     }
   }
 }

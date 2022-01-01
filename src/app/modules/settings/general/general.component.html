@@ -9,14 +9,43 @@
         >
       </span>
       <div mdcListItemMeta mdcSelect>
-        <select mdcSelectControl [(ngModel)]="settings.proxy">
+        <select
+          mdcSelectControl
+          [(ngModel)]="settings.proxy.name"
+          (change)="onProxyChange($event)"
+        >
           <option value="">None</option>
-          <option *ngFor="let proxy of proxies" [value]="proxy.url">
+          <option
+            *ngFor="let proxy of proxies; let i = index"
+            [value]="proxy.name"
+            [attr.data-index]="i"
+          >
             {{ proxy.name }}
           </option>
         </select>
         <label mdcFloatingLabel></label>
         <!-- gives an error when removed, so better let it empty for now -->
+      </div>
+    </li>
+    <li
+      *ngIf="proxies[selectedProxyIndex]?.options?.apiKey?.required"
+      mdcListItem
+    >
+      <i mdcListItemGraphic class="material-icons">vpn_key</i>
+      <span mdcListItemText>
+        Proxy API key
+        <span
+          *ngIf="proxies[selectedProxyIndex].options.apiKey.hint"
+          mdcListItemSecondaryText
+          >{{ proxies[selectedProxyIndex].options.apiKey.hint }}</span
+        >
+      </span>
+      <div mdcListItemMeta>
+        <input
+          type="password"
+          class="text-input"
+          [(ngModel)]="settings.proxy.apiKey"
+        />
       </div>
     </li>
     <li *ngIf="browser.isWebExtension" mdcListItem>

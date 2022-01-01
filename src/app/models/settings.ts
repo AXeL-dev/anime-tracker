@@ -2,7 +2,7 @@ import { EpisodeSortingCriteria } from './episode';
 
 export interface Settings {
   // General
-  proxy: string;
+  proxy: ProxySettings;
   openInNewTab: boolean;
   openLinksInInactiveTabs: boolean;
   maxEpisodesToRetrieve: number;
@@ -19,6 +19,12 @@ export interface Settings {
   preferredSubtitles: string;
   // Crawlers
   inactiveCrawlers: string[];
+}
+
+export interface ProxySettings {
+  enabled: boolean;
+  name?: string;
+  apiKey?: string;
 }
 
 export enum View {
