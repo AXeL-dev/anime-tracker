@@ -10,6 +10,7 @@ import { ShortDatePipe } from './pipes/shortdate.pipe';
 import { DateTimePipe } from './pipes/datetime.pipe';
 import { UrlPipe } from './pipes/url.pipe';
 import { SafePipe } from './pipes/safe.pipe';
+import { ProxyPipe } from './pipes/proxy.pipe';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { SafePipe } from './pipes/safe.pipe';
     DateTimePipe,
     UrlPipe,
     SafePipe,
+    ProxyPipe,
   ],
   imports: [CommonModule, FormsModule, MaterialModule],
   exports: [
@@ -33,6 +35,7 @@ import { SafePipe } from './pipes/safe.pipe';
     DateTimePipe,
     UrlPipe,
     SafePipe,
+    ProxyPipe,
   ],
 })
 export class SharedModule {}

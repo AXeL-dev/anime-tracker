@@ -20,7 +20,7 @@ export type SafePipeType = 'html' | 'style' | 'script' | 'url' | 'resourceUrl';
 export class SafePipe implements PipeTransform {
   constructor(protected sanitizer: DomSanitizer) {}
 
-  public transform(
+  transform(
     value: string,
     type: SafePipeType
   ): SafeHtml | SafeStyle | SafeScript | SafeUrl | SafeResourceUrl {

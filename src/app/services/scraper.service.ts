@@ -56,7 +56,7 @@ export class ScraperService {
       );
   }
 
-  private resolveUrl(url: string): string {
+  resolveUrl(url: string): string {
     return this.settings.proxy.enabled ? `${this.proxy.url}${url}` : url;
   }
 

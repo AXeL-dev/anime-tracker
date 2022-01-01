@@ -14,7 +14,7 @@ export type UrlPipeAction =
 export class UrlPipe implements PipeTransform {
   constructor() {}
 
-  public transform(value: string, action: UrlPipeAction): string {
+  transform(value: string, action: UrlPipeAction): string {
     switch (action) {
       case 'format':
         return `url("${value}")`;

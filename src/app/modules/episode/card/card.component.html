@@ -9,7 +9,11 @@
       mdcCardMedia
       size="square"
       [style.background-image]="
-        episode.anime.cover | url: 'encodeAndFormat' | safe: 'style'
+        episode.anime.cover
+          | proxy: 'resolveUrl':'image'
+          | async
+          | url: 'encodeAndFormat'
+          | safe: 'style'
       "
       [attr.data-cover]="episode.anime.cover"
     >
