@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 
 export class ElevenAnimCrawler extends LatestEpisodesCrawler {
   constructor(private scraper: ScraperService) {
-    super('11Anim', 'https://11anim.net/');
+    super('11Anim', 'https://11anim.net');
     this.filters = {
       ...this.filters,
       title: (text: string) => {

@@ -16,6 +16,7 @@ export { DarkAnimeCrawler } from './vosten/darkanime.crawler';
 export { GogoAnimeCrawler } from './vosten/gogoanime.crawler';
 export { GogoPlayCrawler } from './vosten/gogoplay.crawler';
 export { YugenAnimeCrawler } from './vosten/yugenanime.crawler';
+export { GogoAnimeTvCrawler } from './vosten/gogoanimetv.crawler';
 // vostfr
 export { AnimeKoCrawler } from './vostfr/animeko.crawler';
 export { AnimeResistanceCrawler } from './vostfr/animeresistance.crawler';

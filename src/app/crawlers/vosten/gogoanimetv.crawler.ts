@@ -1,21 +1,20 @@
 import { LatestEpisodesCrawler } from '../abstract/latest-episodes.crawler';
 import { ScraperService } from '../../services/scraper.service';
 import { Episode } from '../../models/episode';
+import { today, yesterday, dateBefore } from '../../helpers/date.helper';
 import { Observable } from 'rxjs';
-import { dateBefore, today, yesterday } from 'src/app/helpers/date.helper';
 import { toNumber } from 'src/app/helpers/number.helper';
 
-export class GogoPlayCrawler extends LatestEpisodesCrawler {
+export class GogoAnimeTvCrawler extends LatestEpisodesCrawler {
   constructor(private scraper: ScraperService) {
-    super('GogoPlay', 'https://gogoplay1.com');
+    super('GogoAnimeTv', 'https://gogoanimestv.org');
     this.filters = {
       ...this.filters,
       title: (text: string) => {
-        const title = text.match(/(.*) Episode (\d+)/);
-        return title?.length ? title[1].trim() : text;
+        return text.replace(/<.*>.*?<\/.*>/gi, '').trim();
       },
       number: (text: string) => {
-        const num = text.match(/Episode (\d+)/);
+        const num = text.match(/EP (\d+)/i);
         return toNumber(num?.length ? num[1] : text);
       },
       subtitles: (text: string) => {
@@ -43,20 +42,20 @@ export class GogoPlayCrawler extends LatestEpisodesCrawler {
   _getLatestEpisodes(): Observable<Episode[]> {
     return this.scraper.scrape(
       `${this.baseUrl}`,
-      'ul.listing.items > li',
+      '.postbody .listupd > div > article',
       {
         anime: {
-          title: '.name | title',
-          cover: '.picture img@src',
+          title: 'a .tt | title',
+          cover: 'a img.ts-post-image@src',
         },
-        number: '.name | number',
+        number: 'a .bt .epx | number',
         streamLinks: [
           {
-            url: 'a@href | concatUrl',
+            url: 'a@href',
             lang: '| subtitles',
           },
         ],
-        releaseDate: '.meta > .date | date',
+        releaseDate: 'a .timeago | date',
       },
       this.filters
     );
