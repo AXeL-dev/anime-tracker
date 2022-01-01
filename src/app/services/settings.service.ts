@@ -76,6 +76,7 @@ export class SettingsService {
       proxy: this.browser.isWebExtension
         ? {
             enabled: false,
+            name: '',
           }
         : {
             enabled: true,

@@ -46,7 +46,6 @@ export class GeneralComponent implements OnInit {
     } else {
       this.selectedProxyIndex = +index;
       this.settings.proxy.enabled = true;
-      this.settings.proxy.name = this.proxies[this.selectedProxyIndex].name;
     }
   }
 }
