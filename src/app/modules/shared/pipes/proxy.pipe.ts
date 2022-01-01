@@ -1,5 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { ScraperService } from 'src/app/services/scraper.service';
+import { SettingsService } from 'src/app/services/settings.service';
 
 export type ProxyPipeAction = 'resolveUrl';
 export type ProxyPipeValueType = 'image';
@@ -9,7 +10,10 @@ export type ProxyPipeValueType = 'image';
   pure: true,
 })
 export class ProxyPipe implements PipeTransform {
-  constructor(protected scraper: ScraperService) {}
+  constructor(
+    protected settings: SettingsService,
+    protected scraper: ScraperService
+  ) {}
 
   private getImageOrFallback = (
     path: string,
@@ -30,12 +34,15 @@ export class ProxyPipe implements PipeTransform {
   ): Promise<string> {
     switch (action) {
       case 'resolveUrl': {
-        const url = this.scraper.resolveUrl(value);
         switch (type) {
           case 'image':
-            return await this.getImageOrFallback(value, url);
+            if (!this.settings.proxy.shouldFetchImages) {
+              return value;
+            }
+            const fallback = this.scraper.resolveUrl(value);
+            return await this.getImageOrFallback(value, fallback);
           default:
-            return url;
+            return this.scraper.resolveUrl(value);
         }
       }
       default:

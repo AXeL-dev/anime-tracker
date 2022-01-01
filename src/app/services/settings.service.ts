@@ -80,6 +80,7 @@ export class SettingsService {
         : {
             enabled: true,
             name: CORSProxies[0].name,
+            shouldFetchImages: false,
           },
       openInNewTab:
         !this.browser.isWebExtension || this.browser.isFirefox ? true : false,

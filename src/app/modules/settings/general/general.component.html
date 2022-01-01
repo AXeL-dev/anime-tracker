@@ -48,6 +48,23 @@
         />
       </div>
     </li>
+    <li *ngIf="settings.proxy.enabled" mdcListItem>
+      <i mdcListItemGraphic class="material-icons">image</i>
+      <span mdcListItemText>
+        Use the proxy to fetch images
+        <span mdcListItemSecondaryText
+          >Will fetch the episodes cover images using the proxy on loading
+          failures</span
+        >
+      </span>
+      <div mdcListItemMeta mdcSwitch>
+        <input
+          mdcSwitchInput
+          type="checkbox"
+          [(ngModel)]="settings.proxy.shouldFetchImages"
+        />
+      </div>
+    </li>
     <li *ngIf="browser.isWebExtension" mdcListItem>
       <i mdcListItemGraphic class="material-icons">open_in_new</i>
       <span mdcListItemText>

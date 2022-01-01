@@ -25,6 +25,7 @@ export interface ProxySettings {
   enabled: boolean;
   name?: string;
   apiKey?: string;
+  shouldFetchImages?: boolean;
 }
 
 export enum View {
