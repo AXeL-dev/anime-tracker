@@ -71,18 +71,23 @@ export class SettingsService {
     this.set({ ...defaults, ...settings }); // any existing settings value will override defaults
   }
 
+  private getDefaultProxySettings() {
+    return this.browser.isWebExtension
+      ? {
+          enabled: false,
+          name: '',
+          shouldFetchImages: false,
+        }
+      : {
+          enabled: true,
+          name: CORSProxies[0].name,
+          shouldFetchImages: false,
+        };
+  }
+
   getDefaults() {
     return {
-      proxy: this.browser.isWebExtension
-        ? {
-            enabled: false,
-            name: '',
-          }
-        : {
-            enabled: true,
-            name: CORSProxies[0].name,
-            shouldFetchImages: false,
-          },
+      proxy: this.getDefaultProxySettings(),
       openInNewTab:
         !this.browser.isWebExtension || this.browser.isFirefox ? true : false,
       openLinksInInactiveTabs: true,
@@ -103,7 +108,7 @@ export class SettingsService {
   private set(settings: Settings) {
     // NOTE: the below proxy type check ensures backward compatibility
     this.proxy = isString(settings.proxy)
-      ? this.getDefaults().proxy
+      ? this.getDefaultProxySettings()
       : settings.proxy;
     this.openInNewTab = settings.openInNewTab;
     this.openLinksInInactiveTabs = settings.openLinksInInactiveTabs;
