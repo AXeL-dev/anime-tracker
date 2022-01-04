@@ -77,7 +77,7 @@ export class ScraperService {
 
   private resolveHeaderValue(value: string) {
     switch (value) {
-      case '$hotsname':
+      case '$hostname':
         return window.location.hostname;
       case '$apiKey':
         return this.settings.proxy.apiKey;
