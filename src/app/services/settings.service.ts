@@ -67,11 +67,10 @@ export class SettingsService {
   private async get() {
     const settings = await this.storage.get('settings');
     this.debug.log('Storage settings:', settings);
-    const defaults = this.getDefaults();
-    this.set({ ...defaults, ...settings }); // any existing settings value will override defaults
+    this.set({ ...this.defaults, ...settings }); // any existing settings value will override defaults
   }
 
-  private getDefaultProxySettings() {
+  get defaultProxySettings() {
     return this.browser.isWebExtension
       ? {
           enabled: false,
@@ -85,9 +84,9 @@ export class SettingsService {
         };
   }
 
-  getDefaults() {
+  get defaults() {
     return {
-      proxy: this.getDefaultProxySettings(),
+      proxy: this.defaultProxySettings,
       openInNewTab:
         !this.browser.isWebExtension || this.browser.isFirefox ? true : false,
       openLinksInInactiveTabs: true,
@@ -108,7 +107,7 @@ export class SettingsService {
   private set(settings: Settings) {
     // NOTE: the below proxy type check ensures backward compatibility
     this.proxy = isString(settings.proxy)
-      ? this.getDefaultProxySettings()
+      ? this.defaultProxySettings
       : settings.proxy;
     this.openInNewTab = settings.openInNewTab;
     this.openLinksInInactiveTabs = settings.openLinksInInactiveTabs;
