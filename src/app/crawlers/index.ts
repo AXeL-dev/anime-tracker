@@ -1,34 +1,65 @@
-export { BaseCrawler } from './abstract/base.crawler';
+import { BaseCrawler } from './abstract/base.crawler';
 // vostar
-export { AddAnimeCrawler } from './vostar/addanime.crawler';
-export { AnimeFourUpCrawler } from './vostar/anime4up.crawler';
-export { ArabAnimeCrawler } from './vostar/arabanime.crawler';
-export { EgyAnimeCrawler } from './vostar/egyanime.crawler';
-export { OkanimeCrawler } from './vostar/okanime.crawler';
-export { WitAnimeCrawler } from './vostar/witanime.crawler';
-export { ZimabdkoCrawler } from './vostar/zimabdko.crawler';
+import { AddAnimeCrawler } from './vostar/addanime.crawler';
+import { AnimeFourUpCrawler } from './vostar/anime4up.crawler';
+import { ArabAnimeCrawler } from './vostar/arabanime.crawler';
+import { EgyAnimeCrawler } from './vostar/egyanime.crawler';
+import { OkanimeCrawler } from './vostar/okanime.crawler';
+import { WitAnimeCrawler } from './vostar/witanime.crawler';
+import { ZimabdkoCrawler } from './vostar/zimabdko.crawler';
 // vosten
-export { FourAnimeCrawler } from './vosten/4anime.crawler';
-export { AnimeFrenzyCrawler } from './vosten/animefrenzy.crawler';
-export { AnimeKisaCrawler } from './vosten/animekisa.crawler';
-export { AnimixPlayCrawler } from './vosten/animixplay.crawler';
-export { DarkAnimeCrawler } from './vosten/darkanime.crawler';
-export { GogoAnimeCrawler } from './vosten/gogoanime.crawler';
-export { GogoPlayCrawler } from './vosten/gogoplay.crawler';
-export { YugenAnimeCrawler } from './vosten/yugenanime.crawler';
-export { GogoAnimeTvCrawler } from './vosten/gogoanimetv.crawler';
+import { FourAnimeCrawler } from './vosten/4anime.crawler';
+import { AnimeFrenzyCrawler } from './vosten/animefrenzy.crawler';
+import { AnimeKisaCrawler } from './vosten/animekisa.crawler';
+import { AnimixPlayCrawler } from './vosten/animixplay.crawler';
+import { DarkAnimeCrawler } from './vosten/darkanime.crawler';
+import { GogoAnimeCrawler } from './vosten/gogoanime.crawler';
+import { GogoPlayCrawler } from './vosten/gogoplay.crawler';
+import { YugenAnimeCrawler } from './vosten/yugenanime.crawler';
+import { GogoAnimeTvCrawler } from './vosten/gogoanimetv.crawler';
 // vostfr
-export { AnimeKoCrawler } from './vostfr/animeko.crawler';
-export { AnimeResistanceCrawler } from './vostfr/animeresistance.crawler';
-export { FullAnimeVFCrawler } from './vostfr/fullanimevf.crawler';
-export { JapMangaCrawler } from './vostfr/japmanga.crawler';
-export { MangasVostfrCrawler } from './vostfr/mangas-vostfr.crawler';
-export { MavAnimesCrawler } from './vostfr/mavanimes.crawler';
-export { NekoSamaCrawler } from './vostfr/neko-sama.crawler';
-export { OtakuFrCrawler } from './vostfr/otakufr.crawler';
-export { ToonAnimeCrawler } from './vostfr/toonanime.crawler';
-export { VoirAnimeCrawler } from './vostfr/voiranime.crawler';
-export { VoirAnimeOrgCrawler } from './vostfr/voiranimeorg.crawler';
-export { VostFreeCrawler } from './vostfr/vostfree.crawler';
-export { WacVostfrCrawler } from './vostfr/wacvostfr.crawler';
-export { ElevenAnimCrawler } from './vostfr/11anim.crawler';
+import { AnimeKoCrawler } from './vostfr/animeko.crawler';
+import { AnimeResistanceCrawler } from './vostfr/animeresistance.crawler';
+import { FullAnimeVFCrawler } from './vostfr/fullanimevf.crawler';
+import { JapMangaCrawler } from './vostfr/japmanga.crawler';
+import { MangasVostfrCrawler } from './vostfr/mangas-vostfr.crawler';
+import { MavAnimesCrawler } from './vostfr/mavanimes.crawler';
+import { NekoSamaCrawler } from './vostfr/neko-sama.crawler';
+import { OtakuFrCrawler } from './vostfr/otakufr.crawler';
+import { ToonAnimeCrawler } from './vostfr/toonanime.crawler';
+import { VoirAnimeCrawler } from './vostfr/voiranime.crawler';
+import { VoirAnimeOrgCrawler } from './vostfr/voiranimeorg.crawler';
+import { VostFreeCrawler } from './vostfr/vostfree.crawler';
+import { WacVostfrCrawler } from './vostfr/wacvostfr.crawler';
+import { ElevenAnimCrawler } from './vostfr/11anim.crawler';
+
+const crawlers = [
+  // Vostfr crawlers (keep the ones that provides precise release dates on the top)
+  AnimeKoCrawler,
+  NekoSamaCrawler,
+  VoirAnimeCrawler,
+  VoirAnimeOrgCrawler,
+  ElevenAnimCrawler,
+  MavAnimesCrawler,
+  AnimeResistanceCrawler,
+  OtakuFrCrawler,
+  VostFreeCrawler,
+  MangasVostfrCrawler,
+  WacVostfrCrawler,
+  ToonAnimeCrawler,
+  // Vosten crawlers
+  GogoPlayCrawler,
+  AnimeKisaCrawler,
+  YugenAnimeCrawler,
+  AnimixPlayCrawler,
+  GogoAnimeTvCrawler,
+  GogoAnimeCrawler,
+  // Vostar crawlers
+  WitAnimeCrawler,
+  AnimeFourUpCrawler,
+  ArabAnimeCrawler,
+  AddAnimeCrawler,
+  OkanimeCrawler,
+];
+
+export { BaseCrawler, crawlers };
