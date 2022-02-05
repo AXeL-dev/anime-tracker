@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 
 export class AnimeFourUpCrawler extends LatestEpisodesCrawler {
   constructor(private scraper: ScraperService) {
-    super('Anime4up', 'https://ww.anime4up.com');
+    super('Anime4up', 'https://w1.anime4up.com');
     this.filters = {
       ...this.filters,
       number: (text: string) => {
@@ -21,7 +21,10 @@ export class AnimeFourUpCrawler extends LatestEpisodesCrawler {
   _getLatestEpisodes(): Observable<Episode[]> {
     return this.scraper.scrape(
       `${this.baseUrl}`,
-      'body > div:nth-child(6).page-content-container .episodes-list-content .episodes-card-container',
+      [
+        'body > div:nth-child(6).page-content-container .episodes-list-content .episodes-card-container',
+        'body > div:nth-child(8).page-content-container .episodes-list-content .episodes-card-container',
+      ],
       {
         anime: {
           title: '.ep-card-anime-title > h3 > a',
