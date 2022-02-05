@@ -39,7 +39,7 @@ export class AddAnimeCrawler extends LatestEpisodesCrawler {
         number: '.anime-card-poster .episodes-card-title > h3 > a | number',
         streamLinks: [
           {
-            url: '.anime-card-poster .episodes-card-title > h3 > a@href',
+            url: '.anime-card-poster .episodes-card-title > h3 > a@href | decodeUrl',
             lang: '| subtitles',
           },
         ],
