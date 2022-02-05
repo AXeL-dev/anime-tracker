@@ -33,8 +33,8 @@ import { VostFreeCrawler } from './vostfr/vostfree.crawler';
 import { WacVostfrCrawler } from './vostfr/wacvostfr.crawler';
 import { ElevenAnimCrawler } from './vostfr/11anim.crawler';
 
-const crawlers = [
-  // Vostfr crawlers (keep the ones that provides precise release dates on the top)
+const votsfrCrawlers = [
+  // keep the ones that provides precise release dates at the top
   AnimeKoCrawler,
   NekoSamaCrawler,
   VoirAnimeCrawler,
@@ -47,19 +47,30 @@ const crawlers = [
   MangasVostfrCrawler,
   WacVostfrCrawler,
   ToonAnimeCrawler,
-  // Vosten crawlers
+];
+
+const vostenCrawlers = [
   GogoPlayCrawler,
   AnimeKisaCrawler,
   YugenAnimeCrawler,
   AnimixPlayCrawler,
   GogoAnimeTvCrawler,
   GogoAnimeCrawler,
-  // Vostar crawlers
+];
+
+const vostarCrawlers = [
   WitAnimeCrawler,
   AnimeFourUpCrawler,
   ArabAnimeCrawler,
   AddAnimeCrawler,
   OkanimeCrawler,
+];
+
+const crawlers = [
+  // merge crawlers
+  ...votsfrCrawlers,
+  ...vostenCrawlers,
+  ...vostarCrawlers,
 ];
 
 export { BaseCrawler, crawlers };
