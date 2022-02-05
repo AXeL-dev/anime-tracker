@@ -6,6 +6,7 @@ import { Observable, EMPTY, of } from 'rxjs';
 import { map, catchError, timeout } from 'rxjs/operators';
 import { Episode } from '../models/episode';
 import { CORSProxiesByName } from '../helpers/proxy.helper';
+import { FilterList, Scope, SelectorList } from '../models/parser';
 
 @Injectable({
   providedIn: 'root',
@@ -23,9 +24,9 @@ export class ScraperService {
 
   scrape(
     url: string,
-    scope: string,
-    selector: any,
-    filters?: any
+    scope: Scope,
+    selector: SelectorList,
+    filters?: FilterList
   ): Observable<Episode[]> {
     return this.getRawHTML(url).pipe(
       map((html: string) => {

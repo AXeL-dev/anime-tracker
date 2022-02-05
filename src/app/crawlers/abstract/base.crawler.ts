@@ -4,6 +4,7 @@ import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { today } from 'src/app/helpers/date.helper';
 import { toNumber } from 'src/app/helpers/number.helper';
+import { FilterList } from 'src/app/models/parser';
 
 interface Cache {
   animeList: Anime[];
@@ -14,7 +15,7 @@ export abstract class BaseCrawler {
   protected _name: string;
   protected _baseUrl: string;
   protected _isActive: boolean;
-  protected filters: any = {};
+  protected filters: FilterList = {};
   protected cache: Cache = {
     animeList: [],
     latestEpisodes: [],
