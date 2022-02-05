@@ -36,7 +36,7 @@ export class ProxyPipe implements PipeTransform {
       case 'resolveUrl': {
         switch (type) {
           case 'image':
-            if (!this.settings.proxy.shouldFetchImages) {
+            if (!this.settings.proxy.shouldFetchImages || !value) {
               return value;
             }
             const fallback = this.scraper.resolveUrl(value);

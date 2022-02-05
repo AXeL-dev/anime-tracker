@@ -54,7 +54,6 @@ const vostenCrawlers = [
   AnimeKisaCrawler,
   YugenAnimeCrawler,
   AnimixPlayCrawler,
-  GogoAnimeTvCrawler,
   GogoAnimeCrawler,
 ];
 
