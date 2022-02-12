@@ -4121,8 +4121,8 @@ focus-trap@^2.3.0:
     tabbable "^1.0.3"
 
 follow-redirects@^1.0.0:
-  version "1.13.3"
-  resolved "https://registry.npmjs.org/follow-redirects/-/follow-redirects-1.13.3.tgz"
+  version "1.14.8"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.14.8.tgz#016996fb9a11a100566398b1c6839337d7bfa8fc"
 
 for-in@^1.0.2:
   version "1.0.2"
