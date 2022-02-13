@@ -33,43 +33,41 @@ import { VostFreeCrawler } from './vostfr/vostfree.crawler';
 import { WacVostfrCrawler } from './vostfr/wacvostfr.crawler';
 import { ElevenAnimCrawler } from './vostfr/11anim.crawler';
 
-const votsfrCrawlers = [
-  // keep the ones that provides precise release dates at the top
-  AnimeKoCrawler,
-  NekoSamaCrawler,
-  VoirAnimeCrawler,
-  VoirAnimeOrgCrawler,
-  ElevenAnimCrawler,
-  MavAnimesCrawler,
-  AnimeResistanceCrawler,
-  OtakuFrCrawler,
-  VostFreeCrawler,
-  MangasVostfrCrawler,
-  WacVostfrCrawler,
-  ToonAnimeCrawler,
-];
+const crawlersList = {
+  vostfr: [
+    // keep the ones that provides precise release dates at the top
+    AnimeKoCrawler,
+    NekoSamaCrawler,
+    VoirAnimeCrawler,
+    VoirAnimeOrgCrawler,
+    ElevenAnimCrawler,
+    MavAnimesCrawler,
+    AnimeResistanceCrawler,
+    OtakuFrCrawler,
+    VostFreeCrawler,
+    MangasVostfrCrawler,
+    WacVostfrCrawler,
+    ToonAnimeCrawler,
+  ],
+  vosten: [
+    GogoPlayCrawler,
+    AnimeKisaCrawler,
+    YugenAnimeCrawler,
+    AnimixPlayCrawler,
+    GogoAnimeCrawler,
+  ],
+  vostar: [
+    WitAnimeCrawler,
+    AnimeFourUpCrawler,
+    ArabAnimeCrawler,
+    AddAnimeCrawler,
+    OkanimeCrawler,
+  ],
+};
 
-const vostenCrawlers = [
-  GogoPlayCrawler,
-  AnimeKisaCrawler,
-  YugenAnimeCrawler,
-  AnimixPlayCrawler,
-  GogoAnimeCrawler,
-];
-
-const vostarCrawlers = [
-  WitAnimeCrawler,
-  AnimeFourUpCrawler,
-  ArabAnimeCrawler,
-  AddAnimeCrawler,
-  OkanimeCrawler,
-];
-
-const crawlers = [
-  // merge crawlers
-  ...votsfrCrawlers,
-  ...vostenCrawlers,
-  ...vostarCrawlers,
-];
+const crawlers = Object.keys(crawlersList).reduce(
+  (acc, key) => [...acc, ...crawlersList[key]],
+  []
+);
 
 export { BaseCrawler, crawlers };
