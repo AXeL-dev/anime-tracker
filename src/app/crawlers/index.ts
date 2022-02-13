@@ -32,11 +32,13 @@ import { VoirAnimeOrgCrawler } from './vostfr/voiranimeorg.crawler';
 import { VostFreeCrawler } from './vostfr/vostfree.crawler';
 import { WacVostfrCrawler } from './vostfr/wacvostfr.crawler';
 import { ElevenAnimCrawler } from './vostfr/11anim.crawler';
+import { VostAnimezCrawler } from './vostfr/vostanimez.crawler';
 
 const crawlersList = {
   vostfr: [
     // keep the ones that provides precise release dates at the top
     AnimeKoCrawler,
+    VostAnimezCrawler,
     NekoSamaCrawler,
     VoirAnimeCrawler,
     VoirAnimeOrgCrawler,
