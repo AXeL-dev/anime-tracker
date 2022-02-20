@@ -50,11 +50,21 @@ export class ScraperService {
       .pipe(
         timeout(requestTimeout),
         catchError((error: Error) => {
-          console.error(error.message);
+          const message = this.resolveError(error, url);
+          console.error(message);
           //return EMPTY; // emits only complete & causes "TypeError: undefined has no properties" when converting the observable to promise with async/await
           return of(''); // emits both next and complete
         })
       );
+  }
+
+  private resolveError(error: Error, url: string) {
+    switch (error.message) {
+      case 'Timeout has occurred':
+        return `${error.message} for ${url}`;
+      default:
+        return error.message;
+    }
   }
 
   resolveUrl(url: string): string {
