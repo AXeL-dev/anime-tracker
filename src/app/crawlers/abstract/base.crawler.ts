@@ -46,6 +46,11 @@ export abstract class BaseCrawler {
           ? text
           : `${this.baseUrl.replace(/\/$/, '')}/${text?.replace(/^\//, '')}`;
       },
+      concatProtocol: (text: string) => {
+        return /^https?:\/\//.test(text)
+          ? text
+          : `https://${text?.replace(/^\/+/, '')}`;
+      },
       date: (text: string) => {
         return new Date(text)?.getTime();
       },

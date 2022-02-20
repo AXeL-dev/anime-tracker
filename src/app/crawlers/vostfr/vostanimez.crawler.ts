@@ -32,7 +32,7 @@ export class VostAnimezCrawler extends LatestEpisodesCrawler {
       {
         anime: {
           title: '.Title | title',
-          cover: '.Image img@src',
+          cover: '.Image img@src | concatProtocol',
         },
         number: '.ClB | number',
         streamLinks: [
