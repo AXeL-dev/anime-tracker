@@ -5,7 +5,7 @@ function changeFile(file, currLine, newLine) {
   let data = fs.readFileSync(file, 'utf8');
   let result = data.replace(currLine, newLine);
 
-  fs.writeFile(file, result, err => {
+  fs.writeFileSync(file, result, err => {
     if (err) console.log(err);
   });
 }
@@ -23,12 +23,13 @@ for (let file of files) {
 }
 
 // Remove unused material icons (to reduce bundle size)
-files = [
-  './node_modules/material-icons/iconfont/material-icons.scss',
+let file = './node_modules/material-icons/iconfont/material-icons.scss';
+let lines = [
+  "@import 'round';",
+  "@import 'sharp';",
+  "@import 'two-tone';",
 ];
-searchForString = "@each $name in 'Outlined', 'Round', 'Sharp', 'Two Tone' {";
-replaceWithString = "@each $name in 'Outlined' {";
 
-for (let file of files) {
-  changeFile(file, searchForString, replaceWithString);
+for (let line of lines) {
+  changeFile(file, `${line}\n`, '');
 }
