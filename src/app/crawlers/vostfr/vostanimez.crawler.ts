@@ -2,6 +2,7 @@ import { LatestEpisodesCrawler } from '../abstract/latest-episodes.crawler';
 import { ScraperService } from '../../services/scraper.service';
 import { Episode } from '../../models/episode';
 import { Observable } from 'rxjs';
+import { now } from 'src/app/helpers/date.helper';
 
 export class VostAnimezCrawler extends LatestEpisodesCrawler {
   constructor(private scraper: ScraperService) {
@@ -20,7 +21,9 @@ export class VostAnimezCrawler extends LatestEpisodesCrawler {
         return sub?.length ? sub[2].toLowerCase() : 'vostfr';
       },
       date: (text: string) => {
-        return new Date(text)?.getTime();
+        const date = new Date(text)?.getTime();
+        const currentDate = now().getTime();
+        return date > currentDate ? currentDate : date;
       },
     };
   }
