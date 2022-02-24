@@ -12,10 +12,13 @@
     "build:github": "npm run build:webapp -- --base-href \"/anime-tracker/\"",
     "deploy:github": "ngh --dir=dist/anime-tracker/webapp",
     "postinstall": "node ./postinstall.js",
-    "sign": "node ./sign-addon.js",
+    "sign": "node ./scripts/sign-addon.js",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "release:major": "release-it major",
+    "release:minor": "release-it minor",
+    "release:patch": "release-it patch"
   },
   "private": true,
   "dependencies": {
@@ -54,6 +57,7 @@
     "karma-jasmine": "~4.0.1",
     "karma-jasmine-html-reporter": "^1.7.0",
     "protractor": "~7.0.0",
+    "release-it": "^14.12.5",
     "sign-addon": "^3.11.0",
     "ts-node": "~10.5.0",
     "tslint": "~6.1.0",
