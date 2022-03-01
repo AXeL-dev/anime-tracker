@@ -11,7 +11,7 @@
     "package": "web-ext build --source-dir=dist/anime-tracker/webextension --artifacts-dir=. --overwrite-dest",
     "build:github": "npm run build:webapp -- --base-href \"/anime-tracker/\"",
     "deploy:github": "ngh --dir=dist/anime-tracker/webapp",
-    "postinstall": "node ./postinstall.js",
+    "postinstall": "node ./scripts/postinstall.js",
     "sign": "node ./scripts/sign-addon.js",
     "test": "ng test",
     "lint": "ng lint",
