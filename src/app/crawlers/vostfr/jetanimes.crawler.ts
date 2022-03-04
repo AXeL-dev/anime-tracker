@@ -9,9 +9,6 @@ export class JetAnimesCrawler extends LatestEpisodesCrawler {
     super('JetAnimes', 'https://www.jetanimes.com');
     this.filters = {
       ...this.filters,
-      title: (text: string) => {
-        return text;
-      },
       number: (text: string) => {
         const num = text.match(/E(\d+)/i);
         return num?.length ? +num[1] : 1;

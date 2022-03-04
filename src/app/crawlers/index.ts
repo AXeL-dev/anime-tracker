@@ -34,6 +34,7 @@ import { WacVostfrCrawler } from './vostfr/wacvostfr.crawler';
 import { ElevenAnimCrawler } from './vostfr/11anim.crawler';
 import { VostAnimezCrawler } from './vostfr/vostanimez.crawler';
 import { JetAnimesCrawler } from './vostfr/jetanimes.crawler';
+import { AnimeCompletCrawler } from './vostfr/animecomplet.crawler';
 
 const crawlersList = {
   vostfr: [
@@ -44,6 +45,7 @@ const crawlersList = {
     VoirAnimeOrgCrawler,
     VostAnimezCrawler,
     JetAnimesCrawler,
+    AnimeCompletCrawler,
     ElevenAnimCrawler,
     MavAnimesCrawler,
     AnimeResistanceCrawler,
