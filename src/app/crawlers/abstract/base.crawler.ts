@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import { today } from 'src/app/helpers/date.helper';
 import { toNumber } from 'src/app/helpers/number.helper';
 import { FilterList } from 'src/app/models/parser';
+import { capitalize } from 'src/app/helpers/string.helper';
 
 interface Cache {
   animeList: Anime[];
@@ -34,6 +35,9 @@ export abstract class BaseCrawler {
       },
       trim: (text: string) => {
         return text.trim();
+      },
+      capitalize: (text: string) => {
+        return capitalize(text);
       },
       decodeUrl: (text: string) => {
         return decodeURI(text);

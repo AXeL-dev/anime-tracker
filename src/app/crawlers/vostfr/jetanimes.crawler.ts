@@ -3,14 +3,35 @@ import { ScraperService } from '../../services/scraper.service';
 import { Episode } from '../../models/episode';
 import { Observable } from 'rxjs';
 import { now } from 'src/app/helpers/date.helper';
+import { capitalize } from 'src/app/helpers/string.helper';
 
 export class JetAnimesCrawler extends LatestEpisodesCrawler {
   constructor(private scraper: ScraperService) {
     super('JetAnimes', 'https://www.jetanimes.com');
     this.filters = {
       ...this.filters,
-      number: (text: string) => {
-        const num = text.match(/E(\d+)/i);
+      title: (text: string, element: HTMLElement) => {
+        if (text) {
+          return text;
+        }
+        const results = element.querySelector('.data > h3 > a');
+        const href = results.getAttribute('href');
+        const hrefParts = href.split('/');
+        const title = hrefParts[hrefParts.length - 2]
+          ?.split('-')
+          .join(' ')
+          .replace(/saison \d+|episode \d+/gi, '')
+          .trim();
+        return title ? capitalize(title) : href;
+      },
+      number: (text: string, element: HTMLElement) => {
+        let num = text.match(/E(\d+)/i);
+        if (num?.length) {
+          return +num[1];
+        }
+        const results = element.querySelector('.data > h3 > a');
+        const href = results.getAttribute('href');
+        num = href.match(/episode-(\d+)/i);
         return num?.length ? +num[1] : 1;
       },
       subtitles: (text: string) => {
@@ -33,7 +54,7 @@ export class JetAnimesCrawler extends LatestEpisodesCrawler {
       '#archive-content > article',
       {
         anime: {
-          title: '.data .serie',
+          title: '.data .serie | title',
           cover: '.poster img@src',
         },
         number: '.data > span:first-of-type | number',
