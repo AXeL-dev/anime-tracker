@@ -10,14 +10,14 @@ export class VostAnimezCrawler extends LatestEpisodesCrawler {
     this.filters = {
       ...this.filters,
       title: (text: string) => {
-        return text.replace(/(.*) \((\w+)\)$/i, '$1');
+        return text.replace(/(.*) \(([A-Za-z]+)\)$/i, '$1');
       },
       number: (text: string) => {
         const num = text.match(/(.*) episode (\d+)/i);
         return num?.length ? +num[2] : 1;
       },
       subtitles: (text: string) => {
-        const sub = text.match(/(.*) \((\w+)\)$/i);
+        const sub = text.match(/(.*) \(([A-Za-z]+)\)$/i);
         return sub?.length ? sub[2].toLowerCase() : 'vostfr';
       },
       date: (text: string) => {

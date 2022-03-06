@@ -17,7 +17,7 @@ export class AnimeCompletCrawler extends LatestEpisodesCrawler {
         return num?.length ? +num[1] : 1;
       },
       subtitles: (text: string) => {
-        const sub = text.match(/Episode (?:\d+) (\w+)$/i);
+        const sub = text.match(/Episode (?:\d+) ([A-Za-z]+)$/i);
         return sub?.length ? sub[1].toLowerCase() : 'vostfr';
       },
       date: (text: string) => {
