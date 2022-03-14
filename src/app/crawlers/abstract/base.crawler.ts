@@ -2,7 +2,7 @@ import { Anime } from '../../models/anime';
 import { Episode } from '../../models/episode';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { today } from 'src/app/helpers/date.helper';
+import { now, today } from 'src/app/helpers/date.helper';
 import { toNumber } from 'src/app/helpers/number.helper';
 import { FilterList } from 'src/app/models/parser';
 import { capitalize } from 'src/app/helpers/string.helper';
@@ -56,7 +56,9 @@ export abstract class BaseCrawler {
           : `https://${text?.replace(/^\/+/, '')}`;
       },
       date: (text: string) => {
-        return new Date(text)?.getTime();
+        const date = new Date(text)?.getTime();
+        const currentDate = now().getTime();
+        return date > currentDate ? currentDate : date;
       },
     };
   }

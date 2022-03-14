@@ -3,11 +3,11 @@ import { ScraperService } from '../../services/scraper.service';
 import { Episode } from '../../models/episode';
 import { Observable } from 'rxjs';
 import { now } from 'src/app/helpers/date.helper';
-import { capitalize } from 'src/app/helpers/string.helper';
 
 export class JetAnimesCrawler extends LatestEpisodesCrawler {
   constructor(private scraper: ScraperService) {
     super('JetAnimes', 'https://www.jetanimes.com');
+    const dateFilter = this.filters.date;
     this.filters = {
       ...this.filters,
       title: (text: string, element: HTMLElement) => {
@@ -22,7 +22,7 @@ export class JetAnimesCrawler extends LatestEpisodesCrawler {
           .join(' ')
           .replace(/saison \d+|episode \d+/gi, '')
           .trim();
-        return title ? capitalize(title) : href;
+        return title ? this.filters.capitalize(title) : href;
       },
       number: (text: string, element: HTMLElement) => {
         let num = text.match(/E(\d+)/i);
@@ -41,9 +41,7 @@ export class JetAnimesCrawler extends LatestEpisodesCrawler {
       date: (text: string) => {
         const splitted = text.split('/');
         const dateStr = splitted[1]?.replace('.', '').trim();
-        const date = new Date(dateStr)?.getTime();
-        const currentDate = now().getTime();
-        return date > currentDate ? currentDate : date;
+        return dateFilter(dateStr);
       },
     };
   }

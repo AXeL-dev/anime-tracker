@@ -20,11 +20,6 @@ export class VostAnimezCrawler extends LatestEpisodesCrawler {
         const sub = text.match(/(.*) \(([A-Za-z]+)\)$/i);
         return sub?.length ? sub[2].toLowerCase() : 'vostfr';
       },
-      date: (text: string) => {
-        const date = new Date(text)?.getTime();
-        const currentDate = now().getTime();
-        return date > currentDate ? currentDate : date;
-      },
     };
   }
 
