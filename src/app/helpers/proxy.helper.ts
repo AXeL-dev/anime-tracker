@@ -9,10 +9,10 @@ export const CORSProxies: Proxy[] = [
     name: 'cors-anywhere',
     url: 'https://cors-anywhere.herokuapp.com/',
   },
-  {
-    name: 'JSONProxy',
-    url: 'https://jsonp.afeld.me/?url=',
-  },
+  // {
+  //   name: 'JSONProxy',
+  //   url: 'https://jsonp.afeld.me/?url=',
+  // },
   {
     name: 'thingproxy',
     url: 'https://thingproxy.freeboard.io/fetch/',
