@@ -48,7 +48,6 @@ const crawlersList = {
     AnimeCompletCrawler,
     ElevenAnimCrawler,
     MavAnimesCrawler,
-    AnimeResistanceCrawler,
     OtakuFrCrawler,
     VostFreeCrawler,
     MangasVostfrCrawler,
@@ -57,7 +56,6 @@ const crawlersList = {
   ],
   vosten: [
     GogoPlayCrawler,
-    AnimeKisaCrawler,
     YugenAnimeCrawler,
     AnimixPlayCrawler,
     GogoAnimeCrawler,

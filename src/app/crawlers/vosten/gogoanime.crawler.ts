@@ -6,7 +6,7 @@ import { toNumber } from 'src/app/helpers/number.helper';
 
 export class GogoAnimeCrawler extends LatestEpisodesCrawler {
   constructor(private scraper: ScraperService) {
-    super('GogoAnime', 'https://gogoanime.pe');
+    super('GogoAnime', 'https://gogoanime.gg');
     this.filters = {
       ...this.filters,
       number: (text: string) => {

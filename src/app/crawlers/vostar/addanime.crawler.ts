@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 
 export class AddAnimeCrawler extends LatestEpisodesCrawler {
   constructor(private scraper: ScraperService) {
-    super('AddAnime', 'https://apk.addanime.online');
+    super('AddAnime', 'https://ar.addanime.online');
     this.filters = {
       ...this.filters,
       title: (text: string) => {
