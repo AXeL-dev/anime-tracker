@@ -17,6 +17,7 @@ import { GogoAnimeCrawler } from './vosten/gogoanime.crawler';
 import { GogoPlayCrawler } from './vosten/gogoplay.crawler';
 import { YugenAnimeCrawler } from './vosten/yugenanime.crawler';
 import { GogoAnimeTvCrawler } from './vosten/gogoanimetv.crawler';
+import { AnimensionCrawler } from './vosten/animension.crawler';
 // vostfr
 import { AnimeKoCrawler } from './vostfr/animeko.crawler';
 import { AnimeResistanceCrawler } from './vostfr/animeresistance.crawler';
@@ -56,6 +57,7 @@ const crawlersList = {
   ],
   vosten: [
     GogoPlayCrawler,
+    AnimensionCrawler,
     YugenAnimeCrawler,
     AnimixPlayCrawler,
     GogoAnimeCrawler,
