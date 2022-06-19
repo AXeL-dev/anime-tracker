@@ -10,13 +10,12 @@ export class AnimensionCrawler extends LatestEpisodesCrawler {
 
   _getLatestEpisodes(): Observable<Episode[]> {
     return this.scraper
-      .getRawHTML(`${this.baseUrl}/public-api/index.php?page=1&mode=sub`)
+      .getJSON(`${this.baseUrl}/public-api/index.php?page=1&mode=sub`)
       .pipe(
-        map((data: string) => {
+        map((data: [[string, number, number, number, string, number]]) => {
           const latestEpisodes: Episode[] = [];
           try {
-            const episodes = JSON.parse(data);
-            episodes.forEach((episode: any) => {
+            data.forEach((episode) => {
               const [title, slug, _, number, cover, time] = episode;
               latestEpisodes.push({
                 anime: {
@@ -34,7 +33,7 @@ export class AnimensionCrawler extends LatestEpisodesCrawler {
               });
             });
           } catch (error) {
-            console.error(error.message);
+            console.error(`${this.constructor.name}: ${error.message}`);
           }
 
           return latestEpisodes;

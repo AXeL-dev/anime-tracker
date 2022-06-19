@@ -7,6 +7,7 @@ import { map, catchError, timeout } from 'rxjs/operators';
 import { Episode } from '../models/episode';
 import { CORSProxiesByName } from '../helpers/proxy.helper';
 import { FilterList, Scope, SelectorList } from '../models/parser';
+import { GetRequestOptions, GetRequestParameters } from '../models/scraper';
 
 @Injectable({
   providedIn: 'root',
@@ -41,21 +42,33 @@ export class ScraperService {
     );
   }
 
-  getRawHTML(url: string, requestTimeout: number = 30000) {
-    return this.httpClient
-      .get(this.resolveUrl(url), {
-        responseType: 'text',
-        headers: this.getRequestHeaders(),
+  getRawHTML(url: string, timeout?: number) {
+    return this.get(this.resolveUrl(url), {
+      responseType: 'text',
+      headers: this.getRequestHeaders(),
+      timeout,
+    });
+  }
+
+  getJSON(url: string, timeout?: number) {
+    return this.get(this.resolveUrl(url), {
+      responseType: 'json',
+      headers: this.getRequestHeaders(),
+      timeout,
+    });
+  }
+
+  private get(url: string, options?: GetRequestOptions) {
+    const { timeout: requestTimeout = 30000, ...opts } = options;
+    return this.httpClient.get(url, opts as GetRequestParameters[1]).pipe(
+      timeout(requestTimeout),
+      catchError((error: Error) => {
+        const message = this.resolveError(error, url);
+        console.error(message);
+        //return EMPTY; // emits only complete & causes "TypeError: undefined has no properties" when converting the observable to promise with async/await
+        return of(opts.responseType === 'json' ? {} : ''); // emits both next and complete
       })
-      .pipe(
-        timeout(requestTimeout),
-        catchError((error: Error) => {
-          const message = this.resolveError(error, url);
-          console.error(message);
-          //return EMPTY; // emits only complete & causes "TypeError: undefined has no properties" when converting the observable to promise with async/await
-          return of(''); // emits both next and complete
-        })
-      );
+    );
   }
 
   private resolveError(error: Error, url: string) {
