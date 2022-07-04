@@ -73,4 +73,11 @@ export class CardComponent implements OnInit {
     this.episode.isViewed = false;
     this.viewedEpisodes.remove(this.episode);
   }
+
+  searchOnMAL() {
+    const url = encodeURI(
+      `https://myanimelist.net/anime.php?q=${this.episode.anime.title}&cat=anime`
+    );
+    window.open(url, '_blank');
+  }
 }

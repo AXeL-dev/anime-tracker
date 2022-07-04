@@ -37,6 +37,14 @@
     </div>
   </a>
   <div class="mdc-card__actions mdc-card__action-icons" #viewport>
+    <button
+      *ngIf="episode.number === 1"
+      class="material-icons mdc-icon-button"
+      title="Search on MAL"
+      (click)="searchOnMAL()"
+    >
+      search
+    </button>
     <div
       *ngIf="episode.isViewed; else isRegularTemplate"
       mdcMenuAnchor
