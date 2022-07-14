@@ -19,11 +19,12 @@ export class CardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.episodeRange.range = this.episodeRange.range.map(
-      (episode: Episode) => ({
-        ...episode,
-        isViewed: this.viewedEpisodes.isViewed(episode),
-      })
+    this.episodeRange.range = this.episodeRange.range.map((episode) => ({
+      ...episode,
+      isViewed: this.viewedEpisodes.isViewed(episode),
+    }));
+    this.episodeRange.allViewed = this.episodeRange.range.every((episode) =>
+      this.viewedEpisodes.isViewed(episode)
     );
     this.episodeRange.first.isRegular = this.viewedEpisodes.isRegular(
       this.episodeRange.first

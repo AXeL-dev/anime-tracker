@@ -38,6 +38,13 @@
     </div>
   </a>
   <div class="mdc-card__actions mdc-card__action-icons" #viewport>
+    <button
+      *ngIf="episodeRange.allViewed"
+      class="material-icons-outlined mdc-icon-button wider blue-eye cursor-default"
+      title="Viewed"
+    >
+      visibility
+    </button>
     <a
       *ngIf="episodeRange.first.isRegular"
       target="_blank"

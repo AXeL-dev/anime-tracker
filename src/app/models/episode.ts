@@ -34,6 +34,7 @@ export class EpisodeRange {
   first: Episode;
   last: Episode;
   releaseDate?: EpisodeDate;
+  allViewed?: boolean;
 
   constructor(range?: Episode[], releaseDate?: EpisodeDate) {
     if (range?.length) {
