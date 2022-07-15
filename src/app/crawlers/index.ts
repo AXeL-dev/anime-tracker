@@ -37,6 +37,7 @@ import { VostAnimezCrawler } from './vostfr/vostanimez.crawler';
 import { WawAnimesCrawler } from './vostfr/wawanimes.crawler';
 import { JetAnimesCrawler } from './vostfr/jetanimes.crawler';
 import { AnimeCompletCrawler } from './vostfr/animecomplet.crawler';
+import { AnimeMaxCrawler } from './vostfr/anime-max.crawler';
 
 const crawlersList = {
   vostfr: [
@@ -56,6 +57,7 @@ const crawlersList = {
     MangasVostfrCrawler,
     WacVostfrCrawler,
     ToonAnimeCrawler,
+    AnimeMaxCrawler,
   ],
   vosten: [
     GogoPlayCrawler,
