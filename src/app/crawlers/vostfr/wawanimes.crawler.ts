@@ -3,9 +3,9 @@ import { ScraperService } from '../../services/scraper.service';
 import { Episode } from '../../models/episode';
 import { Observable } from 'rxjs';
 
-export class VostAnimezCrawler extends LatestEpisodesCrawler {
+export class WawAnimesCrawler extends LatestEpisodesCrawler {
   constructor(private scraper: ScraperService) {
-    super('VostAnimez', 'https://vostanimez.com');
+    super('WawAnimes', 'https://wawanimes.tv');
     this.filters = {
       ...this.filters,
       title: (text: string) => {
