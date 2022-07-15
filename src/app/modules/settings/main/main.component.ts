@@ -39,6 +39,7 @@ export class MainComponent implements OnInit {
     this.router.navigate(['/']);
     this.snackbar.show({
       message: 'Settings successfully saved!',
+      actionText: 'Close',
       timeout: 3000,
       multiline: this.browser.isPopup,
     });
