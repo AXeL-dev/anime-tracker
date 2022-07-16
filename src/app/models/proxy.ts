@@ -5,6 +5,8 @@ export interface Proxy {
     [key: string]: string;
   };
   options?: {
+    responseType?: 'text' | 'json';
+    responseParser?: (response: any) => string;
     apiKey?: {
       required: boolean;
       hint?: string;

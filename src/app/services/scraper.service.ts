@@ -29,7 +29,7 @@ export class ScraperService {
     selector: SelectorList,
     filters?: FilterList
   ): Observable<Episode[]> {
-    return this.getRawHTML(url).pipe(
+    return this.getResponse(url).pipe(
       map((html: string) => {
         const parsedData = this.htmlParser.parse(
           html,
@@ -40,6 +40,19 @@ export class ScraperService {
         return parsedData;
       })
     );
+  }
+
+  private getResponse(url: string) {
+    if (!this.settings.proxy.enabled) {
+      return this.getRawHTML(url);
+    }
+    const observable =
+      this.proxy.options?.responseType === 'json'
+        ? this.getJSON(url)
+        : this.getRawHTML(url);
+    return this.proxy.options?.responseParser
+      ? observable.pipe(map(this.proxy.options.responseParser))
+      : observable;
   }
 
   getRawHTML(url: string, timeout?: number) {

@@ -6,6 +6,14 @@ export const CORSProxies: Proxy[] = [
     url: 'https://api.allorigins.win/raw?url=',
   },
   {
+    name: 'Whatever Origin',
+    url: 'http://www.whateverorigin.org/get?url=',
+    options: {
+      responseType: 'json',
+      responseParser: (data) => data.contents,
+    },
+  },
+  {
     name: 'cors-anywhere',
     url: 'https://cors-anywhere.herokuapp.com/',
   },
