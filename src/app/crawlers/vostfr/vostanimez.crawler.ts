@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 
 export class VostAnimezCrawler extends LatestEpisodesCrawler {
   constructor(private scraper: ScraperService) {
-    super('VostAnimez', 'https://vostanimez.com');
+    super('VostAnimez', 'https://vostanimez.com', 'vostfr');
     this.filters = {
       ...this.filters,
       title: (text: string) => {

@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 
 export class MavAnimesCrawler extends LatestEpisodesCrawler {
   constructor(private scraper: ScraperService) {
-    super('MavAnimes', 'http://www.mavanimes.co');
+    super('MavAnimes', 'http://www.mavanimes.co', 'vostfr');
     this.filters = {
       ...this.filters,
       cover: (text: string) => {
@@ -24,9 +24,6 @@ export class MavAnimesCrawler extends LatestEpisodesCrawler {
           .replace('VOSTFR', '')
           .replace(/(.*) (\d+)/, '$1')
           .replace(/ – $/, '');
-      },
-      subtitles: (text: string) => {
-        return 'vostfr';
       },
     };
   }

@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 
 export class JapMangaCrawler extends LatestEpisodesCrawler {
   constructor(private scraper: ScraperService) {
-    super('JapManga', 'https://www.japmanga.com');
+    super('JapManga', 'https://www.japmanga.com', 'vostfr');
     this.filters = {
       ...this.filters,
       number: (text: string) => {
@@ -17,9 +17,6 @@ export class JapMangaCrawler extends LatestEpisodesCrawler {
           .replace('Vostfr', '')
           .replace(/(.*) (\d+)/, '$1')
           .trim();
-      },
-      subtitles: (text: string) => {
-        return 'vostfr';
       },
     };
   }

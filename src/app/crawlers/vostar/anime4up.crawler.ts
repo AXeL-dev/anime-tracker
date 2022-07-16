@@ -5,15 +5,12 @@ import { Observable } from 'rxjs';
 
 export class AnimeFourUpCrawler extends LatestEpisodesCrawler {
   constructor(private scraper: ScraperService) {
-    super('Anime4up', 'https://w1.anime4up.com');
+    super('Anime4up', 'https://w1.anime4up.com', 'vostar');
     this.filters = {
       ...this.filters,
       number: (text: string) => {
         const num = text.match(/(.*) (\d+)/);
         return num?.length ? +num[2] : 1;
-      },
-      subtitles: (text: string) => {
-        return 'vostar';
       },
     };
   }

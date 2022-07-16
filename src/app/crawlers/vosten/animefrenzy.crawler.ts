@@ -5,13 +5,7 @@ import { Observable } from 'rxjs';
 
 export class AnimeFrenzyCrawler extends LatestEpisodesCrawler {
   constructor(private scraper: ScraperService) {
-    super('AnimeFrenzy', 'https://animefrenzy.net');
-    this.filters = {
-      ...this.filters,
-      subtitles: (text: string) => {
-        return 'vosten';
-      },
-    };
+    super('AnimeFrenzy', 'https://animefrenzy.net', 'vosten');
   }
 
   _getLatestEpisodes(): Observable<Episode[]> {

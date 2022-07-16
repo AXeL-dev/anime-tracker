@@ -7,15 +7,12 @@ import { toNumber } from 'src/app/helpers/number.helper';
 
 export class NekoSamaCrawler extends LatestEpisodesCrawler {
   constructor(private scraper: ScraperService) {
-    super('Neko-sama', 'https://www.neko-sama.fr');
+    super('Neko-sama', 'https://www.neko-sama.fr', 'vostfr');
     this.filters = {
       ...this.filters,
       number: (text: string) => {
         const num = text.match(/Ep. (\d+)/);
         return toNumber(num?.length ? num[1] : text);
-      },
-      subtitles: (text: string) => {
-        return 'vostfr';
       },
       date: (text: string) => {
         if (text.indexOf('minute') !== -1 || text.indexOf('heure') !== -1) {

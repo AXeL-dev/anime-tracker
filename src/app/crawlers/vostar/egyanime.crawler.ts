@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 
 export class EgyAnimeCrawler extends LatestEpisodesCrawler {
   constructor(private scraper: ScraperService) {
-    super('EgyAnime', 'https://www.egyanime.com');
+    super('EgyAnime', 'https://www.egyanime.com', 'vostar');
     this.filters = {
       ...this.filters,
       cover: (text: string) => {
@@ -15,9 +15,6 @@ export class EgyAnimeCrawler extends LatestEpisodesCrawler {
       number: (text: string) => {
         const num = text.match(/(.*) (\d+)/);
         return num?.length ? +num[2] : 1;
-      },
-      subtitles: (text: string) => {
-        return 'vostar';
       },
     };
   }

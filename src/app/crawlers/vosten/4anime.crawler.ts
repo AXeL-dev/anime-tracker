@@ -6,7 +6,7 @@ import { toNumber } from 'src/app/helpers/number.helper';
 
 export class FourAnimeCrawler extends LatestEpisodesCrawler {
   constructor(private scraper: ScraperService) {
-    super('4Anime', 'https://4anime.to');
+    super('4Anime', 'https://4anime.to', 'vosten');
     this.filters = {
       ...this.filters,
       cover: (text: string) => {
@@ -19,9 +19,6 @@ export class FourAnimeCrawler extends LatestEpisodesCrawler {
       number: (text: string) => {
         const num = text.match(/\d+/g);
         return toNumber(num?.length ? num[0] : text);
-      },
-      subtitles: (text: string) => {
-        return 'vosten';
       },
     };
   }

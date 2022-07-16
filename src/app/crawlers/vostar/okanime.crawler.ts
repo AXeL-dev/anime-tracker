@@ -5,13 +5,7 @@ import { Observable } from 'rxjs';
 
 export class OkanimeCrawler extends LatestEpisodesCrawler {
   constructor(private scraper: ScraperService) {
-    super('OKanime', 'https://okanime.tv');
-    this.filters = {
-      ...this.filters,
-      subtitles: (text: string) => {
-        return 'vostar';
-      },
-    };
+    super('OKanime', 'https://okanime.tv', 'vostar');
   }
 
   _getLatestEpisodes(): Observable<Episode[]> {

@@ -6,7 +6,7 @@ import { now } from 'src/app/helpers/date.helper';
 
 export class JetAnimesCrawler extends LatestEpisodesCrawler {
   constructor(private scraper: ScraperService) {
-    super('JetAnimes', 'https://www.jetanimes.com');
+    super('JetAnimes', 'https://www.jetanimes.com', 'vostfr');
     const dateFilter = this.filters.date;
     this.filters = {
       ...this.filters,

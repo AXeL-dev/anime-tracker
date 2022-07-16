@@ -6,7 +6,7 @@ import { frenchMonths } from '../../helpers/date.helper';
 
 export class MangasVostfrCrawler extends LatestEpisodesCrawler {
   constructor(private scraper: ScraperService) {
-    super('Mangas-vostfr', 'https://mangas-vostfr.com');
+    super('Mangas-vostfr', 'https://mangas-vostfr.com', 'vostfr');
     this.filters = {
       ...this.filters,
       number: (text: string) => {
@@ -18,9 +18,6 @@ export class MangasVostfrCrawler extends LatestEpisodesCrawler {
           .replace('Vostfr', '')
           .replace(/(.*) (\d+)/, '$1')
           .trim();
-      },
-      subtitles: (text: string) => {
-        return 'vostfr';
       },
       date: (text: string) => {
         let date = text.toLowerCase();

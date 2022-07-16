@@ -6,15 +6,12 @@ import { toNumber } from 'src/app/helpers/number.helper';
 
 export class AnimeKisaCrawler extends LatestEpisodesCrawler {
   constructor(private scraper: ScraperService) {
-    super('AnimeKisa', 'https://animekisa.tv');
+    super('AnimeKisa', 'https://animekisa.tv', 'vosten');
     this.filters = {
       ...this.filters,
       number: (text: string) => {
         const num = text.match(/Episode (\d+)/);
         return toNumber(num?.length ? num[1] : text);
-      },
-      subtitles: (text: string) => {
-        return 'vosten';
       },
       date: (text: string) => {
         return +text * 1000; // convert to unix timestamp

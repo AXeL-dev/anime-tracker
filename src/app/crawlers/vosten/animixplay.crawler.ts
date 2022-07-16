@@ -7,15 +7,12 @@ import { toNumber } from 'src/app/helpers/number.helper';
 
 export class AnimixPlayCrawler extends LatestEpisodesCrawler {
   constructor(private scraper: ScraperService) {
-    super('AnimixPlay', 'https://animixplay.to');
+    super('AnimixPlay', 'https://animixplay.to', 'vosten');
     this.filters = {
       ...this.filters,
       number: (text: string) => {
         const num = text.match(/EP (\d+)/);
         return toNumber(num?.length ? num[1] : text);
-      },
-      subtitles: (text: string) => {
-        return 'vosten';
       },
       date: (text: string) => {
         if (

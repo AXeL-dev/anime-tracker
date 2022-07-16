@@ -8,7 +8,7 @@ import { toNumber } from 'src/app/helpers/number.helper';
 
 export class NekoSamaCrawler extends LatestEpisodesCrawler {
   constructor(private scraper: ScraperService) {
-    super('Neko-sama', 'https://www.neko-sama.fr');
+    super('Neko-sama', 'https://www.neko-sama.fr', 'vostfr');
     this.filters = {
       ...this.filters,
       number: (text: string) => {

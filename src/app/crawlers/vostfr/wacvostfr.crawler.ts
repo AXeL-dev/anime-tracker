@@ -7,7 +7,7 @@ import { toNumber } from 'src/app/helpers/number.helper';
 
 export class WacVostfrCrawler extends LatestEpisodesCrawler {
   constructor(private scraper: ScraperService) {
-    super('WacVostfr', 'https://wacvostfr.com');
+    super('WacVostfr', 'https://wacvostfr.com', 'vostfr');
     this.filters = {
       ...this.filters,
       title: (text: string) => {

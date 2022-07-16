@@ -1,3 +1,5 @@
+@import "../../shared/css/badge-colors.scss";
+
 [mdcList] {
   padding: 12px 0;
 }
@@ -13,31 +15,6 @@
   border-radius: 2px;
   min-width: 90px;
   text-align: center;
-  &.blue {
-    background: #0061aa;
-  }
-  &.dark {
-    background: #34393f;
-  }
-  &.pink {
-    background: #b83280;
-  }
-  &.green {
-    background: #38a169;
-  }
-  &.red {
-    background: #c53030;
-  }
-  &.purple {
-    background: #6b46c1;
-  }
-  &.orange {
-    background: #c05621;
-  }
-  &.yellow {
-    background: #fec107;
-    color: #1b0e00;
-  }
 }
 
 .link {

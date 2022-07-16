@@ -1,0 +1,27 @@
+.badge {
+  &.blue {
+    background: #0061aa;
+  }
+  &.dark {
+    background: #34393f;
+  }
+  &.pink {
+    background: #b83280;
+  }
+  &.green {
+    background: #38a169;
+  }
+  &.red {
+    background: #c53030;
+  }
+  &.purple {
+    background: #6b46c1;
+  }
+  &.orange {
+    background: #c05621;
+  }
+  &.yellow {
+    background: #fec107;
+    color: #1b0e00;
+  }
+}

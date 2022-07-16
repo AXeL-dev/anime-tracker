@@ -6,7 +6,7 @@ import { toNumber } from 'src/app/helpers/number.helper';
 
 export class YugenAnimeCrawler extends LatestEpisodesCrawler {
   constructor(private scraper: ScraperService) {
-    super('YugenAnime', 'https://yugen.to');
+    super('YugenAnime', 'https://yugen.to', 'vosten');
     this.filters = {
       ...this.filters,
       cover: (text: string) => {
@@ -16,9 +16,6 @@ export class YugenAnimeCrawler extends LatestEpisodesCrawler {
       number: (text: string) => {
         const num = text.trim().match(/(\d+) (?:.*)$/i);
         return toNumber(num?.length ? num[1] : text);
-      },
-      subtitles: (text: string) => {
-        return 'vosten';
       },
     };
   }

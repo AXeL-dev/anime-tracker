@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 
 export class ElevenAnimCrawler extends LatestEpisodesCrawler {
   constructor(private scraper: ScraperService) {
-    super('11Anim', 'https://11anim.net');
+    super('11Anim', 'https://11anim.net', 'vostfr');
     this.filters = {
       ...this.filters,
       title: (text: string) => {
@@ -18,9 +18,6 @@ export class ElevenAnimCrawler extends LatestEpisodesCrawler {
       number: (text: string) => {
         const num = text.replace('VOSTFR', '').match(/(.*) Episode (\d+)/i);
         return num?.length ? +num[2] : 1;
-      },
-      subtitles: (text: string) => {
-        return 'vostfr';
       },
       date: (text: string) => {
         let date = text.replace('Ajouté le ', '').toLowerCase();

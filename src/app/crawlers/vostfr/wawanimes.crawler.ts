@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 
 export class WawAnimesCrawler extends LatestEpisodesCrawler {
   constructor(private scraper: ScraperService) {
-    super('WawAnimes', 'https://wawanimes.tv');
+    super('WawAnimes', 'https://wawanimes.tv', 'vostfr');
     this.filters = {
       ...this.filters,
       title: (text: string) => {

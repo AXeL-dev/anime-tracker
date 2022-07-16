@@ -7,7 +7,7 @@ import { toNumber } from 'src/app/helpers/number.helper';
 
 export class GogoAnimeTvCrawler extends LatestEpisodesCrawler {
   constructor(private scraper: ScraperService) {
-    super('GogoAnimeTv', 'https://gogoanimestv.org');
+    super('GogoAnimeTv', 'https://gogoanimestv.org', 'vosten');
     this.filters = {
       ...this.filters,
       title: (text: string) => {
@@ -16,9 +16,6 @@ export class GogoAnimeTvCrawler extends LatestEpisodesCrawler {
       number: (text: string) => {
         const num = text.match(/EP (\d+)/i);
         return toNumber(num?.length ? num[1] : text);
-      },
-      subtitles: (text: string) => {
-        return 'vosten';
       },
       date: (text: string) => {
         if (

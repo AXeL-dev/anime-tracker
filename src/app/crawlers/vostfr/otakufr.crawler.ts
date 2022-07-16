@@ -7,7 +7,7 @@ import { toNumber } from 'src/app/helpers/number.helper';
 
 export class OtakuFrCrawler extends LatestEpisodesCrawler {
   constructor(private scraper: ScraperService) {
-    super('OtakuFr', 'https://otakufr.co');
+    super('OtakuFr', 'https://otakufr.co', 'vostfr');
     this.filters = {
       ...this.filters,
       title: (text: string) => {

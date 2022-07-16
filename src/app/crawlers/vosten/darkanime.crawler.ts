@@ -5,14 +5,11 @@ import { Observable } from 'rxjs';
 
 export class DarkAnimeCrawler extends LatestEpisodesCrawler {
   constructor(private scraper: ScraperService) {
-    super('DarkAnime', 'https://darkanime.stream');
+    super('DarkAnime', 'https://darkanime.stream', 'vosten');
     this.filters = {
       ...this.filters,
       number: (text: string) => {
         return +text.replace('E', '');
-      },
-      subtitles: (text: string) => {
-        return 'vosten';
       },
       url: (text: string, element: any) => {
         const number = this.scraper.htmlParser.find(

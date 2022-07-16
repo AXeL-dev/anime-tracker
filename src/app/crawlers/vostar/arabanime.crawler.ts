@@ -5,15 +5,12 @@ import { Observable } from 'rxjs';
 
 export class ArabAnimeCrawler extends LatestEpisodesCrawler {
   constructor(private scraper: ScraperService) {
-    super('ArabAnime', 'https://www.arabanime.net');
+    super('ArabAnime', 'https://www.arabanime.net', 'vostar');
     this.filters = {
       ...this.filters,
       number: (text: string) => {
         const num = text.match(/(.*) (\d+)/);
         return num?.length ? +num[2] : 1;
-      },
-      subtitles: (text: string) => {
-        return 'vostar';
       },
     };
   }

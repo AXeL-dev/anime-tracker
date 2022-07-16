@@ -11,15 +11,12 @@ import { Observable } from 'rxjs';
 
 export class AnimeKoCrawler extends LatestEpisodesCrawler {
   constructor(private scraper: ScraperService) {
-    super('AnimeKo', 'https://animeko.co');
+    super('AnimeKo', 'https://animeko.co', 'vostfr');
     this.filters = {
       ...this.filters,
       cover: (text: string) => {
         const cover = text.replace('/small', '');
         return this.filters.concatUrl(cover);
-      },
-      subtitles: (text: string) => {
-        return 'vostfr';
       },
       date: (text: string) => {
         let date = text.toLowerCase();

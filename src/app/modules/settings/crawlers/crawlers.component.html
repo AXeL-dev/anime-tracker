@@ -26,7 +26,15 @@
         </div>
       </span>
       <span mdcListItemText>
-        {{ crawler.name }}
+        <span class="name">
+          <span
+            class="badge"
+            [ngClass]="langColors[crawler.subtitles.toLowerCase()] || ''"
+          >
+            {{ crawler.subtitles }}
+          </span>
+          {{ crawler.name }}
+        </span>
         <span mdcListItemSecondaryText>
           <a [href]="crawler.baseUrl" target="_blank">
             {{ crawler.baseUrl }}

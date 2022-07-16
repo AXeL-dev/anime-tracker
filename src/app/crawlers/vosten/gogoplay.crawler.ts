@@ -7,7 +7,7 @@ import { toNumber } from 'src/app/helpers/number.helper';
 
 export class GogoPlayCrawler extends LatestEpisodesCrawler {
   constructor(private scraper: ScraperService) {
-    super('GogoPlay', 'https://gogoplay1.com');
+    super('GogoPlay', 'https://gogoplay1.com', 'vosten');
     this.filters = {
       ...this.filters,
       title: (text: string) => {
@@ -17,9 +17,6 @@ export class GogoPlayCrawler extends LatestEpisodesCrawler {
       number: (text: string) => {
         const num = text.match(/Episode (\d+)/);
         return toNumber(num?.length ? num[1] : text);
-      },
-      subtitles: (text: string) => {
-        return 'vosten';
       },
       date: (text: string) => {
         if (

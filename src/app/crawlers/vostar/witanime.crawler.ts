@@ -5,15 +5,12 @@ import { Observable } from 'rxjs';
 
 export class WitAnimeCrawler extends LatestEpisodesCrawler {
   constructor(private scraper: ScraperService) {
-    super('WitAnime', 'https://witanime.com');
+    super('WitAnime', 'https://witanime.com', 'vostar');
     this.filters = {
       ...this.filters,
       number: (text: string) => {
         const num = text.match(/(.*) (\d+)/);
         return num?.length ? +num[2] : 1;
-      },
-      subtitles: (text: string) => {
-        return 'vostar';
       },
     };
   }

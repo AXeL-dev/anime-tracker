@@ -6,7 +6,7 @@ import { toNumber } from 'src/app/helpers/number.helper';
 
 export class NineAnimeCrawler extends LatestEpisodesCrawler {
   constructor(private scraper: ScraperService) {
-    super('9Anime', 'https://9anime.id');
+    super('9Anime', 'https://9anime.id', 'vosten');
     this.filters = {
       ...this.filters,
       number: (text: string) => {
@@ -20,9 +20,6 @@ export class NineAnimeCrawler extends LatestEpisodesCrawler {
           this.filters
         );
         return `${this.filters.concatUrl(text)}/ep-${number}`;
-      },
-      subtitles: (text: string) => {
-        return 'vosten';
       },
     };
   }

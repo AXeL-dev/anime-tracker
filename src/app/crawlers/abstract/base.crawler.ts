@@ -16,16 +16,18 @@ export abstract class BaseCrawler {
   protected _name: string;
   protected _baseUrl: string;
   protected _isActive: boolean;
+  protected _defaultSubtitles: string;
   protected filters: FilterList = {};
   protected cache: Cache = {
     animeList: [],
     latestEpisodes: [],
   };
 
-  constructor(name: string, baseUrl: string) {
+  constructor(name: string, baseUrl: string, defaultSubtitles: string) {
     this._name = name;
     this._baseUrl = baseUrl;
     this._isActive = true;
+    this._defaultSubtitles = defaultSubtitles;
     this.filters = {
       number: (text: string) => {
         return toNumber(text);
@@ -60,6 +62,9 @@ export abstract class BaseCrawler {
         const currentDate = now().getTime();
         return date > currentDate ? currentDate : date;
       },
+      subtitles: (text: string) => {
+        return defaultSubtitles;
+      },
     };
   }
 
@@ -69,6 +74,10 @@ export abstract class BaseCrawler {
 
   get baseUrl() {
     return this._baseUrl;
+  }
+
+  get subtitles() {
+    return this._defaultSubtitles;
   }
 
   get isActive() {

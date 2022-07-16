@@ -6,7 +6,7 @@ import { toNumber } from 'src/app/helpers/number.helper';
 
 export class ToonAnimeCrawler extends LatestEpisodesCrawler {
   constructor(private scraper: ScraperService) {
-    super('ToonAnime', 'https://wvvw.toonanime.tv');
+    super('ToonAnime', 'https://wvvw.toonanime.tv', 'vostfr');
     this.filters = {
       ...this.filters,
       title: (text: string) => {

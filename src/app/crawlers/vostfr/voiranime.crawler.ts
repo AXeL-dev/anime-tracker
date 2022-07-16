@@ -6,14 +6,11 @@ import { Observable } from 'rxjs';
 
 export class VoirAnimeCrawler extends LatestEpisodesCrawler {
   constructor(private scraper: ScraperService) {
-    super('VoirAnime', 'https://voiranime.com');
+    super('VoirAnime', 'https://voiranime.com', 'vostfr');
     this.filters = {
       ...this.filters,
       cover: (text: string) => {
         return text.replace('-110x150', '');
-      },
-      subtitles: (text: string) => {
-        return 'vostfr';
       },
       date: (text: string) => {
         if (

@@ -6,7 +6,7 @@ import { toNumber } from 'src/app/helpers/number.helper';
 
 export class VoirAnimeOrgCrawler extends LatestEpisodesCrawler {
   constructor(private scraper: ScraperService) {
-    super('VoirAnime.org', 'https://voiranime.org');
+    super('VoirAnime.org', 'https://voiranime.org', 'vostfr');
     this.filters = {
       ...this.filters,
       title: (text: string) => {

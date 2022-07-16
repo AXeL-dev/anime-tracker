@@ -5,7 +5,7 @@ import { map, Observable } from 'rxjs';
 
 export class AnimensionCrawler extends LatestEpisodesCrawler {
   constructor(private scraper: ScraperService) {
-    super('Animension', 'https://animension.to');
+    super('Animension', 'https://animension.to', 'vosten');
   }
 
   _getLatestEpisodes(): Observable<Episode[]> {

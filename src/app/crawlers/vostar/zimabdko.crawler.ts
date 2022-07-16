@@ -6,7 +6,7 @@ import { toNumber } from 'src/app/helpers/number.helper';
 
 export class ZimabdkoCrawler extends LatestEpisodesCrawler {
   constructor(private scraper: ScraperService) {
-    super('Zimabdko', 'https://www.zimabdko.com');
+    super('Zimabdko', 'https://www.zimabdko.com', 'vostar');
     this.filters = {
       ...this.filters,
       title: (text: string) => {
@@ -21,9 +21,6 @@ export class ZimabdkoCrawler extends LatestEpisodesCrawler {
           .replace(' والأخيرة', '')
           .match(/(أنمي )?(.*) الحلقة (\d+)/);
         return toNumber(num?.length ? num[3] : text.match(/\d+/g)?.[0]);
-      },
-      subtitles: (text: string) => {
-        return 'vostar';
       },
     };
   }

@@ -6,7 +6,7 @@ import { frenchMonths } from 'src/app/helpers/date.helper';
 
 export class AnimeCompletCrawler extends LatestEpisodesCrawler {
   constructor(private scraper: ScraperService) {
-    super('AnimeComplet', 'https://animecomplet.me');
+    super('AnimeComplet', 'https://animecomplet.me', 'vostfr');
     this.filters = {
       ...this.filters,
       title: (text: string) => {

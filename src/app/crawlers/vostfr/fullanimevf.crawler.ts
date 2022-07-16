@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 
 export class FullAnimeVFCrawler extends LatestEpisodesCrawler {
   constructor(private scraper: ScraperService) {
-    super('FullAnimeVF', 'https://www.fullanimefr.com');
+    super('FullAnimeVF', 'https://www.fullanimefr.com', 'vostfr');
     this.filters = {
       ...this.filters,
       cover: (text: string) => {
@@ -31,9 +31,6 @@ export class FullAnimeVFCrawler extends LatestEpisodesCrawler {
           .replace('[HD]', '')
           .replace('VOSTFR', '')
           .replace(/(.*) Episode (\d+)/, '$1');
-      },
-      subtitles: (text: string) => {
-        return 'vostfr';
       },
     };
   }
