@@ -69,7 +69,11 @@
           >
             menu
           </button>
-          <a mdcTopAppBarTitle title="Anime Tracker" [routerLink]="['/']">
+          <a
+            mdcTopAppBarTitle
+            [title]="'Anime Tracker v' + version"
+            [routerLink]="['/']"
+          >
             <img alt="logo" src="assets/icons/128.png" />
           </a>
           <app-search-input

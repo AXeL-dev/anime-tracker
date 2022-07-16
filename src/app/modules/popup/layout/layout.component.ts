@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { DebugService } from 'src/app/services/debug.service';
 import { NotificationsService } from 'src/app/services/notifications.service';
 import { SettingsService } from 'src/app/services/settings.service';
+import packageJson from '../../../../../package.json';
 
 @Component({
   selector: 'app-layout',
@@ -21,6 +22,7 @@ export class LayoutComponent implements OnInit {
   @Output() private searchValueChange: EventEmitter<string> =
     new EventEmitter();
   readonly views: typeof View = View;
+  readonly version: string = packageJson.version;
 
   constructor(
     public router: Router,
