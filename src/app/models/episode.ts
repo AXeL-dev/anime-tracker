@@ -1,4 +1,5 @@
 import { Anime } from './anime';
+import { ViewedEpisodesService } from '../services/viewed-episodes.service';
 
 export interface Episode {
   anime: Anime;
@@ -34,7 +35,6 @@ export class EpisodeRange {
   first: Episode;
   last: Episode;
   releaseDate?: EpisodeDate;
-  allViewed?: boolean;
 
   constructor(range?: Episode[], releaseDate?: EpisodeDate) {
     if (range?.length) {
@@ -62,6 +62,10 @@ export class EpisodeRange {
   private getLast(): Episode {
     const lastIndex = this.range.length - 1;
     return lastIndex > 0 ? this.range[lastIndex] : null;
+  }
+
+  isAllViewed(viewedEpisodes: ViewedEpisodesService): boolean {
+    return this._range.every((episode) => viewedEpisodes.isViewed(episode));
   }
 }
 

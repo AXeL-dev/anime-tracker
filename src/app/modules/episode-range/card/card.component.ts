@@ -23,9 +23,6 @@ export class CardComponent implements OnInit {
       ...episode,
       isViewed: this.viewedEpisodes.isViewed(episode),
     }));
-    this.episodeRange.allViewed = this.episodeRange.range.every((episode) =>
-      this.viewedEpisodes.isViewed(episode)
-    );
     this.episodeRange.first.isRegular = this.viewedEpisodes.isRegular(
       this.episodeRange.first
     );
