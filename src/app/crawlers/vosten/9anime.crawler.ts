@@ -16,10 +16,10 @@ export class NineAnimeCrawler extends LatestEpisodesCrawler {
       url: (text: string, element: any) => {
         const number = this.scraper.htmlParser.find(
           element,
-          'div.tag.ep | number',
+          'div.meta .ep-status.sub > span | number',
           this.filters
         );
-        return `${this.filters.concatUrl(text)}/ep-${number}`;
+        return `${this.filters.concatUrl(text)}/ep-${number || 1}`;
       },
     };
   }
@@ -27,15 +27,15 @@ export class NineAnimeCrawler extends LatestEpisodesCrawler {
   _getLatestEpisodes(): Observable<Episode[]> {
     return this.scraper.scrape(
       encodeURI(
-        `${this.baseUrl}/filter?status[]=airing&language[]=subbed&sort=release_date:desc`
+        `${this.baseUrl}/filter?status[0]=releasing&status[1]=completed&language[]=sub&sort=release_date&genre_mode=and`
       ),
-      'ul.anime-list > li',
+      'div#list-items > .item',
       {
         anime: {
           title: 'a.name',
-          cover: 'a.poster img@src',
+          cover: '.poster img@src',
         },
-        number: 'div.tag.ep | number',
+        number: 'div.meta .ep-status.sub > span | number',
         streamLinks: [
           {
             url: 'a.name@href | url',
