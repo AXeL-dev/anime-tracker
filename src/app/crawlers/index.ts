@@ -34,7 +34,7 @@ import { VoirAnimeCrawler } from './vostfr/voiranime.crawler';
 import { VoirAnimeOrgCrawler } from './vostfr/voiranimeorg.crawler';
 import { VostFreeCrawler } from './vostfr/vostfree.crawler';
 import { WacVostfrCrawler } from './vostfr/wacvostfr.crawler';
-import { ElevenAnimCrawler } from './vostfr/11anim.crawler';
+import { IAnimeFrCrawler } from './vostfr/ianime-fr.crawler';
 import { VostAnimezCrawler } from './vostfr/vostanimez.crawler';
 import { WawAnimesCrawler } from './vostfr/wawanimes.crawler';
 import { JetAnimesCrawler } from './vostfr/jetanimes.crawler';
@@ -51,8 +51,7 @@ const crawlersList = {
     VostAnimezCrawler,
     WawAnimesCrawler,
     JetAnimesCrawler,
-    AnimeCompletCrawler,
-    ElevenAnimCrawler,
+    IAnimeFrCrawler,
     MavAnimesCrawler,
     OtakuFrCrawler,
     VostFreeCrawler,

@@ -4,9 +4,9 @@ import { Episode } from '../../models/episode';
 import { frenchDays, frenchMonths } from '../../helpers/date.helper';
 import { Observable } from 'rxjs';
 
-export class ElevenAnimCrawler extends LatestEpisodesCrawler {
+export class IAnimeFrCrawler extends LatestEpisodesCrawler {
   constructor(private scraper: ScraperService) {
-    super('11Anim', 'https://11anim.net', 'vostfr');
+    super('IAnimeFr', 'https://ianime-fr.com', 'vostfr');
     this.filters = {
       ...this.filters,
       title: (text: string) => {
