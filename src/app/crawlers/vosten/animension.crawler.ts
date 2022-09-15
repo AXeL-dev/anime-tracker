@@ -2,6 +2,7 @@ import { LatestEpisodesCrawler } from '../abstract/latest-episodes.crawler';
 import { ScraperService } from '../../services/scraper.service';
 import { Episode } from '../../models/episode';
 import { map, Observable } from 'rxjs';
+import { isArray } from 'src/app/helpers/array.helper';
 
 export class AnimensionCrawler extends LatestEpisodesCrawler {
   constructor(private scraper: ScraperService) {
@@ -15,25 +16,27 @@ export class AnimensionCrawler extends LatestEpisodesCrawler {
         map((data: [[string, number, number, number, string, number]]) => {
           const latestEpisodes: Episode[] = [];
           try {
-            data.forEach((episode) => {
-              const [title, slug, _, number, cover, time] = episode;
-              latestEpisodes.push({
-                anime: {
-                  title,
-                  cover,
-                },
-                number,
-                streamLinks: [
-                  {
-                    url: this.filters.concatUrl(`${slug}`),
-                    lang: 'vosten',
+            if (isArray(data)) {
+              data.forEach((episode) => {
+                const [title, slug, _, number, cover, time] = episode;
+                latestEpisodes.push({
+                  anime: {
+                    title,
+                    cover,
                   },
-                ],
-                releaseDate: time * 1000, // convert to unix timestamp
+                  number,
+                  streamLinks: [
+                    {
+                      url: this.filters.concatUrl(`${slug}`),
+                      lang: 'vosten',
+                    },
+                  ],
+                  releaseDate: time * 1000, // convert to unix timestamp
+                });
               });
-            });
+            }
           } catch (error) {
-            console.error(`${this.constructor.name}: ${error.message}`);
+            console.error(`${this.name}: ${error.message}`);
           }
 
           return latestEpisodes;
