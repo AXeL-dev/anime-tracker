@@ -93,29 +93,32 @@ export class MainComponent implements OnInit {
 
   private autoCheckLoop() {
     setTimeout(async () => {
-      // Check for recent episodes
-      const [count, notifications] = await this.getRecentEpisodesCount();
-      this.debug.log('Recent episodes count:', count);
-      if (count > 0) {
-        // Set badge count
-        const badgeText: string = await this.browser.getBadgeText();
-        if (badgeText.length) {
-          this.badgeCount += count;
-        } else {
-          this.badgeCount = count;
-        }
-        this.debug.log('Total count:', this.badgeCount);
-        this.browser.setBadgeText(this.badgeCount);
-        // Notify
-        if (this.settings.enableNotifications) {
-          notifications.forEach((notification: EpisodeNotification) => {
-            this.notifications.push(
-              notification.message,
-              NotificationType.Success
-            );
-            const id = now().getTime() + '::' + notification.episode.index;
-            this.browser.sendNotification(notification.message, id);
-          });
+      this.debug.log('online:', navigator.onLine);
+      if (navigator.onLine) {
+        // Check for recent episodes
+        const [count, notifications] = await this.getRecentEpisodesCount();
+        this.debug.log('Recent episodes count:', count);
+        if (count > 0) {
+          // Set badge count
+          const badgeText: string = await this.browser.getBadgeText();
+          if (badgeText.length) {
+            this.badgeCount += count;
+          } else {
+            this.badgeCount = count;
+          }
+          this.debug.log('Total count:', this.badgeCount);
+          this.browser.setBadgeText(this.badgeCount);
+          // Notify
+          if (this.settings.enableNotifications) {
+            notifications.forEach((notification: EpisodeNotification) => {
+              this.notifications.push(
+                notification.message,
+                NotificationType.Success
+              );
+              const id = now().getTime() + '::' + notification.episode.index;
+              this.browser.sendNotification(notification.message, id);
+            });
+          }
         }
       }
       // Re-loop
