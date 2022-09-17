@@ -26,9 +26,7 @@ export class NineAnimeCrawler extends LatestEpisodesCrawler {
 
   _getLatestEpisodes(): Observable<Episode[]> {
     return this.scraper.scrape(
-      encodeURI(
-        `${this.baseUrl}/filter?status[0]=releasing&status[1]=completed&language[]=sub&sort=release_date&genre_mode=and`
-      ),
+      `${this.baseUrl}/updated`,
       'div#list-items > .item',
       {
         anime: {
