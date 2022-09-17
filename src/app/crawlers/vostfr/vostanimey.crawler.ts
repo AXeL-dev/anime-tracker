@@ -3,13 +3,16 @@ import { ScraperService } from '../../services/scraper.service';
 import { Episode } from '../../models/episode';
 import { Observable } from 'rxjs';
 
-export class VostAnimezCrawler extends LatestEpisodesCrawler {
+export class VostAnimeyCrawler extends LatestEpisodesCrawler {
   constructor(private scraper: ScraperService) {
-    super('VostAnimez', 'https://vostanimez.com', 'vostfr');
+    super('VostAnimey', 'https://vostanimey.com', 'vostfr');
     this.filters = {
       ...this.filters,
       title: (text: string) => {
-        return text.replace(/(.*) \(([A-Za-z]+)\)$/i, '$1');
+        return text
+          .replace(/(.*) \(([A-Za-z]+)\)$/i, '$1')
+          .replace('vostfr', '')
+          .trim();
       },
       number: (text: string) => {
         const num = text.match(/(.*) episode (\d+)/i);
