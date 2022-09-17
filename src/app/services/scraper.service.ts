@@ -8,6 +8,8 @@ import { Episode } from '../models/episode';
 import { CORSProxiesByName } from '../helpers/proxy.helper';
 import { FilterList, Scope, SelectorList } from '../models/parser';
 import { GetRequestOptions, GetRequestParameters } from '../models/scraper';
+import { ExtraProxyData } from '../models/proxy';
+import { objectToQueryString } from '../helpers/url.helper';
 
 @Injectable({
   providedIn: 'root',
@@ -94,7 +96,25 @@ export class ScraperService {
   }
 
   resolveUrl(url: string): string {
-    return this.settings.proxy.enabled ? `${this.proxy.url}${url}` : url;
+    if (!this.settings.proxy.enabled) {
+      return url;
+    }
+    const params = this.getRequestParams({ url });
+    const queryString = objectToQueryString(params);
+    return `${this.proxy.url}${queryString || url}`;
+  }
+
+  private getRequestParams(extra: ExtraProxyData) {
+    const proxyParams = this.settings.proxy.enabled ? this.proxy.params : null;
+    return proxyParams
+      ? Object.keys(proxyParams).reduce(
+          (acc, key) => ({
+            ...acc,
+            [key]: this.resolveValue(proxyParams[key], extra),
+          }),
+          {}
+        )
+      : {};
   }
 
   private getRequestHeaders() {
@@ -105,15 +125,17 @@ export class ScraperService {
       ? Object.keys(proxyHeaders).reduce(
           (acc, key) => ({
             ...acc,
-            [key]: this.resolveHeaderValue(proxyHeaders[key]),
+            [key]: this.resolveValue(proxyHeaders[key]),
           }),
           {}
         )
       : {};
   }
 
-  private resolveHeaderValue(value: string) {
+  private resolveValue(value: string, extra?: ExtraProxyData) {
     switch (value) {
+      case '$url':
+        return extra?.url || value;
       case '$hostname':
         return window.location.hostname;
       case '$apiKey':

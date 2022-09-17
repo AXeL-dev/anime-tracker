@@ -1,6 +1,9 @@
 export interface Proxy {
   name: string;
   url: string;
+  params?: {
+    [key: string]: string;
+  };
   headers?: {
     [key: string]: string;
   };
@@ -12,4 +15,8 @@ export interface Proxy {
       hint?: string;
     };
   };
+}
+
+export interface ExtraProxyData {
+  url: string;
 }

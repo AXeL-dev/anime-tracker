@@ -20,3 +20,14 @@ export function concatUrl(url: string, params: string) {
     params.replace('/^[?|&]+/', '')
   );
 }
+
+export function objectToQueryString(obj: object) {
+  const keys = Object.keys(obj);
+  return keys.length > 0
+    ? `?${keys
+        .map((key) => {
+          return `${key}=${encodeURIComponent(obj[key])}`;
+        })
+        .join('&')}`
+    : '';
+}
