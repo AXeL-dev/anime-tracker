@@ -40,12 +40,14 @@ import { WawAnimesCrawler } from './vostfr/wawanimes.crawler';
 import { JetAnimesCrawler } from './vostfr/jetanimes.crawler';
 import { AnimeCompletCrawler } from './vostfr/animecomplet.crawler';
 import { AnimeMaxCrawler } from './vostfr/anime-max.crawler';
+import { BanAnimesCrawler } from './vostfr/bananimes.crawler';
 
 const crawlersList = {
   vostfr: [
     // keep the ones that provides precise release dates at the top
     AnimeKoCrawler,
     NekoSamaCrawler,
+    BanAnimesCrawler,
     VoirAnimeCrawler,
     VoirAnimeOrgCrawler,
     VostAnimeyCrawler,
