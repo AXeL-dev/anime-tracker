@@ -10,6 +10,9 @@ export interface Proxy {
   options?: {
     responseType?: 'text' | 'json';
     responseParser?: (response: any) => string;
+    paramsEncoding?: {
+      enabled: boolean;
+    };
     apiKey?: {
       required: boolean;
       hint?: string;

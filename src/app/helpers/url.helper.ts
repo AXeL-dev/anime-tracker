@@ -21,12 +21,13 @@ export function concatUrl(url: string, params: string) {
   );
 }
 
-export function objectToQueryString(obj: object) {
+export function objectToQueryString(obj: object, encode: boolean = true) {
   const keys = Object.keys(obj);
+  const valueParser = encode ? encodeURIComponent : (value: string) => value;
   return keys.length > 0
     ? `?${keys
         .map((key) => {
-          return `${key}=${encodeURIComponent(obj[key])}`;
+          return `${key}=${valueParser(obj[key])}`;
         })
         .join('&')}`
     : '';

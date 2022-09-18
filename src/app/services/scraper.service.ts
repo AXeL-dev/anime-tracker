@@ -100,7 +100,10 @@ export class ScraperService {
       return url;
     }
     const params = this.getRequestParams({ url });
-    const queryString = objectToQueryString(params);
+    const queryString = objectToQueryString(
+      params,
+      this.proxy.options?.paramsEncoding?.enabled ?? true
+    );
     return `${this.proxy.url}${queryString || url}`;
   }
 

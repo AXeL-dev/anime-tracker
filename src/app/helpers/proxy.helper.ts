@@ -44,6 +44,11 @@ export const CORSProxies: Proxy[] = [
     params: {
       quest: '$url',
     },
+    options: {
+      paramsEncoding: {
+        enabled: false,
+      },
+    },
   },
   {
     name: 'bridged (grida)',
