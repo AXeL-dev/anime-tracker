@@ -10,10 +10,6 @@ export class AnimeDaoCrawler extends LatestEpisodesCrawler {
     super('AnimeDao', 'https://animedao.to', 'vosten');
     this.filters = {
       ...this.filters,
-      title: (text: string) => {
-        const title = text.match(/(.*) Episode (\d+)/);
-        return title?.length ? title[1].trim() : text;
-      },
       number: (text: string) => {
         const num = text.match(/Episode (\d+)/);
         return toNumber(num?.length ? num[1] : text);
@@ -40,20 +36,20 @@ export class AnimeDaoCrawler extends LatestEpisodesCrawler {
   _getLatestEpisodes(): Observable<Episode[]> {
     return this.scraper.scrape(
       `${this.baseUrl}`,
-      'div#new > div',
+      'div#latest-tab-pane > div.row > div',
       {
         anime: {
-          title: 'div.latestanime-title > a@title | title',
-          cover: 'div.latestepisode_image img@data-src,src | concatUrl',
+          title: 'div.animeinfo span.animename',
+          cover: 'div.animeposter img@data-src,src | concatUrl',
         },
-        number: 'div.latestanime-title > a@title | number',
+        number: 'div.animeinfo .animetitle > .ep | number',
         streamLinks: [
           {
-            url: 'div.latestanime-title a@href | concatUrl',
+            url: 'div.animeinfo > a@href | concatUrl',
             lang: '| subtitles',
           },
         ],
-        releaseDate: 'span.front_time | date',
+        releaseDate: 'span.date | date',
       },
       this.filters
     );
