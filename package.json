@@ -1,6 +1,6 @@
 {
   "name": "anime-tracker",
-  "version": "1.3.6",
+  "version": "1.3.7",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
