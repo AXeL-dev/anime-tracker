@@ -41,6 +41,7 @@ import { JetAnimesCrawler } from './vostfr/jetanimes.crawler';
 import { AnimeCompletCrawler } from './vostfr/animecomplet.crawler';
 import { AnimeMaxCrawler } from './vostfr/anime-max.crawler';
 import { BanAnimesCrawler } from './vostfr/bananimes.crawler';
+import { ArrElement } from '../models/common';
 
 const crawlersList = {
   vostfr: [
@@ -77,9 +78,26 @@ const crawlersList = {
   ],
 };
 
-const crawlers = Object.keys(crawlersList).reduce(
-  (acc, key) => [...acc, ...crawlersList[key]],
+const crawlers = Object.values(crawlersList).reduce(
+  (acc, crawlers) => [...acc, ...crawlers],
   []
 );
 
-export { BaseCrawler, crawlers };
+const getCrawlerName = (Crawler: ArrElement<typeof crawlers>) => {
+  const crawler = new Crawler(null);
+  return crawler.name;
+};
+
+const activeCrawlers = [
+  AnimeKoCrawler,
+  MavAnimesCrawler,
+  AnimensionCrawler,
+  NineAnimeCrawler,
+  OkanimeCrawler,
+].map(getCrawlerName);
+
+const inactiveCrawlers = crawlers
+  .map(getCrawlerName)
+  .filter((name) => !activeCrawlers.includes(name));
+
+export { BaseCrawler, crawlers, inactiveCrawlers };

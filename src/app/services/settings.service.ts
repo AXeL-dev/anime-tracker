@@ -7,6 +7,7 @@ import { DebugService } from './debug.service';
 import { CORSProxies } from '../helpers/proxy.helper';
 import { EpisodeSortingCriteria } from '../models/episode';
 import { isString } from '../helpers/string.helper';
+import { inactiveCrawlers } from '../crawlers';
 
 @Injectable({
   providedIn: 'root',
@@ -100,7 +101,7 @@ export class SettingsService {
       enableNotifications: true,
       autoCheckRate: 30,
       preferredSubtitles: Subtitles.Any,
-      inactiveCrawlers: [],
+      inactiveCrawlers,
     };
   }
 
