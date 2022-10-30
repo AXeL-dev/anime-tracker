@@ -74,19 +74,21 @@ export class MainComponent implements OnInit {
       (request: any, sender: any, sendResponse: any) => {
         this.debug.log('Handle message:', request);
         let response = null;
-        switch (request.message) {
-          case 'getNotifications':
-            response = this.notifications.get();
-            break;
-          case 'markNotificationsAsRead':
-            response = this.notifications.markAllAsRead();
-            break;
-          default:
-            this.debug.warn(`Cannot handle "${request.message}" message!`);
-            break;
-        }
-        this.debug.log('response:', response);
-        sendResponse({ response });
+        return new Promise((resolve) => {
+          switch (request.message) {
+            case 'getNotifications':
+              response = this.notifications.get();
+              break;
+            case 'markNotificationsAsRead':
+              response = this.notifications.markAllAsRead();
+              break;
+            default:
+              this.debug.warn(`Cannot handle "${request.message}" message!`);
+              break;
+          }
+          this.debug.log('response:', response);
+          resolve({ response });
+        });
       }
     );
   }
