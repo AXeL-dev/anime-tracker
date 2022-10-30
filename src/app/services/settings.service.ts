@@ -54,7 +54,7 @@ export class SettingsService {
                 self.storage.save('openInNewTabLock', true);
                 self.browser.createTab(self.browser.getUrl('index.html'));
                 window.close(); // close popup on Firefox
-                reject('openInNewTab is enabled');
+                self.debug.warn('openInNewTab is enabled');
               } else if (openInNewTabLock) {
                 self.storage.save('openInNewTabLock', false);
               }
