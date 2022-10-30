@@ -30,13 +30,13 @@ I watch animes almost daily or at least once or twice a week, & i wanted somethi
 
 ## Features
 
-|                               | web app                     | web extension     |
-| ----------------------------- | --------------------------- | ----------------- |
-| scraper                       | ✔️                           | ✔️                 |
-| proxy                         | ✔️ (required to bypass CORS) | ✔️ (optional)      |
-| notifications                 | ❌                          | ✔️                 |
-| popup mode                    | ❌                          | ✔️                 |
-| open links in inactive tabs   | ❌                          | ✔️                 |
+| feature                     | web app                     | web extension |
+| --------------------------- | --------------------------- | ------------- |
+| scraper                     | ✓                           | ✓             |
+| proxy                       | ✓ (required to bypass CORS) | ✓ (optional)  |
+| notifications               |                             | ✓             |
+| popup mode                  |                             | ✓             |
+| open links in inactive tabs |                             | ✓             |
 
 ## ToDo
 
