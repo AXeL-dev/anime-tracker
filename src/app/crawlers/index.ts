@@ -48,11 +48,8 @@ const crawlersList = {
     // keep the ones that provides precise release dates at the top
     AnimeKoCrawler,
     NekoSamaCrawler,
-    BanAnimesCrawler,
     VoirAnimeCrawler,
-    VoirAnimeOrgCrawler,
     JetAnimesCrawler,
-    IAnimeFrCrawler,
     MavAnimesCrawler,
     OtakuFrCrawler,
     VostFreeCrawler,
@@ -64,7 +61,6 @@ const crawlersList = {
     GogoPlayCrawler,
     AnimensionCrawler,
     YugenAnimeCrawler,
-    AnimixPlayCrawler,
     AnimeDaoCrawler,
     GogoAnimeCrawler,
     NineAnimeCrawler,
@@ -73,7 +69,6 @@ const crawlersList = {
     WitAnimeCrawler,
     AnimeFourUpCrawler,
     ArabAnimeCrawler,
-    AddAnimeCrawler,
     OkanimeCrawler,
   ],
 };
